@@ -5,7 +5,7 @@
 # Usage: download_mmdbs.sh <licence_key>
 #
 # This script will download the MaxMind databases GeoLite2-City and GeoLite2-ASN
-# and place them in /var/wazuh-manager/etc. The licence key is required to download the databases,
+# and place them in /var/assetguard-manager/etc. The licence key is required to download the databases,
 # you can get one for free at https://www.maxmind.com/en/geolite2/signup
 
 GEOIP_TMP_FILE='/tmp/geoip.tar.gz'
@@ -29,13 +29,13 @@ download_and_extract() {
         exit 1
     fi
 
-    mkdir -p "/var/wazuh-manager/store/geo/etc"
+    mkdir -p "/var/assetguard-manager/store/geo/etc"
     # Move to the correct location
-    mv ${edition}.mmdb "/var/wazuh-manager/etc"
+    mv ${edition}.mmdb "/var/assetguard-manager/etc"
 
     # Enable the database
     echo "Enabling ${edition} database"
-    $ENGINE_DIR/wazuh-engine geo add "/var/wazuh-manager/store/geo/${edition}.mmdb" $type
+    $ENGINE_DIR/assetguard-engine geo add "/var/assetguard-manager/store/geo/${edition}.mmdb" $type
 
     rm $GEOIP_TMP_FILE
 }

@@ -19,4 +19,4 @@
     (idealny dla serwerów http, bazodanowych, itp)
 
   - Więcej informacji na:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

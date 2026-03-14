@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# MITM tool for Wazuh queue socket
+# MITM tool for AssetGuard queue socket
 # June 21, 2022
 
 import argparse
@@ -7,13 +7,13 @@ from socket import socket, AF_UNIX, SOCK_DGRAM, SO_SNDBUF, SOL_SOCKET
 from sys import stderr, exit
 from os import unlink, chmod
 
-ADDR = '/var/wazuh-manager/queue/sockets/queue'
+ADDR = '/var/assetguard-manager/queue/sockets/queue'
 BLEN = 212992
 INPUT_LEN = 65536
 
 
 def connect(addr=ADDR, blen=BLEN):
-    """Connect to the Wazuh queue socket as a client."""
+    """Connect to the AssetGuard queue socket as a client."""
     sock = socket(AF_UNIX, SOCK_DGRAM)
     sock.connect(addr)
     oldbuf = sock.getsockopt(SOL_SOCKET, SO_SNDBUF)
@@ -26,7 +26,7 @@ def connect(addr=ADDR, blen=BLEN):
 
 
 def listen(addr=ADDR, blen=BLEN):
-    """Bind and listen on the Wazuh queue socket."""
+    """Bind and listen on the AssetGuard queue socket."""
     try:
         unlink(addr)
     except FileNotFoundError:
@@ -57,7 +57,7 @@ def mitm_loop(input_sock, output_sock, input_len=INPUT_LEN):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Intercept communication between Wazuh daemons and the main queue socket.",
+        description="Intercept communication between AssetGuard daemons and the main queue socket.",
         epilog="This tool is intended for debugging and analysis purposes only.",
         add_help=True
     )

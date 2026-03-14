@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# AssetGuard package generator
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,7 +10,7 @@
 
 set -e
 CURRENT_PATH="$( cd $(dirname $0) ; pwd -P )"
-WAZUH_PATH="$(cd $CURRENT_PATH/..; pwd -P)"
+ASSETGUARD_PATH="$(cd $CURRENT_PATH/..; pwd -P)"
 ARCHITECTURE="amd64"
 SYSTEM="deb"
 OUTDIR="${CURRENT_PATH}/output"
@@ -35,7 +35,7 @@ clean() {
     exit_code=$1
 
     # Clean the files
-    find "${DOCKERFILE_PATH}" \( -name '*.sh' -o -name '*.tar.gz' -o -name 'wazuh-*' \) ! -name 'docker_builder.sh' -exec rm -rf {} +
+    find "${DOCKERFILE_PATH}" \( -name '*.sh' -o -name '*.tar.gz' -o -name 'assetguard-*' \) ! -name 'docker_builder.sh' -exec rm -rf {} +
 
     exit ${exit_code}
 }
@@ -68,14 +68,14 @@ build_pkg() {
     fi
 
     # Build the Debian package with a Docker container
-    docker run -t --rm -v ${OUTDIR}:/var/local/wazuh:Z \
+    docker run -t --rm -v ${OUTDIR}:/var/local/assetguard:Z \
         -e SYSTEM="$SYSTEM" \
         -e BUILD_TARGET="${TARGET}" \
         -e ARCHITECTURE_TARGET="${ARCHITECTURE}" \
         -e INSTALLATION_PATH="${INSTALLATION_PATH}" \
         -e IS_STAGE="${IS_STAGE}" \
-        -e WAZUH_BRANCH="${BRANCH}" \
-        -e WAZUH_VERBOSE="${VERBOSE}" \
+        -e ASSETGUARD_BRANCH="${BRANCH}" \
+        -e ASSETGUARD_VERBOSE="${VERBOSE}" \
         ${CUSTOM_CODE_VOL} \
         ${CONTAINER_NAME}:${DOCKER_TAG} \
         ${REVISION} ${JOBS} ${DEBUG} \
@@ -100,12 +100,12 @@ help() {
     echo "    -j, --jobs <number>        [Optional] Change number of parallel jobs when compiling the manager or agent. By default: 2."
     echo "    -r, --revision <rev>       [Optional] Package revision. By default: 0."
     echo "    -s, --store <path>         [Optional] Set the destination path of package. By default, an output folder will be created."
-    echo "    -p, --path <path>          [Optional] Installation path for the package. By default: /var/wazuh-manager (manager) or /var/ossec (agent)."
+    echo "    -p, --path <path>          [Optional] Installation path for the package. By default: /var/assetguard-manager (manager) or /var/ossec (agent)."
     echo "    -d, --debug                [Optional] Build the binaries with debug flags (without optimizations). By default: no."
     echo "    -c, --checksum             [Optional] Generate checksum on the same directory than the package. By default: no."
     echo "    --dont-build-docker        [Optional] Locally built docker image will be used instead of generating a new one."
     echo "    --tag                      [Optional] Tag to use with the docker image."
-    echo "    --sources <path>           [Optional] Absolute path containing wazuh source code. This option will use local source code instead of downloading it from GitHub. By default use the script path."
+    echo "    --sources <path>           [Optional] Absolute path containing assetguard source code. This option will use local source code instead of downloading it from GitHub. By default use the script path."
     echo "    --is_stage                 [Optional] Use release name in package."
     echo "    --system                   [Optional] Select Package OS [rpm, deb]. By default is 'deb'."
     echo "    --src                      [Optional] Generate the source package in the destination directory."
@@ -203,7 +203,7 @@ main() {
             ;;
         "--sources")
             if [ -n "$2" ]; then
-               CUSTOM_CODE_VOL="-v $2:/wazuh-local-src:Z"
+               CUSTOM_CODE_VOL="-v $2:/assetguard-local-src:Z"
                shift 2
             else
                 help 1
@@ -244,13 +244,13 @@ main() {
 
     # Add a default source only if neither the branch nor a custom code volume is defined.
     if [ -z "${CUSTOM_CODE_VOL}" ] && [ -z "${BRANCH}" ]; then
-        CUSTOM_CODE_VOL="-v $WAZUH_PATH:/wazuh-local-src:Z"
+        CUSTOM_CODE_VOL="-v $ASSETGUARD_PATH:/assetguard-local-src:Z"
     fi
 
     # Set default INSTALLATION_PATH based on TARGET if not explicitly provided
     if [ -z "${INSTALLATION_PATH}" ]; then
         if [ "${TARGET}" = "manager" ]; then
-            INSTALLATION_PATH="/var/wazuh-manager"
+            INSTALLATION_PATH="/var/assetguard-manager"
         else
             INSTALLATION_PATH="/var/ossec"
         fi
@@ -260,9 +260,9 @@ main() {
     if [ "${TARGET}" = "manager" ] && [ "${INSTALLATION_PATH}" = "/var/ossec" ]; then
         if [ "${FORCE_OSSEC_PATH}" != "yes" ]; then
             echo "=============================================================="
-            echo "ERROR: Building Wazuh Manager with /var/ossec path is not recommended."
+            echo "ERROR: Building AssetGuard Manager with /var/ossec path is not recommended."
             echo ""
-            echo "The recommended installation path for Wazuh Manager is /var/wazuh-manager."
+            echo "The recommended installation path for AssetGuard Manager is /var/assetguard-manager."
             echo ""
             echo "If you still want to build with /var/ossec, use the --force flag:"
             echo ""

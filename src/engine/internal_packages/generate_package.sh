@@ -10,7 +10,7 @@ OUTDIR="$(pwd)/output"
 DOCKER_TAG="local"
 BRANCH=""                  # if empty, use locally mounted sources
 CHECKSUM="no"              # yes|no
-VERBOSE=""                 # if set, enable -x and export WAZUH_VERBOSE
+VERBOSE=""                 # if set, enable -x and export ASSETGUARD_VERBOSE
 CUSTOM_CODE_VOL=""
 
 # --- Helpers -----------------------------------------------------------------
@@ -25,7 +25,7 @@ Usage: $0 [options]
   -b, --branch <branch|tag>    build from GitHub branch/tag instead of local sources
   --checksum                   generate .sha512
   --tag <tag>                  docker image tag (default: local)
-  --sources <abs_path>         mount local code at /wazuh-local-src inside the container
+  --sources <abs_path>         mount local code at /assetguard-local-src inside the container
   --verbose                    verbose mode
   -h, --help                   this help
 EOF
@@ -52,7 +52,7 @@ while [ $# -gt 0 ]; do
     -b|--branch)           BRANCH="$2"; shift 2;;
     --checksum)            CHECKSUM="yes"; shift 1;;
     --tag)                 DOCKER_TAG="$2"; shift 2;;
-    --sources)             CUSTOM_CODE_VOL="-v $2:/wazuh-local-src"; shift 2;;
+    --sources)             CUSTOM_CODE_VOL="-v $2:/assetguard-local-src"; shift 2;;
     --verbose)             VERBOSE="yes"; shift 1;;
     -h|--help)             usage 0;;
     *) echo "Unknown option: $1"; usage 1;;
@@ -87,7 +87,7 @@ docker build ${PLATFORM_FLAG} -f "${DOCKERFILE_PATH}/Dockerfile" -t "${CONTAINER
 if [ -z "$CUSTOM_CODE_VOL" ]; then
   ENGINE_DIR="${REPO_ROOT}/src/engine"
   if [ -d "$ENGINE_DIR" ]; then
-    CUSTOM_CODE_VOL="-v ${ENGINE_DIR}:/wazuh-local-src"
+    CUSTOM_CODE_VOL="-v ${ENGINE_DIR}:/assetguard-local-src"
   else
     echo "ERROR: '${ENGINE_DIR}' not found."
     exit 1
@@ -98,15 +98,15 @@ fi
 ENV_VARS=(
   -e SYSTEM="$SYSTEM"
   -e ARCHITECTURE_TARGET="$ARCH_PATH"
-  -e WAZUH_BRANCH="$BRANCH"
+  -e ASSETGUARD_BRANCH="$BRANCH"
 )
-[ -n "$VERBOSE" ] && ENV_VARS+=( -e WAZUH_VERBOSE=1 )
+[ -n "$VERBOSE" ] && ENV_VARS+=( -e ASSETGUARD_VERBOSE=1 )
 
 echo "[i] Running build in container: ${CONTAINER_NAME}:${DOCKER_TAG}"
 echo "[i] System: $SYSTEM | Arch: $ARCH_PATH | Out: $OUTDIR"
 
 docker run --rm -t ${PLATFORM_FLAG} \
-  -v "${OUTDIR}:/var/local/wazuh" \
+  -v "${OUTDIR}:/var/local/assetguard" \
   ${CUSTOM_CODE_VOL} \
   "${ENV_VARS[@]}" \
   "${CONTAINER_NAME}:${DOCKER_TAG}" \

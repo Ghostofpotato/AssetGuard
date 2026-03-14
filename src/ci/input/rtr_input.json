@@ -17,7 +17,7 @@
             "flags": "-r"
         },
         {
-            "name": "wazuh_modules/syscollector",
+            "name": "assetguard_modules/syscollector",
             "flags": "-r"
         },
         {
@@ -40,11 +40,11 @@
             "flags": "-r"
         },
         {
-            "name": "wazuh_modules/sca",
+            "name": "assetguard_modules/sca",
             "flags": "-r"
         },
         {
-            "name": "wazuh_modules/agent_info",
+            "name": "assetguard_modules/agent_info",
             "flags": "-r"
         }
     ]

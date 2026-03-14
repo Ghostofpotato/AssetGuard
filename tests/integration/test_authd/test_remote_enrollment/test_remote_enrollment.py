@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the 'remote enrollment' option of the 'wazuh-manager-authd' daemon
-       settings is working properly. The 'wazuh-manager-authd' daemon can automatically add
-       a Wazuh agent to a Wazuh manager and provide the key to the agent.
+brief: These tests will check if the 'remote enrollment' option of the 'assetguard-manager-authd' daemon
+       settings is working properly. The 'assetguard-manager-authd' daemon can automatically add
+       a AssetGuard agent to a AssetGuard manager and provide the key to the agent.
 
 components:
     - authd
@@ -18,9 +18,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-authd
-    - wazuh-manager-db
-    - wazuh-manager-modulesd
+    - assetguard-manager-authd
+    - assetguard-manager-db
+    - assetguard-manager-modulesd
 
 os_platform:
     - linux
@@ -37,7 +37,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/auth.html#remote-enrollment
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/auth.html#remote-enrollment
 
 tags:
     - enrollment
@@ -46,15 +46,15 @@ import pytest
 import socket, time
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.ports import DEFAULT_SSL_CLUSTER_PORT
-from wazuh_testing.utils import callbacks
-from wazuh_testing.modules.authd import PREFIX
-from wazuh_testing.tools.socket_controller import SocketController
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.ports import DEFAULT_SSL_CLUSTER_PORT
+from assetguard_testing.utils import callbacks
+from assetguard_testing.modules.authd import PREFIX
+from assetguard_testing.tools.socket_controller import SocketController
+from assetguard_testing.tools.monitors import file_monitor
+from assetguard_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from assetguard_testing.constants.daemons import AUTHD_DAEMON, ASSETGUARD_DB_DAEMON, MODULES_DAEMON
+from assetguard_testing.utils.configuration import load_configuration_template, get_test_cases_data
 from contextlib import nullcontext as does_not_raise
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
@@ -72,7 +72,7 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 # Variables
 receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
 
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (ASSETGUARD_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 
 receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 
@@ -111,16 +111,16 @@ def wait_for_tcp_port(port, host='localhost', timeout=10):
 
 
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_remote_enrollment(test_configuration, test_metadata, set_wazuh_configuration,
+def test_remote_enrollment(test_configuration, test_metadata, set_assetguard_configuration,
                            truncate_monitored_files, daemons_handler):
     '''
     description:
-        Checks if the 'wazuh-manager-authd' daemon remote enrollment is enabled/disabled according
+        Checks if the 'assetguard-manager-authd' daemon remote enrollment is enabled/disabled according
         to the configuration. By default, remote enrollment is enabled. When disabled,
         the 'authd' 'TLS' port (1515 by default) won't be listening to new connections,
         but requests to the local socket will still be attended.
 
-    wazuh_min_version:
+    assetguard_min_version:
         4.2.0
 
     tier: 0
@@ -132,12 +132,12 @@ def test_remote_enrollment(test_configuration, test_metadata, set_wazuh_configur
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - daemons_handler:
             type: fixture
-            brief: Restarts wazuh or a specific daemon passed.
+            brief: Restarts assetguard or a specific daemon passed.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
@@ -152,7 +152,7 @@ def test_remote_enrollment(test_configuration, test_metadata, set_wazuh_configur
         to be made, and the expected result.
 
     expected_output:
-        - r'Accepting connections on port 1515. No password required.' (When the 'wazuh-manager-authd' daemon)
+        - r'Accepting connections on port 1515. No password required.' (When the 'assetguard-manager-authd' daemon)
         - r'OSSEC K:' (When the agent has enrolled in the manager)
         - r'.*Port 1515 was set as disabled.*' (When remote enrollment is disabled)
         - r'ERROR: Cannot communicate with the master'
@@ -173,7 +173,7 @@ def test_remote_enrollment(test_configuration, test_metadata, set_wazuh_configur
         expected_log = ".*Port 1515 was set as disabled.*"
         expectation = pytest.raises(ConnectionRefusedError)
 
-    file_monitor.FileMonitor(WAZUH_LOG_PATH).start(timeout=5,
+    file_monitor.FileMonitor(ASSETGUARD_LOG_PATH).start(timeout=5,
                                      callback=callbacks.generate_callback(f'{PREFIX}{expected_log}'))
     with expectation:
         ssl_socket = SocketController(remote_enrollment_address, family='AF_INET', connection_protocol='SSL_TLSv1_2')

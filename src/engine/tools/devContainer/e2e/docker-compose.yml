@@ -1,44 +1,44 @@
 name: dev-env-engine
 
 services:
-  wazuh-indexer:
+  assetguard-indexer:
     build:
-      context: ./wazuh-indexer
-    image: dev-wazuh-indexer
+      context: ./assetguard-indexer
+    image: dev-assetguard-indexer
     pull_policy: build
-    hostname: wazuh-indexer
-    container_name: wazuh-indexer
+    hostname: assetguard-indexer
+    container_name: assetguard-indexer
     entrypoint: ["/entrypoint.sh"]
     volumes:
-      - ./wazuh-indexer/entrypoint.sh:/entrypoint.sh:ro
+      - ./assetguard-indexer/entrypoint.sh:/entrypoint.sh:ro
       - ./certs:/certs:ro
       # Persistent data volume
-      # - wazuh-indexer-data:/var/lib/wazuh-indexer
+      # - assetguard-indexer-data:/var/lib/assetguard-indexer
       # # Security initialization flag
-      # - wazuh-indexer-config:/etc/wazuh-indexer-init
+      # - assetguard-indexer-config:/etc/assetguard-indexer-init
     ports:
       - 9200:9200
 
-  wazuh-dashboard:
+  assetguard-dashboard:
     build:
-        context: ./wazuh-dashboard
-    image: dev-wazuh-dashboard
+        context: ./assetguard-dashboard
+    image: dev-assetguard-dashboard
     pull_policy: build
-    hostname: wazuh-dashboard
-    container_name: wazuh-dashboard
+    hostname: assetguard-dashboard
+    container_name: assetguard-dashboard
     entrypoint: ["/entrypoint.sh"]
     volumes:
-      - ./wazuh-dashboard/entrypoint.sh:/entrypoint.sh:ro
+      - ./assetguard-dashboard/entrypoint.sh:/entrypoint.sh:ro
       - ./certs:/certs:ro
     ports:
       - 443:443
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
-      - wazuh-indexer
+      - assetguard-indexer
 
 # volumes:
-#   wazuh-indexer-data:
+#   assetguard-indexer-data:
 #     driver: local
-#   wazuh-indexer-config:
+#   assetguard-indexer-config:
 #     driver: local

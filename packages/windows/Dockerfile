@@ -6,7 +6,7 @@ RUN apt-get update && \
     curl perl binutils zip libssl-dev git jq && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -OL http://packages.wazuh.com/utils/cmake/cmake-3.18.3.tar.gz && \
+RUN curl -OL http://packages.assetguard.com/utils/cmake/cmake-3.18.3.tar.gz && \
     tar -zxvf cmake-3.18.3.tar.gz && \
     cd cmake-3.18.3 && \
     ./bootstrap && make -j$(nproc) && make install && \

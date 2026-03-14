@@ -2,10 +2,10 @@
 # Collect syscheckd object files from CMake build
 if(${TARGET} STREQUAL "winagent")
   file(GLOB os_net_files
-       ${SRC_FOLDER}/build/shared/CMakeFiles/wazuh.dir/os_net/*.obj)
+       ${SRC_FOLDER}/build/shared/CMakeFiles/assetguard.dir/os_net/*.obj)
 else()
   file(GLOB os_net_files
-       ${SRC_FOLDER}/build/shared/CMakeFiles/wazuh.dir/os_net/*.o)
+       ${SRC_FOLDER}/build/shared/CMakeFiles/assetguard.dir/os_net/*.o)
 endif()
 
 add_library(OS_NET_O STATIC ${os_net_files})
@@ -23,10 +23,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(OS_NET_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_NET_O ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 # Generate os_net tests
 list(APPEND os_net_names "test_os_net")
@@ -47,8 +47,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${ASSETGUARDLIB}
+        ${ASSETGUARDEXT}
         OS_NET_O
         ${TEST_DEPS}
     )

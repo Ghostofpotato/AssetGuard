@@ -11,8 +11,8 @@ on:
     paths:
         - ".github/workflows/5_testintegration_msgraph-tier-0-1-lin.yml"
         - "src/config/src/wmodules-ms-graph.c"
-        - "src/wazuh_modules/src/wm_ms_graph.h"
-        - "src/wazuh_modules/src/wm_ms_graph.c"
+        - "src/assetguard_modules/src/wm_ms_graph.h"
+        - "src/assetguard_modules/src/wm_ms_graph.c"
         - "src/Makefile"
         - "tests/integration/conftest.py"
         - "tests/integration/test_msgraph/**"
@@ -34,18 +34,18 @@ jobs:
       # Setup MSGraph Proxy
       - name: Download m365proxy and config http for msgraph module
         run: |
-          sed -i 's/https:\/\/%s\/%s/http:\/\/%s\/%s/g' src/wazuh_modules/src/wm_ms_graph.h
-          curl -L http://packages.wazuh.com/utils/m365proxy/m365proxy.tar.gz | \
+          sed -i 's/https:\/\/%s\/%s/http:\/\/%s\/%s/g' src/assetguard_modules/src/wm_ms_graph.h
+          curl -L http://packages.assetguard.com/utils/m365proxy/m365proxy.tar.gz | \
           tar zvx -C /tmp/
       - name: "Install a compatible CMake"
         uses: ./.github/actions/reinstall_cmake
-      # Build wazuh agent for linux.
-      - name: Build wazuh agent for linux
+      # Build assetguard agent for linux.
+      - name: Build assetguard agent for linux
         run: |
           make deps -C src TARGET=agent -j2
           make -C src TARGET=agent -j2
-      # Install wazuh agent for linux.
-      - name: Install wazuh agent for linux
+      # Install assetguard agent for linux.
+      - name: Install assetguard agent for linux
         run: |
           echo 'USER_LANGUAGE="en"' > ./etc/preloaded-vars.conf
           echo "" >> ./etc/preloaded-vars.conf
@@ -69,16 +69,16 @@ jobs:
       - name: Download and install integration tests framework
         run: |
           VERSION="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' VERSION.json)"
-          if [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_NAME}`" != "X" ]; then
+          if [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${BRANCH_NAME}`" != "X" ]; then
               QA_BRANCH=${BRANCH_NAME}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
               QA_BRANCH=${BRANCH_BASE}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${VERSION}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${VERSION}`" != "X" ]; then
               QA_BRANCH=${VERSION}
           else
               QA_BRANCH="main"
           fi
-          git clone -b ${QA_BRANCH} --single-branch https://github.com/wazuh/qa-integration-framework.git
+          git clone -b ${QA_BRANCH} --single-branch https://github.com/assetguard/qa-integration-framework.git
           sudo pip install qa-integration-framework/
           sudo rm -rf qa-integration-framework/
       # Run msgraph integration tests.

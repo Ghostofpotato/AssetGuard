@@ -9,19 +9,19 @@ clean() {
     make clean -C src
 }
 
-build_wazuh_test_flags() {
+build_assetguard_test_flags() {
     local target=$1
-    echo "Building Wazuh for target: $target"
+    echo "Building AssetGuard for target: $target"
     cd "$GITHUB_WORKSPACE"
     make deps -C src TARGET=${target} -j$(nproc)
     make -C src TARGET=${target} TEST=1 -j$(nproc)
 }
 
-build_wazuh_unit_tests() {
+build_assetguard_unit_tests() {
     local target=$1
     local gcov_path
     gcov_path=$(command -v gcov-13 || command -v gcov)
-    echo "Building Wazuh Unit Tests for target: $target"
+    echo "Building AssetGuard Unit Tests for target: $target"
     mkdir -p "$GITHUB_WORKSPACE/src/unit_tests/build"
     cd "$GITHUB_WORKSPACE/src/unit_tests/build"
     if [[ $target == "agent" ]]; then
@@ -34,9 +34,9 @@ build_wazuh_unit_tests() {
     make -j$(nproc)
 }
 
-run_wazuh_unit_tests() {
+run_assetguard_unit_tests() {
     local target=$1
-    echo "Running Wazuh Unit Tests for target: $target"
+    echo "Running AssetGuard Unit Tests for target: $target"
     cd "$GITHUB_WORKSPACE/src/unit_tests/build"
     if [[ $target == "agent" ]]; then
         ctest --output-on-failure  > "test_results.txt" || true
@@ -93,9 +93,9 @@ main() {
     echo "Starting process for target: $target"
 
     clean
-    build_wazuh_test_flags $target
-    build_wazuh_unit_tests $target
-    run_wazuh_unit_tests $target
+    build_assetguard_test_flags $target
+    build_assetguard_unit_tests $target
+    run_assetguard_unit_tests $target
     format_display_test_results
     format_display_test_coverage $target
 }

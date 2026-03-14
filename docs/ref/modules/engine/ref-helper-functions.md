@@ -438,7 +438,7 @@ At least one specified element ("dracut") is present in the target array.
 
 ```yaml
 check:
-  - target_field: array_contains_any($element, 'hello', 'wazuh')
+  - target_field: array_contains_any($element, 'hello', 'assetguard')
 ```
 
 #### Input Event
@@ -850,7 +850,7 @@ At least one specified element ("dracut") is present in the target array.
 
 ```yaml
 check:
-  - target_field: array_not_contains_any($element, 'hello', 'wazuh')
+  - target_field: array_not_contains_any($element, 'hello', 'assetguard')
 ```
 
 #### Input Event
@@ -1103,7 +1103,7 @@ check:
 
 ```json
 {
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -1125,7 +1125,7 @@ check:
 ```json
 {
   "searched_value": "hello!",
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -1146,7 +1146,7 @@ check:
 
 ```json
 {
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -1198,14 +1198,14 @@ Success ends with
 
 ```yaml
 check:
-  - target_field: ends_with('wazuh!!')
+  - target_field: ends_with('assetguard!!')
 ```
 
 #### Input Event
 
 ```json
 {
-  "target_field": "hello wazuh!!"
+  "target_field": "hello assetguard!!"
 }
 ```
 
@@ -1226,8 +1226,8 @@ check:
 
 ```json
 {
-  "conteined": "wazuh",
-  "target_field": "hello wazuh!!!"
+  "conteined": "assetguard",
+  "target_field": "hello assetguard!!!"
 }
 ```
 
@@ -1248,7 +1248,7 @@ check:
 
 ```json
 {
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -4338,7 +4338,7 @@ check:
   "array": [
     "hello"
   ],
-  "target_field": "wazuh"
+  "target_field": "assetguard"
 }
 ```
 
@@ -5576,7 +5576,7 @@ check:
 
 ```json
 {
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -5598,7 +5598,7 @@ check:
 ```json
 {
   "conteined": "hello!",
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -5612,14 +5612,14 @@ Failure start with
 
 ```yaml
 check:
-  - target_field: starts_with('wazuh!')
+  - target_field: starts_with('assetguard!')
 ```
 
 #### Input Event
 
 ```json
 {
-  "target_field": "hello wazuh!"
+  "target_field": "hello assetguard!"
 }
 ```
 
@@ -5765,7 +5765,7 @@ check:
 
 ```json
 {
-  "target_field": "wazuh"
+  "target_field": "assetguard"
 }
 ```
 
@@ -5786,7 +5786,7 @@ check:
 
 ```json
 {
-  "any_string": "wazuh",
+  "any_string": "assetguard",
   "target_field": "hello world!"
 }
 ```
@@ -5990,7 +5990,7 @@ Success string less
 
 ```yaml
 check:
-  - target_field: string_less('wazuh')
+  - target_field: string_less('assetguard')
 ```
 
 #### Input Event
@@ -6019,7 +6019,7 @@ check:
 ```json
 {
   "any_string": "hello world!",
-  "target_field": "wazuh"
+  "target_field": "assetguard"
 }
 ```
 
@@ -6095,7 +6095,7 @@ Success string less or equal
 
 ```yaml
 check:
-  - target_field: string_less_or_equal('wazuh')
+  - target_field: string_less_or_equal('assetguard')
 ```
 
 #### Input Event
@@ -6124,7 +6124,7 @@ check:
 ```json
 {
   "any_string": "hello world!",
-  "target_field": "wazuh"
+  "target_field": "assetguard"
 }
 ```
 
@@ -6874,7 +6874,7 @@ normalize:
   "target_field": {
     "number": 1234,
     "organization": {
-      "name": " Wazuh Organization"
+      "name": " AssetGuard Organization"
     }
   }
 }
@@ -9065,11 +9065,11 @@ normalize:
 {
   "ip": "1.2.3.4",
   "target_field": {
-    "city_name": "Wazuh city",
-    "timezone": "Wazuh/Timezone",
-    "country_name": "Wazuh Country",
+    "city_name": "AssetGuard city",
+    "timezone": "AssetGuard/Timezone",
+    "country_name": "AssetGuard Country",
     "continent_code": "WC",
-    "continent_name": "Wazuh Continent",
+    "continent_name": "AssetGuard Continent",
     "country_iso_code": "WCtry",
     "postal_code": "7777",
     "location": {
@@ -10680,7 +10680,7 @@ normalize:
 ```json
 {
   "array": [
-    "Hi Wazuh!",
+    "Hi AssetGuard!",
     "It is",
     "the",
     "year",
@@ -10694,13 +10694,13 @@ normalize:
 ```json
 {
   "array": [
-    "Hi Wazuh!",
+    "Hi AssetGuard!",
     "It is",
     "the",
     "year",
     "2024"
   ],
-  "target_field": "Hi Wazuh! It is the year 2024"
+  "target_field": "Hi AssetGuard! It is the year 2024"
 }
 ```
 
@@ -10723,7 +10723,7 @@ normalize:
 ```json
 {
   "array": [
-    "Hi Wazuh!",
+    "Hi AssetGuard!",
     "It is",
     "the",
     "year",
@@ -10737,13 +10737,13 @@ normalize:
 ```json
 {
   "array": [
-    "Hi Wazuh!",
+    "Hi AssetGuard!",
     "It is",
     "the",
     "year",
     "2024"
   ],
-  "target_field": "Hi Wazuh!separatorIt isseparatortheseparatoryearseparator2024"
+  "target_field": "Hi AssetGuard!separatorIt isseparatortheseparatoryearseparator2024"
 }
 ```
 
@@ -11296,7 +11296,7 @@ normalize:
 
 ```json
 {
-  "any_string": "Hi Wazuh!"
+  "any_string": "Hi AssetGuard!"
 }
 ```
 
@@ -11304,7 +11304,7 @@ normalize:
 
 ```json
 {
-  "any_string": "Hi Wazuh!",
+  "any_string": "Hi AssetGuard!",
   "target_field": "c4e30dbc1b87ba8f29b24a74dba2f006be2a709e"
 }
 ```
@@ -13250,7 +13250,7 @@ normalize:
 
 ```json
 {
-  "target_field": "-- Hi wazuh! --"
+  "target_field": "-- Hi assetguard! --"
 }
 ```
 
@@ -13744,7 +13744,7 @@ Behavior depends on policy configuration (index_discarded_events):
 - If true: All event fields will be erased (only the discard flag remains). This ensures that the event reaching the indexer will be almost empty.
 
 Usage Rules:
-- Must be used with the exact target field 'wazuh.space.event_discarded'
+- Must be used with the exact target field 'assetguard.space.event_discarded'
 - Cannot accept any parameters
 - Should be called in the normalization/map stage when a discard condition is met
 
@@ -13798,7 +13798,7 @@ normalize:
 
 ```json
 {
-  "target_field": "-- Hi wazuh! --"
+  "target_field": "-- Hi assetguard! --"
 }
 ```
 
@@ -19202,7 +19202,7 @@ normalize:
 
 ```json
 {
-  "input_field": "\"Hello, my name is 'Wazuh'.\"",
+  "input_field": "\"Hello, my name is 'AssetGuard'.\"",
   "target_field": "any_value"
 }
 ```
@@ -19211,8 +19211,8 @@ normalize:
 
 ```json
 {
-  "input_field": "\"Hello, my name is 'Wazuh'.\"",
-  "target_field": "Hello, my name is 'Wazuh'."
+  "input_field": "\"Hello, my name is 'AssetGuard'.\"",
+  "target_field": "Hello, my name is 'AssetGuard'."
 }
 ```
 
@@ -21057,7 +21057,7 @@ normalize:
 
 ```json
 {
-  "target_field": "-- Hi wazuh! --"
+  "target_field": "-- Hi assetguard! --"
 }
 ```
 
@@ -21065,7 +21065,7 @@ normalize:
 
 ```json
 {
-  "target_field": "-- Hi wazuh! "
+  "target_field": "-- Hi assetguard! "
 }
 ```
 
@@ -21087,7 +21087,7 @@ normalize:
 
 ```json
 {
-  "target_field": "-- Hi wazuh! --"
+  "target_field": "-- Hi assetguard! --"
 }
 ```
 
@@ -21095,7 +21095,7 @@ normalize:
 
 ```json
 {
-  "target_field": " Hi wazuh! --"
+  "target_field": " Hi assetguard! --"
 }
 ```
 
@@ -21117,7 +21117,7 @@ normalize:
 
 ```json
 {
-  "target_field": "-- Hi wazuh! --"
+  "target_field": "-- Hi assetguard! --"
 }
 ```
 
@@ -21125,7 +21125,7 @@ normalize:
 
 ```json
 {
-  "target_field": " Hi wazuh! "
+  "target_field": " Hi assetguard! "
 }
 ```
 

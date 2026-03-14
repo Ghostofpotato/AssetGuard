@@ -1,6 +1,6 @@
 # Uninstall
 
-This guide provides instructions for uninstalling Wazuh server and agent components. The uninstallation process automatically stops the service before removing the package.
+This guide provides instructions for uninstalling AssetGuard server and agent components. The uninstallation process automatically stops the service before removing the package.
 
 ## Server
 
@@ -9,13 +9,13 @@ This guide provides instructions for uninstalling Wazuh server and agent compone
 Remove the package:
 
 ```bash
-sudo dpkg --purge wazuh-manager
+sudo dpkg --purge assetguard-manager
 ```
 
 To remove the package but keep configuration files:
 
 ```bash
-sudo dpkg --remove wazuh-manager
+sudo dpkg --remove assetguard-manager
 ```
 
 ### Red Hat-based platforms
@@ -23,7 +23,7 @@ sudo dpkg --remove wazuh-manager
 Remove the package:
 
 ```bash
-sudo rpm -e wazuh-manager
+sudo rpm -e assetguard-manager
 ```
 
 ## Agent
@@ -35,13 +35,13 @@ sudo rpm -e wazuh-manager
 Remove the package:
 
 ```bash
-sudo dpkg --purge wazuh-agent
+sudo dpkg --purge assetguard-agent
 ```
 
 To remove the package but keep configuration files:
 
 ```bash
-sudo dpkg --remove wazuh-agent
+sudo dpkg --remove assetguard-agent
 ```
 
 #### Red Hat-based platforms
@@ -49,7 +49,7 @@ sudo dpkg --remove wazuh-agent
 Remove the package:
 
 ```bash
-sudo rpm -e wazuh-agent
+sudo rpm -e assetguard-agent
 ```
 
 #### SUSE-based platforms
@@ -57,7 +57,7 @@ sudo rpm -e wazuh-agent
 Remove the package:
 
 ```bash
-sudo rpm -e wazuh-agent
+sudo rpm -e assetguard-agent
 ```
 
 ### macOS
@@ -65,28 +65,28 @@ sudo rpm -e wazuh-agent
 Stop the agent service:
 
 ```bash
-sudo launchctl bootout system /Library/LaunchDaemons/com.wazuh.agent.plist
+sudo launchctl bootout system /Library/LaunchDaemons/com.assetguard.agent.plist
 ```
 
 Remove the package:
 
 ```bash
 sudo rm -rf /Library/Ossec
-sudo rm -f /Library/LaunchDaemons/com.wazuh.agent.plist
-sudo rm -rf /Library/StartupItems/WAZUH
+sudo rm -f /Library/LaunchDaemons/com.assetguard.agent.plist
+sudo rm -rf /Library/StartupItems/ASSETGUARD
 ```
 
-Remove the Wazuh user and group:
+Remove the AssetGuard user and group:
 
 ```bash
-sudo dscl . -delete "/Users/wazuh"
-sudo dscl . -delete "/Groups/wazuh"
+sudo dscl . -delete "/Users/assetguard"
+sudo dscl . -delete "/Groups/assetguard"
 ```
 
 Remove from pkgutil:
 
 ```bash
-sudo pkgutil --forget com.wazuh.pkg.wazuh-agent
+sudo pkgutil --forget com.assetguard.pkg.assetguard-agent
 ```
 
 ### Windows
@@ -94,7 +94,7 @@ sudo pkgutil --forget com.wazuh.pkg.wazuh-agent
 Uninstall the package:
 
 ```powershell
-msiexec.exe /x wazuh-agent-*.msi /qn
+msiexec.exe /x assetguard-agent-*.msi /qn
 ```
 
 For interactive uninstallation, use the Windows "Add or Remove Programs" feature.

@@ -17,4 +17,4 @@
 	(ウェブサーバやデータベースサーバ等に適しています)
 
   - 詳細な情報は以下のサイトから得られます：
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

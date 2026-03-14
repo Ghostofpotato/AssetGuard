@@ -8,10 +8,10 @@ import stat
 import sys
 import fnmatch
 
-wazuh_gid = -1
-wazuh_uid = -1
-wazuh_group_name = 'wazuh'
-wazuh_user_name = 'wazuh'
+assetguard_gid = -1
+assetguard_uid = -1
+assetguard_group_name = 'assetguard'
+assetguard_user_name = 'assetguard'
 
 HEADERS = ['full_filename', 'owner_name', 'group_name', 'mode',
            'type', 'prot_permissions', 'size_bytes', 'size_error']
@@ -75,24 +75,24 @@ class helper:
 
 
 def translate_uid(id):
-    # If wazuh_uid was not set, preserve the OS account names (e.g. root/admin/wazuh).
+    # If assetguard_uid was not set, preserve the OS account names (e.g. root/admin/assetguard).
     import pwd
-    if wazuh_uid == -1:
+    if assetguard_uid == -1:
         return pwd.getpwuid(id)[0]
-    if id == wazuh_uid:
-        return wazuh_user_name
+    if id == assetguard_uid:
+        return assetguard_user_name
     if id == 0:
         return "root"
     return pwd.getpwuid(id)[0]
 
 
 def translate_gid(id):
-    # If wazuh_gid was not set, preserve the OS group names (e.g. wheel on macOS).
+    # If assetguard_gid was not set, preserve the OS group names (e.g. wheel on macOS).
     import grp
-    if wazuh_gid == -1:
+    if assetguard_gid == -1:
         return grp.getgrgid(id)[0]
-    if id == wazuh_gid:
-        return wazuh_group_name
+    if id == assetguard_gid:
+        return assetguard_group_name
     if id == 0:
         return "root"
     return grp.getgrgid(id)[0]
@@ -199,7 +199,7 @@ def handle_special_cases(result, item):
     """
     Handle special cases, such as specific files requiring different metadata.
     """
-    if item == '/var/wazuh-manager/api/configuration/auth/htpasswd':
+    if item == '/var/assetguard-manager/api/configuration/auth/htpasswd':
         result['group_name'] = 'root'
         result['mode'] = '0777'
         result['type'] = 'link'
@@ -207,11 +207,11 @@ def handle_special_cases(result, item):
         result['prot_permissions'] = 'lrwxrwxrwx'
 
 
-def get_current_items(scan_path='/var/wazuh-manager', size_check=False, ignore_names=None, include_directories=True):
+def get_current_items(scan_path='/var/assetguard-manager', size_check=False, ignore_names=None, include_directories=True):
     """ Get all the files in the specified directory and its subdirectories.
 
     Args:
-        scan_path (str, optional): Directory to be scanned. Defaults to '/var/wazuh-manager'.
+        scan_path (str, optional): Directory to be scanned. Defaults to '/var/assetguard-manager'.
         ignore_names (list, optional): List of files to be ignored. Defaults to [].
 
     Returns:
@@ -397,25 +397,25 @@ def printReport(expected_items, not_listed, not_fully_match, current_items, matc
 
 if __name__ == "__main__":
 
-    print("Wazuh File Integrity Check")
+    print("AssetGuard File Integrity Check")
 
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("-r", "--report", type=str, default="",
                             help="Path where to save report.md, default stdout")
     arg_parser.add_argument("-f", "--file_csv_path", type=str,
                             default="", help="Path of the csv file to be used for checking")
-    arg_parser.add_argument("-d", "--directory", type=str, default="/var/wazuh-manager",
-                            help="Directory to scan and check, '/var/wazuh-manager' by default")
+    arg_parser.add_argument("-d", "--directory", type=str, default="/var/assetguard-manager",
+                            help="Directory to scan and check, '/var/assetguard-manager' by default")
     arg_parser.add_argument("-b", "--base_file", type=str, default="",
                             help="Creates a base csv in path, not to be used with --report")
-    arg_parser.add_argument("-wg", "--wazuh_gid", type=int,
-                            help="The group id for wazuh", default=-1)
-    arg_parser.add_argument("-wu", "--wazuh_uid", type=int,
-                            help="The user id for wazuh", default=-1)
-    arg_parser.add_argument("--wazuh_group_name", type=str,
-                            help="Wazuh group name label used in reports", default='wazuh')
-    arg_parser.add_argument("--wazuh_user_name", type=str,
-                            help="Wazuh user name label used in reports", default='wazuh')
+    arg_parser.add_argument("-wg", "--assetguard_gid", type=int,
+                            help="The group id for assetguard", default=-1)
+    arg_parser.add_argument("-wu", "--assetguard_uid", type=int,
+                            help="The user id for assetguard", default=-1)
+    arg_parser.add_argument("--assetguard_group_name", type=str,
+                            help="AssetGuard group name label used in reports", default='assetguard')
+    arg_parser.add_argument("--assetguard_user_name", type=str,
+                            help="AssetGuard user name label used in reports", default='assetguard')
     arg_parser.add_argument("-s", "--size_check", action="store_true",
                             help="Enable size validation", default=False)
     arg_parser.add_argument("-i", "--ignore", type=str,
@@ -424,10 +424,10 @@ if __name__ == "__main__":
                             help="Exclude directories from base csv generation", default=False)
 
     args = arg_parser.parse_args()
-    wazuh_gid = args.wazuh_gid
-    wazuh_uid = args.wazuh_uid
-    wazuh_group_name = args.wazuh_group_name
-    wazuh_user_name = args.wazuh_user_name
+    assetguard_gid = args.assetguard_gid
+    assetguard_uid = args.assetguard_uid
+    assetguard_group_name = args.assetguard_group_name
+    assetguard_user_name = args.assetguard_user_name
     installed_dir = args.directory
     size_check = args.size_check
     base_file_path = args.base_file

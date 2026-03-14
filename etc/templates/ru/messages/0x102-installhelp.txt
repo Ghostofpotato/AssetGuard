@@ -16,4 +16,4 @@
     серверов баз данных ).
 
   - можно прочитать здесь:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

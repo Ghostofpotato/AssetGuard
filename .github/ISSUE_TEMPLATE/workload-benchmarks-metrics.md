@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - Workload benchmarks metrics 
 about: Report the workload benchmarks metrics.
-title: 'Release [WAZUH VERSION] - Release Candidate [RC VERSION] - Workload benchmarks metrics'
+title: 'Release [ASSETGUARD VERSION] - Release Candidate [RC VERSION] - Workload benchmarks metrics'
 labels: 'API, cluster, qa'
 assignees: ''
 

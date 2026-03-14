@@ -29,8 +29,8 @@ POLICY_NS = "testing"
 DECODER_TEST_UUID = "2faeea8b-672b-4b42-8f91-657d7810d636"
 DECODER_OTHER_UUID = "594ea807-a037-408d-95b8-9a124ea333df"
 
-INTEG_WAZUH_CORE_UUID = "9b1a1ef2-1a70-4a8b-a89b-38b34174c2d1"
-INTEG_OTHER_WAZUH_CORE_UUID = "a15bbd77-8cb0-488f-94cd-4783d689a72f"
+INTEG_ASSETGUARD_CORE_UUID = "9b1a1ef2-1a70-4a8b-a89b-38b34174c2d1"
+INTEG_OTHER_ASSETGUARD_CORE_UUID = "a15bbd77-8cb0-488f-94cd-4783d689a72f"
 
 
 # ===================================================================
@@ -127,10 +127,10 @@ def setup_policy_with_integrations(initial_integration: str):
       - Assumes decoders and integrations already exist (init.py).
       - Creates/updates the policy with a single initial integration.
     """
-    if initial_integration == "wazuh-core-test":
-        integ_list = [INTEG_WAZUH_CORE_UUID]
-    elif initial_integration == "other-wazuh-core-test":
-        integ_list = [INTEG_OTHER_WAZUH_CORE_UUID]
+    if initial_integration == "assetguard-core-test":
+        integ_list = [INTEG_ASSETGUARD_CORE_UUID]
+    elif initial_integration == "other-assetguard-core-test":
+        integ_list = [INTEG_OTHER_ASSETGUARD_CORE_UUID]
     else:
         raise AssertionError(f"Unsupported integration name: {initial_integration}")
 
@@ -145,14 +145,14 @@ def setup_policy_with_integrations(initial_integration: str):
 def add_integration_to_policy(integration_name: str, policy_name: str):
     """
     Simulates "add integration to policy" by rewriting the YAML
-    with both integrations (wazuh-core-test + other-wazuh-core-test).
+    with both integrations (assetguard-core-test + other-assetguard-core-test).
     Used in the OUTDATED/UPDATED sync scenario.
     """
     assert policy_name == POLICY_NS, (
         f"Router steps expect policy_name == '{POLICY_NS}', got '{policy_name}'"
     )
 
-    integ_list = [INTEG_WAZUH_CORE_UUID, INTEG_OTHER_WAZUH_CORE_UUID]
+    integ_list = [INTEG_ASSETGUARD_CORE_UUID, INTEG_OTHER_ASSETGUARD_CORE_UUID]
     policy_yaml = build_policy_yaml(
         default_parent=DECODER_TEST_UUID,
         root_decoder=DECODER_TEST_UUID,

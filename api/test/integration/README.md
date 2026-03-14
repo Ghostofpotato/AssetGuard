@@ -6,10 +6,10 @@ An integration test is used to check that the behavior of the different applicat
 they are integrated. In other words, the integration tests check the correct interaction between the application 
 components.
 
-The API integration tests are used to verify that the API is working properly in a complete Wazuh environment.
+The API integration tests are used to verify that the API is working properly in a complete AssetGuard environment.
 This environment is built using [`docker`](https://www.docker.com/).
 
-The `wazuh/api/test/integration` directory contains all the API integration tests files and directories used for the
+The `assetguard/api/test/integration` directory contains all the API integration tests files and directories used for the
 environment deployment.
 
 ## API integration tests files
@@ -25,16 +25,16 @@ for the test (see [RBAC API integration tests](#RBAC-API-integration-tests)).
 
 ## Docker environment
 
-The Wazuh environment used to perform the API integration tests is built using `docker`.
+The AssetGuard environment used to perform the API integration tests is built using `docker`.
 
 This environment is composed of **12 docker containers**. These containers have the following components installed: 3
-Wazuh managers, that compose a Wazuh cluster (1 master, 2 workers); 4 Wazuh agents with the same version as the managers
-forming the cluster; 4 Wazuh agents with version 4.14.1 (old); and 1 HAProxy load balancer.
+AssetGuard managers, that compose a AssetGuard cluster (1 master, 2 workers); 4 AssetGuard agents with the same version as the managers
+forming the cluster; 4 AssetGuard agents with version 4.14.1 (old); and 1 HAProxy load balancer.
 
-The Wazuh version used for the managers and non-old agents is the one specified by the branch used to perform the API
+The AssetGuard version used for the managers and non-old agents is the one specified by the branch used to perform the API
 integration tests.
 
-The `docker-compose.yml` file used to deploy the environment is at `wazuh/api/test/integration/env`. The `Dockerfile`,
+The `docker-compose.yml` file used to deploy the environment is at `assetguard/api/test/integration/env`. The `Dockerfile`,
 `entrypoint.sh`, and other configuration files can be found in the `base` directory.
 
 We also use specific **configurations and health checks depending on the test executed**. These configurations can be
@@ -60,7 +60,7 @@ The environment is brought up automatically when running an API integration test
 
 | Command                          | Environment                                          |  
 |----------------------------------|------------------------------------------------------|
-| `pytest TEST_NAME`               | Wazuh cluster environment                            |  
+| `pytest TEST_NAME`               | AssetGuard cluster environment                            |  
 
 
 Talking about [RBAC API integration tests](#RBAC-API-integration-tests), they don't have any marks, so there is no need
@@ -72,14 +72,14 @@ to specify one when running them. If a mark is specified, no tests will be run d
 As said in previous sections, some test names follow the structure
 `test_rbac_{rbac_mode}_{module}_endpoints.tavern.yaml`.
 
-These tests are used to check the proper functioning of a Wazuh environment with RBAC configurations. The `conftest.py`
+These tests are used to check the proper functioning of a AssetGuard environment with RBAC configurations. The `conftest.py`
 file includes functions in charge of changing the RBAC mode and creating the specified RBAC resources for the test in
 execution. The `env/configurations/rbac` directory includes all the specific configurations for each RBAC API 
 integration test, for both **white** and **black** modes.
 
 ## Test mapping for CI
 
-Every time a pull request is created in GitHub for the `wazuh` repository, a battery of checks is performed in the CI
+Every time a pull request is created in GitHub for the `assetguard` repository, a battery of checks is performed in the CI
 machines. One of these checks is the API integration tests execution with success.
 
 The API integration tests performed depend on the files modified in the pull request. In most cases, 10 API integration
@@ -95,7 +95,7 @@ tests that we consider the basic ones are performed. These tests are the followi
 - `test_security_POST_endpoints.tavern.yaml`
 - `test_security_PUT_endpoints.tavern.yaml`
 
-The `wazuh/api/test/integration/mapping` directory contains the `integration_test_api_endpoints.json` file that
+The `assetguard/api/test/integration/mapping` directory contains the `integration_test_api_endpoints.json` file that
 represents a mapping between the API and framework files; and the API integration tests that need to be performed. The
 API integration tests executed by the CI machines will be the union of the mapped integration tests of each file
 modified in the pull request.
@@ -105,7 +105,7 @@ a new file or directory is added. More information can be found at `mapping/READ
 
 ## Tests execution
 
-To perform a Wazuh API integration test, we need a specific `python3` environment. This python environment includes the 
+To perform a AssetGuard API integration test, we need a specific `python3` environment. This python environment includes the 
 following dependencies:
 
 ```python
@@ -126,7 +126,7 @@ Once these requirements are satisfied, we can perform the API integration tests:
 $ python3 -m pytest test_agent_GET_endpoints.tavern.yaml --disable-warnings
 ========================================== test session starts ===========================================
 platform linux -- Python 3.9.9, pytest-5.4.3, py-1.11.0, pluggy-0.13.1
-rootdir: /home/user/git/wazuh/api/test/integration, inifile: pytest.ini
+rootdir: /home/user/git/assetguard/api/test/integration, inifile: pytest.ini
 plugins: html-2.1.1, metadata-2.0.1, tavern-1.0.0
 collected 92 items                                                                                       
 
@@ -148,7 +148,7 @@ optional arguments:
                   Disables warnings during test execution.
 ```
 
-We can also use the `wazuh/api/test/integration/run_tests.py` script. This script includes the possibility to collect a 
+We can also use the `assetguard/api/test/integration/run_tests.py` script. This script includes the possibility to collect a 
 group of tests to be passed. Script arguments:
 
 ```text
@@ -172,5 +172,5 @@ optional arguments:
 ```
 
 The `run_test.py` script does not show the tests' full output. The full reports are saved 
-at `wazuh/api/test/integration/_test_results`. Containers' logs (`wazuh-manager.log`, agent's `ossec.conf`, `api.log` and `cluster.log`) are stored 
+at `assetguard/api/test/integration/_test_results`. Containers' logs (`assetguard-manager.log`, agent's `ossec.conf`, `api.log` and `cluster.log`) are stored 
 at `_test_results/logs`. Reports in HTML format are also generated and can be found at `_test_results/html_reports`.

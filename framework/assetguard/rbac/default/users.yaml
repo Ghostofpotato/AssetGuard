@@ -1,0 +1,12 @@
+# ASSETGUARD SYSTEM FILE, PLEASE DO NOT MODIFY
+
+default_users:
+  assetguard:
+    description: Superuser of AssetGuard.
+    password: assetguard
+    allow_run_as: True
+
+  assetguard-wui:
+    description: Superuser of AssetGuard UI
+    password: assetguard-wui
+    allow_run_as: True

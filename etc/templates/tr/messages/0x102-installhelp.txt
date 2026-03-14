@@ -19,4 +19,4 @@
     idealdir)
 
   - Daha fazla bilgi:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

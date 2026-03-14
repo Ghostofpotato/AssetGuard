@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import copy
@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '.'))
 import aws_utils as utils
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-import wazuh_integration
+import assetguard_integration
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'services'))
 import aws_service
@@ -22,14 +22,14 @@ TEST_DATETIME = datetime.now()
 TEST_DATETIME_STR = datetime.strftime(TEST_DATETIME, '%Y-%m-%dT%H:%M:%SZ')
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.check_metadata_version')
-@patch('wazuh_integration.sqlite3.connect')
-@patch('wazuh_integration.WazuhIntegration.get_client')
-@patch('wazuh_integration.utils.find_wazuh_path', return_value=utils.TEST_WAZUH_PATH)
-@patch('wazuh_integration.utils.get_wazuh_version')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_service_initializes_properly(mock_wazuh_integration, mock_version, mock_path, mock_client, mock_connect,
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardAWSDatabase.check_metadata_version')
+@patch('assetguard_integration.sqlite3.connect')
+@patch('assetguard_integration.AssetGuardIntegration.get_client')
+@patch('assetguard_integration.utils.find_assetguard_path', return_value=utils.TEST_ASSETGUARD_PATH)
+@patch('assetguard_integration.utils.get_assetguard_version')
+@patch('assetguard_integration.AssetGuardIntegration.__init__', side_effect=assetguard_integration.AssetGuardIntegration.__init__)
+def test_aws_service_initializes_properly(mock_assetguard_integration, mock_version, mock_path, mock_client, mock_connect,
                                          mock_metadata, mock_sts):
     """Test if the instances of 'AWSService' are created properly."""
     mock_client = MagicMock()
@@ -47,7 +47,7 @@ def test_aws_service_initializes_properly(mock_wazuh_integration, mock_version, 
                                               service_endpoint=utils.TEST_SERVICE_ENDPOINT,
                                               iam_role_duration=utils.TEST_IAM_ROLE_DURATION)
     instance = aws_service.AWSService(**kwargs)
-    mock_wazuh_integration.assert_called_with(instance, service_name=utils.TEST_SERVICE_NAME,
+    mock_assetguard_integration.assert_called_with(instance, service_name=utils.TEST_SERVICE_NAME,
                                               access_key=kwargs["access_key"], secret_key=kwargs["secret_key"],
                                               profile=kwargs["profile"], iam_role_arn=kwargs["iam_role_arn"],
                                               region=kwargs["region"], discard_field=kwargs["discard_field"],
@@ -70,19 +70,19 @@ def test_aws_service_check_region():
         aws_service.AWSService.check_region('no-region')
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_service_get_last_log_date(mock_wazuh_integration, mock_wazuh_aws_database, mock_sts):
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardAWSDatabase.__init__')
+@patch('assetguard_integration.AssetGuardIntegration.__init__', side_effect=assetguard_integration.AssetGuardIntegration.__init__)
+def test_aws_service_get_last_log_date(mock_assetguard_integration, mock_assetguard_aws_database, mock_sts):
     """Test 'get_last_log_date' function returns a date with the expected format."""
     instance = utils.get_mocked_service(only_logs_after=utils.TEST_ONLY_LOGS_AFTER)
     assert instance.get_last_log_date() == utils.TEST_ONLY_LOGS_AFTER_WITH_FORMAT
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-@patch('wazuh_integration.WazuhIntegration.__init__', side_effect=wazuh_integration.WazuhIntegration.__init__)
-def test_aws_service_format_message(mock_wazuh_integration, mock_wazuh_aws_database, mock_sts):
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardAWSDatabase.__init__')
+@patch('assetguard_integration.AssetGuardIntegration.__init__', side_effect=assetguard_integration.AssetGuardIntegration.__init__)
+def test_aws_service_format_message(mock_assetguard_integration, mock_assetguard_aws_database, mock_sts):
     """Test 'format_message' function updates the expected fields of an event."""
     input_msg = {'service': 'service_name', 'createdAt': TEST_DATETIME, 'updatedAt': TEST_DATETIME, 'key': 'value'}
     output_msg = {'source': 'service_name', 'createdAt': TEST_DATETIME_STR, 'updatedAt': TEST_DATETIME_STR,

@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2026, Wazuh Inc.
+copyright: Copyright (C) 2015-2026, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: Validate startup hash gate behavior in wazuh-agentd.
+brief: Validate startup hash gate behavior in assetguard-agentd.
        Modules call startup_gate_wait_for_ready() at startup and remain
        blocked until the handshake merged_sum matches the local merged.mg
        hash.
@@ -29,18 +29,18 @@ targets:
     - agent
 
 daemons:
-    - wazuh-agentd
-    - wazuh-execd
-    - wazuh-logcollector
-    - wazuh-syscheckd
-    - wazuh-modulesd
+    - assetguard-agentd
+    - assetguard-execd
+    - assetguard-logcollector
+    - assetguard-syscheckd
+    - assetguard-modulesd
 
 os_platform:
     - linux
 
 references:
-    - https://github.com/wazuh/wazuh/issues/34509
-    - https://github.com/wazuh/wazuh/issues/34329
+    - https://github.com/assetguard/assetguard/issues/34509
+    - https://github.com/assetguard/assetguard/issues/34329
 '''
 
 import hashlib
@@ -52,23 +52,23 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants import platforms
-from wazuh_testing.constants.paths import WAZUH_PATH
-from wazuh_testing.constants.paths.configurations import SHARED_CONFIGURATIONS_PATH
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_TIMEOUT
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import callbacks
-from wazuh_testing.utils import file as file_utils
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.utils.services import check_if_process_is_running, control_service
-from wazuh_testing.utils.sockets import send_request_socket
+from assetguard_testing.constants import platforms
+from assetguard_testing.constants.paths import ASSETGUARD_PATH
+from assetguard_testing.constants.paths.configurations import SHARED_CONFIGURATIONS_PATH
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_TIMEOUT
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from assetguard_testing.utils import callbacks
+from assetguard_testing.utils import file as file_utils
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.utils.services import check_if_process_is_running, control_service
+from assetguard_testing.utils.sockets import send_request_socket
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 from utils import wait_connect
 
-WAZUH_MERGED_MG_PATH = os.path.join(SHARED_CONFIGURATIONS_PATH, 'merged.mg')
+ASSETGUARD_MERGED_MG_PATH = os.path.join(SHARED_CONFIGURATIONS_PATH, 'merged.mg')
 
 
 # Marks
@@ -76,7 +76,7 @@ pytestmark = [pytest.mark.agent, pytest.mark.linux, pytest.mark.tier(level=0)]
 
 
 # Configuration and cases data.
-configs_path = Path(CONFIGS_PATH, 'wazuh_conf.yaml')
+configs_path = Path(CONFIGS_PATH, 'assetguard_conf.yaml')
 cases_path = Path(TEST_CASES_PATH, 'cases_startup_hash_gate.yaml')
 
 # Test configurations.
@@ -90,19 +90,19 @@ local_internal_options = {
 
 daemons_handler_configuration = {'all_daemons': True}
 
-AGENT_SOCKET_PATH = os.path.join(WAZUH_PATH, 'queue', 'sockets', 'agent')
+AGENT_SOCKET_PATH = os.path.join(ASSETGUARD_PATH, 'queue', 'sockets', 'agent')
 
-MODULE_DAEMONS = ('wazuh-modulesd', 'wazuh-syscheckd', 'wazuh-logcollector', 'wazuh-execd')
-ALL_DAEMONS = ('wazuh-agentd',) + MODULE_DAEMONS
+MODULE_DAEMONS = ('assetguard-modulesd', 'assetguard-syscheckd', 'assetguard-logcollector', 'assetguard-execd')
+ALL_DAEMONS = ('assetguard-agentd',) + MODULE_DAEMONS
 
 # Log patterns emitted by the startup gate C code.
 GATE_BLOCKING_PATTERN = (
     r".*Startup hash gate is blocking "
-    r"'wazuh-(modulesd|syscheckd|logcollector|execd)' \(waiting_hash_match\)\."
+    r"'assetguard-(modulesd|syscheckd|logcollector|execd)' \(waiting_hash_match\)\."
 )
 GATE_RELEASED_PATTERN = (
     r".*Startup hash gate released for "
-    r"'wazuh-(modulesd|syscheckd|logcollector|execd)' \(hash_match\)\."
+    r"'assetguard-(modulesd|syscheckd|logcollector|execd)' \(hash_match\)\."
 )
 
 # YAML template paths for merged.mg and handshake JSON.
@@ -199,13 +199,13 @@ def _wait_startup_gate_status(expected_ready, expected_reason, timeout=90):
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazuh_configuration,
+def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_assetguard_configuration,
                                      configure_local_internal_options, truncate_monitored_files,
                                      clean_keys, add_keys, clean_merged_mg, daemons_handler):
     '''
     description: Validate startup hash gate blocking and unblocking for hash match/mismatch scenarios.
 
-    wazuh_min_version: 4.12.0
+    assetguard_min_version: 4.12.0
 
     parameters:
         - test_configuration:
@@ -214,7 +214,7 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazu
         - test_metadata:
             type: data
             brief: Startup gate scenario and expected behavior.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -234,7 +234,7 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazu
             brief: Remove merged.mg so the agent starts with no local file.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
 
     assertions:
         - Modules unblock and start normally when hashes match.
@@ -253,15 +253,15 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazu
             # Write merged.mg to disk so the hash matches on handshake.
             # clean_merged_mg removed the file; we recreate it from the YAML
             # template with correct permissions so agentd can read it.
-            os.makedirs(os.path.dirname(WAZUH_MERGED_MG_PATH), exist_ok=True)
-            with open(WAZUH_MERGED_MG_PATH, 'wb') as f:
+            os.makedirs(os.path.dirname(ASSETGUARD_MERGED_MG_PATH), exist_ok=True)
+            with open(ASSETGUARD_MERGED_MG_PATH, 'wb') as f:
                 f.write(merged_content)
             if sys.platform != platforms.WINDOWS:
-                os.chmod(WAZUH_MERGED_MG_PATH, 0o660)
+                os.chmod(ASSETGUARD_MERGED_MG_PATH, 0o660)
                 try:
                     import grp
-                    wazuh_gid = grp.getgrnam('wazuh').gr_gid
-                    os.chown(WAZUH_MERGED_MG_PATH, -1, wazuh_gid)
+                    assetguard_gid = grp.getgrnam('assetguard').gr_gid
+                    os.chown(ASSETGUARD_MERGED_MG_PATH, -1, assetguard_gid)
                 except (KeyError, PermissionError):
                     pass
 
@@ -285,7 +285,7 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazu
                 )
 
             # Verify the released log message was emitted.
-            released_monitor = FileMonitor(WAZUH_LOG_PATH)
+            released_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
             released_monitor.start(
                 callback=callbacks.generate_callback(GATE_RELEASED_PATTERN), timeout=60
             )
@@ -315,7 +315,7 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazu
                 )
 
             # Verify the blocking log message was emitted.
-            blocking_monitor = FileMonitor(WAZUH_LOG_PATH)
+            blocking_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
             blocking_monitor.start(
                 callback=callbacks.generate_callback(GATE_BLOCKING_PATTERN), timeout=60
             )
@@ -347,7 +347,7 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_wazu
                 )
 
             # Blocking log emitted.
-            blocking_monitor = FileMonitor(WAZUH_LOG_PATH)
+            blocking_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
             blocking_monitor.start(
                 callback=callbacks.generate_callback(GATE_BLOCKING_PATTERN), timeout=60
             )

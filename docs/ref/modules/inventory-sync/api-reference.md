@@ -1,18 +1,18 @@
 # API Reference
 
-The Inventory Sync module indexes inventory state data into dedicated indices within the Wazuh-indexer (OpenSearch). The indexed data can be retrieved using the [OpenSearch API](https://opensearch.org/docs/latest/api-reference/).
+The Inventory Sync module indexes inventory state data into dedicated indices within the AssetGuard-indexer (OpenSearch). The indexed data can be retrieved using the [OpenSearch API](https://opensearch.org/docs/latest/api-reference/).
 
-For querying synchronized inventory data, use the **GET /wazuh-states-*/_search** endpoint pattern.
+For querying synchronized inventory data, use the **GET /assetguard-states-*/_search** endpoint pattern.
 
 ## Indexed Inventory Data
 
-Below are examples of indexed inventory data following the [ECS](https://www.elastic.co/docs/reference/ecs/ecs-field-reference) and Wazuh Common Schema standards.
+Below are examples of indexed inventory data following the [ECS](https://www.elastic.co/docs/reference/ecs/ecs-field-reference) and AssetGuard Common Schema standards.
 
 ### FIM
 
 ```json
 {
-  "_index": "wazuh-states-fim-files",
+  "_index": "assetguard-states-fim-files",
   "_id": "cluster_002_d9c5f609a163521eb09b8bce743db9459da8aa83",
   "_score": 1,
   "_source": {
@@ -21,7 +21,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
       "name": "Agent5",
       "version": "v5.0.0"
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "cluster"
       }
@@ -59,7 +59,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
 
 ```json
 {
-  "_index": "wazuh-states-inventory-packages",
+  "_index": "assetguard-states-inventory-packages",
   "_id": "cluster_001_35e3099e76d12e2184b731541cf7feb7e9868708",
   "_score": 1.0,
   "_source": {
@@ -67,7 +67,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
     "checksum": {
       "hash": { "sha1": "dc36e29d44215be742b174dc451c74dc02721821" }
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "cluster"
       }
@@ -96,7 +96,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
 
 ```json
 {
-  "_index": "wazuh-states-inventory-interfaces",
+  "_index": "assetguard-states-inventory-interfaces",
   "_id": "cluster_002_a1c9127e81cd0d8bbb724f8a39f722d20e0d7f13",
   "_score": 1,
   "_source": {
@@ -105,7 +105,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
       "name": "Agent5",
       "version": "v5.0.0"
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "cluster"
       }
@@ -150,7 +150,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
 
 ```json
 {
-  "_index": "wazuh-states-inventory-users",
+  "_index": "assetguard-states-inventory-users",
   "_id": "cluster_002_dc76e9f0c0006e8f919e0c515c66dbba3982f785",
   "_score": 1,
   "_source": {
@@ -159,7 +159,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
       "name": "Agent5",
       "version": "v5.0.0"
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "cluster"
       }
@@ -225,7 +225,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
 
 ```json
 {
-  "_index": "wazuh-states-inventory-groups",
+  "_index": "assetguard-states-inventory-groups",
   "_id": "cluster_002_42ef63e7836ef622d9185c1a456051edf16095cc",
   "_score": 1,
   "_source": {
@@ -234,7 +234,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
       "name": "Agent5",
       "version": "v5.0.0"
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "cluster"
       }
@@ -264,7 +264,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
 
 ```json
 {
-  "_index": "wazuh-states-inventory-system-batman",
+  "_index": "assetguard-states-inventory-system-batman",
   "_id": "001_a1c366cacdc2e4f2ca5e9f514afccf66ad1dfa3e",
   "_score": 1,
   "_source": {
@@ -273,7 +273,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
       "name": "Agent5",
       "version": "v5.0.0"
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "batman"
       }
@@ -317,7 +317,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
 
 ```json
 {
-  "_index": "wazuh-states-inventory-networks-batman",
+  "_index": "assetguard-states-inventory-networks-batman",
   "_id": "001_5aeb83e81e61130c0ade1f91e33119ff0441dddc",
   "_score": 1,
   "_source": {
@@ -326,7 +326,7 @@ Below are examples of indexed inventory data following the [ECS](https://www.ela
       "name": "Agent5",
       "version": "v5.0.0"
     },
-    "wazuh": {
+    "assetguard": {
       "cluster": {
         "name": "batman"
       }

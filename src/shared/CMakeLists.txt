@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(wazuh C)
+project(assetguard C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -24,13 +24,13 @@ include_directories(
   ${SRC_FOLDER}/shared_modules/dbsync/include
   ${SRC_FOLDER}/syscheckd/include
   ${SRC_FOLDER}/data_provider/include
-  ${SRC_FOLDER}/wazuh_modules/include
-  ${SRC_FOLDER}/wazuh_modules/src
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/agent
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/manager
-  ${SRC_FOLDER}/wazuh_modules/src/task_manager
-  ${SRC_FOLDER}/wazuh_db/include
+  ${SRC_FOLDER}/assetguard_modules/include
+  ${SRC_FOLDER}/assetguard_modules/src
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/agent
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/manager
+  ${SRC_FOLDER}/assetguard_modules/src/task_manager
+  ${SRC_FOLDER}/assetguard_db/include
   ${CMAKE_CURRENT_SOURCE_DIR}/include
   ${CMAKE_CURRENT_SOURCE_DIR}/include/error_messages
   ${CMAKE_CURRENT_SOURCE_DIR}/os_crypto/md5
@@ -91,7 +91,7 @@ file(GLOB OS_ZLIB_SRC "${CMAKE_CURRENT_SOURCE_DIR}/os_zlib/*.c")
 set(ACTIVE_RESPONSE_SRC "${SRC_FOLDER}/active-response/src/active_responses.c")
 
 # Combine all sources
-set(LIBWAZUH_SRC
+set(LIBASSETGUARD_SRC
     ${SHARED_CORE_SRC}
     ${OS_CRYPTO_BLOWFISH_SRC}
     ${OS_CRYPTO_MD5_SRC}
@@ -129,50 +129,50 @@ if(UNIT_TEST)
        "${SRC_FOLDER}/unit_tests/wrappers/externals/pcre2/*.c")
   file(GLOB WRAPPERS_LIBC_SRC "${SRC_FOLDER}/unit_tests/wrappers/libc/*.c")
   file(GLOB WRAPPERS_POSIX_SRC "${SRC_FOLDER}/unit_tests/wrappers/posix/*.c")
-  file(GLOB WRAPPERS_WAZUH_SRC "${SRC_FOLDER}/unit_tests/wrappers/wazuh/*.c")
-  file(GLOB WRAPPERS_WAZUH_OS_CRYPTO_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_crypto/*.c")
-  file(GLOB WRAPPERS_WAZUH_OS_EXECD_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_execd/*.c")
-  file(GLOB WRAPPERS_WAZUH_OS_NET_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_net/*.c")
-  file(GLOB WRAPPERS_WAZUH_OS_REGEX_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_regex/*.c")
-  file(GLOB WRAPPERS_WAZUH_OS_XML_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_xml/*.c")
-  file(GLOB WRAPPERS_WAZUH_SHARED_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/*.c")
-  file(GLOB WRAPPERS_WAZUH_SYSCHECKD_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/syscheckd/*.c")
-  file(GLOB WRAPPERS_WAZUH_WAZUH_DB_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/wazuh_db/*.c")
-  file(GLOB WRAPPERS_WAZUH_WAZUH_MODULES_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/wazuh_modules/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_SRC "${SRC_FOLDER}/unit_tests/wrappers/assetguard/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_OS_CRYPTO_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/os_crypto/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_OS_EXECD_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/os_execd/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_OS_NET_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/os_net/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_OS_REGEX_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/os_regex/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_OS_XML_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/os_xml/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_SHARED_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_SYSCHECKD_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/syscheckd/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_ASSETGUARD_DB_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/assetguard_db/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_ASSETGUARD_MODULES_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/assetguard_modules/*.c")
   if(IS_AGENT)
     list(
       REMOVE_ITEM
-      WRAPPERS_WAZUH_WAZUH_MODULES_SRC
-      "${SRC_FOLDER}/unit_tests/wrappers/wazuh/wazuh_modules/wm_task_manager_wrappers.c"
+      WRAPPERS_ASSETGUARD_ASSETGUARD_MODULES_SRC
+      "${SRC_FOLDER}/unit_tests/wrappers/assetguard/assetguard_modules/wm_task_manager_wrappers.c"
     )
   endif()
-  file(GLOB WRAPPERS_WAZUH_MONITORD_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/monitord/*.c")
-  file(GLOB WRAPPERS_WAZUH_OS_AUTH_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/os_auth/*.c")
-  file(GLOB WRAPPERS_WAZUH_ADDAGENT_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/addagent/*.c")
-  file(GLOB WRAPPERS_WAZUH_CONFIG_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/config/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_MONITORD_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/monitord/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_OS_AUTH_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/os_auth/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_ADDAGENT_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/addagent/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_CONFIG_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/config/*.c")
   file(GLOB WRAPPERS_CLIENT_AGENT_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/client-agent/*.c")
-  file(GLOB WRAPPERS_WAZUH_REMOTED_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/remoted/*.c")
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/client-agent/*.c")
+  file(GLOB WRAPPERS_ASSETGUARD_REMOTED_SRC
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/remoted/*.c")
   file(GLOB WRAPPERS_DATA_PROVIDER_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/data_provider/*.c")
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/data_provider/*.c")
   file(GLOB WRAPPERS_LOGCOLLECTOR_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/logcollector/*.c")
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/logcollector/*.c")
   file(GLOB WRAPPERS_SHARED_MODULES_SRC
-       "${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared_modules/*.c")
+       "${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared_modules/*.c")
 
   # Platform-specific wrappers configuration
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -195,22 +195,22 @@ if(UNIT_TEST)
         ${WRAPPERS_EXTERNALS_PCRE2_SRC}
         ${WRAPPERS_LIBC_SRC}
         ${WRAPPERS_POSIX_SRC}
-        ${WRAPPERS_WAZUH_SRC}
-        ${WRAPPERS_WAZUH_OS_CRYPTO_SRC}
-        ${WRAPPERS_WAZUH_OS_EXECD_SRC}
-        ${WRAPPERS_WAZUH_OS_NET_SRC}
-        ${WRAPPERS_WAZUH_OS_REGEX_SRC}
-        ${WRAPPERS_WAZUH_OS_XML_SRC}
-        ${WRAPPERS_WAZUH_SHARED_SRC}
-        ${WRAPPERS_WAZUH_SYSCHECKD_SRC}
-        ${WRAPPERS_WAZUH_WAZUH_DB_SRC}
-        ${WRAPPERS_WAZUH_WAZUH_MODULES_SRC}
-        ${WRAPPERS_WAZUH_MONITORD_SRC}
-        ${WRAPPERS_WAZUH_OS_AUTH_SRC}
-        ${WRAPPERS_WAZUH_ADDAGENT_SRC}
-        ${WRAPPERS_WAZUH_CONFIG_SRC}
+        ${WRAPPERS_ASSETGUARD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_CRYPTO_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_EXECD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_NET_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_REGEX_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_XML_SRC}
+        ${WRAPPERS_ASSETGUARD_SHARED_SRC}
+        ${WRAPPERS_ASSETGUARD_SYSCHECKD_SRC}
+        ${WRAPPERS_ASSETGUARD_ASSETGUARD_DB_SRC}
+        ${WRAPPERS_ASSETGUARD_ASSETGUARD_MODULES_SRC}
+        ${WRAPPERS_ASSETGUARD_MONITORD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_AUTH_SRC}
+        ${WRAPPERS_ASSETGUARD_ADDAGENT_SRC}
+        ${WRAPPERS_ASSETGUARD_CONFIG_SRC}
         ${WRAPPERS_CLIENT_AGENT_SRC}
-        ${WRAPPERS_WAZUH_REMOTED_SRC}
+        ${WRAPPERS_ASSETGUARD_REMOTED_SRC}
         ${WRAPPERS_DATA_PROVIDER_SRC}
         ${WRAPPERS_LOGCOLLECTOR_SRC}
         ${WRAPPERS_SHARED_MODULES_SRC}
@@ -237,22 +237,22 @@ if(UNIT_TEST)
         ${WRAPPERS_EXTERNALS_PCRE2_SRC}
         ${WRAPPERS_LIBC_SRC}
         ${WRAPPERS_POSIX_SRC}
-        ${WRAPPERS_WAZUH_SRC}
-        ${WRAPPERS_WAZUH_OS_CRYPTO_SRC}
-        ${WRAPPERS_WAZUH_OS_EXECD_SRC}
-        ${WRAPPERS_WAZUH_OS_NET_SRC}
-        ${WRAPPERS_WAZUH_OS_REGEX_SRC}
-        ${WRAPPERS_WAZUH_OS_XML_SRC}
-        ${WRAPPERS_WAZUH_SHARED_SRC}
-        ${WRAPPERS_WAZUH_SYSCHECKD_SRC}
-        ${WRAPPERS_WAZUH_WAZUH_DB_SRC}
-        ${WRAPPERS_WAZUH_WAZUH_MODULES_SRC}
-        ${WRAPPERS_WAZUH_MONITORD_SRC}
-        ${WRAPPERS_WAZUH_OS_AUTH_SRC}
-        ${WRAPPERS_WAZUH_ADDAGENT_SRC}
-        ${WRAPPERS_WAZUH_CONFIG_SRC}
+        ${WRAPPERS_ASSETGUARD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_CRYPTO_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_EXECD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_NET_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_REGEX_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_XML_SRC}
+        ${WRAPPERS_ASSETGUARD_SHARED_SRC}
+        ${WRAPPERS_ASSETGUARD_SYSCHECKD_SRC}
+        ${WRAPPERS_ASSETGUARD_ASSETGUARD_DB_SRC}
+        ${WRAPPERS_ASSETGUARD_ASSETGUARD_MODULES_SRC}
+        ${WRAPPERS_ASSETGUARD_MONITORD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_AUTH_SRC}
+        ${WRAPPERS_ASSETGUARD_ADDAGENT_SRC}
+        ${WRAPPERS_ASSETGUARD_CONFIG_SRC}
         ${WRAPPERS_CLIENT_AGENT_SRC}
-        ${WRAPPERS_WAZUH_REMOTED_SRC}
+        ${WRAPPERS_ASSETGUARD_REMOTED_SRC}
         ${WRAPPERS_DATA_PROVIDER_SRC}
         ${WRAPPERS_LOGCOLLECTOR_SRC}
         ${WRAPPERS_SHARED_MODULES_SRC}
@@ -279,22 +279,22 @@ if(UNIT_TEST)
         ${WRAPPERS_EXTERNALS_PCRE2_SRC}
         ${WRAPPERS_LIBC_SRC}
         ${WRAPPERS_POSIX_SRC}
-        ${WRAPPERS_WAZUH_SRC}
-        ${WRAPPERS_WAZUH_OS_CRYPTO_SRC}
-        ${WRAPPERS_WAZUH_OS_EXECD_SRC}
-        ${WRAPPERS_WAZUH_OS_NET_SRC}
-        ${WRAPPERS_WAZUH_OS_REGEX_SRC}
-        ${WRAPPERS_WAZUH_OS_XML_SRC}
-        ${WRAPPERS_WAZUH_SHARED_SRC}
-        ${WRAPPERS_WAZUH_SYSCHECKD_SRC}
-        ${WRAPPERS_WAZUH_WAZUH_DB_SRC}
-        ${WRAPPERS_WAZUH_WAZUH_MODULES_SRC}
-        ${WRAPPERS_WAZUH_MONITORD_SRC}
-        ${WRAPPERS_WAZUH_OS_AUTH_SRC}
-        ${WRAPPERS_WAZUH_ADDAGENT_SRC}
-        ${WRAPPERS_WAZUH_CONFIG_SRC}
+        ${WRAPPERS_ASSETGUARD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_CRYPTO_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_EXECD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_NET_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_REGEX_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_XML_SRC}
+        ${WRAPPERS_ASSETGUARD_SHARED_SRC}
+        ${WRAPPERS_ASSETGUARD_SYSCHECKD_SRC}
+        ${WRAPPERS_ASSETGUARD_ASSETGUARD_DB_SRC}
+        ${WRAPPERS_ASSETGUARD_ASSETGUARD_MODULES_SRC}
+        ${WRAPPERS_ASSETGUARD_MONITORD_SRC}
+        ${WRAPPERS_ASSETGUARD_OS_AUTH_SRC}
+        ${WRAPPERS_ASSETGUARD_ADDAGENT_SRC}
+        ${WRAPPERS_ASSETGUARD_CONFIG_SRC}
         ${WRAPPERS_CLIENT_AGENT_SRC}
-        ${WRAPPERS_WAZUH_REMOTED_SRC}
+        ${WRAPPERS_ASSETGUARD_REMOTED_SRC}
         ${WRAPPERS_DATA_PROVIDER_SRC}
         ${WRAPPERS_LOGCOLLECTOR_SRC}
         ${WRAPPERS_SHARED_MODULES_SRC}
@@ -305,112 +305,112 @@ if(UNIT_TEST)
 
 endif()
 
-# Create the production wazuh library (without test wrappers)
-add_library(wazuh STATIC ${LIBWAZUH_SRC})
+# Create the production assetguard library (without test wrappers)
+add_library(assetguard STATIC ${LIBASSETGUARD_SRC})
 
 # Create a separate test library with wrappers for unit tests only
 if(UNIT_TEST)
-  add_library(wazuh_test STATIC ${LIBWAZUH_SRC} ${UNIT_TEST_WRAPPERS_SRC})
+  add_library(assetguard_test STATIC ${LIBASSETGUARD_SRC} ${UNIT_TEST_WRAPPERS_SRC})
 endif()
 
 # Set properties: library name, output directory
 set_target_properties(
-  wazuh
-  PROPERTIES OUTPUT_NAME "wazuh"
+  assetguard
+  PROPERTIES OUTPUT_NAME "assetguard"
              LINKER_LANGUAGE C
              ARCHIVE_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/lib
              LIBRARY_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/lib
              POSITION_INDEPENDENT_CODE ON)
 
 # Add compile definitions
-target_compile_definitions(wazuh PRIVATE ARGV0="wazuh")
+target_compile_definitions(assetguard PRIVATE ARGV0="assetguard")
 
 if(OS_BIG_ENDIAN)
   add_definitions(-DOS_BIG_ENDIAN)
 endif(OS_BIG_ENDIAN)
 
 if(CA_NAME)
-  target_compile_definitions(wazuh PRIVATE CA_NAME="${CA_NAME}")
+  target_compile_definitions(assetguard PRIVATE CA_NAME="${CA_NAME}")
 endif()
 
 if(IMAGE_TRUST_CHECKS)
-  target_compile_definitions(wazuh
+  target_compile_definitions(assetguard
                              PRIVATE IMAGE_TRUST_CHECKS=${IMAGE_TRUST_CHECKS})
 endif()
 
 if(ENABLE_AUDIT)
-  target_compile_definitions(wazuh PRIVATE ENABLE_AUDIT)
+  target_compile_definitions(assetguard PRIVATE ENABLE_AUDIT)
 endif()
 
-target_link_libraries(wazuh PUBLIC wazuhext)
+target_link_libraries(assetguard PUBLIC assetguardext)
 
-# Configure wazuh_test library for unit tests
+# Configure assetguard_test library for unit tests
 if(UNIT_TEST)
   # Set properties for test library
   set_target_properties(
-    wazuh_test
-    PROPERTIES OUTPUT_NAME "wazuh_test"
+    assetguard_test
+    PROPERTIES OUTPUT_NAME "assetguard_test"
                LINKER_LANGUAGE C
                ARCHIVE_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/lib
                LIBRARY_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/lib
                POSITION_INDEPENDENT_CODE ON)
 
   # Add same compile definitions as production library
-  target_compile_definitions(wazuh_test PRIVATE ARGV0="wazuh")
-  target_compile_definitions(wazuh_test PRIVATE WAZUH_UNIT_TESTING)
+  target_compile_definitions(assetguard_test PRIVATE ARGV0="assetguard")
+  target_compile_definitions(assetguard_test PRIVATE ASSETGUARD_UNIT_TESTING)
 
   if(CA_NAME)
-    target_compile_definitions(wazuh_test PRIVATE CA_NAME="${CA_NAME}")
+    target_compile_definitions(assetguard_test PRIVATE CA_NAME="${CA_NAME}")
   endif()
 
   if(IMAGE_TRUST_CHECKS)
-    target_compile_definitions(wazuh_test
+    target_compile_definitions(assetguard_test
                                PRIVATE IMAGE_TRUST_CHECKS=${IMAGE_TRUST_CHECKS})
   endif()
 
   if(ENABLE_AUDIT)
-    target_compile_definitions(wazuh_test PRIVATE ENABLE_AUDIT)
+    target_compile_definitions(assetguard_test PRIVATE ENABLE_AUDIT)
   endif()
 
   # Debug flags for unit tests: -g -O0
-  target_compile_options(wazuh_test PUBLIC -g -O0)
+  target_compile_options(assetguard_test PUBLIC -g -O0)
 
   # Add coverage libraries and flags for unit tests
-  add_coverage_libraries(wazuh_test)
+  add_coverage_libraries(assetguard_test)
 
-  # Link with wazuhext
-  target_link_libraries(wazuh_test PUBLIC wazuhext)
+  # Link with assetguardext
+  target_link_libraries(assetguard_test PUBLIC assetguardext)
 endif()
 
 # Create shared library (Linux/server only — used by the engine)
 if(NOT IS_AGENT AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  # Linux: libwazuhshared.so
-  add_library(wazuhshared SHARED ${LIBWAZUH_SRC})
+  # Linux: libassetguardshared.so
+  add_library(assetguardshared SHARED ${LIBASSETGUARD_SRC})
 
   set_target_properties(
-    wazuhshared
-    PROPERTIES OUTPUT_NAME "wazuhshared"
+    assetguardshared
+    PROPERTIES OUTPUT_NAME "assetguardshared"
                LIBRARY_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/lib
                BUILD_WITH_INSTALL_RPATH TRUE
                INSTALL_RPATH "$ORIGIN"
                POSITION_INDEPENDENT_CODE ON)
 
-  target_compile_definitions(wazuhshared PRIVATE ARGV0="wazuh")
-  # Link with wazuhext using -Wl,--whole-archive (Linux linker flag)
-  target_link_libraries(wazuhshared PUBLIC -Wl,--whole-archive wazuhext
+  target_compile_definitions(assetguardshared PRIVATE ARGV0="assetguard")
+  # Link with assetguardext using -Wl,--whole-archive (Linux linker flag)
+  target_link_libraries(assetguardshared PUBLIC -Wl,--whole-archive assetguardext
                                            -Wl,--no-whole-archive)
 
   # Apply common compile definitions to shared library
   if(CA_NAME)
-    target_compile_definitions(wazuhshared PRIVATE CA_NAME="${CA_NAME}")
+    target_compile_definitions(assetguardshared PRIVATE CA_NAME="${CA_NAME}")
   endif()
 
   if(IMAGE_TRUST_CHECKS)
-    target_compile_definitions(wazuhshared
+    target_compile_definitions(assetguardshared
                                PRIVATE IMAGE_TRUST_CHECKS=${IMAGE_TRUST_CHECKS})
   endif()
 
   if(ENABLE_AUDIT)
-    target_compile_definitions(wazuhshared PRIVATE ENABLE_AUDIT)
+    target_compile_definitions(assetguardshared PRIVATE ENABLE_AUDIT)
   endif()
 endif()

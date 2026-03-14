@@ -1,4 +1,4 @@
-name: 5.X - Package - Build Wazuh manager embedded Python
+name: 5.X - Package - Build AssetGuard manager embedded Python
 
 on:
   workflow_dispatch:
@@ -62,7 +62,7 @@ jobs:
           echo "matrix=$JSON_ARRAY" >> "$GITHUB_OUTPUT"
 
   build-embedded-python:
-    name: Build Wazuh manager embedded Python
+    name: Build AssetGuard manager embedded Python
     needs: pick-architecture
     strategy:
       matrix: ${{ fromJSON(needs.pick-architecture.outputs.matrix) }}
@@ -73,7 +73,7 @@ jobs:
       packages: write
     steps:
 
-      - name: Checkout Wazuh repository
+      - name: Checkout AssetGuard repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -108,20 +108,20 @@ jobs:
         working-directory: framework/cpython
         run: |
           docker run --env ARCH="${{ env.PACKAGE_ARCH }}" \
-            -v $GITHUB_WORKSPACE:/wazuh_host -v /tmp:/output \
+            -v $GITHUB_WORKSPACE:/assetguard_host -v /tmp:/output \
             --entrypoint=bash ${{ env.CONTAINER_NAME }}:${{ env.TAG }} \
-            /wazuh_host/framework/cpython/compile.sh \
+            /assetguard_host/framework/cpython/compile.sh \
               ${{ inputs.build_cpython == true && '--build-cpython' || '' }} \
               ${{ inputs.build_deps == true && '--build-deps' || '' }}
 
-      - name: Upload Wazuh manager embedded Python sources to GitHub
+      - name: Upload AssetGuard manager embedded Python sources to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARCH }}-sources
           path: /tmp/cpython_${{ env.PACKAGE_ARCH }}.tar.gz
           if-no-files-found: error
 
-      - name: Upload Wazuh manager out-of-the-box embedded Python to GitHub
+      - name: Upload AssetGuard manager out-of-the-box embedded Python to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARCH }}-compiled

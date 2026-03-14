@@ -35,10 +35,10 @@ target_field:
 
 test:
   - arguments:
-      input_field: "\"Hello, my name is 'Wazuh'.\""
+      input_field: "\"Hello, my name is 'AssetGuard'.\""
     target_field: any_value
     should_pass: true
-    expected: "Hello, my name is 'Wazuh'."
+    expected: "Hello, my name is 'AssetGuard'."
     description: Success quoted parse
   - arguments:
       input_field: "'escaped\\' quotes'"

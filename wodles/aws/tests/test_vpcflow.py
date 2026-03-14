@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
@@ -67,7 +67,7 @@ def test_aws_vpc_flow_bucket_load_information_from_file():
         assert instance.load_information_from_file(utils.TEST_LOG_KEY) == list(expected_result)
 
 
-@patch('wazuh_integration.WazuhIntegration.get_client')
+@patch('assetguard_integration.AssetGuardIntegration.get_client')
 def test_aws_vpc_flow_bucket_get_ec2_client(mock_get_client):
     """Test 'get_ec2_client' method instantiates a boto3.Session object with the proper arguments.
 

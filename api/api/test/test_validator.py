@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -15,7 +15,7 @@ from api.validator import (
     _hashes,
     _names,
     _numbers,
-    _wazuh_key,
+    _assetguard_key,
     _paths,
     _query_param,
     _ranges,
@@ -24,7 +24,7 @@ from api.validator import (
     _timeframe_type,
     allowed_fields,
     is_safe_path,
-    _wazuh_version,
+    _assetguard_version,
     _symbols_alphanumeric_param,
     _base64,
     _group_names,
@@ -35,7 +35,7 @@ from api.validator import (
     check_component_configuration_pair,
     _wpk_path,
 )
-from wazuh import WazuhError
+from assetguard import AssetGuardError
 
 test_data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data")
 
@@ -62,7 +62,7 @@ test_data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data
         # IPs
         # hashes
         ("e4d909c290d0fb1ca068ffaddf22cbd0", _hashes),
-        ("449e3b6ffd9b484c5c645321edd4d610", _wazuh_key),
+        ("449e3b6ffd9b484c5c645321edd4d610", _assetguard_key),
         # date
         ("2021-04-28", _iso8601_date),
         ("2021-11-04T18:14:04Z", _iso8601_date_time),
@@ -78,13 +78,13 @@ test_data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data
         # ranges
         ("5-35", _ranges),
         # paths
-        ("/var/wazuh-manager/etc/internal_options", _paths),
+        ("/var/assetguard-manager/etc/internal_options", _paths),
         ("correct.wpk", _wpk_path),
         # version
-        ("v4.4.0", _wazuh_version),
-        ("4.4.0", _wazuh_version),
-        ("wazuh 4.4.0", _wazuh_version),
-        ("wazuh v4.4.0", _wazuh_version),
+        ("v4.4.0", _assetguard_version),
+        ("4.4.0", _assetguard_version),
+        ("assetguard 4.4.0", _assetguard_version),
+        ("assetguard v4.4.0", _assetguard_version),
         # miscellaneous
         ("aHR0cHM6Ly9zdGFja2FidXNlLmNvbS90YWcvamF2YS8=", _base64),
     ],
@@ -116,7 +116,7 @@ def test_validation_check_exp_ok(exp, regex_name):
         ("search param;", _search_param),
         # hashes
         ("$$d909c290d0fb1ca068ffaddf22cbd0", _hashes),
-        ("449e3b6ffd9b484c5c645321edd4d61$", _wazuh_key),
+        ("449e3b6ffd9b484c5c645321edd4d61$", _assetguard_key),
         # date
         ("2021-13-28", _iso8601_date),
         ("2021-10-35", _iso8601_date),
@@ -128,14 +128,14 @@ def test_validation_check_exp_ok(exp, regex_name):
         ("5-35-32", _ranges),
         ("param1,param2,param3", _query_param),
         # paths
-        ("/var/wazuh-manager/etc/internal_options$", _paths),
+        ("/var/assetguard-manager/etc/internal_options$", _paths),
         ("incorrect.txt", _wpk_path),
         (".wpk", _wpk_path),
         # version
-        ("v4.4", _wazuh_version),
-        ("4.4", _wazuh_version),
-        ("wazuh 4.4", _wazuh_version),
-        ("wazuh v4.4", _wazuh_version),
+        ("v4.4", _assetguard_version),
+        ("4.4", _assetguard_version),
+        ("assetguard 4.4", _assetguard_version),
+        ("assetguard v4.4", _assetguard_version),
         # miscellaneous
         ("aDhjasdh3=", _base64),
     ],
@@ -176,7 +176,7 @@ def test_is_safe_path():
     """Verify that is_safe_path() works as expected"""
     assert is_safe_path("/api/configuration/api.yaml")
     assert is_safe_path("c:\\api\\configuration\\api.yaml")
-    assert is_safe_path("etc/wazuh-manager.conf", relative=True)
+    assert is_safe_path("etc/assetguard-manager.conf", relative=True)
     assert not is_safe_path("/api/configuration/api.yaml", basedir="non-existent", relative=False)
     assert not is_safe_path("/..")
     assert not is_safe_path("\\..")
@@ -189,7 +189,7 @@ def test_is_safe_path():
         ("AB0264EA00FD9BCDCF1A5B88BC1BDEA4", "hash"),
         ("file_test-33.xml", "names"),
         ("651403650840", "numbers"),
-        ("/var/wazuh/test", "path"),
+        ("/var/assetguard/test", "path"),
         ("field=0", "query"),
         ("field=0,field2!=3;field3~hi", "query"),
         ("34", "range"),
@@ -200,7 +200,7 @@ def test_is_safe_path():
         ("7d", "timeframe"),
         ("1s", "timeframe"),
         ("7m", "timeframe"),
-        ("asdfASD0101", "wazuh_key"),
+        ("asdfASD0101", "assetguard_key"),
         ("2019-02-26", "date"),
         ("2020-06-24T17:02:53Z", "date-time"),
         ("2020-06-24T17:02:53Z", "date-time_or_empty"),
@@ -232,7 +232,7 @@ def test_validation_json_ok(value, format):
         ("AB0264EA00FD9BCDCF1A5B88BC1BDEA4.", "hash"),
         ("../../file_test-33.xml", "names"),
         ("a651403650840", "numbers"),
-        ("!/var/wazuh/test", "path"),
+        ("!/var/assetguard/test", "path"),
         ("1234", "query"),
         ("34-", "range"),
         ("34-36-9", "range"),
@@ -241,7 +241,7 @@ def test_validation_json_ok(value, format):
         ("-field;+field.subfield", "sort"),
         ("7a", "timeframe"),
         ("s1", "timeframe"),
-        ("asdfASD0101!", "wazuh_key"),
+        ("asdfASD0101!", "assetguard_key"),
         ("2019-02-26-test", "date"),
         ("2020-06-24 17:02:53.034374", "date-time"),
         ("2020-06-24 17:02:53.034374", "date-time_or_empty"),
@@ -262,11 +262,11 @@ def test_validation_json_ko(value, format):
 
 
 @pytest.mark.parametrize(
-    "component, configuration, expected_response", [("agent", "client", None), ("agent", "wmodules", WazuhError(1128))]
+    "component, configuration, expected_response", [("agent", "client", None), ("agent", "wmodules", AssetGuardError(1128))]
 )
 def test_check_component_configuration_pair(component, configuration, expected_response):
     """Verify that `check_component_configuration_pair` function returns an exception when the configuration does
-    not belong to a Wazuh component."""
+    not belong to a AssetGuard component."""
     response = check_component_configuration_pair(component, configuration)
     if isinstance(response, Exception):
         assert isinstance(response, expected_response.__class__)

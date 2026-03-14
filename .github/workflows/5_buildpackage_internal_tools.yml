@@ -84,7 +84,7 @@ jobs:
           MAT_ARCH="${{ matrix.arch }}"  # amd64|arm64
           if [[ "$EXT" == "deb" ]]; then
             ARCH_PAT="$MAT_ARCH"   # deb: amd64|arm64
-            GLOB="$OUT/wazuh-internal-tools_*_${ARCH_PAT}.deb"
+            GLOB="$OUT/assetguard-internal-tools_*_${ARCH_PAT}.deb"
           else
             # rpm: x86_64|aarch64
             case "$MAT_ARCH" in
@@ -92,7 +92,7 @@ jobs:
               arm64) ARCH_PAT="aarch64" ;;
               *)     ARCH_PAT="$MAT_ARCH" ;;
             esac
-            GLOB="$OUT/wazuh-internal-tools_*_${ARCH_PAT}.rpm"
+            GLOB="$OUT/assetguard-internal-tools_*_${ARCH_PAT}.rpm"
           fi
 
           PKG="$(ls -1 $GLOB 2>/dev/null | head -n1 || true)"
@@ -220,9 +220,9 @@ jobs:
               -v "${PKG}:/tmp/package.rpm:ro" \
               rockylinux:9 bash -c "
                 yum install -y /tmp/package.rpm > /dev/null 2>&1 || true
-                yum remove -y wazuh-internal-tools || true
+                yum remove -y assetguard-internal-tools || true
               " || true
           else
             echo "Uninstalling DEB package"
-            sudo dpkg -r wazuh-internal-tools || true
+            sudo dpkg -r assetguard-internal-tools || true
           fi

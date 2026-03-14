@@ -17,4 +17,4 @@
     (idealno za webservere, servere baze podataka, itd)
 
   - Više obaveštenja na:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

@@ -1,6 +1,6 @@
 """
-Copyright (C) 2015-2024, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015-2024, AssetGuard Inc.
+Created by AssetGuard, Inc. <info@assetguard.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 import os
@@ -10,29 +10,29 @@ import sys
 from typing import List
 
 from py.xml import html
-from wazuh_testing import session_parameters
-from wazuh_testing.constants import platforms
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.constants.daemons import WAZUH_MANAGER, API_DAEMONS_REQUIREMENTS
-from wazuh_testing.constants.paths import ROOT_PREFIX
-from wazuh_testing.constants.paths.api import RBAC_DATABASE_PATH
-from wazuh_testing.constants.paths.logs import ACTIVE_RESPONSE_LOG_PATH, WAZUH_LOG_PATH, ALERTS_JSON_PATH, \
-                                               WAZUH_API_LOG_FILE_PATH, WAZUH_API_JSON_LOG_FILE_PATH
-from wazuh_testing.constants.paths.configurations import WAZUH_CLIENT_KEYS_PATH, SHARED_CONFIGURATIONS_PATH
-from wazuh_testing.logger import logger
-from wazuh_testing.tools import socket_controller
-from wazuh_testing.tools.monitors import queue_monitor
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.agent_simulator import create_agents, connect
-from wazuh_testing.tools.simulators.authd_simulator import AuthdSimulator
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import configuration, database, file, mocking, services
-from wazuh_testing.utils.file import remove_file, truncate_file
-from wazuh_testing.utils.manage_agents import remove_agents
-import wazuh_testing.utils.configuration as wazuh_configuration
-from wazuh_testing.utils.services import control_service
+from assetguard_testing import session_parameters
+from assetguard_testing.constants import platforms
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.constants.daemons import ASSETGUARD_MANAGER, API_DAEMONS_REQUIREMENTS
+from assetguard_testing.constants.paths import ROOT_PREFIX
+from assetguard_testing.constants.paths.api import RBAC_DATABASE_PATH
+from assetguard_testing.constants.paths.logs import ACTIVE_RESPONSE_LOG_PATH, ASSETGUARD_LOG_PATH, ALERTS_JSON_PATH, \
+                                               ASSETGUARD_API_LOG_FILE_PATH, ASSETGUARD_API_JSON_LOG_FILE_PATH
+from assetguard_testing.constants.paths.configurations import ASSETGUARD_CLIENT_KEYS_PATH, SHARED_CONFIGURATIONS_PATH
+from assetguard_testing.logger import logger
+from assetguard_testing.tools import socket_controller
+from assetguard_testing.tools.monitors import queue_monitor
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.tools.simulators.agent_simulator import create_agents, connect
+from assetguard_testing.tools.simulators.authd_simulator import AuthdSimulator
+from assetguard_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from assetguard_testing.utils import configuration, database, file, mocking, services
+from assetguard_testing.utils.file import remove_file, truncate_file
+from assetguard_testing.utils.manage_agents import remove_agents
+import assetguard_testing.utils.configuration as assetguard_configuration
+from assetguard_testing.utils.services import control_service
 
-WAZUH_MERGED_MG_PATH = os.path.join(SHARED_CONFIGURATIONS_PATH, 'merged.mg')
+ASSETGUARD_MERGED_MG_PATH = os.path.join(SHARED_CONFIGURATIONS_PATH, 'merged.mg')
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -Pytest configuration - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -139,50 +139,50 @@ def pytest_html_results_summary(prefix, summary, postfix):
 
 
 @pytest.fixture(scope='session')
-def load_wazuh_basic_configuration():
+def load_assetguard_basic_configuration():
     """Load a new basic configuration to the manager"""
-    # Load wazuh configuration file with all disabled settings
+    # Load assetguard configuration file with all disabled settings
     minimal_configuration = configuration.get_minimal_configuration()
 
     # Make a backup from current configuration
-    backup_ossec_configuration = configuration.get_wazuh_conf()
+    backup_ossec_configuration = configuration.get_assetguard_conf()
 
     # Write new configuration
-    configuration.write_wazuh_conf(minimal_configuration)
+    configuration.write_assetguard_conf(minimal_configuration)
 
     yield
 
-    # Restore the wazuh configuration file backup
-    configuration.write_wazuh_conf(backup_ossec_configuration)
+    # Restore the assetguard configuration file backup
+    configuration.write_assetguard_conf(backup_ossec_configuration)
 
 
 @pytest.fixture()
-def backup_wazuh_configuration() -> None:
-    """Backup wazuh configuration. Saves the initial configuration and restores it after the test."""
+def backup_assetguard_configuration() -> None:
+    """Backup assetguard configuration. Saves the initial configuration and restores it after the test."""
     # Save configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_assetguard_conf()
 
     yield
 
     # Restore configuration
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_assetguard_conf(backup_config)
 
 
 @pytest.fixture()
-def set_wazuh_configuration(test_configuration: dict) -> None:
-    """Set wazuh configuration
+def set_assetguard_configuration(test_configuration: dict) -> None:
+    """Set assetguard configuration
 
     Args:
         test_configuration (dict): Configuration template data to write in the ossec.conf
     """
     # Save current configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_assetguard_conf()
 
     # Configuration for testing
-    test_config = configuration.set_section_wazuh_conf(test_configuration.get('sections'))
+    test_config = configuration.set_section_assetguard_conf(test_configuration.get('sections'))
 
     # Set new configuration
-    configuration.write_wazuh_conf(test_config)
+    configuration.write_assetguard_conf(test_config)
 
     # Set current configuration
     session_parameters.current_configuration = test_config
@@ -190,7 +190,7 @@ def set_wazuh_configuration(test_configuration: dict) -> None:
     yield
 
     # Restore previous configuration
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_assetguard_conf(backup_config)
 
 
 @pytest.fixture()
@@ -216,19 +216,19 @@ def configure_local_internal_options_function(request):
                                  'parameter has been passed explicitly, nor is the variable local_internal_options '
                                  'found in the module.') from AttributeError
 
-    backup_local_internal_options = wazuh_configuration.get_local_internal_options_dict()
+    backup_local_internal_options = assetguard_configuration.get_local_internal_options_dict()
 
     logger.debug(f"Set local_internal_option to {str(local_internal_options)}")
-    wazuh_configuration.set_local_internal_options_dict(local_internal_options)
+    assetguard_configuration.set_local_internal_options_dict(local_internal_options)
 
     yield
 
     logger.debug(f"Restore local_internal_option to {str(backup_local_internal_options)}")
-    wazuh_configuration.set_local_internal_options_dict(backup_local_internal_options)
+    assetguard_configuration.set_local_internal_options_dict(backup_local_internal_options)
 
 
 @pytest.fixture()
-def restart_wazuh_function(request):
+def restart_assetguard_function(request):
     """Restart before starting a test, and stop it after finishing.
 
        Args:
@@ -256,7 +256,7 @@ def restart_wazuh_function(request):
         logger.debug(f"Stopping all daemons")
         control_service('stop')
     else:
-        # Stop a list daemons in order (as Wazuh does)
+        # Stop a list daemons in order (as AssetGuard does)
         daemons.reverse()
         for daemon in daemons:
             logger.debug(f"Stopping {daemon}")
@@ -275,7 +275,7 @@ def file_monitoring(request):
     if hasattr(request.module, 'file_to_monitor'):
         file_to_monitor = getattr(request.module, 'file_to_monitor')
     else:
-        file_to_monitor = WAZUH_LOG_PATH
+        file_to_monitor = ASSETGUARD_LOG_PATH
 
     logger.debug(f"Initializing file to monitor to {file_to_monitor}")
 
@@ -290,11 +290,11 @@ def file_monitoring(request):
 
 def truncate_monitored_files_implementation() -> None:
     """Truncate all the log files and json alerts files before and after the test execution"""
-    if services.get_service() == WAZUH_MANAGER:
-        log_files = [WAZUH_LOG_PATH, ALERTS_JSON_PATH, WAZUH_API_LOG_FILE_PATH,
-                     WAZUH_API_JSON_LOG_FILE_PATH, WAZUH_CLIENT_KEYS_PATH]
+    if services.get_service() == ASSETGUARD_MANAGER:
+        log_files = [ASSETGUARD_LOG_PATH, ALERTS_JSON_PATH, ASSETGUARD_API_LOG_FILE_PATH,
+                     ASSETGUARD_API_JSON_LOG_FILE_PATH, ASSETGUARD_CLIENT_KEYS_PATH]
     else:
-        log_files = [WAZUH_LOG_PATH]
+        log_files = [ASSETGUARD_LOG_PATH]
 
     for log_file in log_files:
         if os.path.isfile(os.path.join(ROOT_PREFIX, log_file)):
@@ -320,14 +320,14 @@ def truncate_monitored_files_module() -> None:
 
 
 def daemons_handler_implementation(request: pytest.FixtureRequest) -> None:
-    """Helper function to handle Wazuh daemons.
+    """Helper function to handle AssetGuard daemons.
 
     It uses `daemons_handler_configuration` of each module in order to configure the behavior of the fixture.
 
     The  `daemons_handler_configuration` should be a dictionary with the following keys:
         daemons (list, optional): List with every daemon to be used by the module. In case of empty a ValueError
             will be raised
-        all_daemons (boolean): Configure to restart all wazuh services. Default `False`.
+        all_daemons (boolean): Configure to restart all assetguard services. Default `False`.
         ignore_errors (boolean): Configure if errors in daemon handling should be ignored. This option is available
         in order to use this fixture along with invalid configuration. Default `False`
 
@@ -346,19 +346,19 @@ def daemons_handler_implementation(request: pytest.FixtureRequest) -> None:
                 raise ValueError
 
         if 'all_daemons' in config:
-            logger.debug(f"Wazuh control set to {config['all_daemons']}")
+            logger.debug(f"AssetGuard control set to {config['all_daemons']}")
             all_daemons = config['all_daemons']
 
         if 'ignore_errors' in config:
             logger.debug(f"Ignore error set to {config['ignore_errors']}")
             ignore_errors = config['ignore_errors']
     else:
-        logger.debug("Wazuh control set to 'all_daemons'")
+        logger.debug("AssetGuard control set to 'all_daemons'")
         all_daemons = True
 
     try:
         if all_daemons:
-            logger.debug('Restarting wazuh using wazuh-control')
+            logger.debug('Restarting assetguard using assetguard-control')
             services.control_service('restart')
         else:
             for daemon in daemons:
@@ -378,7 +378,7 @@ def daemons_handler_implementation(request: pytest.FixtureRequest) -> None:
     yield
 
     if all_daemons:
-        logger.debug('Stopping wazuh using wazuh-control')
+        logger.debug('Stopping assetguard using assetguard-control')
         services.control_service('stop')
     else:
         if daemons == API_DAEMONS_REQUIREMENTS: daemons.reverse()  # Stop in reverse, otherwise the next start will fail
@@ -408,13 +408,13 @@ def daemons_handler_module(request: pytest.FixtureRequest) -> None:
 
 
 @pytest.fixture(scope='module')
-def restart_wazuh_daemon_after_finishing_module(daemon: str = None) -> None:
-    """Restart a Wazuh daemons and clears the wazuh log after the test module finishes execution.
+def restart_assetguard_daemon_after_finishing_module(daemon: str = None) -> None:
+    """Restart a AssetGuard daemons and clears the assetguard log after the test module finishes execution.
     Args:
         daemon (str): provide which daemon to restart. If None, all daemons will be restarted.
     """
     yield
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(ASSETGUARD_LOG_PATH)
     services.control_service("restart", daemon=daemon)
 
 
@@ -422,7 +422,7 @@ def configure_local_internal_options_handler(request: pytest.FixtureRequest, tes
     """Configure the local internal options file.
 
     Takes the `local_internal_options` variable from the request.
-    The `local_internal_options` is a dict with keys and values as the Wazuh `local_internal_options` format.
+    The `local_internal_options` is a dict with keys and values as the AssetGuard `local_internal_options` format.
     E.g.: local_internal_options = {'monitord.rotate_log': '0', 'syscheck.debug': '0' }
 
     Args:
@@ -457,7 +457,7 @@ def configure_local_internal_options(request: pytest.FixtureRequest, test_metada
     """Configure the local internal options file.
 
     Takes the `local_internal_options` variable from the request.
-    The `local_internal_options` is a dict with keys and values as the Wazuh `local_internal_options` format.
+    The `local_internal_options` is a dict with keys and values as the AssetGuard `local_internal_options` format.
     E.g.: local_internal_options = {'monitord.rotate_log': '0', 'syscheck.debug': '0' }
 
     Args:
@@ -486,7 +486,7 @@ def configure_sockets_environment_implementation(request: pytest.FixtureRequest)
     """
     monitored_sockets_params = getattr(request.module, 'monitored_sockets_params')
 
-    # Stop wazuh-service and ensure all daemons are stopped
+    # Stop assetguard-service and ensure all daemons are stopped
     services.control_service('stop')
     services.wait_expected_daemon_status(running_condition=False)
 
@@ -603,7 +603,7 @@ def connect_to_sockets_module(request: pytest.FixtureRequest) -> None:
 
 @pytest.fixture(scope='module')
 def mock_agent_module():
-    """Fixture to create a mocked agent in wazuh databases"""
+    """Fixture to create a mocked agent in assetguard databases"""
     agent_id = mocking.create_mocked_agent(name='mocked_agent')
 
     yield agent_id
@@ -649,18 +649,18 @@ def ensure_merged_mg() -> None:
     """Write the default dummy merged.mg whose MD5 matches RemotedSimulator.DEFAULT_MERGED_SUM.
 
     On Linux the file is created with group-writable permissions (0o660) and
-    owned by root:wazuh so that wazuh-agentd can overwrite it when receiving
+    owned by root:assetguard so that assetguard-agentd can overwrite it when receiving
     a new merged.mg from the manager (or simulator).
     """
-    os.makedirs(os.path.dirname(WAZUH_MERGED_MG_PATH), exist_ok=True)
-    with open(WAZUH_MERGED_MG_PATH, 'wb') as f:
+    os.makedirs(os.path.dirname(ASSETGUARD_MERGED_MG_PATH), exist_ok=True)
+    with open(ASSETGUARD_MERGED_MG_PATH, 'wb') as f:
         f.write(RemotedSimulator.DEFAULT_MERGED_MG_CONTENT)
     if sys.platform != platforms.WINDOWS:
         import grp
-        os.chmod(WAZUH_MERGED_MG_PATH, 0o660)
+        os.chmod(ASSETGUARD_MERGED_MG_PATH, 0o660)
         try:
-            wazuh_gid = grp.getgrnam('wazuh').gr_gid
-            os.chown(WAZUH_MERGED_MG_PATH, -1, wazuh_gid)
+            assetguard_gid = grp.getgrnam('assetguard').gr_gid
+            os.chown(ASSETGUARD_MERGED_MG_PATH, -1, assetguard_gid)
         except (KeyError, PermissionError):
             pass
 
@@ -672,11 +672,11 @@ def clean_merged_mg():
     After the test, any merged.mg left by the simulator push is also removed
     to avoid leaking state between tests.
     """
-    if os.path.exists(WAZUH_MERGED_MG_PATH):
-        os.remove(WAZUH_MERGED_MG_PATH)
+    if os.path.exists(ASSETGUARD_MERGED_MG_PATH):
+        os.remove(ASSETGUARD_MERGED_MG_PATH)
     yield
-    if os.path.exists(WAZUH_MERGED_MG_PATH):
-        os.remove(WAZUH_MERGED_MG_PATH)
+    if os.path.exists(ASSETGUARD_MERGED_MG_PATH):
+        os.remove(ASSETGUARD_MERGED_MG_PATH)
 
 
 @pytest.fixture()
@@ -777,19 +777,19 @@ def add_user_in_rbac(request):
 @pytest.fixture(autouse=True)
 def autostart_simulators(request: pytest.FixtureRequest) -> None:
     """
-    Fixture for starting simulators in wazuh-agent executions.
+    Fixture for starting simulators in assetguard-agent executions.
 
     This fixture starts both Authd and Remoted simulators only in the cases where the service is not
-    WAZUH_MANAGER, and when the test function is not already using the simulator fixture, if it does
+    ASSETGUARD_MANAGER, and when the test function is not already using the simulator fixture, if it does
     use one of them, only start the remaining simulator.
 
-    This is required so all wazuh-agent instances are being tested with the wazuh-manager connection
+    This is required so all assetguard-agent instances are being tested with the assetguard-manager connection
     being mocked.
     """
     create_authd = 'authd_simulator' not in request.fixturenames
     create_remoted = 'remoted_simulator' not in request.fixturenames
 
-    if services.get_service() is not WAZUH_MANAGER:
+    if services.get_service() is not ASSETGUARD_MANAGER:
         authd = AuthdSimulator() if create_authd else None
         remoted = RemotedSimulator() if create_remoted else None
 
@@ -798,7 +798,7 @@ def autostart_simulators(request: pytest.FixtureRequest) -> None:
 
     yield
 
-    if services.get_service() is not WAZUH_MANAGER:
+    if services.get_service() is not ASSETGUARD_MANAGER:
         authd.shutdown() if create_authd else None
         remoted.shutdown() if create_remoted else None
 

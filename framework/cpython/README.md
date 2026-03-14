@@ -1,13 +1,13 @@
-# Wazuh server embedded Python Builder Script
+# AssetGuard server embedded Python Builder Script
 
-This Bash script is used to **build Embedded CPython and/or its dependencies for Wazuh** using a preconfigured Docker container.
+This Bash script is used to **build Embedded CPython and/or its dependencies for AssetGuard** using a preconfigured Docker container.
 
 It automatically detects the host architecture, pulls the correct image from **GitHub Container Registry (GHCR)**, and runs the compilation process inside the container.
 
 ## Main Features
 
 - Automatically detects the host architecture (`amd64` / `arm64`)
-- Reads the Wazuh version from `VERSION.json`
+- Reads the AssetGuard version from `VERSION.json`
 - Pulls the appropriate Docker image for the detected architecture and version
 - Runs the `compile.sh` build script inside the container
 - Exports generated artifacts to the `./output` directory
@@ -40,14 +40,14 @@ GHCR_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 
 | Variable        | Value          | Description |
 |-----------------|----------------|-------------|
-| `WAZUH_BRANCH`  | `<branch>`     | Wazuh branch to use during the build. Optional to not use local code. |
+| `ASSETGUARD_BRANCH`  | `<branch>`     | AssetGuard branch to use during the build. Optional to not use local code. |
 | `BUILD_CPYTHON` | `true/false`   | Enables CPython build |
 | `BUILD_DEPS`    | `true/false`   | Enables dependency build |
 
 Example:
 
 ```bash
-WAZUH_BRANCH=enhancement/my-branch
+ASSETGUARD_BRANCH=enhancement/my-branch
 BUILD_CPYTHON=true
 BUILD_DEPS=true
 ```
@@ -59,7 +59,7 @@ BUILD_DEPS=true
 From the directory where the script is located:
 
 ```bash
-BUILD_CPYTHON=[true/false] BUILD_DEPS=[true/false] WAZUH_BRANCH=[wazuh-branch] ./generate-cpython.sh
+BUILD_CPYTHON=[true/false] BUILD_DEPS=[true/false] ASSETGUARD_BRANCH=[assetguard-branch] ./generate-cpython.sh
 ```
 
 The script will:

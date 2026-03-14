@@ -1,12 +1,12 @@
 - name: DROP_PRIVILEGES_ENABLED
-  description: Check that the user who has started the 'wazuh-manager-apid' daemon is 'wazuh-manager'
+  description: Check that the user who has started the 'assetguard-manager-apid' daemon is 'assetguard-manager'
   configuration_parameters:
     DROP_PRIVILEGES: yes
   metadata:
-    expected_user: wazuh-manager
+    expected_user: assetguard-manager
 
 - name: DROP_PRIVILEGES_DISABLED
-  description: Check that the user who has started the 'wazuh-manager-apid' daemon is 'root'
+  description: Check that the user who has started the 'assetguard-manager-apid' daemon is 'root'
   configuration_parameters:
     DROP_PRIVILEGES: no
   metadata:

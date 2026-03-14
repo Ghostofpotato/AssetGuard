@@ -160,7 +160,7 @@ The following database paths are hard-coded and cannot be changed:
 - **FIM Database**: `queue/fim/db/fim.db`
 - **Sync Protocol Database**: `queue/fim/db/fim_sync.db` (`FIM_SYNC_PROTOCOL_DB_PATH`)
 
-These paths are relative to the Wazuh installation directory.
+These paths are relative to the AssetGuard installation directory.
 
 ---
 

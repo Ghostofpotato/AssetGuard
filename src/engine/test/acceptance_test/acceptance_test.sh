@@ -9,7 +9,7 @@ STATS_MONITOR_POLL_TIME_SECS=0.1
 : "${BT_TIME:=10}"
 BT_RATE=0
 BT_INPUT=./utils/test_logs.txt
-BT_OUTPUT=${WAZUH_HOME}/logs/alerts/alerts-ECS.json
+BT_OUTPUT=${ASSETGUARD_HOME}/logs/alerts/alerts-ECS.json
 
 # Engine Configurations
 : "${ORCHESTRATOR_THREADS:=1}"
@@ -19,21 +19,21 @@ BT_OUTPUT=${WAZUH_HOME}/logs/alerts/alerts-ECS.json
 TEST_NAME="engine-bench-${ORCHESTRATOR_THREADS}-threads-${RANDOM}"
 
 # check engine is running
-if pgrep -x "wazuh-manager-analysisd" > /dev/null; then
-    echo "wazuh-manager-analysisd will be restarted."
-    pkill -f ${WAZUH_HOME}/bin/wazuh-manager-analysisd
+if pgrep -x "assetguard-manager-analysisd" > /dev/null; then
+    echo "assetguard-manager-analysisd will be restarted."
+    pkill -f ${ASSETGUARD_HOME}/bin/assetguard-manager-analysisd
     sleep 1
 fi
 
-WAZUH_ORCHESTRATOR_THREADS="${ORCHESTRATOR_THREADS}" ${WAZUH_HOME}/bin/wazuh-manager-analysisd &
+ASSETGUARD_ORCHESTRATOR_THREADS="${ORCHESTRATOR_THREADS}" ${ASSETGUARD_HOME}/bin/assetguard-manager-analysisd &
 
 sleep 5
 
-python3 ./utils/monitor.py -s $STATS_MONITOR_POLL_TIME_SECS -b wazuh-manager-analysisd -n $TEST_NAME &
+python3 ./utils/monitor.py -s $STATS_MONITOR_POLL_TIME_SECS -b assetguard-manager-analysisd -n $TEST_NAME &
 
 MONITOR_PID=$!
 
-go run ./utils/benchmark_tool.go -o $BT_OUTPUT -t $BT_TIME  -r $BT_RATE -i $BT_INPUT -T  | tee "engine-bench-${WAZUH_ORCHESTRATOR_THREADS}-threads-${RANDOM}.log"
+go run ./utils/benchmark_tool.go -o $BT_OUTPUT -t $BT_TIME  -r $BT_RATE -i $BT_INPUT -T  | tee "engine-bench-${ASSETGUARD_ORCHESTRATOR_THREADS}-threads-${RANDOM}.log"
 
 kill -INT $MONITOR_PID
 

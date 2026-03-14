@@ -2,8 +2,8 @@
 
 # DEB helper functions
 
-# Wazuh package builder
-# Copyright (C) 2015, Wazuh Inc.
+# AssetGuard package builder
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@ setup_build(){
     package_name="$4"
     debug="$5"
 
-    cp -pr ${specs_path}/wazuh-${BUILD_TARGET}/debian ${sources_dir}/debian
+    cp -pr ${specs_path}/assetguard-${BUILD_TARGET}/debian ${sources_dir}/debian
     cp -p /tmp/gen_permissions.sh ${sources_dir}
 
     # Generating directory structure to build the .deb package
@@ -33,7 +33,7 @@ setup_build(){
     sed -i "s#export CC.*#export CC=${CC}#g" ${sources_dir}/debian/rules
     sed -i "s#export CXX.*#export CXX=${CXX}#g" ${sources_dir}/debian/rules
     sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=${INSTALLATION_PATH}:g" ${sources_dir}/debian/rules
-    sed -i "s:DIR=\"/var/wazuh-manager\":DIR=\"${INSTALLATION_PATH}\":g" ${sources_dir}/debian/{preinst,postinst,prerm,postrm}
+    sed -i "s:DIR=\"/var/assetguard-manager\":DIR=\"${INSTALLATION_PATH}\":g" ${sources_dir}/debian/{preinst,postinst,prerm,postrm}
 }
 
 set_debug(){
@@ -61,10 +61,10 @@ build_package(){
 }
 
 get_package_and_checksum(){
-    wazuh_version="$1"
+    assetguard_version="$1"
     short_commit_hash="$2"
-    base_name="wazuh-${BUILD_TARGET}_${wazuh_version}-${REVISION}"
-    symbols_base_name="wazuh-${BUILD_TARGET}-dbg_${wazuh_version}-${REVISION}"
+    base_name="assetguard-${BUILD_TARGET}_${assetguard_version}-${REVISION}"
+    symbols_base_name="assetguard-${BUILD_TARGET}-dbg_${assetguard_version}-${REVISION}"
 
     deb_file="${base_name}_${ARCHITECTURE_TARGET}.deb"
     symbols_deb_file="${symbols_base_name}_${ARCHITECTURE_TARGET}.deb"
@@ -78,10 +78,10 @@ get_package_and_checksum(){
     pkg_path="${build_dir}/${BUILD_TARGET}"
     if [[ "${checksum}" == "yes" ]]; then
         # deb files are generated with an '_' after the target. Debug symbols file, with a '-'. We use this to tell one from the other.
-        cd ${pkg_path} && sha512sum wazuh-${BUILD_TARGET}_*deb > /var/local/wazuh/${deb_file}.sha512
-        sha512sum wazuh-${BUILD_TARGET}-*deb > /var/local/wazuh/${symbols_deb_file}.sha512
+        cd ${pkg_path} && sha512sum assetguard-${BUILD_TARGET}_*deb > /var/local/assetguard/${deb_file}.sha512
+        sha512sum assetguard-${BUILD_TARGET}-*deb > /var/local/assetguard/${symbols_deb_file}.sha512
     fi
 
-    find ${pkg_path} -type f -name "wazuh-${BUILD_TARGET}_*deb" -exec mv {} /var/local/wazuh/${deb_file} \;
-    find ${pkg_path} -type f -name "wazuh-${BUILD_TARGET}-dbg_*deb" -exec mv {} /var/local/wazuh/${symbols_deb_file} \;
+    find ${pkg_path} -type f -name "assetguard-${BUILD_TARGET}_*deb" -exec mv {} /var/local/assetguard/${deb_file} \;
+    find ${pkg_path} -type f -name "assetguard-${BUILD_TARGET}-dbg_*deb" -exec mv {} /var/local/assetguard/${symbols_deb_file} \;
 }

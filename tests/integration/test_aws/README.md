@@ -2,13 +2,13 @@
 
 ## Description
 
-It is a _wodle based_ module that tests the capabilities of the Wazuh AWS integration, pulling logs from different
+It is a _wodle based_ module that tests the capabilities of the AssetGuard AWS integration, pulling logs from different
 buckets and services.
 
 ## Tests directory structure
 
 ```bash
-wazuh/tests/integration/test_aws
+assetguard/tests/integration/test_aws
 ├── data
 │   ├── configuration_template
 │   │   ├── basic_test_module
@@ -51,9 +51,9 @@ wazuh/tests/integration/test_aws
 
 - [Proper testing environment](#setting-up-a-test-environment)
 
-- [Wazuh](https://github.com/wazuh/qa-integration-framework) repository.
+- [AssetGuard](https://github.com/assetguard/qa-integration-framework) repository.
 
-- [Testing framework](https://github.com/wazuh/qa-integration-framework) installed.
+- [Testing framework](https://github.com/assetguard/qa-integration-framework) installed.
 
 - An Inspector assessment with test data in AWS. The rest of the necessary resources are created in test execution time.
 
@@ -64,7 +64,7 @@ For a step-by-step example guide using linux go to the [test setup section](#lin
 
 - **Credentials**:
     Set the credentials at `$HOME/.aws/credentials` (being `HOME` the home directory of the user who runs the tests, 
- more information [here](https://documentation.wazuh.com/current/amazon/services/prerequisites/credentials.html#profiles) with the content:
+ more information [here](https://documentation.assetguard.com/current/amazon/services/prerequisites/credentials.html#profiles) with the content:
 
 ```ini
 [default]
@@ -77,7 +77,7 @@ aws_secret_access_key = <secret-key-value>
 ```
 
 Set the configurations at `$HOME/.aws/config` (being `HOME` the home directory of the user who runs the tests, 
- more information [here](https://documentation.wazuh.com/current/amazon/services/prerequisites/credentials.html#profiles) with the content:
+ more information [here](https://documentation.assetguard.com/current/amazon/services/prerequisites/credentials.html#profiles) with the content:
 
  ```ini
 [default]
@@ -151,16 +151,16 @@ tests modify the system date and there could be some synchronization issues.
 This guide will cover the following platforms: [Linux](#linux).
 
 You can run these tests on a manager or an agent. In case you are using an agent, please remember to register it and use
-the correct version (Wazuh branch).
+the correct version (AssetGuard branch).
 
-_We are skipping Wazuh installation steps. For further information,
-check [Wazuh documentation](https://documentation.wazuh.com/current/installation-guide/index.html)._
+_We are skipping AssetGuard installation steps. For further information,
+check [AssetGuard documentation](https://documentation.assetguard.com/current/installation-guide/index.html)._
 
 ### Linux
 
 _We are using **Ubuntu 22.04** for this example:_
 
-- Install **Wazuh**
+- Install **AssetGuard**
 
 - Install Python tests dependencies:
 
@@ -168,11 +168,11 @@ _We are using **Ubuntu 22.04** for this example:_
     # Install pip
     apt install python3-pip git -y
 
-    # Clone `wazuh` repository within your testing environment
-    git clone https://github.com/wazuh/wazuh.git
+    # Clone `assetguard` repository within your testing environment
+    git clone https://github.com/assetguard/assetguard.git
 
     # Clone the `qa-integration-framework` repository withing your testing environment
-    git clone https://github.com/wazuh/qa-integration-framework.git
+    git clone https://github.com/assetguard/qa-integration-framework.git
   
     # Install tests dependencies
     python3 -m pip install qa-integration-framework/
@@ -192,7 +192,7 @@ from the closest one, it will look for the next one (if possible) until reaching
 need to run every test from the following path, where the general _conftest_ is:
 
 ```shell script
-    cd wazuh/tests/integration/test_aws/
+    cd assetguard/tests/integration/test_aws/
 ```
 
 To run any test, we just need to call `pytest` from `python3` using the following line:
@@ -224,10 +224,10 @@ check its documentation for further information.
 #### AWS integration tests example
 
 ```bash
-#root@wazuh-master:/wazuh/tests/integration# pytest -x test_aws/ --disable-warnings
+#root@assetguard-master:/assetguard/tests/integration# pytest -x test_aws/ --disable-warnings
 ==================================== test session starts ====================================
 platform linux -- Python 3.10.12, pytest-7.1.2, pluggy-1.2.0
-rootdir: /wazuh/tests/integration, configfile: pytest.ini
+rootdir: /assetguard/tests/integration, configfile: pytest.ini
 plugins: testinfra-5.0.0, metadata-3.0.0, html-3.1.1
 collected 195 items
 

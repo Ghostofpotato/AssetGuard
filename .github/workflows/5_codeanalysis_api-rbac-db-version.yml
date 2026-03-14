@@ -5,8 +5,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/5_codeanalysis_api-rbac-db-version.yml"
-      - "framework/wazuh/rbac/default/**"
-      - "framework/wazuh/rbac/orm.py"
+      - "framework/assetguard/rbac/default/**"
+      - "framework/assetguard/rbac/orm.py"
 
 jobs:
   guard:
@@ -23,9 +23,9 @@ jobs:
         with:
           filters: |
             rbac_defaults:
-              - 'framework/wazuh/rbac/default/**'
+              - 'framework/assetguard/rbac/default/**'
             orm_handler:
-              - 'framework/wazuh/rbac/orm.py'
+              - 'framework/assetguard/rbac/orm.py'
 
       - name: Require API RBAC DB version bump when defaults changed
         if: steps.filter.outputs.rbac_defaults == 'true'
@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
           git fetch origin ${{ github.base_ref }}
-          DB_VERSION_CHANGED=$(git diff "origin/${{ github.base_ref }}" HEAD -- framework/wazuh/rbac/orm.py | grep -U0 'CURRENT_ORM_VERSION' | wc -l)
+          DB_VERSION_CHANGED=$(git diff "origin/${{ github.base_ref }}" HEAD -- framework/assetguard/rbac/orm.py | grep -U0 'CURRENT_ORM_VERSION' | wc -l)
           if [ "$DB_VERSION_CHANGED" -eq "0" ]; then
             echo "Error: CURRENT_ORM_VERSION was not bumped in orm.py."
             exit 1

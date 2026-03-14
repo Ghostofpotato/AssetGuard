@@ -14,4 +14,4 @@
     (这是web服务器, 数据库服务器等的理想配置方法)
 
   - 要获得更多的信息, 请访问:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

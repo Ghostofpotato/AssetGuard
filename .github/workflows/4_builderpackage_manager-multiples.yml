@@ -1,11 +1,11 @@
-name: 4.X - Package - Build multiple Wazuh Manager Packages
+name: 4.X - Package - Build multiple AssetGuard Manager Packages
 
 on:
   workflow_dispatch:
 
 jobs:
   select-targets:
-    name: Select build targets (Wazuh Managers)
+    name: Select build targets (AssetGuard Managers)
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.result }}
@@ -23,8 +23,8 @@ jobs:
             core.info('Generated matrix: ' + JSON.stringify(matrix));
             return { include: matrix };
           result-encoding: json
-  build-wazuh-manager:
-    name: Build Wazuh Manager
+  build-assetguard-manager:
+    name: Build AssetGuard Manager
     needs: select-targets
     strategy:
         matrix: ${{ fromJSON(needs.select-targets.outputs.matrix) }}

@@ -13,7 +13,7 @@ The `test suites` set of **os_regex_execute** is defined in [test_os_regex_execu
 ]
 ```
 
-Each `test suite` uses a [regex_matching](https://github.com/wazuh/wazuh/blob/v4.3.5/src/os_regex/os_regex.h#L45-L49) structure, which is initially empty and is shared between its `unit tests`, allowing to test the memory usage. These suites are JSON objects with the following structure:
+Each `test suite` uses a [regex_matching](https://github.com/assetguard/assetguard/blob/v4.3.5/src/os_regex/os_regex.h#L45-L49) structure, which is initially empty and is shared between its `unit tests`, allowing to test the memory usage. These suites are JSON objects with the following structure:
 
 ```json
 {
@@ -38,10 +38,10 @@ The `unit tests` are also JSON objects that have a format similar to the followi
   "ignore_result": false,
   "debug": false,
   "pattern": "^Some pattern in a (\\w+) ",
-  "log": "Some pattern in a Wazuh log.",
+  "log": "Some pattern in a AssetGuard log.",
   "end_match": " log.",
   "captured_groups": [
-    "Wazuh"
+    "AssetGuard"
   ]
 }
 ```

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 
 
 LOCK=./var/upgrade/upgrade_in_progress_pid
@@ -17,24 +17,24 @@ echo $$ > $LOCK
 echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade started." >> ./logs/upgrade.log
 
 OS=$(uname)
-WAZUH_HOME=$(pwd)
+ASSETGUARD_HOME=$(pwd)
 
 if [ -z "${INSTALLDIR}" ]; then
-    INSTALLDIR="${WAZUH_HOME}"
+    INSTALLDIR="${ASSETGUARD_HOME}"
 fi
 
 echo "$(date +"%Y/%m/%d %H:%M:%S") - Checking execution path." >> ./logs/upgrade.log
 
 
 if [[ "$OS" == "Darwin" ]]; then
-    if [ "${WAZUH_HOME}" != "/Library/Ossec" ]; then
+    if [ "${ASSETGUARD_HOME}" != "/Library/Ossec" ]; then
         echo "$(date +"%Y/%m/%d %H:%M:%S") - Execution path is wrong (it should be /Library/Ossec), interrupting upgrade." >> ./logs/upgrade.log
         echo -ne "2" > ./var/upgrade/upgrade_result
         rm -f $LOCK
         exit 1
     fi
 elif [[ "$OS" == "Linux" ]]; then
-    if [ "${WAZUH_HOME}" != "${INSTALLDIR}" ]; then
+    if [ "${ASSETGUARD_HOME}" != "${INSTALLDIR}" ]; then
         echo "$(date +"%Y/%m/%d %H:%M:%S") - Execution path is wrong (it should be ${INSTALLDIR}), interrupting upgrade." >> ./logs/upgrade.log
         echo -ne "2" > ./var/upgrade/upgrade_result
         rm -f $LOCK
@@ -48,11 +48,11 @@ else
 fi
 
 if [[ "$OS" == "Darwin" ]]; then
-    installer -pkg ./var/upgrade/wazuh-agent* -target / >> ./logs/upgrade.log 2>&1
+    installer -pkg ./var/upgrade/assetguard-agent* -target / >> ./logs/upgrade.log 2>&1
 elif [[ "$OS" == "Linux" ]]; then
     if find ./var/upgrade/ -mindepth 1 -maxdepth 1 -type f -name "*.rpm" | read; then
         if command -v rpm >/dev/null 2>&1; then
-            rpm -UFvh ./var/upgrade/wazuh-agent* >> ./logs/upgrade.log 2>&1
+            rpm -UFvh ./var/upgrade/assetguard-agent* >> ./logs/upgrade.log 2>&1
         else
             echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed. RPM package found but rpm command not found." >> ./logs/upgrade.log
             echo -ne "2" > ./var/upgrade/upgrade_result
@@ -61,7 +61,7 @@ elif [[ "$OS" == "Linux" ]]; then
         fi
     elif find ./var/upgrade/ -mindepth 1 -maxdepth 1 -type f -name "*.deb" | read; then
         if command -v dpkg >/dev/null 2>&1; then
-            dpkg -i --force-confdef ./var/upgrade/wazuh-agent* >> ./logs/upgrade.log 2>&1
+            dpkg -i --force-confdef ./var/upgrade/assetguard-agent* >> ./logs/upgrade.log 2>&1
         else
             echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed. DEB package found but dpkg command not found." >> ./logs/upgrade.log
             echo -ne "2" > ./var/upgrade/upgrade_result
@@ -70,7 +70,7 @@ elif [[ "$OS" == "Linux" ]]; then
         fi
     elif find ./var/upgrade/ -mindepth 1 -maxdepth 1 -type f -name "*.apk" | read; then
         if command -v apk >/dev/null 2>&1; then
-            apk add --allow-untrusted --force ./var/upgrade/wazuh-agent* >> ./logs/upgrade.log 2>&1
+            apk add --allow-untrusted --force ./var/upgrade/assetguard-agent* >> ./logs/upgrade.log 2>&1
         else
             echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed. APK package found but apk command not found." >> ./logs/upgrade.log
             echo -ne "2" > ./var/upgrade/upgrade_result
@@ -101,19 +101,19 @@ RESULT=$?
 echo "$(date +"%Y/%m/%d %H:%M:%S") - Installation result = ${RESULT}" >> ./logs/upgrade.log
 
 # Restart Agent
-echo "$(date +"%Y/%m/%d %H:%M:%S") - Checking for Wazuh Agent control script." >> ./logs/upgrade.log
+echo "$(date +"%Y/%m/%d %H:%M:%S") - Checking for AssetGuard Agent control script." >> ./logs/upgrade.log
 
-if [ -f "./bin/wazuh-control" ]; then
-    echo "$(date +"%Y/%m/%d %H:%M:%S") - Restarting Wazuh Agent." >> ./logs/upgrade.log
-    ./bin/wazuh-control restart >> ./logs/upgrade.log 2>&1
+if [ -f "./bin/assetguard-control" ]; then
+    echo "$(date +"%Y/%m/%d %H:%M:%S") - Restarting AssetGuard Agent." >> ./logs/upgrade.log
+    ./bin/assetguard-control restart >> ./logs/upgrade.log 2>&1
 elif [ -f "./bin/ossec-control" ]; then
-    echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed: wazuh-control not found. Attempting to restart using ossec-control." >> ./logs/upgrade.log
+    echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed: assetguard-control not found. Attempting to restart using ossec-control." >> ./logs/upgrade.log
     ./bin/ossec-control restart >> ./logs/upgrade.log 2>&1
     echo -ne "2" > ./var/upgrade/upgrade_result
     rm -f $LOCK
     exit 1
 else
-    echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed: Neither wazuh-control nor ossec-control were found." >> ./logs/upgrade.log
+    echo "$(date +"%Y/%m/%d %H:%M:%S") - Upgrade failed: Neither assetguard-control nor ossec-control were found." >> ./logs/upgrade.log
     echo -ne "2" > ./var/upgrade/upgrade_result
     rm -f $LOCK
     exit 1
@@ -126,7 +126,7 @@ sleep 1
 status="pending"
 COUNTER=30
 while [ "$status" != "connected" -a $COUNTER -gt 0 ]; do
-    . ./var/run/wazuh-agentd.state >> ./logs/upgrade.log 2>&1
+    . ./var/run/assetguard-agentd.state >> ./logs/upgrade.log 2>&1
     echo "$(date +"%Y/%m/%d %H:%M:%S") - Waiting connection... Remaining attempts: ${COUNTER}." >> ./logs/upgrade.log
     sleep 1
     COUNTER=$[COUNTER - 1]

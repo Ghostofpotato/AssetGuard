@@ -1,7 +1,7 @@
 {
-    "name": "Wazuh Engine API",
+    "name": "AssetGuard Engine API",
     "version": "0.1.1",
-    "description": "Wazuh Engine API documentation",
-    "title": "Wazuh Engine API",
-    "url": "/run/wazuh-server/engine.socket"
+    "description": "AssetGuard Engine API documentation",
+    "title": "AssetGuard Engine API",
+    "url": "/run/assetguard-server/engine.socket"
 }

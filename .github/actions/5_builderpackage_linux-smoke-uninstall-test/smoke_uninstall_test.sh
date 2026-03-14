@@ -44,12 +44,12 @@ set_dummy_manager_ip(){
 }
 
 save_package_manager_package_status(){
-    output=$($check_package_status "wazuh-agent" 2>&1)
+    output=$($check_package_status "assetguard-agent" 2>&1)
     echo "$output" | tee /packages/package_manager_package_status.log
 }
 
 start_agent(){
-    /var/ossec/bin/wazuh-control start
+    /var/ossec/bin/assetguard-control start
 }
 
 check_test_results(){
@@ -70,11 +70,11 @@ check_test_results(){
 
 main() {
     set_utils
-    package_name="/packages/$(ls /packages | grep "wazuh.*$package_extension$" | grep -Ev "dbg|debug")"
+    package_name="/packages/$(ls /packages | grep "assetguard.*$package_extension$" | grep -Ev "dbg|debug")"
     package_operation "$package_name" "install"
     set_dummy_manager_ip
     start_agent
-    package_operation "wazuh-agent" "uninstall"
+    package_operation "assetguard-agent" "uninstall"
     save_package_manager_package_status
     check_test_results
 }

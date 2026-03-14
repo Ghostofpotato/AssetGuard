@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -11,10 +11,10 @@ from connexion.lifecycle import ConnexionResponse
 from api.constants import INSTALLATION_UID_KEY, UPDATE_INFORMATION_KEY
 from api.controllers.test.utils import CustomAffectedItems
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
+with patch('assetguard.common.assetguard_uid'):
+    with patch('assetguard.common.assetguard_gid'):
+        sys.modules['assetguard.rbac.orm'] = MagicMock()
+        import assetguard.rbac.decorators
         from api.controllers.cluster_controller import (
             get_api_config, get_cluster_node, get_cluster_nodes,
             get_conf_validation, get_config, get_configuration_node,
@@ -23,12 +23,12 @@ with patch('wazuh.common.wazuh_uid'):
             get_stats_node, get_stats_remoted_node, get_stats_weekly_node,
             get_status, get_status_node, put_restart, update_configuration,
             check_available_version)
-        from wazuh import cluster, common, manager, stats
-        from wazuh.core.manager import query_update_check_service
-        from wazuh.tests.util import RBAC_bypasser
+        from assetguard import cluster, common, manager, stats
+        from assetguard.core.manager import query_update_check_service
+        from assetguard.tests.util import RBAC_bypasser
 
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        assetguard.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['assetguard.rbac.orm']
 
 
 @pytest.mark.asyncio
@@ -543,7 +543,7 @@ async def test_put_restart(mock_dapi, mock_remove, mock_dfunc, mock_request):
     system_nodes_mock.return_value = ['master-node', 'worker-node']
     with patch('api.controllers.cluster_controller.get_system_nodes', return_value=system_nodes_mock), \
     patch('api.controllers.cluster_controller.raise_if_exc', return_value=system_nodes_mock.return_value), \
-    patch('wazuh.manager.manager_restart'):
+    patch('assetguard.manager.manager_restart'):
         result = await put_restart(nodes_list='worker-node')
         f_kwargs = {'node_list': 'worker-node'}
         mock_dapi.assert_called_once_with(f=manager.restart,

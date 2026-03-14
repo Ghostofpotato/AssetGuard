@@ -2,7 +2,7 @@ import os
 import json
 from engine_test.conf.integration import IntegrationConf
 
-DEFAULT_CONFIG_FILE = "/var/wazuh-manager/etc/engine-test.conf"
+DEFAULT_CONFIG_FILE = "/var/assetguard-manager/etc/engine-test.conf"
 
 
 class ConfigDatabase:
@@ -41,10 +41,10 @@ class ConfigDatabase:
                 if use_default:
                     try:
                         import grp
-                        gid = grp.getgrnam("wazuh").gr_gid
+                        gid = grp.getgrnam("assetguard").gr_gid
                         os.chown(self.config_file, -1, gid)
                     except Exception as e:
-                        print(f"Warning: wazuh group cannot be set for {self.config_file}. Error: {e}")
+                        print(f"Warning: assetguard group cannot be set for {self.config_file}. Error: {e}")
             else:
                 raise Exception(f"Configuration file already exists: {self.config_file}")
         except Exception as e:

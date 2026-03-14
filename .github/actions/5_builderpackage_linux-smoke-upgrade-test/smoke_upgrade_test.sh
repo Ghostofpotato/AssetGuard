@@ -52,7 +52,7 @@ download_package(){
 }
 
 save_package_manager_upgraded_version(){
-    if ! output=$($get_package_version "wazuh-agent"); then
+    if ! output=$($get_package_version "assetguard-agent"); then
         log_error "Failed to get package version"
     fi
     output="${output%%-*}"
@@ -60,21 +60,21 @@ save_package_manager_upgraded_version(){
 }
 
 save_agent_reported_version(){
-    if ! output=$(/var/ossec/bin/wazuh-control info); then
+    if ! output=$(/var/ossec/bin/assetguard-control info); then
         log_error "Failed to get agent info"
     fi
     echo "$output" | tee /packages/agent_reported_version.log
 }
 
 save_agent_daemons_status(){
-    if ! output=$(/var/ossec/bin/wazuh-control status); then
+    if ! output=$(/var/ossec/bin/assetguard-control status); then
         log_error "Error: Failed to get agent status"
     fi
     echo "$output" | tee /packages/agent_daemon_status.log
 }
 
 start_agent(){
-    /var/ossec/bin/wazuh-control start
+    /var/ossec/bin/assetguard-control start
 }
 
 check_test_results(){
@@ -91,7 +91,7 @@ check_test_results(){
         log_error "Agent does not report expected version."
     fi
 
-    services=("wazuh-execd" "wazuh-agentd" "wazuh-syscheckd" "wazuh-logcollector" "wazuh-modulesd")
+    services=("assetguard-execd" "assetguard-agentd" "assetguard-syscheckd" "assetguard-logcollector" "assetguard-modulesd")
     all_started=true
 
     for service in "${services[@]}"; do
@@ -118,7 +118,7 @@ main() {
     download_package "$OLD_PACKAGE_URL"
     package_operation "/old_package/$(basename "$OLD_PACKAGE_URL")" "install"
     set_dummy_manager_ip
-    package_operation "/packages/$(ls /packages | grep "wazuh.*$package_extension$" | grep -Ev "dbg|debug")" "upgrade"
+    package_operation "/packages/$(ls /packages | grep "assetguard.*$package_extension$" | grep -Ev "dbg|debug")" "upgrade"
     start_agent
     save_package_manager_upgraded_version
     save_agent_reported_version

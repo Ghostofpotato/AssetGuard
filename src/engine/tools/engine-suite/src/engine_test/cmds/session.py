@@ -14,7 +14,7 @@ def configure(subparsers):
     session_parser = subparsers.add_parser('session', help='Session manager')
 
     session_parser.add_argument('--api-socket', type=str, default=DefaultSettings.SOCKET_PATH,
-                                help='Path to the Wazuh API socket (default: %(default)s)')
+                                help='Path to the AssetGuard API socket (default: %(default)s)')
 
     # add session subparsers
     session_subparsers = session_parser.add_subparsers(

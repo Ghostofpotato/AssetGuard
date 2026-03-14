@@ -1,5 +1,5 @@
 run-name: Package - Upload pkg_${{ inputs.system }}_server_builder_${{ inputs.architecture }} with tag ${{ inputs.docker_image_tag }}
-name: 6.X - Wazuh 6.0 Package - Upload server images
+name: 6.X - AssetGuard 6.0 Package - Upload server images
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ on:
         required: true
       source_reference:
         description: |
-          Branch from wazuh/wazuh repository to use.
+          Branch from assetguard/assetguard repository to use.
         required: true
 
 jobs:
@@ -42,10 +42,10 @@ jobs:
     name: Package - Upload pkg_${{ inputs.system }}_server_builder_${{ inputs.architecture }} with tag ${{ inputs.docker_image_tag }}
 
     steps:
-      - name: Checkout wazuh/wazuh repository
+      - name: Checkout assetguard/assetguard repository
         uses: actions/checkout@v4
         with:
-          repository: wazuh/wazuh
+          repository: assetguard/assetguard
           ref: ${{ inputs.source_reference }}
 
       - name: Set ARCH

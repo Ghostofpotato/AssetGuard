@@ -17,4 +17,4 @@
     (ideal for webservers, database servers ,etc)
 
   - More information at:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

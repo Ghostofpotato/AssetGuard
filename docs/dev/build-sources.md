@@ -1,14 +1,14 @@
 # Build from Sources
 
-This guide describes how to build Wazuh components from source code.
+This guide describes how to build AssetGuard components from source code.
 
 ## Prerequisites
 
-Before building Wazuh from sources, ensure you have the required toolchain installed as described in the [Development Environment Setup](setup.md) guide.
+Before building AssetGuard from sources, ensure you have the required toolchain installed as described in the [Development Environment Setup](setup.md) guide.
 
 ## Build Server
 
-To build the Wazuh server (manager) components, first install the dependencies, then compile:
+To build the AssetGuard server (manager) components, first install the dependencies, then compile:
 
 ```bash
 make -C src TARGET=server deps
@@ -28,7 +28,7 @@ make -C src TARGET=server INSTALLDIR=/custom   # Install to custom directory
 
 ## Build Agent for UNIX
 
-To build the Wazuh agent for UNIX-like systems (Linux, macOS, BSD, etc.):
+To build the AssetGuard agent for UNIX-like systems (Linux, macOS, BSD, etc.):
 
 ```bash
 make -C src TARGET=agent deps
@@ -48,7 +48,7 @@ make -C src TARGET=agent INSTALLDIR=/custom    # Install to custom directory
 
 ## Build Agent for Windows
 
-To build the Wazuh agent for Windows, you must first install the Windows build requirements (MinGW, Wine, CMocka) as described in the [setup guide](setup.md#windows-agent-build-requirements).
+To build the AssetGuard agent for Windows, you must first install the Windows build requirements (MinGW, Wine, CMocka) as described in the [setup guide](setup.md#windows-agent-build-requirements).
 
 ```bash
 make -C src TARGET=winagent deps

@@ -1,16 +1,16 @@
 """
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
 brief: These tests will check if the 'drop_privileges' setting of the API is working properly.
-       This setting allows the user who starts the 'wazuh-manager-apid' daemon to be different from
-       the 'root' user. The Wazuh API is an open source 'RESTful' API that allows for interaction
-       with the Wazuh manager from a web browser, command line tool like 'cURL' or any script
+       This setting allows the user who starts the 'assetguard-manager-apid' daemon to be different from
+       the 'root' user. The AssetGuard API is an open source 'RESTful' API that allows for interaction
+       with the AssetGuard manager from a web browser, command line tool like 'cURL' or any script
        or program that can make web requests.
 
 components:
@@ -22,11 +22,11 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-apid
-    - wazuh-manager-modulesd
-    - wazuh-manager-analysisd
-    - wazuh-manager-db
-    - wazuh-manager-remoted
+    - assetguard-manager-apid
+    - assetguard-manager-modulesd
+    - assetguard-manager-analysisd
+    - assetguard-manager-db
+    - assetguard-manager-remoted
 
 os_platform:
     - linux
@@ -43,8 +43,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/api/getting-started.html
-    - https://documentation.wazuh.com/current/user-manual/api/configuration.html#drop-privileges
+    - https://documentation.assetguard.com/current/user-manual/api/getting-started.html
+    - https://documentation.assetguard.com/current/user-manual/api/configuration.html#drop-privileges
 
 tags:
     - api
@@ -55,11 +55,11 @@ import pytest
 from pathlib import Path
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.api import CONFIGURATION_TYPES
-from wazuh_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
-from wazuh_testing.constants.paths.api import WAZUH_API_SCRIPT
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.utils.services import search_process_by_command
+from assetguard_testing.constants.api import CONFIGURATION_TYPES
+from assetguard_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
+from assetguard_testing.constants.paths.api import ASSETGUARD_API_SCRIPT
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.utils.services import search_process_by_command
 
 
 # Marks
@@ -86,10 +86,10 @@ def test_drop_privileges(test_configuration, test_metadata, add_configuration, t
                          daemons_handler, wait_for_api_start):
     """
     description: Check if 'drop_privileges' affects the user of the API process. In this test, the 'PID' of the API
-                 process is obtained. After that, it gets the user ('root' or 'wazuh') and checks if it matches the
+                 process is obtained. After that, it gets the user ('root' or 'assetguard') and checks if it matches the
                  'drop_privileges' setting.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     test_phases:
         - setup:
@@ -98,7 +98,7 @@ def test_drop_privileges(test_configuration, test_metadata, add_configuration, t
             - Restart daemons defined in `daemons_handler_configuration` in this module
             - Wait until the API is ready to receive requests
         - test:
-            - Search wazuh-manager-apid process and verify that it is present
+            - Search assetguard-manager-apid process and verify that it is present
             - Get current user of the process
             - Check that the user is the expected
         - teardown:
@@ -117,34 +117,34 @@ def test_drop_privileges(test_configuration, test_metadata, add_configuration, t
             brief: Metadata from the test case.
         - add_configuration:
             type: fixture
-            brief: Add configuration to the Wazuh API configuration files.
+            brief: Add configuration to the AssetGuard API configuration files.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle AssetGuard daemons.
         - wait_for_api_start:
             type: fixture
             brief: Monitor the API log file to detect whether it has been started or not.
 
     assertions:
-        - Verify that when 'drop_privileges' is enabled the user who has started the 'wazuh-manager-apid' daemon is 'wazuh'.
-        - Verify that when 'drop_privileges' is disabled the user who has started the 'wazuh-manager-apid' daemon is 'root'.
+        - Verify that when 'drop_privileges' is enabled the user who has started the 'assetguard-manager-apid' daemon is 'assetguard'.
+        - Verify that when 'drop_privileges' is disabled the user who has started the 'assetguard-manager-apid' daemon is 'root'.
 
     input_description: Different test cases are contained in an external YAML file (cases_drop_privileges.yaml)
                        which includes API configuration parameters.
 
     expected_output:
-        - PID of the 'wazuh-manager-apid' process.
-        - wazuh (if drop_privileges is enabled)
+        - PID of the 'assetguard-manager-apid' process.
+        - assetguard (if drop_privileges is enabled)
         - root (if drop_privileges is disabled)
     """
     expected_user = test_metadata['expected_user']
 
-    # Get wazuh-apid process info
-    api_process = search_process_by_command(WAZUH_API_SCRIPT)
-    assert api_process is not None, f"The process {WAZUH_API_SCRIPT} could not be found"
+    # Get assetguard-apid process info
+    api_process = search_process_by_command(ASSETGUARD_API_SCRIPT)
+    assert api_process is not None, f"The process {ASSETGUARD_API_SCRIPT} could not be found"
 
     # Get current user of the process
     process_stat_file = os.stat("/proc/%d" % api_process.pid)

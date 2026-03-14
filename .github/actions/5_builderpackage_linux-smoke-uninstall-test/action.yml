@@ -1,5 +1,5 @@
-name: 'Test uninstall Wazuh agent package'
-description: 'Test uninstall Wazuh agent package'
+name: 'Test uninstall AssetGuard agent package'
+description: 'Test uninstall AssetGuard agent package'
 
 inputs:
   tested_docker:
@@ -9,7 +9,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run test uninstall Wazuh agent package
+    - name: Run test uninstall AssetGuard agent package
       shell: bash
       run: |
         sudo docker run \

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS agent_metadata (
 | :-------: | ------------------- | --------- | ----------------------------------------------------- | ----------------------- |
 |     ✔️    | `agent_id`          | TEXT      | The unique ID of the agent (e.g., "001").             | `agent.id`              |
 |           | `agent_name`        | TEXT      | The name of the agent.                                | `agent.name`            |
-|           | `agent_version`     | TEXT      | The version of the Wazuh agent.                       | `agent.version`         |
+|           | `agent_version`     | TEXT      | The version of the AssetGuard agent.                       | `agent.version`         |
 |           | `host_architecture` | TEXT      | The hardware architecture of the host (e.g., x86_64). | `host.architecture`     |
 |           | `host_hostname`     | TEXT      | The hostname of the host machine.                     | `host.hostname`         |
 |           | `host_os_name`      | TEXT      | The name of the operating system (e.g., Ubuntu).      | `host.os.name`          |

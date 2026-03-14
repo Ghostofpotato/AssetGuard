@@ -2,7 +2,7 @@
 
 The **Rootcheck** module performs anomaly and behavior-based detection on monitored endpoints to identify potential security threats. It focuses on detecting hidden processes, hidden network ports, unusual file system objects, and network interfaces operating in promiscuous mode.
 
-> **Important Changes in Wazuh 5.0:**
+> **Important Changes in AssetGuard 5.0:**
 > Starting in version 5.0, rootcheck no longer performs signature-based detection of rootkit files and trojans, nor does it support policy checking capabilities. The manager also no longer persists rootcheck data in a database. Rootcheck now operates in a stateless mode, sending real-time alerts without server-side storage.
 >
 > For policy and configuration assessment, use the [Security Configuration Assessment (SCA)](../sca/README.md) module instead.
@@ -62,7 +62,7 @@ grep rootcheck /var/ossec/logs/ossec.log
 
 Force an immediate scan:
 ```bash
-/var/ossec/bin/wazuh-control restart
+/var/ossec/bin/assetguard-control restart
 ```
 
 ## Detection Capabilities
@@ -109,7 +109,7 @@ Scans network interfaces for promiscuous mode, which allows capturing all networ
 
 ## Migration from Deprecated Features
 
-If you were using rootcheck features removed in Wazuh 5.0, here are the recommended alternatives:
+If you were using rootcheck features removed in AssetGuard 5.0, here are the recommended alternatives:
 
 | Removed Feature | Alternative Solution |
 |----------------|---------------------|

@@ -29,30 +29,30 @@ function upsert_certs() {
         rm -rf certs
     fi
 
-    local wazuh_install_script="wazuh-install.sh"
-    local wazuh_install_url="https://packages.wazuh.com/4.14/wazuh-install.sh"
+    local assetguard_install_script="assetguard-install.sh"
+    local assetguard_install_url="https://packages.assetguard.com/4.14/assetguard-install.sh"
     local config_file="config.yml"
 
-    # Download wazuh-install.sh
-    echo "==> Downloading wazuh-install.sh..."
-    curl -sO "${wazuh_install_url}"
-    chmod +x "${wazuh_install_script}"
+    # Download assetguard-install.sh
+    echo "==> Downloading assetguard-install.sh..."
+    curl -sO "${assetguard_install_url}"
+    chmod +x "${assetguard_install_script}"
 
     # Create config.yml
     echo "==> Creating config.yml..."
     cat > "${config_file}" << 'EOF'
 nodes:
-  # Wazuh indexer nodes
+  # AssetGuard indexer nodes
   indexer:
     - name: node-1
       ip: "127.0.0.1"
 
-  # Wazuh server nodes
+  # AssetGuard server nodes
   server:
-    - name: wazuh-1
+    - name: assetguard-1
       ip: "127.0.0.1"
 
-  # Wazuh dashboard nodes
+  # AssetGuard dashboard nodes
   dashboard:
     - name: dashboard
       ip: "127.0.0.1"
@@ -60,19 +60,19 @@ EOF
 
     # Generate config files
     echo "==> Generating configuration files..."
-    bash "${wazuh_install_script}" --generate-config-files
+    bash "${assetguard_install_script}" --generate-config-files
 
     # Extract the tar file
-    echo "==> Extracting wazuh-install-files.tar..."
-    tar -xf wazuh-install-files.tar
+    echo "==> Extracting assetguard-install-files.tar..."
+    tar -xf assetguard-install-files.tar
 
-    # Rename wazuh-install-files to certs
-    echo "==> Renaming wazuh-install-files to certs..."
-    mv wazuh-install-files certs
+    # Rename assetguard-install-files to certs
+    echo "==> Renaming assetguard-install-files to certs..."
+    mv assetguard-install-files certs
 
     # Clean up temporary files
     echo "==> Cleaning up temporary files..."
-    rm -f "${wazuh_install_script}" "${config_file}" wazuh-install-files.tar
+    rm -f "${assetguard_install_script}" "${config_file}" assetguard-install-files.tar
 
     echo "==> Certificates created successfully."
 }
@@ -95,9 +95,9 @@ function gh_token() {
 #
 # Function to find the first successful run of a GitHub Actions workflow
 #   args:
-#     $1 => repo (e.g. "wazuh/wazuh-indexer")
+#     $1 => repo (e.g. "assetguard/assetguard-indexer")
 #     $2 => workflow file (e.g. "build.yml")
-#     $3 => run name prefix (e.g. "Build [ \"deb\" ] Wazuh Indexer on [ \"x64\" ] | main")
+#     $3 => run name prefix (e.g. "Build [ \"deb\" ] AssetGuard Indexer on [ \"x64\" ] | main")
 #
 function find_first_successful_run() {
   local repo=$1
@@ -126,7 +126,7 @@ function find_first_successful_run() {
 #
 # Function to list the artifacts of a GitHub Actions run
 #   args:
-#     $1 => repo (e.g. "wazuh/wazuh-indexer")
+#     $1 => repo (e.g. "assetguard/assetguard-indexer")
 #     $2 => run_id (e.g. "123456789")
 function list_run_artifacts() {
   local repo=$1
@@ -142,10 +142,10 @@ function list_run_artifacts() {
 # Assuming the artifact is a zip file with a single file inside, this is the file we want.
 #
 #   args:
-#     $1 => repo (e.g. "wazuh/wazuh-indexer")
+#     $1 => repo (e.g. "assetguard/assetguard-indexer")
 #     $2 => run_id (e.g. "123456789")
 #     $3 => artifact_url
-#     $4 => output_dir (e.g. "wazuh-indexer")
+#     $4 => output_dir (e.g. "assetguard-indexer")
 #     $5 => final_filename (The final name of the unzipped file)
 #
 function download_and_unzip_artifact() {
@@ -197,11 +197,11 @@ function download_and_unzip_artifact() {
 #
 # Find and filter artifacts by prefix, and for each artifact define a "dest_file" # according to the prefix.
 #   args:
-#     $1 => repo (e.g. "wazuh/wazuh-indexer")
+#     $1 => repo (e.g. "assetguard/assetguard-indexer")
 #     $2 => run_id (e.g. "123456789")
-#     $3 => output_dir (e.g. "wazuh-indexer")
+#     $3 => output_dir (e.g. "assetguard-indexer")
 #     from $4 => list of prefix::filename pairs (e.g.
-#                "prefix1::file1.zip" "wazuh-indexer-setup-5.0::wazuh-indexer-setup-5.0.0.0.zip"
+#                "prefix1::file1.zip" "assetguard-indexer-setup-5.0::assetguard-indexer-setup-5.0.0.0.zip"
 #
 function fetch_artifacts_with_prefixes() {
   local repo=$1
@@ -270,20 +270,20 @@ function fetch_artifacts_with_prefixes() {
 #                   Indexer
 # ==============================================================================
 function get_indexer_artifact() {
-  local repo="wazuh/wazuh-indexer"
+  local repo="assetguard/assetguard-indexer"
   local workflow_file="5_builderpackage_indexer.yml"
-  local run_name_prefix='Build [ \"deb\" ] Wazuh Indexer on [ \"x64\" ] | main_'
+  local run_name_prefix='Build [ \"deb\" ] AssetGuard Indexer on [ \"x64\" ] | main_'
 
-  echo "==> Searching for the first successful build for the Wazuh Indexer 5.x..."
+  echo "==> Searching for the first successful build for the AssetGuard Indexer 5.x..."
   local run_id
   run_id="$( find_first_successful_run "$repo" "$workflow_file" "$run_name_prefix" )"
 
   if [[ -z "$run_id" ]]; then
-    echo "==> Cannot find a successful build for the Wazuh Indexer"
+    echo "==> Cannot find a successful build for the AssetGuard Indexer"
     exit 1
   fi
 
-  echo "==> Found successful build for the Wazuh Indexer"
+  echo "==> Found successful build for the AssetGuard Indexer"
   echo "    run_id: $run_id (https://github.com/$repo/actions/runs/$run_id)"
 
   echo ""
@@ -291,11 +291,11 @@ function get_indexer_artifact() {
   list_run_artifacts "$repo" "$run_id"
 
   # Download:
-  #  - If artifact_name starts with "wazuh-indexer_5.0.0-latest_amd64.deb",
-  #    save it as "wazuh-indexer_5.0.0-latest_amd64.deb"
+  #  - If artifact_name starts with "assetguard-indexer_5.0.0-latest_amd64.deb",
+  #    save it as "assetguard-indexer_5.0.0-latest_amd64.deb"
   fetch_artifacts_with_prefixes \
-    "$repo" "$run_id" "wazuh-indexer" \
-    "wazuh-indexer_5.0.0-latest_amd64.deb::wazuh-indexer_5.0.0-latest_amd64.deb"
+    "$repo" "$run_id" "assetguard-indexer" \
+    "assetguard-indexer_5.0.0-latest_amd64.deb::assetguard-indexer_5.0.0-latest_amd64.deb"
 }
 
 
@@ -303,20 +303,20 @@ function get_indexer_artifact() {
 #                   Dashboard
 # ==============================================================================
 function get_dashboard_artifact() {
-  local repo="wazuh/wazuh-dashboard"
+  local repo="assetguard/assetguard-dashboard"
   local workflow_file="5_builderpackage_dashboard.yml"
-  local run_name_prefix='Build deb wazuh-dashboard on amd64 - is stage - checksum main_'
+  local run_name_prefix='Build deb assetguard-dashboard on amd64 - is stage - checksum main_'
 
-  echo "==> Searching for the first successful build for the Wazuh Dashboard..."
+  echo "==> Searching for the first successful build for the AssetGuard Dashboard..."
   local run_id
   run_id="$( find_first_successful_run "$repo" "$workflow_file" "$run_name_prefix" )"
 
   if [[ -z "$run_id" ]]; then
-    echo "==> Cannot find a successful build for the Wazuh Dashboard"
+    echo "==> Cannot find a successful build for the AssetGuard Dashboard"
     exit 1
   fi
 
-  echo "==> Found successful build for the Wazuh Dashboard"
+  echo "==> Found successful build for the AssetGuard Dashboard"
   echo "    run_id: $run_id (https://github.com/$repo/actions/runs/$run_id)"
 
   echo ""
@@ -324,11 +324,11 @@ function get_dashboard_artifact() {
   list_run_artifacts "$repo" "$run_id"
 
   # Download:
-  #  - If artifact_name starts with "wazuh-dashboard_5.0.0-latest_amd64.deb",
-  #    save it as "wazuh-dashboard_5.0.0-latest_amd64.deb"
+  #  - If artifact_name starts with "assetguard-dashboard_5.0.0-latest_amd64.deb",
+  #    save it as "assetguard-dashboard_5.0.0-latest_amd64.deb"
   fetch_artifacts_with_prefixes \
-    "$repo" "$run_id" "wazuh-dashboard" \
-    "wazuh-dashboard_5.0.0-latest_amd64.deb::wazuh-dashboard_5.0.0-latest_amd64.deb"
+    "$repo" "$run_id" "assetguard-dashboard" \
+    "assetguard-dashboard_5.0.0-latest_amd64.deb::assetguard-dashboard_5.0.0-latest_amd64.deb"
 }
 
 ####################################################
@@ -338,7 +338,7 @@ function get_dashboard_artifact() {
 # Make sure we have a GitHub token
 gh_token
 
-# Download the last version of the Wazuh Indexer and Dashboard
+# Download the last version of the AssetGuard Indexer and Dashboard
 get_indexer_artifact
 get_dashboard_artifact
 

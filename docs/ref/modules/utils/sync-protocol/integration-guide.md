@@ -1,6 +1,6 @@
 # Integration Guide
 
-This guide provides step-by-step examples for integrating the Agent Sync Protocol into internal Wazuh modules such as FIM, SCA, and Inventory.
+This guide provides step-by-step examples for integrating the Agent Sync Protocol into internal AssetGuard modules such as FIM, SCA, and Inventory.
 
 ## Prerequisites
 

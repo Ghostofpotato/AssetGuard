@@ -18,4 +18,4 @@
     (ιδανικό για webservers, database servers, κλπ).
 
   - Περισσότερες πληροφορίες στη διεύθυνση:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

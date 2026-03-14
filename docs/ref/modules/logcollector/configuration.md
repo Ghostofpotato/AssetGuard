@@ -1,12 +1,12 @@
 # Configuration for monitoring log files
 
-You can use a local configuration file on the Wazuh agent or Wazuh server to monitor log files. There is also a centralized configuration file on the Wazuh server to monitor log files across multiple endpoints.
+You can use a local configuration file on the AssetGuard agent or AssetGuard server to monitor log files. There is also a centralized configuration file on the AssetGuard server to monitor log files across multiple endpoints.
 
 ---
 
 ## Local configuration
 
-The `ossec.conf` file is the main configuration file on the Wazuh agent. The Wazuh agent collects logs from monitored endpoints and forwards these logs to the Wazuh server for analysis. You can configure the agent to collect logs from specific files.
+The `ossec.conf` file is the main configuration file on the AssetGuard agent. The AssetGuard agent collects logs from monitored endpoints and forwards these logs to the AssetGuard server for analysis. You can configure the agent to collect logs from specific files.
 
 ### Location of `ossec.conf`
 
@@ -17,13 +17,13 @@ The `ossec.conf` file is the main configuration file on the Wazuh agent. The Waz
 | macOS | `/Library/Ossec/etc/ossec.conf` |
 
 !!! note
-    The `agent.conf` file on the Wazuh server allows centralized distribution of configuration settings to multiple monitored endpoints. Configuration values defined in `agent.conf` take precedence over `ossec.conf`.
+    The `agent.conf` file on the AssetGuard server allows centralized distribution of configuration settings to multiple monitored endpoints. Configuration values defined in `agent.conf` take precedence over `ossec.conf`.
 
 ---
 
 ## Monitoring basic log files
 
-You can configure the Wazuh agent on Windows, Linux, and macOS to monitor basic log files.
+You can configure the AssetGuard agent on Windows, Linux, and macOS to monitor basic log files.
 
 Add the following configuration inside the `<ossec_config>` tags of the agent configuration file:
 
@@ -34,28 +34,28 @@ Add the following configuration inside the `<ossec_config>` tags of the agent co
 </localfile>
 ```
 
-Restart the Wazuh agent to apply the configuration:
+Restart the AssetGuard agent to apply the configuration:
 
 - **Linux**
   ```bash
-  systemctl restart wazuh-agent
+  systemctl restart assetguard-agent
   ```
 
 - **Windows (PowerShell)**
   ```powershell
-  Restart-Service -Name wazuh
+  Restart-Service -Name assetguard
   ```
 
 - **macOS**
   ```bash
-  /Library/Ossec/bin/wazuh-control restart
+  /Library/Ossec/bin/assetguard-control restart
   ```
 
 ---
 
 ## Monitoring date-based log files
 
-Wazuh can dynamically monitor log files whose names change based on the date using `strftime` formatting.
+AssetGuard can dynamically monitor log files whose names change based on the date using `strftime` formatting.
 
 Example for `file-23-06-15.log`:
 
@@ -111,7 +111,7 @@ Example using `%WINDIR%`:
 Restart the agent:
 
 ```powershell
-Restart-Service -Name wazuh
+Restart-Service -Name assetguard
 ```
 
 ---
@@ -120,13 +120,13 @@ Restart-Service -Name wazuh
 
 ## Windows
 
-Windows logs provide detailed information about system and application events. The Wazuh agent collects relevant event data and forwards it to the server for analysis and normalization.
+Windows logs provide detailed information about system and application events. The AssetGuard agent collects relevant event data and forwards it to the server for analysis and normalization.
 
 ---
 
 ## Windows event channel
 
-Event channels are supported on Windows Vista and later. By default, the Wazuh agent monitors:
+Event channels are supported on Windows Vista and later. By default, the AssetGuard agent monitors:
 
 - System
 - Application
@@ -164,7 +164,7 @@ To monitor a specific event channel, configure the following in `ossec.conf`:
 Restart the agent:
 
 ```powershell
-Restart-Service -Name wazuh
+Restart-Service -Name assetguard
 ```
 
 ---
@@ -201,7 +201,7 @@ Restart-Service -Name wazuh
 
 ## Windows event channel ruleset
 
-Wazuh includes a predefined ruleset organized by event channel.
+AssetGuard includes a predefined ruleset organized by event channel.
 
 ### Rule ID ranges
 
@@ -237,7 +237,7 @@ Restart the agent after configuration.
 
 ## macOS
 
-macOS uses the Unified Logging System (ULS), which does not write logs to plain text files. Wazuh collects logs using the macOS `log` CLI tool.
+macOS uses the Unified Logging System (ULS), which does not write logs to plain text files. AssetGuard collects logs using the macOS `log` CLI tool.
 
 ### Collecting macOS ULS logs
 

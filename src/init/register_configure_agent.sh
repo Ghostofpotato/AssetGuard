@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -12,14 +12,14 @@ INSTALLDIR=${1}
 CONF_FILE="${INSTALLDIR}/etc/ossec.conf"
 TMP_ENROLLMENT="${INSTALLDIR}/tmp/enrollment-configuration"
 TMP_SERVER="${INSTALLDIR}/tmp/server-configuration"
-WAZUH_REGISTRATION_PASSWORD_PATH="etc/authd.pass"
-WAZUH_MACOS_AGENT_DEPLOYMENT_VARS="/tmp/wazuh_envs"
+ASSETGUARD_REGISTRATION_PASSWORD_PATH="etc/authd.pass"
+ASSETGUARD_MACOS_AGENT_DEPLOYMENT_VARS="/tmp/assetguard_envs"
 
 
 # Set default sed alias
 sed="sed -ri"
 
-# Update the value of a XML tag inside the wazuh configuration file
+# Update the value of a XML tag inside the assetguard configuration file
 edit_value_tag() {
 
     file=""
@@ -64,7 +64,7 @@ delete_auto_enrollment_tag() {
 
 }
 
-# Change address block of the wazuh configuration file
+# Change address block of the assetguard configuration file
 add_adress_block() {
 
     # Remove both manager and legacy server configuration blocks
@@ -98,77 +98,77 @@ add_parameter () {
 
 get_deprecated_vars () {
 
-    if [ -n "${WAZUH_MANAGER_IP}" ] && [ -z "${WAZUH_MANAGER}" ]; then
-        WAZUH_MANAGER=${WAZUH_MANAGER_IP}
+    if [ -n "${ASSETGUARD_MANAGER_IP}" ] && [ -z "${ASSETGUARD_MANAGER}" ]; then
+        ASSETGUARD_MANAGER=${ASSETGUARD_MANAGER_IP}
     fi
-    if [ -n "${WAZUH_AUTHD_SERVER}" ] && [ -z "${WAZUH_REGISTRATION_SERVER}" ]; then
-        WAZUH_REGISTRATION_SERVER=${WAZUH_AUTHD_SERVER}
+    if [ -n "${ASSETGUARD_AUTHD_SERVER}" ] && [ -z "${ASSETGUARD_REGISTRATION_SERVER}" ]; then
+        ASSETGUARD_REGISTRATION_SERVER=${ASSETGUARD_AUTHD_SERVER}
     fi
-    if [ -n "${WAZUH_AUTHD_PORT}" ] && [ -z "${WAZUH_REGISTRATION_PORT}" ]; then
-        WAZUH_REGISTRATION_PORT=${WAZUH_AUTHD_PORT}
+    if [ -n "${ASSETGUARD_AUTHD_PORT}" ] && [ -z "${ASSETGUARD_REGISTRATION_PORT}" ]; then
+        ASSETGUARD_REGISTRATION_PORT=${ASSETGUARD_AUTHD_PORT}
     fi
-    if [ -n "${WAZUH_PASSWORD}" ] && [ -z "${WAZUH_REGISTRATION_PASSWORD}" ]; then
-        WAZUH_REGISTRATION_PASSWORD=${WAZUH_PASSWORD}
+    if [ -n "${ASSETGUARD_PASSWORD}" ] && [ -z "${ASSETGUARD_REGISTRATION_PASSWORD}" ]; then
+        ASSETGUARD_REGISTRATION_PASSWORD=${ASSETGUARD_PASSWORD}
     fi
-    if [ -n "${WAZUH_NOTIFY_TIME}" ] && [ -z "${WAZUH_KEEP_ALIVE_INTERVAL}" ]; then
-        WAZUH_KEEP_ALIVE_INTERVAL=${WAZUH_NOTIFY_TIME}
+    if [ -n "${ASSETGUARD_NOTIFY_TIME}" ] && [ -z "${ASSETGUARD_KEEP_ALIVE_INTERVAL}" ]; then
+        ASSETGUARD_KEEP_ALIVE_INTERVAL=${ASSETGUARD_NOTIFY_TIME}
     fi
-    if [ -n "${WAZUH_CERTIFICATE}" ] && [ -z "${WAZUH_REGISTRATION_CA}" ]; then
-        WAZUH_REGISTRATION_CA=${WAZUH_CERTIFICATE}
+    if [ -n "${ASSETGUARD_CERTIFICATE}" ] && [ -z "${ASSETGUARD_REGISTRATION_CA}" ]; then
+        ASSETGUARD_REGISTRATION_CA=${ASSETGUARD_CERTIFICATE}
     fi
-    if [ -n "${WAZUH_PEM}" ] && [ -z "${WAZUH_REGISTRATION_CERTIFICATE}" ]; then
-        WAZUH_REGISTRATION_CERTIFICATE=${WAZUH_PEM}
+    if [ -n "${ASSETGUARD_PEM}" ] && [ -z "${ASSETGUARD_REGISTRATION_CERTIFICATE}" ]; then
+        ASSETGUARD_REGISTRATION_CERTIFICATE=${ASSETGUARD_PEM}
     fi
-    if [ -n "${WAZUH_KEY}" ] && [ -z "${WAZUH_REGISTRATION_KEY}" ]; then
-        WAZUH_REGISTRATION_KEY=${WAZUH_KEY}
+    if [ -n "${ASSETGUARD_KEY}" ] && [ -z "${ASSETGUARD_REGISTRATION_KEY}" ]; then
+        ASSETGUARD_REGISTRATION_KEY=${ASSETGUARD_KEY}
     fi
-    if [ -n "${WAZUH_GROUP}" ] && [ -z "${WAZUH_AGENT_GROUP}" ]; then
-        WAZUH_AGENT_GROUP=${WAZUH_GROUP}
+    if [ -n "${ASSETGUARD_GROUP}" ] && [ -z "${ASSETGUARD_AGENT_GROUP}" ]; then
+        ASSETGUARD_AGENT_GROUP=${ASSETGUARD_GROUP}
     fi
 
 }
 
 set_vars () {
 
-    export WAZUH_MANAGER
-    export WAZUH_MANAGER_PORT
-    export WAZUH_REGISTRATION_SERVER
-    export WAZUH_REGISTRATION_PORT
-    export WAZUH_REGISTRATION_PASSWORD
-    export WAZUH_KEEP_ALIVE_INTERVAL
-    export WAZUH_TIME_RECONNECT
-    export WAZUH_REGISTRATION_CA
-    export WAZUH_REGISTRATION_CERTIFICATE
-    export WAZUH_REGISTRATION_KEY
-    export WAZUH_AGENT_NAME
-    export WAZUH_AGENT_GROUP
+    export ASSETGUARD_MANAGER
+    export ASSETGUARD_MANAGER_PORT
+    export ASSETGUARD_REGISTRATION_SERVER
+    export ASSETGUARD_REGISTRATION_PORT
+    export ASSETGUARD_REGISTRATION_PASSWORD
+    export ASSETGUARD_KEEP_ALIVE_INTERVAL
+    export ASSETGUARD_TIME_RECONNECT
+    export ASSETGUARD_REGISTRATION_CA
+    export ASSETGUARD_REGISTRATION_CERTIFICATE
+    export ASSETGUARD_REGISTRATION_KEY
+    export ASSETGUARD_AGENT_NAME
+    export ASSETGUARD_AGENT_GROUP
     export ENROLLMENT_DELAY
     # The following variables are yet supported but all of them are deprecated
-    export WAZUH_MANAGER_IP
-    export WAZUH_NOTIFY_TIME
-    export WAZUH_AUTHD_SERVER
-    export WAZUH_AUTHD_PORT
-    export WAZUH_PASSWORD
-    export WAZUH_GROUP
-    export WAZUH_CERTIFICATE
-    export WAZUH_KEY
-    export WAZUH_PEM
+    export ASSETGUARD_MANAGER_IP
+    export ASSETGUARD_NOTIFY_TIME
+    export ASSETGUARD_AUTHD_SERVER
+    export ASSETGUARD_AUTHD_PORT
+    export ASSETGUARD_PASSWORD
+    export ASSETGUARD_GROUP
+    export ASSETGUARD_CERTIFICATE
+    export ASSETGUARD_KEY
+    export ASSETGUARD_PEM
 
-    if [ -r "${WAZUH_MACOS_AGENT_DEPLOYMENT_VARS}" ]; then
-        . ${WAZUH_MACOS_AGENT_DEPLOYMENT_VARS}
-        rm -rf "${WAZUH_MACOS_AGENT_DEPLOYMENT_VARS}"
+    if [ -r "${ASSETGUARD_MACOS_AGENT_DEPLOYMENT_VARS}" ]; then
+        . ${ASSETGUARD_MACOS_AGENT_DEPLOYMENT_VARS}
+        rm -rf "${ASSETGUARD_MACOS_AGENT_DEPLOYMENT_VARS}"
     fi
 
 }
 
 unset_vars() {
 
-    vars=(WAZUH_MANAGER_IP WAZUH_MANAGER_PORT WAZUH_NOTIFY_TIME \
-          WAZUH_TIME_RECONNECT WAZUH_AUTHD_SERVER WAZUH_AUTHD_PORT WAZUH_PASSWORD \
-          WAZUH_AGENT_NAME WAZUH_GROUP WAZUH_CERTIFICATE WAZUH_KEY WAZUH_PEM \
-          WAZUH_MANAGER WAZUH_REGISTRATION_SERVER WAZUH_REGISTRATION_PORT \
-          WAZUH_REGISTRATION_PASSWORD WAZUH_KEEP_ALIVE_INTERVAL WAZUH_REGISTRATION_CA \
-          WAZUH_REGISTRATION_CERTIFICATE WAZUH_REGISTRATION_KEY WAZUH_AGENT_GROUP \
+    vars=(ASSETGUARD_MANAGER_IP ASSETGUARD_MANAGER_PORT ASSETGUARD_NOTIFY_TIME \
+          ASSETGUARD_TIME_RECONNECT ASSETGUARD_AUTHD_SERVER ASSETGUARD_AUTHD_PORT ASSETGUARD_PASSWORD \
+          ASSETGUARD_AGENT_NAME ASSETGUARD_GROUP ASSETGUARD_CERTIFICATE ASSETGUARD_KEY ASSETGUARD_PEM \
+          ASSETGUARD_MANAGER ASSETGUARD_REGISTRATION_SERVER ASSETGUARD_REGISTRATION_PORT \
+          ASSETGUARD_REGISTRATION_PASSWORD ASSETGUARD_KEEP_ALIVE_INTERVAL ASSETGUARD_REGISTRATION_CA \
+          ASSETGUARD_REGISTRATION_CERTIFICATE ASSETGUARD_REGISTRATION_KEY ASSETGUARD_AGENT_GROUP \
           ENROLLMENT_DELAY)
 
     for var in "${vars[@]}"; do
@@ -250,46 +250,46 @@ main () {
 
     get_deprecated_vars
 
-    if [ -n "${WAZUH_MANAGER}" ]; then
+    if [ -n "${ASSETGUARD_MANAGER}" ]; then
         if [ ! -f "${INSTALLDIR}/logs/ossec.log" ]; then
             touch -f "${INSTALLDIR}/logs/ossec.log"
             chmod 660 "${INSTALLDIR}/logs/ossec.log"
-            chown root:wazuh "${INSTALLDIR}/logs/ossec.log"
+            chown root:assetguard "${INSTALLDIR}/logs/ossec.log"
         fi
 
-        # Check if multiples IPs are defined in variable WAZUH_MANAGER
-        ADDRESSES=( ${WAZUH_MANAGER//,/ } )
+        # Check if multiples IPs are defined in variable ASSETGUARD_MANAGER
+        ADDRESSES=( ${ASSETGUARD_MANAGER//,/ } )
 
         add_adress_block
     fi
 
-    edit_value_tag "port" "${WAZUH_MANAGER_PORT}"
+    edit_value_tag "port" "${ASSETGUARD_MANAGER_PORT}"
 
-    if [ -n "${WAZUH_REGISTRATION_SERVER}" ] || [ -n "${WAZUH_REGISTRATION_PORT}" ] || [ -n "${WAZUH_REGISTRATION_CA}" ] || [ -n "${WAZUH_REGISTRATION_CERTIFICATE}" ] || [ -n "${WAZUH_REGISTRATION_KEY}" ] || [ -n "${WAZUH_AGENT_NAME}" ] || [ -n "${WAZUH_AGENT_GROUP}" ] || [ -n "${ENROLLMENT_DELAY}" ] || [ -n "${WAZUH_REGISTRATION_PASSWORD}" ]; then
+    if [ -n "${ASSETGUARD_REGISTRATION_SERVER}" ] || [ -n "${ASSETGUARD_REGISTRATION_PORT}" ] || [ -n "${ASSETGUARD_REGISTRATION_CA}" ] || [ -n "${ASSETGUARD_REGISTRATION_CERTIFICATE}" ] || [ -n "${ASSETGUARD_REGISTRATION_KEY}" ] || [ -n "${ASSETGUARD_AGENT_NAME}" ] || [ -n "${ASSETGUARD_AGENT_GROUP}" ] || [ -n "${ENROLLMENT_DELAY}" ] || [ -n "${ASSETGUARD_REGISTRATION_PASSWORD}" ]; then
         add_auto_enrollment
-        set_auto_enrollment_tag_value "manager_address" "${WAZUH_REGISTRATION_SERVER}"
-        set_auto_enrollment_tag_value "port" "${WAZUH_REGISTRATION_PORT}"
-        set_auto_enrollment_tag_value "server_ca_path" "${WAZUH_REGISTRATION_CA}"
-        set_auto_enrollment_tag_value "agent_certificate_path" "${WAZUH_REGISTRATION_CERTIFICATE}"
-        set_auto_enrollment_tag_value "agent_key_path" "${WAZUH_REGISTRATION_KEY}"
-        set_auto_enrollment_tag_value "authorization_pass_path" "${WAZUH_REGISTRATION_PASSWORD_PATH}"
-        set_auto_enrollment_tag_value "agent_name" "${WAZUH_AGENT_NAME}"
-        set_auto_enrollment_tag_value "groups" "${WAZUH_AGENT_GROUP}"
+        set_auto_enrollment_tag_value "manager_address" "${ASSETGUARD_REGISTRATION_SERVER}"
+        set_auto_enrollment_tag_value "port" "${ASSETGUARD_REGISTRATION_PORT}"
+        set_auto_enrollment_tag_value "server_ca_path" "${ASSETGUARD_REGISTRATION_CA}"
+        set_auto_enrollment_tag_value "agent_certificate_path" "${ASSETGUARD_REGISTRATION_CERTIFICATE}"
+        set_auto_enrollment_tag_value "agent_key_path" "${ASSETGUARD_REGISTRATION_KEY}"
+        set_auto_enrollment_tag_value "authorization_pass_path" "${ASSETGUARD_REGISTRATION_PASSWORD_PATH}"
+        set_auto_enrollment_tag_value "agent_name" "${ASSETGUARD_AGENT_NAME}"
+        set_auto_enrollment_tag_value "groups" "${ASSETGUARD_AGENT_GROUP}"
         set_auto_enrollment_tag_value "delay_after_enrollment" "${ENROLLMENT_DELAY}"
         delete_blank_lines "${TMP_ENROLLMENT}"
         concat_conf
     fi
 
 
-    if [ -n "${WAZUH_REGISTRATION_PASSWORD}" ]; then
-        echo "${WAZUH_REGISTRATION_PASSWORD}" > "${INSTALLDIR}/${WAZUH_REGISTRATION_PASSWORD_PATH}"
-        chmod 640 "${INSTALLDIR}"/"${WAZUH_REGISTRATION_PASSWORD_PATH}"
-        chown root:wazuh "${INSTALLDIR}"/"${WAZUH_REGISTRATION_PASSWORD_PATH}"
+    if [ -n "${ASSETGUARD_REGISTRATION_PASSWORD}" ]; then
+        echo "${ASSETGUARD_REGISTRATION_PASSWORD}" > "${INSTALLDIR}/${ASSETGUARD_REGISTRATION_PASSWORD_PATH}"
+        chmod 640 "${INSTALLDIR}"/"${ASSETGUARD_REGISTRATION_PASSWORD_PATH}"
+        chown root:assetguard "${INSTALLDIR}"/"${ASSETGUARD_REGISTRATION_PASSWORD_PATH}"
     fi
 
-    # Options to be modified in wazuh configuration file
-    edit_value_tag "notify_time" "${WAZUH_KEEP_ALIVE_INTERVAL}"
-    edit_value_tag "time-reconnect" "${WAZUH_TIME_RECONNECT}"
+    # Options to be modified in assetguard configuration file
+    edit_value_tag "notify_time" "${ASSETGUARD_KEEP_ALIVE_INTERVAL}"
+    edit_value_tag "time-reconnect" "${ASSETGUARD_TIME_RECONNECT}"
 
     unset_vars
 

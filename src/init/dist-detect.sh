@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Wazuh Distribution Detector
-# Copyright (C) 2015, Wazuh Inc.
+# AssetGuard Distribution Detector
+# Copyright (C) 2015, AssetGuard Inc.
 # November 18, 2016.
 #
 # This program is free software; you can redistribute it

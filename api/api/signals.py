@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 import asyncio
 import contextlib
@@ -9,10 +9,10 @@ from functools import wraps
 from typing import Callable
 
 from connexion import ConnexionMiddleware
-from wazuh.core.common import get_installation_uid
-from wazuh.core.cluster.utils import running_in_master_node
-from wazuh.core.configuration import update_check_is_enabled
-from wazuh.core.manager import query_update_check_service
+from assetguard.core.common import get_installation_uid
+from assetguard.core.cluster.utils import running_in_master_node
+from assetguard.core.configuration import update_check_is_enabled
+from assetguard.core.manager import query_update_check_service
 
 from asyncinotify import Inotify, Mask
 
@@ -27,7 +27,7 @@ from api.authentication import generate_keypair, _private_key_path, _public_key_
 
 ONE_DAY_SLEEP = 60*60*24
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('assetguard-api')
 
 cti_context = {}
 
@@ -114,4 +114,4 @@ async def lifespan_handler(_: ConnexionMiddleware):
         task.cancel()
         await task
 
-    logger.info('Shutdown wazuh-manager-apid server.')
+    logger.info('Shutdown assetguard-manager-apid server.')

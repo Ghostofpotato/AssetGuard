@@ -8,11 +8,11 @@ The Content Manager module includes OAuth 2.0 authentication support for accessi
 
 ### CTICredentialsProvider
 
-The [CTICredentialsProvider](../../src/components/ctiCredentialsProvider.hpp) is responsible for fetching and managing OAuth 2.0 credentials from the Wazuh Indexer.
+The [CTICredentialsProvider](../../src/components/ctiCredentialsProvider.hpp) is responsible for fetching and managing OAuth 2.0 credentials from the AssetGuard Indexer.
 
 #### Features
 
-- **Automatic credential fetching** from Wazuh Indexer's `/_plugins/content-manager/subscription` endpoint
+- **Automatic credential fetching** from AssetGuard Indexer's `/_plugins/content-manager/subscription` endpoint
 - **Thread-safe access** to credentials using mutex protection
 - **Background refresh thread** that automatically refreshes tokens on each poll interval
 - **Exponential backoff retry** mechanism (up to 3 attempts) for failed requests
@@ -63,7 +63,7 @@ The [CTIProductsProvider](../../src/components/ctiProductsProvider.hpp) fetches 
 ```cpp
 nlohmann::json config = {
     {"console", {
-        {"url", "https://console.wazuh.com"},
+        {"url", "https://console.assetguard.com"},
         {"instancesEndpoint", "/api/v1/instances/me"},     // Optional, default shown
         {"timeout", 5000},                                  // Optional, milliseconds
         {"productType", "catalog:consumer:decoders"}        // Optional, filter by product type
@@ -137,7 +137,7 @@ The [CTISignedUrlProvider](../../src/components/ctiSignedUrlProvider.hpp) handle
 ```cpp
 nlohmann::json config = {
     {"tokenExchange", {
-        {"consoleUrl", "https://console.wazuh.com"},
+        {"consoleUrl", "https://console.assetguard.com"},
         {"tokenEndpoint", "/api/v1/instances/token/exchange"},  // Optional, default shown
         {"cacheSignedUrls", true}                               // Optional, default shown
     }}
@@ -154,7 +154,7 @@ auto signedUrlProvider = std::make_shared<CTISignedUrlProvider>(
 ```cpp
 // Exchange access token for signed URL (using resource from product)
 std::string signedUrl = signedUrlProvider->getSignedUrl(product.resource, accessToken);
-// Returns: "https://cti.wazuh.com/api/v1/catalog/...?verify=hmac_signature"
+// Returns: "https://cti.assetguard.com/api/v1/catalog/...?verify=hmac_signature"
 ```
 
 ## Subscription Response Example
@@ -180,27 +180,27 @@ The Console API returns subscription data with product type information:
             "type": "catalog:consumer:decoders",
             "name": "Vulnerabilities Pro",
             "description": "Real-time vulnerability intelligence decoders",
-            "resource": "https://cti.wazuh.com/api/v1/catalog/.../decoders"
+            "resource": "https://cti.assetguard.com/api/v1/catalog/.../decoders"
           },
           {
             "identifier": "malware-signatures",
             "type": "catalog:consumer:rules",
             "name": "Malware Signatures",
             "description": "Malware detection rules",
-            "resource": "https://cti.wazuh.com/api/v1/catalog/.../rules"
+            "resource": "https://cti.assetguard.com/api/v1/catalog/.../rules"
           },
           {
             "identifier": "integration-connectors",
             "type": "catalog:consumer:integrations",
             "name": "Integration Connectors",
             "description": "Third-party API connectors",
-            "resource": "https://cti.wazuh.com/api/v1/catalog/.../integrations"
+            "resource": "https://cti.assetguard.com/api/v1/catalog/.../integrations"
           },
           {
             "identifier": "support-assistance",
             "type": "cloud:assistance",
             "name": "Support Assistance",
-            "email": "support@wazuh.com",
+            "email": "support@assetguard.com",
             "phone": "+1-555-0100"
           }
         ]
@@ -228,7 +228,7 @@ The complete OAuth flow for CTI content download now includes the new subscripti
          │ 2. GET /_plugins/content-manager/subscription
          v
 ┌─────────────────┐
-│ Wazuh Indexer   │
+│ AssetGuard Indexer   │
 └────────┬────────┘
          │
          │ 3. Return access_token + token_type
@@ -297,7 +297,7 @@ The complete OAuth flow for CTI content download now includes the new subscripti
 
 ### Flow Summary
 
-1. **CTICredentialsProvider** fetches OAuth credentials (access_token) from Wazuh Indexer
+1. **CTICredentialsProvider** fetches OAuth credentials (access_token) from AssetGuard Indexer
 2. Background thread automatically refreshes tokens on each poll interval
 3. **CTIProductsProvider** uses access_token to fetch subscription information from Console
 4. Console returns organization details and list of subscribed products with their resource URLs
@@ -310,7 +310,7 @@ The complete OAuth flow for CTI content download now includes the new subscripti
 
 ### Token Lifetime
 
-- **Access tokens**: Lifetime managed by Wazuh Indexer
+- **Access tokens**: Lifetime managed by AssetGuard Indexer
   - Automatically refreshed on each poll interval (default: 60 seconds)
   - Never persisted to disk
   - Thread-safe access

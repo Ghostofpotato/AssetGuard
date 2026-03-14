@@ -44,11 +44,11 @@ test:
       ip: 1.2.3.4
     should_pass: true
     expected:
-        city_name: Wazuh city
-        timezone: Wazuh/Timezone
-        country_name: Wazuh Country
+        city_name: AssetGuard city
+        timezone: AssetGuard/Timezone
+        country_name: AssetGuard Country
         continent_code: WC
-        continent_name: Wazuh Continent
+        continent_name: AssetGuard Continent
         country_iso_code: WCtry
         postal_code: "7777"
         location:

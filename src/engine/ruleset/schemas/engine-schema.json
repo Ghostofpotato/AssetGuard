@@ -5460,229 +5460,229 @@
     "vulnerability.severity": {
       "type": "keyword"
     },
-    "wazuh.agent.build.original": {
+    "assetguard.agent.build.original": {
       "type": "keyword"
     },
-    "wazuh.agent.ephemeral_id": {
+    "assetguard.agent.ephemeral_id": {
       "type": "keyword"
     },
-    "wazuh.agent.groups": {
+    "assetguard.agent.groups": {
       "type": "keyword"
     },
-    "wazuh.agent.host.architecture": {
+    "assetguard.agent.host.architecture": {
       "type": "keyword"
     },
-    "wazuh.agent.host.boot.id": {
+    "assetguard.agent.host.boot.id": {
       "type": "keyword"
     },
-    "wazuh.agent.host.cpu": {
+    "assetguard.agent.host.cpu": {
       "type": "object"
     },
-    "wazuh.agent.host.cpu.cores": {
+    "assetguard.agent.host.cpu.cores": {
       "type": "long"
     },
-    "wazuh.agent.host.cpu.name": {
+    "assetguard.agent.host.cpu.name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.cpu.speed": {
+    "assetguard.agent.host.cpu.speed": {
       "type": "long"
     },
-    "wazuh.agent.host.cpu.usage": {
+    "assetguard.agent.host.cpu.usage": {
       "type": "scaled_float"
     },
-    "wazuh.agent.host.disk.read.bytes": {
+    "assetguard.agent.host.disk.read.bytes": {
       "type": "long"
     },
-    "wazuh.agent.host.disk.write.bytes": {
+    "assetguard.agent.host.disk.write.bytes": {
       "type": "long"
     },
-    "wazuh.agent.host.domain": {
+    "assetguard.agent.host.domain": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.city_name": {
+    "assetguard.agent.host.geo.city_name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.continent_code": {
+    "assetguard.agent.host.geo.continent_code": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.continent_name": {
+    "assetguard.agent.host.geo.continent_name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.country_iso_code": {
+    "assetguard.agent.host.geo.country_iso_code": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.country_name": {
+    "assetguard.agent.host.geo.country_name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.location": {
+    "assetguard.agent.host.geo.location": {
       "type": "geo_point"
     },
-    "wazuh.agent.host.geo.name": {
+    "assetguard.agent.host.geo.name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.postal_code": {
+    "assetguard.agent.host.geo.postal_code": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.region_iso_code": {
+    "assetguard.agent.host.geo.region_iso_code": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.region_name": {
+    "assetguard.agent.host.geo.region_name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.geo.timezone": {
+    "assetguard.agent.host.geo.timezone": {
       "type": "keyword"
     },
-    "wazuh.agent.host.hostname": {
+    "assetguard.agent.host.hostname": {
       "type": "keyword"
     },
-    "wazuh.agent.host.id": {
+    "assetguard.agent.host.id": {
       "type": "keyword"
     },
-    "wazuh.agent.host.ip": {
+    "assetguard.agent.host.ip": {
       "type": "ip"
     },
-    "wazuh.agent.host.mac": {
+    "assetguard.agent.host.mac": {
       "type": "keyword"
     },
-    "wazuh.agent.host.memory": {
+    "assetguard.agent.host.memory": {
       "type": "object"
     },
-    "wazuh.agent.host.memory.free": {
+    "assetguard.agent.host.memory.free": {
       "type": "long"
     },
-    "wazuh.agent.host.memory.total": {
+    "assetguard.agent.host.memory.total": {
       "type": "long"
     },
-    "wazuh.agent.host.memory.used": {
+    "assetguard.agent.host.memory.used": {
       "type": "object"
     },
-    "wazuh.agent.host.memory.used.percentage": {
+    "assetguard.agent.host.memory.used.percentage": {
       "type": "long"
     },
-    "wazuh.agent.host.name": {
+    "assetguard.agent.host.name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.network.egress.bytes": {
+    "assetguard.agent.host.network.egress.bytes": {
       "type": "long"
     },
-    "wazuh.agent.host.network.egress.drops": {
+    "assetguard.agent.host.network.egress.drops": {
       "type": "long"
     },
-    "wazuh.agent.host.network.egress.errors": {
+    "assetguard.agent.host.network.egress.errors": {
       "type": "long"
     },
-    "wazuh.agent.host.network.egress.packets": {
+    "assetguard.agent.host.network.egress.packets": {
       "type": "long"
     },
-    "wazuh.agent.host.network.egress.queue": {
+    "assetguard.agent.host.network.egress.queue": {
       "type": "long"
     },
-    "wazuh.agent.host.network.ingress.bytes": {
+    "assetguard.agent.host.network.ingress.bytes": {
       "type": "long"
     },
-    "wazuh.agent.host.network.ingress.drops": {
+    "assetguard.agent.host.network.ingress.drops": {
       "type": "long"
     },
-    "wazuh.agent.host.network.ingress.errors": {
+    "assetguard.agent.host.network.ingress.errors": {
       "type": "long"
     },
-    "wazuh.agent.host.network.ingress.packets": {
+    "assetguard.agent.host.network.ingress.packets": {
       "type": "long"
     },
-    "wazuh.agent.host.network.ingress.queue": {
+    "assetguard.agent.host.network.ingress.queue": {
       "type": "long"
     },
-    "wazuh.agent.host.os.family": {
+    "assetguard.agent.host.os.family": {
       "type": "keyword"
     },
-    "wazuh.agent.host.os.full": {
+    "assetguard.agent.host.os.full": {
       "type": "keyword"
     },
-    "wazuh.agent.host.os.kernel": {
+    "assetguard.agent.host.os.kernel": {
       "type": "keyword"
     },
-    "wazuh.agent.host.os.name": {
+    "assetguard.agent.host.os.name": {
       "type": "keyword"
     },
-    "wazuh.agent.host.os.platform": {
+    "assetguard.agent.host.os.platform": {
       "type": "keyword"
     },
-    "wazuh.agent.host.os.type": {
+    "assetguard.agent.host.os.type": {
       "type": "keyword"
     },
-    "wazuh.agent.host.os.version": {
+    "assetguard.agent.host.os.version": {
       "type": "keyword"
     },
-    "wazuh.agent.host.pid_ns_ino": {
+    "assetguard.agent.host.pid_ns_ino": {
       "type": "keyword"
     },
-    "wazuh.agent.host.risk.calculated_level": {
+    "assetguard.agent.host.risk.calculated_level": {
       "type": "keyword"
     },
-    "wazuh.agent.host.risk.calculated_score": {
+    "assetguard.agent.host.risk.calculated_score": {
       "type": "float"
     },
-    "wazuh.agent.host.risk.calculated_score_norm": {
+    "assetguard.agent.host.risk.calculated_score_norm": {
       "type": "float"
     },
-    "wazuh.agent.host.risk.static_level": {
+    "assetguard.agent.host.risk.static_level": {
       "type": "keyword"
     },
-    "wazuh.agent.host.risk.static_score": {
+    "assetguard.agent.host.risk.static_score": {
       "type": "float"
     },
-    "wazuh.agent.host.risk.static_score_norm": {
+    "assetguard.agent.host.risk.static_score_norm": {
       "type": "float"
     },
-    "wazuh.agent.host.type": {
+    "assetguard.agent.host.type": {
       "type": "keyword"
     },
-    "wazuh.agent.host.uptime": {
+    "assetguard.agent.host.uptime": {
       "type": "long"
     },
-    "wazuh.agent.id": {
+    "assetguard.agent.id": {
       "type": "keyword"
     },
-    "wazuh.agent.name": {
+    "assetguard.agent.name": {
       "type": "keyword"
     },
-    "wazuh.agent.type": {
+    "assetguard.agent.type": {
       "type": "keyword"
     },
-    "wazuh.agent.version": {
+    "assetguard.agent.version": {
       "type": "keyword"
     },
-    "wazuh.cluster.name": {
+    "assetguard.cluster.name": {
       "type": "keyword"
     },
-    "wazuh.cluster.node": {
+    "assetguard.cluster.node": {
       "type": "keyword"
     },
-    "wazuh.integration.category": {
+    "assetguard.integration.category": {
       "type": "keyword"
     },
-    "wazuh.integration.decoders": {
+    "assetguard.integration.decoders": {
       "type": "keyword"
     },
-    "wazuh.integration.name": {
+    "assetguard.integration.name": {
       "type": "keyword"
     },
-    "wazuh.integration.rules": {
+    "assetguard.integration.rules": {
       "type": "keyword"
     },
-    "wazuh.protocol.location": {
+    "assetguard.protocol.location": {
       "type": "keyword"
     },
-    "wazuh.protocol.queue": {
+    "assetguard.protocol.queue": {
       "type": "byte"
     },
-    "wazuh.schema.version": {
+    "assetguard.schema.version": {
       "type": "keyword"
     },
-    "wazuh.space.event_discarded": {
+    "assetguard.space.event_discarded": {
       "type": "boolean"
     },
-    "wazuh.space.name": {
+    "assetguard.space.name": {
       "type": "keyword"
     }
   },

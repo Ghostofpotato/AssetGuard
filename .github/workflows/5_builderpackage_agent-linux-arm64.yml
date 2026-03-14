@@ -1,5 +1,5 @@
-run-name: Build Wazuh agent Linux arm64 - ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }} - ${{ inputs.system || 'deb,rpm' }} - ${{ inputs.architecture || 'arm64' }}
-name: 5.X - Build Wazuh agent Linux arm64 (DEB/RPM)
+run-name: Build AssetGuard agent Linux arm64 - ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }} - ${{ inputs.system || 'deb,rpm' }} - ${{ inputs.architecture || 'arm64' }}
+name: 5.X - Build AssetGuard agent Linux arm64 (DEB/RPM)
 
 on:
   pull_request:
@@ -80,7 +80,7 @@ jobs:
 
       - name: Download docker image for package building
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Append short commit to VERSION file
         run: |
@@ -101,8 +101,8 @@ jobs:
           echo "generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS"
           bash packages/generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS
 
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -v -E "^wazuh-agent-dbg")
-          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -E "^wazuh-agent-dbg")
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -v -E "^assetguard-agent-dbg")
+          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -E "^assetguard-agent-dbg")
 
           echo "package-name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
           echo "package-symbols-name=$PACKAGE_SYMBOLS_NAME" >> $GITHUB_OUTPUT
@@ -162,7 +162,7 @@ jobs:
 
       - name: Download docker image for testing
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Test install package
         run: |
@@ -180,7 +180,7 @@ jobs:
             --entrypoint '/tests/install_component.sh' \
             ${{ env.CONTAINER_NAME }}:${{ env.TAG }} \
             ${{ env.PACKAGE_NAME }} agent
-          if grep -iq " installed.*wazuh-agent" /tmp/status.log ; then
+          if grep -iq " installed.*assetguard-agent" /tmp/status.log ; then
             echo "Installation successfully."
           else
             echo "The installation could not be completed."
@@ -196,8 +196,8 @@ jobs:
         id: last-stable-version
         uses: ./.github/actions/5_builderpackage_get-last-stable-version
         with:
-          repo_owner: wazuh
-          repo_name: wazuh
+          repo_owner: assetguard
+          repo_name: assetguard
           testing_version: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -256,7 +256,7 @@ jobs:
       - name: Upload package to S3
         run: |
           PACKAGE_NAME="${{ needs.build-deb-arm64.outputs.package-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$PACKAGE_NAME" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME $S3_URI/
             echo "S3 URI: $S3_URI/$PACKAGE_NAME"
@@ -269,7 +269,7 @@ jobs:
         if: inputs.checksum == true
         run: |
           PACKAGE_NAME="${{ needs.build-deb-arm64.outputs.package-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$PACKAGE_NAME.sha512" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME.sha512 $S3_URI/
           else
@@ -280,7 +280,7 @@ jobs:
         if: needs.build-deb-arm64.outputs.package-symbols-name != ''
         run: |
           SYMBOLS_NAME="${{ needs.build-deb-arm64.outputs.package-symbols-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME $S3_URI/
           else
@@ -291,7 +291,7 @@ jobs:
         if: inputs.checksum == true && needs.build-deb-arm64.outputs.package-symbols-name != ''
         run: |
           SYMBOLS_NAME="${{ needs.build-deb-arm64.outputs.package-symbols-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME.sha512" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME.sha512 $S3_URI/
           else
@@ -330,7 +330,7 @@ jobs:
 
       - name: Download docker image for package building
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Append short commit to VERSION file
         run: |
@@ -351,8 +351,8 @@ jobs:
           echo "generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS"
           bash packages/generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS
 
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -v -E "^wazuh-agent-debuginfo")
-          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -E "^wazuh-agent-debuginfo")
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -v -E "^assetguard-agent-debuginfo")
+          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -E "^assetguard-agent-debuginfo")
 
           echo "package-name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
           echo "package-symbols-name=$PACKAGE_SYMBOLS_NAME" >> $GITHUB_OUTPUT
@@ -412,7 +412,7 @@ jobs:
 
       - name: Download docker image for testing
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Test install package
         run: |
@@ -430,7 +430,7 @@ jobs:
             --entrypoint '/tests/install_component.sh' \
             ${{ env.CONTAINER_NAME }}:${{ env.TAG }} \
             ${{ env.PACKAGE_NAME }} agent
-          if grep -iq " installed.*wazuh-agent" /tmp/status.log ; then
+          if grep -iq " installed.*assetguard-agent" /tmp/status.log ; then
             echo "Installation successfully."
           else
             echo "The installation could not be completed."
@@ -446,8 +446,8 @@ jobs:
         id: last-stable-version
         uses: ./.github/actions/5_builderpackage_get-last-stable-version
         with:
-          repo_owner: wazuh
-          repo_name: wazuh
+          repo_owner: assetguard
+          repo_name: assetguard
           testing_version: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -506,7 +506,7 @@ jobs:
       - name: Upload package to S3
         run: |
           PACKAGE_NAME="${{ needs.build-rpm-arm64.outputs.package-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$PACKAGE_NAME" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME $S3_URI/
             echo "S3 URI: $S3_URI/$PACKAGE_NAME"
@@ -519,7 +519,7 @@ jobs:
         if: inputs.checksum == true
         run: |
           PACKAGE_NAME="${{ needs.build-rpm-arm64.outputs.package-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$PACKAGE_NAME.sha512" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME.sha512 $S3_URI/
           else
@@ -530,7 +530,7 @@ jobs:
         if: needs.build-rpm-arm64.outputs.package-symbols-name != ''
         run: |
           SYMBOLS_NAME="${{ needs.build-rpm-arm64.outputs.package-symbols-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME $S3_URI/
           else
@@ -541,7 +541,7 @@ jobs:
         if: inputs.checksum == true && needs.build-rpm-arm64.outputs.package-symbols-name != ''
         run: |
           SYMBOLS_NAME="${{ needs.build-rpm-arm64.outputs.package-symbols-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME.sha512" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME.sha512 $S3_URI/
           else

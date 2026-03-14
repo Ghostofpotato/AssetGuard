@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(wazuh-remoted C)
+project(assetguard-remoted C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -27,11 +27,11 @@ include_directories(
   ${SRC_FOLDER}/config/include/
   ${SRC_FOLDER}/data_provider/include/
   ${SRC_FOLDER}/syscheckd/include/
-  ${SRC_FOLDER}/wazuh_modules/include/
-  ${SRC_FOLDER}/wazuh_modules/src/
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/
-  ${SRC_FOLDER}/wazuh_modules/src/task_manager/
-  ${SRC_FOLDER}/wazuh_db/include/
+  ${SRC_FOLDER}/assetguard_modules/include/
+  ${SRC_FOLDER}/assetguard_modules/src/
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/
+  ${SRC_FOLDER}/assetguard_modules/src/task_manager/
+  ${SRC_FOLDER}/assetguard_db/include/
   ${SRC_FOLDER}/shared_modules/agent_metadata/include/
   ${SRC_FOLDER}/shared_modules/common/
   ${SRC_FOLDER}/shared_modules/router/include/
@@ -41,16 +41,16 @@ include_directories(
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-set(WAZUH_RUNTIME_GROUP "wazuh")
-set(WAZUH_RUNTIME_USER "wazuh")
+set(ASSETGUARD_RUNTIME_GROUP "assetguard")
+set(ASSETGUARD_RUNTIME_USER "assetguard")
 if(NOT "${TARGET}" STREQUAL "winagent" AND NOT "${TARGET}" STREQUAL "agent")
-  set(WAZUH_RUNTIME_GROUP "wazuh-manager")
-  set(WAZUH_RUNTIME_USER "wazuh-manager")
+  set(ASSETGUARD_RUNTIME_GROUP "assetguard-manager")
+  set(ASSETGUARD_RUNTIME_USER "assetguard-manager")
 endif()
 
-add_definitions(-DARGV0="wazuh-manager-remoted")
-add_definitions(-DGROUPGLOBAL="${WAZUH_RUNTIME_GROUP}")
-add_definitions(-DUSER="${WAZUH_RUNTIME_USER}")
+add_definitions(-DARGV0="assetguard-manager-remoted")
+add_definitions(-DGROUPGLOBAL="${ASSETGUARD_RUNTIME_GROUP}")
+add_definitions(-DUSER="${ASSETGUARD_RUNTIME_USER}")
 add_definitions(-DPORTABLE_UNALIGNED_ACCESS=0)
 
 set(LIB_DIR ${CMAKE_BINARY_DIR}/lib)
@@ -65,14 +65,14 @@ list(REMOVE_ITEM REMOTED_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 add_library(remoted_lib STATIC ${REMOTED_SRC})
 set_target_properties(remoted_lib PROPERTIES LINKER_LANGUAGE C)
 
-# Enable WAZUH_UNIT_TESTING to export static functions for unit tests
+# Enable ASSETGUARD_UNIT_TESTING to export static functions for unit tests
 if(UNIT_TEST)
-  target_compile_definitions(remoted_lib PRIVATE WAZUH_UNIT_TESTING)
+  target_compile_definitions(remoted_lib PRIVATE ASSETGUARD_UNIT_TESTING)
   target_compile_options(remoted_lib PRIVATE -O0 -g)
 endif()
 
-target_link_libraries(remoted_lib PUBLIC wazuhext pthread router config
-                                         wazuh_modulesd_lib wazuh)
+target_link_libraries(remoted_lib PUBLIC assetguardext pthread router config
+                                         assetguard_modulesd_lib assetguard)
 
 if(UNIX)
   target_link_libraries(remoted_lib PUBLIC dl)
@@ -84,15 +84,15 @@ endif(UNIX)
 # Only build Unix executable when not running unit tests (server-only, no
 # Windows)
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows" AND NOT UNIT_TEST)
-  add_executable(wazuh-manager-remoted "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
+  add_executable(assetguard-manager-remoted "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
   set_target_properties(
-    wazuh-manager-remoted PROPERTIES LINKER_LANGUAGE C RUNTIME_OUTPUT_DIRECTORY
+    assetguard-manager-remoted PROPERTIES LINKER_LANGUAGE C RUNTIME_OUTPUT_DIRECTORY
                                                        ${SRC_FOLDER}/build/bin)
-  target_link_libraries(wazuh-manager-remoted PRIVATE remoted_lib)
+  target_link_libraries(assetguard-manager-remoted PRIVATE remoted_lib)
 
   if(APPLE)
     set_target_properties(
-      wazuh-manager-remoted PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE
+      assetguard-manager-remoted PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE
                                        INSTALL_RPATH "@executable_path/../lib")
   else()
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-rpath,$ORIGIN/../lib")

@@ -11,7 +11,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 
@@ -42,14 +42,14 @@ file(GLOB ROUTER_SRC "src/*.cpp")
 
 add_library(router SHARED ${ROUTER_SRC})
 
-target_link_libraries(router PRIVATE gcc_s flatbuffers wazuhext simdjson)
+target_link_libraries(router PRIVATE gcc_s flatbuffers assetguardext simdjson)
 
 set_target_properties(router PROPERTIES BUILD_RPATH_USE_ORIGIN TRUE
                                         BUILD_RPATH "$ORIGIN/../lib")
 
 if(TARGET compile_schemas_input)
   # If target isn't defined, only this project is being built and not the whole
-  # Wazuh project. The schemas must be compiled manually before building this
+  # AssetGuard project. The schemas must be compiled manually before building this
   # project in that case.
   add_dependencies(router compile_schemas_input)
 endif()

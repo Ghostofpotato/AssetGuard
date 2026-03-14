@@ -1,6 +1,6 @@
 # Packages
 
-This page lists the supported operating systems and architectures for Wazuh Server and Agent packages. Before installing Wazuh, verify that your platform and architecture are compatible with the available packages.
+This page lists the supported operating systems and architectures for AssetGuard Server and Agent packages. Before installing AssetGuard, verify that your platform and architecture are compatible with the available packages.
 
 ## Server
 

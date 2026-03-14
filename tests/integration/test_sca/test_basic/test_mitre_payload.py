@@ -1,6 +1,6 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
@@ -17,7 +17,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-modulesd
+    - assetguard-modulesd
 
 os_platform:
     - linux
@@ -31,8 +31,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/sec-config-assessment/index.html
-    - https://documentation.wazuh.com/current/user-manual/ruleset/mitre.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/sec-config-assessment/index.html
+    - https://documentation.assetguard.com/current/user-manual/ruleset/mitre.html
 
 tags:
     - sca
@@ -44,13 +44,13 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.modulesd.sca import patterns
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import callbacks, configuration
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from assetguard_testing.modules.modulesd.sca import patterns
+from assetguard_testing.tools.monitors import file_monitor
+from assetguard_testing.utils import callbacks, configuration
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -84,7 +84,7 @@ def _callback_mitre_event(line):
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(configurations, configuration_metadata), ids=case_ids)
 def test_sca_mitre_payload(test_configuration, test_metadata, prepare_cis_policies_file, truncate_monitored_files,
-                           set_wazuh_configuration, configure_local_internal_options, daemons_handler,
+                           set_assetguard_configuration, configure_local_internal_options, daemons_handler,
                            wait_for_sca_enabled):
     '''
     description: Runs a scan with a policy that contains a MITRE object and verifies that the
@@ -92,27 +92,27 @@ def test_sca_mitre_payload(test_configuration, test_metadata, prepare_cis_polici
 
     test_phases:
         - Copy the MITRE policy file into the agent's ruleset path.
-        - Restart wazuh.
+        - Restart assetguard.
         - Verify the SCA module starts.
         - Capture the "Stateful event queued" log and verify the MITRE object in the event payload.
 
-    wazuh_min_version: 4.6.0
+    assetguard_min_version: 4.6.0
 
     tier: 0
 
     parameters:
         - test_configuration:
             type: dict
-            brief: Wazuh configuration data. Needed for set_wazuh_configuration fixture.
+            brief: AssetGuard configuration data. Needed for set_assetguard_configuration fixture.
         - test_metadata:
             type: dict
-            brief: Wazuh configuration metadata.
+            brief: AssetGuard configuration metadata.
         - prepare_cis_policies_file:
             type: fixture
             brief: Copy test SCA policy file. Deleted after test.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Set the wazuh configuration according to the configuration data.
+            brief: Set the assetguard configuration according to the configuration data.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local_internal_options file.
@@ -121,7 +121,7 @@ def test_sca_mitre_payload(test_configuration, test_metadata, prepare_cis_polici
             brief: Truncate all log files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Restart all wazuh daemons.
+            brief: Restart all assetguard daemons.
         - wait_for_sca_enabled:
             type: fixture
             brief: Wait for the SCA module to start before the test.
@@ -138,7 +138,7 @@ def test_sca_mitre_payload(test_configuration, test_metadata, prepare_cis_polici
         - r".*sca.*INFO: SCA module enabled"
         - r".*sca.*Stateful event queued: (.*)"
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(ASSETGUARD_LOG_PATH)
 
     # Verify that the SCA module is enabled
     log_monitor.start(callback=callbacks.generate_callback(patterns.SCA_ENABLED), timeout=60 if sys.platform == WINDOWS else 10)

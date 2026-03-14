@@ -4,13 +4,13 @@ This document describes the technical architecture and internal workings of the 
 
 ## Overview
 
-Rootcheck is an agent-side anomaly detection module that performs periodic scans to identify potential security threats. In Wazuh 5.0, rootcheck operates in a **stateless mode**, meaning all detection happens on the agent and only alerts are sent to the manager without persistent storage.
+Rootcheck is an agent-side anomaly detection module that performs periodic scans to identify potential security threats. In AssetGuard 5.0, rootcheck operates in a **stateless mode**, meaning all detection happens on the agent and only alerts are sent to the manager without persistent storage.
 
 ## Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────┐
-│           Wazuh Agent                    │
+│           AssetGuard Agent                    │
 │                                          │
 │  ┌────────────────────────────────────┐ │
 │  │     Rootcheck Module               │ │
@@ -52,7 +52,7 @@ Rootcheck is an agent-side anomaly detection module that performs periodic scans
               │ (Real-time alerts only)
               ▼
 ┌─────────────────────────────────────────┐
-│          Wazuh Manager                   │
+│          AssetGuard Manager                   │
 │                                          │
 │  ┌────────────────────────────────────┐ │
 │  │      analysisd                     │ │
@@ -226,7 +226,7 @@ ossec: output: 'rootcheck' message: <detection_details>
 
 ### 4. Agent Communication
 
-**Mechanism:** Uses standard Wazuh agent communication channel
+**Mechanism:** Uses standard AssetGuard agent communication channel
 
 **Flow:**
 1. Rootcheck generates alert
@@ -257,7 +257,7 @@ ossec: output: 'rootcheck' message: <detection_details>
 **No Persistent State (5.0):**
 - Alerts processed through rules engine
 - Logged to `alerts.log` and `alerts.json`
-- Not stored in wazuh-manager-db
+- Not stored in assetguard-manager-db
 - No `/rootcheck` API data persistence
 
 ## Performance Characteristics
@@ -388,7 +388,7 @@ Rootcheck alerts are processed by rules in the 510-550 range:
 - **Rule 51x:** Specific detection types
 - **No database storage:** Unlike pre-5.0 versions
 
-## Changes in Wazuh 5.0
+## Changes in AssetGuard 5.0
 
 ### Architectural Changes
 
@@ -435,7 +435,7 @@ Enable verbose logging:
 rootcheck.debug=2
 
 # Restart agent
-/var/ossec/bin/wazuh-control restart
+/var/ossec/bin/assetguard-control restart
 ```
 
 Check rootcheck-specific logs:

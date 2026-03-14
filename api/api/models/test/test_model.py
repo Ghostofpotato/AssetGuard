@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import importlib.util
@@ -14,13 +14,13 @@ import pytest
 from connexion import ProblemException
 
 from api.controllers.util import JSON_CONTENT_TYPE
-with patch('wazuh.core.common.wazuh_uid'):
-    with patch('wazuh.core.common.wazuh_gid'):
+with patch('assetguard.core.common.assetguard_uid'):
+    with patch('assetguard.core.common.assetguard_gid'):
         sys.modules['api.authentication'] = MagicMock()
         from api.models import base_model_ as bm
         from api.models import event_ingest_model
         from api.util import deserialize_model
-        from wazuh import WazuhError
+        from assetguard import AssetGuardError
 
         del sys.modules['api.authentication']
 
@@ -72,7 +72,7 @@ class ToDictObject:
 
 def test_model_from_dict():
     """Test class Model `from_dict` method."""
-    exc = WazuhError(1000)
+    exc = AssetGuardError(1000)
     with pytest.raises(exc.__class__):
         bm.Model.from_dict(exc)
 

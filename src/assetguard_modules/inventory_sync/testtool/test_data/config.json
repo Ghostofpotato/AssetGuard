@@ -1,0 +1,19 @@
+{
+    "vulnerability-detection": {
+        "enabled": "yes",
+        "cti-url": "RemoveMeIfYouWantUpdateOffsetshttps://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0"
+    },
+    "indexer": {
+        "hosts": [
+            "https://127.0.0.1:9200"
+        ],
+        "ssl": {
+            "certificate_authorities": [
+                "/var/assetguard-manager/etc/certs/root-ca.pem"
+            ],
+            "certificate": "/var/assetguard-manager/etc/certs/manager.pem",
+            "key": "/var/assetguard-manager/etc/certs/manager-key.pem"
+        }
+    },
+    "clusterName": "cluster01"
+}

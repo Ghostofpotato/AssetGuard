@@ -24,23 +24,23 @@ $ brew install cmocka
 $ brew install lcov
 ```
 
-#### Compile Wazuh
-In order to run unit tests on a specific wazuh target, the project needs to be built with the `TEST` option as shown below:
+#### Compile AssetGuard
+In order to run unit tests on a specific assetguard target, the project needs to be built with the `TEST` option as shown below:
 ```
 make TARGET=server|agent|winagent TEST=1
 ```
 
 #### Compile and run unit tests for Linux targets
-In order to run unit tests for either the Wazuh server or Linux agents, these need to be built using [CMake](#installing-cmake) version 3.10 or higher and [cmocka](#installing-cmocka).
+In order to run unit tests for either the AssetGuard server or Linux agents, these need to be built using [CMake](#installing-cmake) version 3.10 or higher and [cmocka](#installing-cmocka).
 
-Navigate into `wazuh/src/unit_tests` and run the following commands:
+Navigate into `assetguard/src/unit_tests` and run the following commands:
 ```
 mkdir build
 cd build
 cmake -DTARGET=server|agent ..
 make
 ```
-Notice that when running the cmake command we need to specify the target on which we will run the unit tests, this target needs to match the wazuh target used for compilation and wazuh needs to be previously compiled.
+Notice that when running the cmake command we need to specify the target on which we will run the unit tests, this target needs to match the assetguard target used for compilation and assetguard needs to be previously compiled.
 
 There are several ways to run unit tests:
 
@@ -58,14 +58,14 @@ The output of the test will be written directly into the console.
 #### Compile and run unit tests for Windows agent
 Similarly to compiling unit tests for server or Linux agent configurations, [CMake](#installing-cmake) 3.10 or higher and [cmocka](#installing-cmocka) are required, as well as a 32 bit [wine installation](#installing-wine) in order to run the tests.
 
-Navigate into `wazuh/src/unit_tests` and run the following commands:
+Navigate into `assetguard/src/unit_tests` and run the following commands:
 ```
 mkdir build
 cd build
 cmake -DTARGET=winagent -DCMAKE_TOOLCHAIN_FILE=../Toolchain-win32.cmake ..
 make
 ```
-Just as when compiling server and Linux agent unit tests, the winagent target for Wazuh must be compiled previously.
+Just as when compiling server and Linux agent unit tests, the winagent target for AssetGuard must be compiled previously.
 
 The `CMAKE_TOOLCHAIN_FILE` option is added so crosscompiling of the unit tests can be properly configured by cmake.
 
@@ -85,7 +85,7 @@ The output of the test will be written directly into the console.
 #### Compile and run unit tests for macOS agent
 Similarly to compiling unit tests for server or Linux agent configurations, [CMake](#installing-cmake) 3.10 or higher and [cmocka](#installing-cmocka) are required.
 
-Navigate into `wazuh/src/unit_tests` and run the following commands:
+Navigate into `assetguard/src/unit_tests` and run the following commands:
 ```
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
 mkdir build
@@ -93,7 +93,7 @@ cd build
 cmake -DTARGET=agent ..
 make
 ```
-The agent target for Wazuh must be compiled previously. The tests are run in the same way as Linux systems.
+The agent target for AssetGuard must be compiled previously. The tests are run in the same way as Linux systems.
 
 If installing cmake using `apt-get` or `yum` yields a version lower the 3.10, remove it and run these commands to install from sources.
 
@@ -108,7 +108,7 @@ make
 sudo make install
 ```
 
-The cmocka unit tests framework is required in order to compile and run the Wazuh unit tests suite. For server and Linux agent tests, a binary installation of cmocka using a package manager is enough. If you want to run the Windows agent tests, you will need to build cmocka using the MinGW compiler.
+The cmocka unit tests framework is required in order to compile and run the AssetGuard unit tests suite. For server and Linux agent tests, a binary installation of cmocka using a package manager is enough. If you want to run the Windows agent tests, you will need to build cmocka using the MinGW compiler.
 
 1. Clone cmocka repository:
 ```
@@ -178,7 +178,7 @@ If you need to run the tests on a CentOS 7 machine, you can follow these instruc
 
 After installing wine, the `WINEPATH` and `WINEARCH` variables need to be created in order for it to know it should run on 32 bit mode and find all required dlls for the tests. On an Ubuntu system, the following commands need to be executed and/or added into the user's `.bashrc` file.
 ```
-export WINEPATH="/usr/i686-w64-mingw32/lib;/usr/lib/gcc/i686-w64-mingw32/13-posix;/path/to/wazuh/src;/path/to/wazuh/src/build/bin"
+export WINEPATH="/usr/i686-w64-mingw32/lib;/usr/lib/gcc/i686-w64-mingw32/13-posix;/path/to/assetguard/src;/path/to/assetguard/src/build/bin"
 export WINEARCH=win32
 ```
 If wine complains about being a 64 bit installation, remove/rename the directory `~/.wine` and run it again.
@@ -240,9 +240,9 @@ pip install --upgrade pip
 
 ---
 
-#### Install Wazuh
+#### Install AssetGuard
 
-Install the Wazuh version untder testing, either from sources or from packages
+Install the AssetGuard version untder testing, either from sources or from packages
 
 
 #### Install the integration test framework
@@ -250,7 +250,7 @@ Install the Wazuh version untder testing, either from sources or from packages
 Determine the appropriate branch of the QA integration framework and install it:
 
 ```
-git clone -b "$QA_BRANCH" --single-branch https://github.com/wazuh/qa-integration-framework.git
+git clone -b "$QA_BRANCH" --single-branch https://github.com/assetguard/qa-integration-framework.git
 sudo pip install qa-integration-framework/
 rm -rf qa-integration-framework/
 ```
@@ -284,10 +284,10 @@ An integration test is used to check that the behavior of the different applicat
 they are integrated. In other words, the integration tests check the correct interaction between the application 
 components.
 
-The API integration tests are used to verify that the API is working properly in a complete Wazuh environment.
+The API integration tests are used to verify that the API is working properly in a complete AssetGuard environment.
 This environment is built using [`docker`](https://www.docker.com/).
 
-The `wazuh/api/test/integration` directory contains all the API integration tests files and directories used for the
+The `assetguard/api/test/integration` directory contains all the API integration tests files and directories used for the
 environment deployment.
 
 
@@ -324,16 +324,16 @@ for the test (see [RBAC API integration tests](#RBAC-API-integration-tests)).
 
 #### Docker environment
 
-The Wazuh environment used to perform the API integration tests is built using `docker`.
+The AssetGuard environment used to perform the API integration tests is built using `docker`.
 
 This environment is composed of **12 docker containers**. These containers have the following components installed: 3
-Wazuh managers, that compose a Wazuh cluster (1 master, 2 workers); 4 Wazuh agents with the same version as the managers
-forming the cluster; 4 Wazuh agents with version 4.14.1 (old); and 1 HAProxy load balancer.
+AssetGuard managers, that compose a AssetGuard cluster (1 master, 2 workers); 4 AssetGuard agents with the same version as the managers
+forming the cluster; 4 AssetGuard agents with version 4.14.1 (old); and 1 HAProxy load balancer.
 
-The Wazuh version used for the managers and non-old agents is the one specified by the branch used to perform the API
+The AssetGuard version used for the managers and non-old agents is the one specified by the branch used to perform the API
 integration tests.
 
-The `docker-compose.yml` file used to deploy the environment is at `wazuh/api/test/integration/env`. The `Dockerfile`,
+The `docker-compose.yml` file used to deploy the environment is at `assetguard/api/test/integration/env`. The `Dockerfile`,
 `entrypoint.sh`, and other configuration files can be found in the `base` directory.
 
 We also use specific **configurations and health checks depending on the test executed**. These configurations can be
@@ -359,7 +359,7 @@ The environment is brought up automatically when running an API integration test
 
 | Command                          | Environment                                          |  
 |----------------------------------|------------------------------------------------------|
-| `pytest TEST_NAME`               | Wazuh cluster environment                            |  
+| `pytest TEST_NAME`               | AssetGuard cluster environment                            |  
 
 
 Talking about [RBAC API integration tests](#RBAC-API-integration-tests), they don't have any marks, so there is no need
@@ -371,14 +371,14 @@ to specify one when running them. If a mark is specified, no tests will be run d
 As said in previous sections, some test names follow the structure
 `test_rbac_{rbac_mode}_{module}_endpoints.tavern.yaml`.
 
-These tests are used to check the proper functioning of a Wazuh environment with RBAC configurations. The `conftest.py`
+These tests are used to check the proper functioning of a AssetGuard environment with RBAC configurations. The `conftest.py`
 file includes functions in charge of changing the RBAC mode and creating the specified RBAC resources for the test in
 execution. The `env/configurations/rbac` directory includes all the specific configurations for each RBAC API 
 integration test, for both **white** and **black** modes.
 
 #### Tests execution
 
-To perform a Wazuh API integration test, we need a specific `python3` environment. This python environment includes the 
+To perform a AssetGuard API integration test, we need a specific `python3` environment. This python environment includes the 
 following dependencies:
 
 ```python
@@ -399,7 +399,7 @@ Once these requirements are satisfied, we can perform the API integration tests:
 $ python3 -m pytest test_agent_GET_endpoints.tavern.yaml --disable-warnings
 ========================================== test session starts ===========================================
 platform linux -- Python 3.9.9, pytest-5.4.3, py-1.11.0, pluggy-0.13.1
-rootdir: /home/user/git/wazuh/api/test/integration, inifile: pytest.ini
+rootdir: /home/user/git/assetguard/api/test/integration, inifile: pytest.ini
 plugins: html-2.1.1, metadata-2.0.1, tavern-1.0.0
 collected 92 items                                                                                       
 
@@ -421,7 +421,7 @@ optional arguments:
                   Disables warnings during test execution.
 ```
 
-We can also use the `wazuh/api/test/integration/run_tests.py` script. This script includes the possibility to collect a 
+We can also use the `assetguard/api/test/integration/run_tests.py` script. This script includes the possibility to collect a 
 group of tests to be passed. Script arguments:
 
 ```text
@@ -445,6 +445,6 @@ optional arguments:
 ```
 
 The `run_test.py` script does not show the tests' full output. The full reports are saved 
-at `wazuh/api/test/integration/_test_results`. Containers' logs (`ossec.log`, `api.log` and `cluster.log`) are stored 
+at `assetguard/api/test/integration/_test_results`. Containers' logs (`ossec.log`, `api.log` and `cluster.log`) are stored 
 at `_test_results/logs`. Reports in HTML format are also generated and can be found at `_test_results/html_reports`.
 

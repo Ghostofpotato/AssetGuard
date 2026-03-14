@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12.4)
 
 project(config C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -25,13 +25,13 @@ include_directories(
   ${SRC_FOLDER}/shared/os_xml
   ${SRC_FOLDER}/shared_modules/dbsync/include
   ${SRC_FOLDER}/syscheckd/include
-  ${SRC_FOLDER}/wazuh_modules/include
-  ${SRC_FOLDER}/wazuh_modules/src
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/agent
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/manager
-  ${SRC_FOLDER}/wazuh_modules/src/task_manager
-  ${SRC_FOLDER}/wazuh_db/include)
+  ${SRC_FOLDER}/assetguard_modules/include
+  ${SRC_FOLDER}/assetguard_modules/src
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/agent
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/manager
+  ${SRC_FOLDER}/assetguard_modules/src/task_manager
+  ${SRC_FOLDER}/assetguard_db/include)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   add_definitions(-DWIN32=1 -DWIN_EXPORT)
@@ -56,9 +56,9 @@ set_target_properties(
   config PROPERTIES LINKER_LANGUAGE C ARCHIVE_OUTPUT_DIRECTORY
                                       ${CMAKE_BINARY_DIR}/lib)
 
-# Enable WAZUH_UNIT_TESTING to export static functions for unit tests
+# Enable ASSETGUARD_UNIT_TESTING to export static functions for unit tests
 if(UNIT_TEST)
-  target_compile_definitions(config PRIVATE WAZUH_UNIT_TESTING)
+  target_compile_definitions(config PRIVATE ASSETGUARD_UNIT_TESTING)
 endif()
 
-target_link_libraries(config PUBLIC wazuhext wazuh wazuh_modulesd_lib)
+target_link_libraries(config PUBLIC assetguardext assetguard assetguard_modulesd_lib)

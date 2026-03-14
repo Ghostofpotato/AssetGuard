@@ -1,5 +1,5 @@
-name: 'Test upgrade Wazuh agent package (Windows)'
-description: 'Test upgrade Wazuh agent package (Windows) locally using Python script'
+name: 'Test upgrade AssetGuard agent package (Windows)'
+description: 'Test upgrade AssetGuard agent package (Windows) locally using Python script'
 
 inputs:
   old_package_url:
@@ -12,7 +12,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run test upgrade Wazuh agent package (Windows)
+    - name: Run test upgrade AssetGuard agent package (Windows)
       shell: pwsh
       run: |
         python -u "${{ github.action_path }}\smoke_upgrade_test.py" "${{ inputs.old_package_url }}" "${{ inputs.expected_upgrade_version }}"

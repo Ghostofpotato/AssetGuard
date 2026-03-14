@@ -20,7 +20,7 @@ jobs:
         run: make -C src deps TARGET=winagent -j2
       - name: make
         # We force the binary to exit when a library isn't signed because we could end up having a false
-        # positive if a Wazuh .dll is required after the verification mechanism has been enabled
+        # positive if a AssetGuard .dll is required after the verification mechanism has been enabled
         run: make -C src TARGET=winagent -j2 IMAGE_TRUST_CHECKS=2
       - name: Copy executables
         run: |

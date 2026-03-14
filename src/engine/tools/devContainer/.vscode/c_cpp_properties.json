@@ -3,9 +3,9 @@
         {
             "name": "gcc-C++17",
             "includePath": [
-                "${workspaceFolder}/wazuh/src/engine/**",
-                "${workspaceFolder}/wazuh/src/external/**",
-                "${workspaceFolder}/wazuh/src/**"
+                "${workspaceFolder}/assetguard/src/engine/**",
+                "${workspaceFolder}/assetguard/src/external/**",
+                "${workspaceFolder}/assetguard/src/**"
             ],
             "defines": [],
             "cStandard": "c17",
@@ -13,7 +13,7 @@
             "intelliSenseMode": "gcc-x64",
             "configurationProvider": "ms-vscode.cmake-tools",
             "browse": {
-                "path": ["${workspaceFolder}/wazuh/src/"],
+                "path": ["${workspaceFolder}/assetguard/src/"],
                 "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db",
                 "limitSymbolsToIncludedHeaders": false
             }

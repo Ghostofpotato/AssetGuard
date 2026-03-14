@@ -3,7 +3,7 @@ include_directories(${SRC_FOLDER}/os_auth/include)
 include_directories(${SRC_FOLDER}/os_auth/src)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 # Generate Analysisd tests
 list(APPEND os_auth_names "test_auth_parse")
 list(APPEND os_auth_flags "${DEBUG_OP_WRAPPERS} -Wl,--wrap,OS_IsValidIP")
@@ -44,8 +44,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${os_auth_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${ASSETGUARDLIB}
+        ${ASSETGUARDEXT}
         authd_lib
         ${TEST_DEPS}
     )

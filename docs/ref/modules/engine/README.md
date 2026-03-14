@@ -84,7 +84,7 @@ Input event example:
     ],
     "host": {
       "architecture": "x86_64",
-      "hostname": "wazuh-endpoint-linux",
+      "hostname": "assetguard-endpoint-linux",
       "ip": [
         "192.168.1.2"
       ],
@@ -94,7 +94,7 @@ Input event example:
       }
     },
     "id": "2887e1cf-9bf2-431a-b066-a46860080f56",
-    "name": "wazuh-agent-name",
+    "name": "assetguard-agent-name",
     "type": "endpoint",
     "version": "5.0.0"
   },
@@ -122,7 +122,7 @@ Processed event:
     ],
     "host": {
       "architecture": "x86_64",
-      "hostname": "wazuh-endpoint-linux",
+      "hostname": "assetguard-endpoint-linux",
       "ip": [
         "192.168.1.2"
       ],
@@ -132,7 +132,7 @@ Processed event:
       }
     },
     "id": "2887e1cf-9bf2-431a-b066-a46860080f56",
-    "name": "wazuh-agent-name",
+    "name": "assetguard-agent-name",
     "type": "endpoint",
     "version": "5.0.0"
   },
@@ -165,7 +165,7 @@ Processed event:
   "tags": [
     "production-server"
   ],
-  "wazuh": {
+  "assetguard": {
     "decoders": [
       "syslog"
     ]
@@ -252,7 +252,7 @@ classDef TreeBoxClass font-size: 15px,stroke-width:2px,stroke-dasharray: 5 5
 
 ```
 
-Wazuh comes with a predefined policy that enables all its components to work properly and it is structured on top of Wazuh-supported log sources.
+AssetGuard comes with a predefined policy that enables all its components to work properly and it is structured on top of AssetGuard-supported log sources.
 
 Each source does have a particular way to format and send logs to the engine. The default policy takes care of that, allowing the users to focus on their integrations and not on the nuances of the logs transports for each source.
 
@@ -260,13 +260,13 @@ Each source does have a particular way to format and send logs to the engine. Th
 graph LR;
     subgraph Endpoint
         Service["Service"]
-        WazuhAgent["Wazuh agent"]
-        Service --- WazuhAgent
+        AssetGuardAgent["AssetGuard agent"]
+        Service --- AssetGuardAgent
     end
 
-    WazuhAgent -.-> Orchestrator["Orchestrator: Router"]
+    AssetGuardAgent -.-> Orchestrator["Orchestrator: Router"]
 
-    subgraph WazuhServer["Wazuh server"]
+    subgraph AssetGuardServer["AssetGuard server"]
 
         subgraph Engine
             Orchestrator --> Route["Route"]
@@ -393,7 +393,7 @@ sources or applications.
 
 ### Security enrichment process
 The analysis process evaluates all event fields to identify potential security concerns, which are represented as threat
-indicators within the common schema. These indicators are later stored in the Wazuh Indexer, where they can be used for
+indicators within the common schema. These indicators are later stored in the AssetGuard Indexer, where they can be used for
 threat hunting and detecting security issues.
 
 All decoded events pass through the analysis pipeline, starting with the root rule. The root rule determines the next
@@ -450,22 +450,22 @@ flowchart LR
 classDef EventBoxClass font-size: 15px,stroke-width:2px, color:#fff, fill:#3f51b5
 classDef TreeBoxClass font-size: 15px,stroke-width:2px,stroke-dasharray: 5 5
 
- subgraph wazuhRulesTree["Wazuh Rules"]
+ subgraph assetguardRulesTree["AssetGuard Rules"]
   direction TB
 
-  wazuhRules01(" ")
-  wazuhRules02(" ")
-  wazuhRules03(" ")
-  wazuhRules04(" ")
-  wazuhRules05(" ")
-  wazuhRules06(" ")
-  wazuhRules07(" ")
-  wazuhRules08(" ")
+  assetguardRules01(" ")
+  assetguardRules02(" ")
+  assetguardRules03(" ")
+  assetguardRules04(" ")
+  assetguardRules05(" ")
+  assetguardRules06(" ")
+  assetguardRules07(" ")
+  assetguardRules08(" ")
 
-  wazuhRules01 --> wazuhRules02 & wazuhRules03 & wazuhRules04
-  wazuhRules02 --> wazuhRules05
-  wazuhRules03 --> wazuhRules06 & wazuhRules07
-  wazuhRules04 --> wazuhRules08
+  assetguardRules01 --> assetguardRules02 & assetguardRules03 & assetguardRules04
+  assetguardRules02 --> assetguardRules05
+  assetguardRules03 --> assetguardRules06 & assetguardRules07
+  assetguardRules04 --> assetguardRules08
  end
 
  subgraph userRulesTree["User rules"]
@@ -487,22 +487,22 @@ classDef TreeBoxClass font-size: 15px,stroke-width:2px,stroke-dasharray: 5 5
 
  end
 
- wazuhRulesTree:::TreeBoxClass
+ assetguardRulesTree:::TreeBoxClass
  userRulesTree:::TreeBoxClass
  eventInput:::EventBoxClass
  eventOutput:::EventBoxClass
 
  %% Pipeline
- eventInput@{shape: doc, label: "Normalized</br>Event"}==>wazuhRulesTree & userRulesTree-.->eventOutput@{shape: doc, label: "Security</br>event"}
+ eventInput@{shape: doc, label: "Normalized</br>Event"}==>assetguardRulesTree & userRulesTree-.->eventOutput@{shape: doc, label: "Security</br>event"}
 
 ```
 
 The analysis pipeline is divided into two layers:
 
-- **Wazuh Rules**: Contains the default rules provided by Wazuh.
+- **AssetGuard Rules**: Contains the default rules provided by AssetGuard.
 - **User Rules**: Contains user-defined rules.
 
-Then both the Wazuh and user rules are applied to the event.
+Then both the AssetGuard and user rules are applied to the event.
 
 
 ### Archiving and alerting process
@@ -511,7 +511,7 @@ Once an event has completed processing through the decoder and rule pipelines, i
 Similar to previous stages, the event first passes through the root output, which determines the appropriate output(s)
 for further processing. Multiple outputs can be selected, enabling flexible storage and distribution policies.
 
-The output process in Wazuh is designed to efficiently distribute alerts through broadcasting, with each output capable
+The output process in AssetGuard is designed to efficiently distribute alerts through broadcasting, with each output capable
 of filtering alerts to support customized distribution:
 
 ```mermaid
@@ -608,22 +608,22 @@ userDecoTree ====> eventNormalized
 %%           Rules Stage
 %% --------------------------------------
 
- subgraph wazuhRulesTree["Wazuh Rules"]
+ subgraph assetguardRulesTree["AssetGuard Rules"]
   direction TB
 
-  wazuhRules01(" ")
-  wazuhRules02(" ")
-  wazuhRules03(" ")
-  wazuhRules04(" ")
-  wazuhRules05(" ")
-  wazuhRules06(" ")
-  wazuhRules07(" ")
-  wazuhRules08(" ")
+  assetguardRules01(" ")
+  assetguardRules02(" ")
+  assetguardRules03(" ")
+  assetguardRules04(" ")
+  assetguardRules05(" ")
+  assetguardRules06(" ")
+  assetguardRules07(" ")
+  assetguardRules08(" ")
 
-  wazuhRules01 --> wazuhRules02 & wazuhRules03 & wazuhRules04
-  wazuhRules02 --> wazuhRules05
-  wazuhRules03 --> wazuhRules06 & wazuhRules07
-  wazuhRules04 --> wazuhRules08
+  assetguardRules01 --> assetguardRules02 & assetguardRules03 & assetguardRules04
+  assetguardRules02 --> assetguardRules05
+  assetguardRules03 --> assetguardRules06 & assetguardRules07
+  assetguardRules04 --> assetguardRules08
  end
 
  subgraph userRulesTree["User rules"]
@@ -648,7 +648,7 @@ userDecoTree ====> eventNormalized
 
 
 subgraph ruleStage["Rules Stage"]
- wazuhRulesTree:::TreeBoxClass
+ assetguardRulesTree:::TreeBoxClass
  userRulesTree:::TreeBoxClass
 end
 
@@ -657,7 +657,7 @@ securityEvent@{shape: doc, label: "Security</br>event"}
 securityEvent:::EventBoxClass
 
 %% Pipieline
-eventNormalized==>wazuhRulesTree & userRulesTree-.->securityEvent
+eventNormalized==>assetguardRulesTree & userRulesTree-.->securityEvent
 
 %% --------------------------------------
 %%           Output Stage
@@ -805,7 +805,7 @@ To organize assets efficiently, the Engine categorizes them into namespaces. Int
 
 The default policy asset namespaces in the Engine are:
 - `system` – Core assets responsible for handling internal event processing and ensuring basic event normalization.
-- `wazuh` – Default integrations developed and maintained by Wazuh.
+- `assetguard` – Default integrations developed and maintained by AssetGuard.
 - `user` – A default namespace for end-user-defined assets.
 
 While these are the predefined namespaces, the Engine allows creating as many namespaces as needed, enabling flexibility in asset management.
@@ -854,7 +854,7 @@ All modules follow the same naming convention, ensuring that every item—whethe
 For more information on the Engine’s architecture and how the modules interact, refer to [architecture documentation](architecture.md).
 
 ## Assets
-In the Wazuh Engine, assets represent the fundamental components of security policies and are the smallest unit within such a policy.
+In the AssetGuard Engine, assets represent the fundamental components of security policies and are the smallest unit within such a policy.
 
 Each asset is organized into various stages that dictate operational procedures when processing an event. These stages provide a structured and semantically meaningful sequence of operations, enhancing the engine's capability to execute these operations efficiently based on predefined execution strategies.
 
@@ -1214,7 +1214,7 @@ Key Components:
   - Field choices (choosing between multiple fields)
 - Wildcards: Capture patterns without mapping data to fields.
 - Optional Groups: Make subexpressions optional for flexible parsing.
-- Schema Parsers: Automatically applied when a field of a known type is used, ensuring compatibility with Wazuh Indexer.
+- Schema Parsers: Automatically applied when a field of a known type is used, ensuring compatibility with AssetGuard Indexer.
 
 Example:
 This expression captures an IP or hostname into `client.ip` or `client.address` and, if present, captures a port into `server.port`:
@@ -1315,9 +1315,9 @@ kanban
     - `version` (array): A list of versions for which the logs have been tested and supported. I.e., `2.2.x`, `3.x`, etc.
     - `author` (object): The author of the decoder, ie:
         ```yaml
-        name: Wazuh, Inc.
-        email: info@wazuh.com
-        url: https://wazuh.com
+        name: AssetGuard, Inc.
+        email: info@assetguard.com
+        url: https://assetguard.com
         date: 2022-11-15
         ```
     - `reference` (array): A list of references to the documentation, i.e.:
@@ -1385,7 +1385,7 @@ kanban
 ### Outputs
 
 Outputs are the last layer of assets that process events in a security policy. They are responsible for storing the
-security events in a storage system, sending them to a wazuh-indexer, a file, or sending them to a third-party system.
+security events in a storage system, sending them to a assetguard-indexer, a file, or sending them to a third-party system.
 
 
 ```mermaid
@@ -1472,18 +1472,18 @@ id: fef71314-00c6-41f5-ab26-15e271e9f913
 enabled: true
 type: pre-filter
 metadata:
-  module: wazuh
+  module: assetguard
   title: Platform filter
   description: Filter events by platform
-  compatibility: Wazuh 5.*
+  compatibility: AssetGuard 5.*
   versions:
-    - Wazuh 5.*
+    - AssetGuard 5.*
   author:
-    name: Wazuh, Inc.
-    url: https://wazuh.com
+    name: AssetGuard, Inc.
+    url: https://assetguard.com
     date: 2024-01-31
   references:
-    - https://documentation.wazuh.com/
+    - https://documentation.assetguard.com/
 check: $host.os.platform == 'ubuntu'
 ```
 
@@ -1547,7 +1547,7 @@ check: int_less($http.response.status_code, 400)
 ```
 
 ```yaml
-check: $wazuh.origin == /var/log/apache2/access.log OR $wazuh.origin == /var/log/httpd/access_log
+check: $assetguard.origin == /var/log/apache2/access.log OR $assetguard.origin == /var/log/httpd/access_log
 ```
 
 ### Parse
@@ -1679,7 +1679,7 @@ Example:
 ```yaml
 normalize:
   - map:
-      - wazuh.decoders: array_append(windows-sysmon)
+      - assetguard.decoders: array_append(windows-sysmon)
       - event.dataset: sysmon
       - event.kind: event
 
@@ -1712,7 +1712,7 @@ These parsers are used automatically when a field of its type is used in a logpa
 
 For example, if you use the field `<event.start>` which is of type `date`, it will be parsed automatically by the date parser.
 
-These parsers will generate fields which are type-compatible with Wazuh Indexer.
+These parsers will generate fields which are type-compatible with AssetGuard Indexer.
 
 | Type        | Parser       | Description                                                                                          |
 |-------------|--------------|------------------------------------------------------------------------------------------------------|
@@ -1743,24 +1743,24 @@ Aditionally we define some types for the purpose to use specific parsers, normal
 
 ## Debugging
 
-By default, the Engine's log information is recorded in journald when launching the wazuh-manager service.
+By default, the Engine's log information is recorded in journald when launching the assetguard-manager service.
 
 ### Filtering Logs by Executable Name
 You can retrieve logs specifically for the Engine using journald’s _COMM field:
 
 ```bash
-journalctl _COMM=wazuh-engine
+journalctl _COMM=assetguard-engine
 ```
 
 For real-time monitoring of errors:
 ```bash
-journalctl -f _COMM=wazuh-engine
+journalctl -f _COMM=assetguard-engine
 ```
 
 ### Filtering Logs by Severity
 To refine logs based on severity levels you can combine grep:
 ```bash
-journalctl _COMM=wazuh-engine | grep info
+journalctl _COMM=assetguard-engine | grep info
 
 Dec 18 14:59:22 WazPc env[12974]: 2024-12-18 14:59:22.663 12974:12974 info: Logging initialized.
 Dec 18 14:59:22 WazPc env[12974]: 2024-12-18 14:59:22.668 12974:12974 fileDriver.cpp:231 at readCol(): debug: FileDriver readCol name: 'namespaces/system/decoder/core-hostinfo'.
@@ -1854,7 +1854,7 @@ traces:
 [🔴] decoder/sysmon-linux/0 -> failed
 [🔴] decoder/system-auth/0 -> failed
 [🔴] decoder/snort-plaintext-syslog/0 -> failed
-[🔴] decoder/wazuh-dashboard/0 -> failed
+[🔴] decoder/assetguard-dashboard/0 -> failed
 ```
 
 Showing full traces:
@@ -1865,7 +1865,7 @@ traces:
   ↳ [/event/original: <event.start/Jun 14 15:16:01> <host.hostname> <TAG/alphanumeric/->:<~/ignore/ ><message>] -> Failure: Parse operation failed: Parser <event.start/Jun 14 15:16:01> failed at: 2018-08-14T14:30:02.203151+02:00 linux-sqrz systemd[4179]: Stopped target Basic System.
   ↳ [/event/original: <event.start/2018-08-14T14:30:02.203151+02:00> <host.hostname> <TAG/alphanumeric/->[<process.pid>]: <message>] -> Success
   ↳ event.kind: map("event") -> Success
-  ↳ wazuh.decoders: array_append("syslog") -> Success
+  ↳ assetguard.decoders: array_append("syslog") -> Success
   ↳ related.hosts: array_append($host.hostname) -> Success
   ↳ process.name: rename($TAG) -> Success
   ↳ host.ip: array_append($tmp.host_ip) -> Failure: 'tmp.host_ip' not found

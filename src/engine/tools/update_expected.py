@@ -62,7 +62,7 @@ if __name__ == '__main__':
         arg_parser.add_argument('-o', '--output', type=Path,
                                 help='Path to the output file, default: /tmp/update_expected/', default='/tmp/update_expected/')
         arg_parser.add_argument(
-            '-b', '--binary', help='Specify the path to the engine binary', default='wazuh-engine')
+            '-b', '--binary', help='Specify the path to the engine binary', default='assetguard-engine')
         args = arg_parser.parse_args()
 
         path = Path(args.path).resolve()

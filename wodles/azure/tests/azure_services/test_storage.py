@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -63,7 +63,7 @@ def create_mocked_blob(blob_name: str, last_modified: datetime = None, content_l
     'auth_path, name, key, container_name',
     [
         (None, 'name', 'key', 'container'),
-        (os.environ.get('INSTALLDIR', '/var/wazuh-manager'), '', '', '*'),
+        (os.environ.get('INSTALLDIR', '/var/assetguard-manager'), '', '', '*'),
     ],
 )
 @patch('azure_services.storage.get_blobs')

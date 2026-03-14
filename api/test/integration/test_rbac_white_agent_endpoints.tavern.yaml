@@ -249,13 +249,13 @@ stages:
         data:
           affected_items:
             - timestamp: !anystr
-              name: wazuh-manager-remoted
+              name: assetguard-manager-remoted
               agents:
                 - id: 2
                   uptime: !anystr
                   metrics: !anything
           failed_items:
-            - id: [ wazuh-manager-analysisd ]
+            - id: [ assetguard-manager-analysisd ]
           total_affected_items: 1
           total_failed_items: 1
 
@@ -495,7 +495,7 @@ stages:
      headers:
        Authorization: "Bearer {test_login_token}"
      params:
-       name: 'wazuh-agent1'
+       name: 'assetguard-agent1'
    response:
      status_code: 200
      json:
@@ -511,7 +511,7 @@ stages:
      headers:
        Authorization: "Bearer {test_login_token}"
      params:
-       name: 'wazuh-agent2'
+       name: 'assetguard-agent2'
    response:
      status_code: 200
      json:
@@ -519,7 +519,7 @@ stages:
        data:
          affected_items:
            - id: '002'
-             name: 'wazuh-agent2'
+             name: 'assetguard-agent2'
          failed_items: []
          total_affected_items: 1
          total_failed_items: 0

@@ -1,17 +1,17 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, AssetGuard Inc.
+ Created by AssetGuard, Inc. <info@assetguard.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
 import pytest
 
 from pathlib import Path
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.modules.remoted.configuration import REMOTED_DEBUG
-from wazuh_testing.constants.paths.sockets import ANALYSISD_QUEUE_SOCKET_PATH
-from wazuh_testing.constants.daemons import ANALYSISD_DAEMON
-from wazuh_testing.tools.mitm import ManInTheMiddle
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.modules.remoted.configuration import REMOTED_DEBUG
+from assetguard_testing.constants.paths.sockets import ANALYSISD_QUEUE_SOCKET_PATH
+from assetguard_testing.constants.daemons import ANALYSISD_DAEMON
+from assetguard_testing.tools.mitm import ManInTheMiddle
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -41,7 +41,7 @@ receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_invalid_protocols_communication(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                            set_wazuh_configuration, configure_sockets_environment_module, daemons_handler,simulate_agents,
+                            set_assetguard_configuration, configure_sockets_environment_module, daemons_handler,simulate_agents,
                        connect_to_sockets_module, waiting_for_analysisd_startup, validate_agent_manager_protocol_communication):
 
     '''
@@ -63,14 +63,14 @@ def test_invalid_protocols_communication(test_configuration, test_metadata, conf
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options using the values from `local_internal_options`.
+            brief: Configure the AssetGuard local internal options using the values from `local_internal_options`.
         - daemons_handler:
             type: fixture
             brief: Restart service once the test finishes stops the daemons.
         - simulate_agents
             type: fixture
             brief: create agents
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - configure_sockets_environment_module:
@@ -81,7 +81,7 @@ def test_invalid_protocols_communication(test_configuration, test_metadata, conf
             brief: Connect to a given list of sockets.
         - waiting_for_analysisd_startup:
             type: fixture
-            brief: Wait until the 'wazuh-manager-analysisd' has begun and the 'alerts.json' file is created.
+            brief: Wait until the 'assetguard-manager-analysisd' has begun and the 'alerts.json' file is created.
         - validate_agent_manager_protocol_communication
             type: fixture
             brief: connect agent , launch thread and send events

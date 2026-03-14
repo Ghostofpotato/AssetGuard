@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -8,21 +8,21 @@
 
 set -euo pipefail
 
-WAZUH_HOST_DIR=/wazuh_host
-WAZUH_ROOT_DIR=/wazuh #Important: Do not change this path
-WAZUH_INSTALLDIR=/var/wazuh-manager
-CPYTHON_DIR=$WAZUH_ROOT_DIR/src/external/cpython
+ASSETGUARD_HOST_DIR=/assetguard_host
+ASSETGUARD_ROOT_DIR=/assetguard #Important: Do not change this path
+ASSETGUARD_INSTALLDIR=/var/assetguard-manager
+CPYTHON_DIR=$ASSETGUARD_ROOT_DIR/src/external/cpython
 OUTPUT_DIR=/output
 
 main() {
     # Parse script arguments
     parse_args "$@" || exit 1
-    # Get wazuh repository
-    get_wazuh_repo
-    # Download wazuh precompiled dependencies
-    make -C "$WAZUH_ROOT_DIR/src" PYTHON_SOURCE=y deps -j
+    # Get assetguard repository
+    get_assetguard_repo
+    # Download assetguard precompiled dependencies
+    make -C "$ASSETGUARD_ROOT_DIR/src" PYTHON_SOURCE=y deps -j
 
-    PYTHON_VERSION=$(cat $WAZUH_ROOT_DIR/framework/.python-version)
+    PYTHON_VERSION=$(cat $ASSETGUARD_ROOT_DIR/framework/.python-version)
 
     if $BUILD_CPYTHON; then
         # Build CPython from sources
@@ -36,18 +36,18 @@ main() {
         download_wheels
     fi
 
-    mimic_full_wazuh_installation
+    mimic_full_assetguard_installation
     generate_artifacts
 }
 
-get_wazuh_repo() {
-    if [ -z "${WAZUH_BRANCH:-}" ]; then
-        cp -rf $WAZUH_HOST_DIR $WAZUH_ROOT_DIR
+get_assetguard_repo() {
+    if [ -z "${ASSETGUARD_BRANCH:-}" ]; then
+        cp -rf $ASSETGUARD_HOST_DIR $ASSETGUARD_ROOT_DIR
         # Clean previous builds
-        rm -rf $WAZUH_ROOT_DIR/src/external/*
-        make clean -j -C "$WAZUH_ROOT_DIR/src"
+        rm -rf $ASSETGUARD_ROOT_DIR/src/external/*
+        make clean -j -C "$ASSETGUARD_ROOT_DIR/src"
     else
-        git clone --branch "$WAZUH_BRANCH" --depth 1 https://github.com/wazuh/wazuh.git  "$WAZUH_ROOT_DIR"
+        git clone --branch "$ASSETGUARD_BRANCH" --depth 1 https://github.com/assetguard/assetguard.git  "$ASSETGUARD_ROOT_DIR"
     fi
 }
 
@@ -56,29 +56,29 @@ download_cpython() {
 }
 
 customize_cpython() {
-    cp -f $WAZUH_ROOT_DIR/framework/cpython/custom/Setup.local $CPYTHON_DIR/Modules
-    cp -f $WAZUH_ROOT_DIR/framework/cpython/custom/Setup.stdlib.in $CPYTHON_DIR/Modules
+    cp -f $ASSETGUARD_ROOT_DIR/framework/cpython/custom/Setup.local $CPYTHON_DIR/Modules
+    cp -f $ASSETGUARD_ROOT_DIR/framework/cpython/custom/Setup.stdlib.in $CPYTHON_DIR/Modules
 }
 
 build_cpython() {
-    make -j -C "$WAZUH_ROOT_DIR/src" build_python INSTALLDIR=$WAZUH_INSTALLDIR OPTIMIZE_CPYTHON=yes
+    make -j -C "$ASSETGUARD_ROOT_DIR/src" build_python INSTALLDIR=$ASSETGUARD_INSTALLDIR OPTIMIZE_CPYTHON=yes
 }
 
-mimic_full_wazuh_installation() {
-    # Force build of libwazuhext
-    make -j -C "$WAZUH_ROOT_DIR/src" external INSTALLDIR=$WAZUH_INSTALLDIR
-    # Install only libwazuhext to avoid full server compilation & installation
-    mkdir -p "$WAZUH_INSTALLDIR/lib"
-    install -m 0750 $WAZUH_ROOT_DIR/src/build/lib/libwazuhext.so "$WAZUH_INSTALLDIR/lib"
+mimic_full_assetguard_installation() {
+    # Force build of libassetguardext
+    make -j -C "$ASSETGUARD_ROOT_DIR/src" external INSTALLDIR=$ASSETGUARD_INSTALLDIR
+    # Install only libassetguardext to avoid full server compilation & installation
+    mkdir -p "$ASSETGUARD_INSTALLDIR/lib"
+    install -m 0750 $ASSETGUARD_ROOT_DIR/src/build/lib/libassetguardext.so "$ASSETGUARD_INSTALLDIR/lib"
     # Install python interpreter and its dependencies
-    make -j -C "$WAZUH_ROOT_DIR/src" install_dependencies INSTALLDIR=$WAZUH_INSTALLDIR
+    make -j -C "$ASSETGUARD_ROOT_DIR/src" install_dependencies INSTALLDIR=$ASSETGUARD_INSTALLDIR
 }
 
 generate_artifacts() {
     # Compress built cpython
-    cd $WAZUH_ROOT_DIR/src/external && tar -zcf "$OUTPUT_DIR/cpython_$ARCH.tar.gz" --owner=0 --group=0 cpython
+    cd $ASSETGUARD_ROOT_DIR/src/external && tar -zcf "$OUTPUT_DIR/cpython_$ARCH.tar.gz" --owner=0 --group=0 cpython
     # Compress ready-to-use CPython
-    cd $WAZUH_INSTALLDIR/framework/python && tar -zcf "$OUTPUT_DIR/cpython.tar.gz" --owner=0 --group=0 .
+    cd $ASSETGUARD_INSTALLDIR/framework/python && tar -zcf "$OUTPUT_DIR/cpython.tar.gz" --owner=0 --group=0 .
 }
 
 download_wheels() {
@@ -90,7 +90,7 @@ download_wheels() {
     # Create dependencies directory
     mkdir -p "$CPYTHON_DIR/Dependencies"
     # Download wheels
-    python3 -m pip download --requirement "$WAZUH_ROOT_DIR/framework/requirements.txt"  --no-deps --dest "$CPYTHON_DIR/Dependencies"  --python-version "$PYTHON_VERSION" --no-cache-dir
+    python3 -m pip download --requirement "$ASSETGUARD_ROOT_DIR/framework/requirements.txt"  --no-deps --dest "$CPYTHON_DIR/Dependencies"  --python-version "$PYTHON_VERSION" --no-cache-dir
     # Create index
     python3 -m pip install piprepo && piprepo build "$CPYTHON_DIR/Dependencies"
 }
@@ -107,8 +107,8 @@ parse_args() {
             --build-deps)
                 BUILD_DEPS=true
                 ;;
-            --wazuh-branch)
-                WAZUH_BRANCH="$2"
+            --assetguard-branch)
+                ASSETGUARD_BRANCH="$2"
                 ;;
             *)
                 echo "ERROR: Unrecognized parameter: $1" >&2

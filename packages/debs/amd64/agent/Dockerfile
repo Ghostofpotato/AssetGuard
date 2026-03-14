@@ -39,7 +39,7 @@ RUN curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.
 # -------------------------------------------------------------------
 # GCC 9.4.0 (bootstrap only)
 # -------------------------------------------------------------------
-RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
+RUN curl -OL http://packages.assetguard.com/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz && cd gcc-9.4.0 && \
     ./contrib/download_prerequisites && \
     ./configure --prefix=/usr/local/gcc-9.4.0 \

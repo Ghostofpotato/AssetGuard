@@ -9,9 +9,9 @@ help="segítség"
 
 # Global
 moreinfo="További információk: "
-starting="Wazuh Indítása"
+starting="AssetGuard Indítása"
 systemis="A rendszer"
-modifiedinit="Init script módosítva, hogy bootoláskor automatikusan indítsa az Wazuh-et."
+modifiedinit="Init script módosítva, hogy bootoláskor automatikusan indítsa az AssetGuard-et."
 noboot="Ismeretlen rendszer. Nincs init script hozzáadva."
 
 # Part 1
@@ -26,7 +26,7 @@ clientchose="Agent(kliens) telepítés kiválasztva"
 
 # Part 2
 settingupenv="A telepítési környezet létrehozása"
-wheretoinstall="Válassza ki az Wazuh telepítési helyét"
+wheretoinstall="Válassza ki az AssetGuard telepítési helyét"
 installat="A telepítés a következő helyre történik: "
 deletedir="A célkönyvtár már létezik. Törölhetem?"
 
@@ -41,8 +41,8 @@ usingsmtp="SMTP szerver használata: "
 whatsmtp="Mi az ön SMTP szerverének ip címe/hoszt neve?"
 
 # Part 3.1/agent
-serverip="Mi a Wazuh menedzser IP-címe?"
-serveraddr="Mi a Wazuh menedzser IP-címe/gazdagépneve?"
+serverip="Mi a AssetGuard menedzser IP-címe?"
+serveraddr="Mi a AssetGuard menedzser IP-címe/gazdagépneve?"
 addingip="Szerver IP hozzáadása"
 addingname="Szerver hoszt neve hozzáadása"
 
@@ -79,22 +79,22 @@ yesrunauthd="Auth szolgáltatás futtatása"
 
 # Part 4
 installing="A rendszer telepítése"
-startwazuh="Szeretné elindítani a Wazuh-ot a telepítés után?"
-nowazuhstart="A Wazuh nem indul el a telepítés végén."
-yeswazuhstart="A Wazuh a telepítés végén kezdődik."
+startassetguard="Szeretné elindítani a AssetGuard-ot a telepítés után?"
+noassetguardstart="A AssetGuard nem indul el a telepítés végén."
+yesassetguardstart="A AssetGuard a telepítés végén kezdődik."
 runningmake="A Make fájl futtatása"
 
 # Final
 configurationdone="A konfiguráció sikeresen befejeződött"
-tostart="Az Wazuh indítása"
-tostop="Az Wazuh leállítása"
+tostart="Az AssetGuard indítása"
+tostop="Az AssetGuard leállítása"
 configat="A konfigurációs fájl megtekinthető vagy módosítható itt: "
 addserveragent="A kliens és szerver összekapcsolásához, minden egyes klienst
    hozzá kell adnia a szerverhez."
 presskey="A folytatáshoz nyomja meg az ENTER-t"
 
 # Update
-wanttoupdate="Az Wazuh már telepítve van. Szeretné frissíteni?"
+wanttoupdate="Az AssetGuard már telepítve van. Szeretné frissíteni?"
 mustuninstall="A telepítés nem folytatható a régi verziók eltávolítása nélkül. Kilépés."
 unabletoupdate="A frissítés nem lehetséges. Egy teljesen új installáció szükséges."
 updatecompleted="A frissítés sikeresen befejeződött."

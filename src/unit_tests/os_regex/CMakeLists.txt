@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License (version 2) as published by the
@@ -8,10 +8,10 @@
 # Collect syscheckd object files from CMake build
 if(${TARGET} STREQUAL "winagent")
   file(GLOB os_regex_files
-       ${SRC_FOLDER}/build/shared/CMakeFiles/wazuh.dir/os_regex/*.obj)
+       ${SRC_FOLDER}/build/shared/CMakeFiles/assetguard.dir/os_regex/*.obj)
 else()
   file(GLOB os_regex_files
-       ${SRC_FOLDER}/build/shared/CMakeFiles/wazuh.dir/os_regex/*.o)
+       ${SRC_FOLDER}/build/shared/CMakeFiles/assetguard.dir/os_regex/*.o)
 endif()
 
 add_library(OS_REGEX_O STATIC ${os_regex_files})
@@ -21,7 +21,7 @@ set_source_files_properties(${os_regex_files} PROPERTIES EXTERNAL_OBJECT true
 
 set_target_properties(OS_REGEX_O PROPERTIES LINKER_LANGUAGE C)
 
-target_link_libraries(OS_REGEX_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_REGEX_O ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
   link_directories(${SRC_FOLDER}/build/bin)
@@ -75,7 +75,7 @@ foreach(counter RANGE ${count})
 
   add_executable(${test_name} ${test_name}.c)
 
-  target_link_libraries(${test_name} ${WAZUHLIB} ${WAZUHEXT} OS_REGEX_O
+  target_link_libraries(${test_name} ${ASSETGUARDLIB} ${ASSETGUARDEXT} OS_REGEX_O
                         ${TEST_DEPS})
   if(${TARGET} STREQUAL "winagent")
     target_link_libraries(${test_name} fimdb)

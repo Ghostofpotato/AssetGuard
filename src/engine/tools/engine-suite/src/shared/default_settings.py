@@ -2,7 +2,7 @@ from enum import Enum
 
 class Constants:
     """
-    A collection of constants used throughout the Wazuh Engine API integration.
+    A collection of constants used throughout the AssetGuard Engine API integration.
 
     Attributes:
         SOCKET_PATH (str): Path to the Unix socket used to communicate with the engine API.
@@ -11,7 +11,7 @@ class Constants:
         DEFAULT_API_TIMEOUT (int): Default timeout (in microseconds) configured on the server
                                    for API requests.
     """
-    SOCKET_PATH: str = '/var/wazuh-manager/queue/sockets/analysis'
+    SOCKET_PATH: str = '/var/assetguard-manager/queue/sockets/analysis'
     DEFAULT_NAMESPACE: str = 'testing'
     DEFAULT_SESSION: str = 'default'
     DEFAULT_NS: str = 'draft'
@@ -19,6 +19,6 @@ class Constants:
     PLACEHOLDER = "ENV_PATH_PLACEHOLDER"
 
 class CONFIG_ENV_KEYS(Enum):
-    API_SERVER_SOCKET: str = 'WAZUH_SERVER_API_SOCKET'
-    API_TIMEOUT: str = 'WAZUH_SERVER_API_TIMEOUT'
-    LOG_LEVEL: str = 'WAZUH_STANDALONE_LOG_LEVEL'
+    API_SERVER_SOCKET: str = 'ASSETGUARD_SERVER_API_SOCKET'
+    API_TIMEOUT: str = 'ASSETGUARD_SERVER_API_TIMEOUT'
+    LOG_LEVEL: str = 'ASSETGUARD_STANDALONE_LOG_LEVEL'

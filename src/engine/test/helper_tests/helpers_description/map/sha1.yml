@@ -28,7 +28,7 @@ output:
 
 test:
   - arguments:
-      any_string: Hi Wazuh!
+      any_string: Hi AssetGuard!
     should_pass: true
     expected: c4e30dbc1b87ba8f29b24a74dba2f006be2a709e
     description: Get hash of string

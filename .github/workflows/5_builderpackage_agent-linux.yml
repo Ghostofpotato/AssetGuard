@@ -1,5 +1,5 @@
-run-name: Build Wazuh agent Linux - ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }} - ${{ inputs.system || 'deb,rpm' }} - ${{ inputs.architecture || 'amd64,i386' }}
-name: 5.X - Build Wazuh agent Linux (DEB/RPM)
+run-name: Build AssetGuard agent Linux - ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }} - ${{ inputs.system || 'deb,rpm' }} - ${{ inputs.architecture || 'amd64,i386' }}
+name: 5.X - Build AssetGuard agent Linux (DEB/RPM)
 
 on:
   pull_request:
@@ -81,7 +81,7 @@ jobs:
 
       - name: Download docker image for package building
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Append short commit to VERSION file
         run: |
@@ -102,8 +102,8 @@ jobs:
           echo "generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS"
           bash packages/generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS
 
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -v -E "^wazuh-agent-dbg")
-          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -E "^wazuh-agent-dbg")
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -v -E "^assetguard-agent-dbg")
+          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.deb -exec basename {} 2>/dev/null \;| grep -E "^assetguard-agent-dbg")
 
           echo "package-name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
           echo "package-symbols-name=$PACKAGE_SYMBOLS_NAME" >> $GITHUB_OUTPUT
@@ -161,13 +161,13 @@ jobs:
       - name: Download package artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: "wazuh-agent*${{ matrix.arch }}*.deb"
+          pattern: "assetguard-agent*${{ matrix.arch }}*.deb"
           path: /tmp
           merge-multiple: true
 
       - name: Set PACKAGE_NAME from downloaded files
         run: |
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "wazuh-agent*${{ matrix.arch }}*.deb" -exec basename {} \; | grep -v -E "^wazuh-agent-dbg" | head -n 1)
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "assetguard-agent*${{ matrix.arch }}*.deb" -exec basename {} \; | grep -v -E "^assetguard-agent-dbg" | head -n 1)
           if [ -z "$PACKAGE_NAME" ]; then
             echo "No package found for ${{ matrix.arch }}!"
             exit 1
@@ -180,7 +180,7 @@ jobs:
 
       - name: Download docker image for testing
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Test install package
         run: |
@@ -198,14 +198,14 @@ jobs:
             --entrypoint '/tests/install_component.sh' \
             ${{ env.CONTAINER_NAME }}:${{ env.TAG }} \
             ${{ env.PACKAGE_NAME }} agent
-          if grep -iq " installed.*wazuh-agent" /tmp/status.log ; then
+          if grep -iq " installed.*assetguard-agent" /tmp/status.log ; then
             echo "Installation successfully."
           else
             echo "The installation could not be completed."
             exit 1
           fi
-          echo "WAZUH_UID=$(cat $TESTS_PATH/wazuh_uid)" | tee -a $GITHUB_ENV
-          echo "WAZUH_GID=$(cat $TESTS_PATH/wazuh_gid)" | tee -a $GITHUB_ENV
+          echo "ASSETGUARD_UID=$(cat $TESTS_PATH/assetguard_uid)" | tee -a $GITHUB_ENV
+          echo "ASSETGUARD_GID=$(cat $TESTS_PATH/assetguard_gid)" | tee -a $GITHUB_ENV
 
       - name: CSV filename Formation
         run: |
@@ -216,8 +216,8 @@ jobs:
         with:
           expected_files: ${{ env.CSV_FILENAME }}
           installation_directory: /var/ossec
-          wazuh_uid: ${{ env.WAZUH_UID }}
-          wazuh_gid: ${{ env.WAZUH_GID }}
+          assetguard_uid: ${{ env.ASSETGUARD_UID }}
+          assetguard_gid: ${{ env.ASSETGUARD_GID }}
 
       - name: Test uninstall package
         uses: ./.github/actions/5_builderpackage_linux-smoke-uninstall-test
@@ -228,8 +228,8 @@ jobs:
         id: last-stable-version
         uses: ./.github/actions/5_builderpackage_get-last-stable-version
         with:
-          repo_owner: wazuh
-          repo_name: wazuh
+          repo_owner: assetguard
+          repo_name: assetguard
           testing_version: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -284,10 +284,10 @@ jobs:
 
       - name: Find and upload packages to S3
         run: |
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
 
           # Find and upload main package
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "wazuh-agent*${{ matrix.arch }}*.deb" -exec basename {} \; | grep -v -E "^wazuh-agent-dbg" | head -n 1)
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "assetguard-agent*${{ matrix.arch }}*.deb" -exec basename {} \; | grep -v -E "^assetguard-agent-dbg" | head -n 1)
           if [ -n "$PACKAGE_NAME" ] && [ -s "/tmp/$PACKAGE_NAME" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME $S3_URI/
             echo "S3 URI: $S3_URI/$PACKAGE_NAME"
@@ -302,7 +302,7 @@ jobs:
           fi
 
           # Find and upload debug symbols
-          SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name "wazuh-agent-dbg*${{ matrix.arch }}*.deb" -exec basename {} \; | head -n 1)
+          SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name "assetguard-agent-dbg*${{ matrix.arch }}*.deb" -exec basename {} \; | head -n 1)
           if [ -n "$SYMBOLS_NAME" ] && [ -s "/tmp/$SYMBOLS_NAME" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME $S3_URI/
             echo "Uploaded debug symbols: $SYMBOLS_NAME"
@@ -312,7 +312,7 @@ jobs:
               aws s3 cp /tmp/$SYMBOLS_NAME.sha512 $S3_URI/
             fi
           fi
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME.sha512" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME.sha512 $S3_URI/
           else
@@ -358,7 +358,7 @@ jobs:
 
       - name: Download docker image for package building
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Append short commit to VERSION file
         run: |
@@ -379,8 +379,8 @@ jobs:
           echo "generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS"
           bash packages/generate_package.sh -a ${{ env.ARCH }} --tag ${{ env.TAG }} --system ${{ env.SYSTEM }} $FLAGS
 
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -v -E "^wazuh-agent-debuginfo")
-          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -E "^wazuh-agent-debuginfo")
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -v -E "^assetguard-agent-debuginfo")
+          PACKAGE_SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name *agent*.rpm -exec basename {} 2>/dev/null \;| grep -E "^assetguard-agent-debuginfo")
 
           echo "package-name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
           echo "package-symbols-name=$PACKAGE_SYMBOLS_NAME" >> $GITHUB_OUTPUT
@@ -452,7 +452,7 @@ jobs:
       - name: Set PACKAGE_NAME from downloaded files
         run: |
           RPM_ARCH="${{ steps.map-arch.outputs.rpm_arch }}"
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "wazuh-agent*${RPM_ARCH}*.rpm" -exec basename {} \; | grep -v -E "^wazuh-agent-debuginfo" | head -n 1)
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "assetguard-agent*${RPM_ARCH}*.rpm" -exec basename {} \; | grep -v -E "^assetguard-agent-debuginfo" | head -n 1)
           if [ -z "$PACKAGE_NAME" ]; then
             echo "No package found for ${{ matrix.arch }} (searched for ${RPM_ARCH})!"
             exit 1
@@ -465,7 +465,7 @@ jobs:
 
       - name: Download docker image for testing
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Test install package
         run: |
@@ -483,14 +483,14 @@ jobs:
             --entrypoint '/tests/install_component.sh' \
             ${{ env.CONTAINER_NAME }}:${{ env.TAG }} \
             ${{ env.PACKAGE_NAME }} agent
-          if grep -iq " installed.*wazuh-agent" /tmp/status.log ; then
+          if grep -iq " installed.*assetguard-agent" /tmp/status.log ; then
             echo "Installation successfully."
           else
             echo "The installation could not be completed."
             exit 1
           fi
-          echo "WAZUH_UID=$(cat $TESTS_PATH/wazuh_uid)" | tee -a $GITHUB_ENV
-          echo "WAZUH_GID=$(cat $TESTS_PATH/wazuh_gid)" | tee -a $GITHUB_ENV
+          echo "ASSETGUARD_UID=$(cat $TESTS_PATH/assetguard_uid)" | tee -a $GITHUB_ENV
+          echo "ASSETGUARD_GID=$(cat $TESTS_PATH/assetguard_gid)" | tee -a $GITHUB_ENV
 
       - name: CSV filename Formation
         run: |
@@ -501,8 +501,8 @@ jobs:
         with:
           expected_files: ${{ env.CSV_FILENAME }}
           installation_directory: /var/ossec
-          wazuh_uid: ${{ env.WAZUH_UID }}
-          wazuh_gid: ${{ env.WAZUH_GID }}
+          assetguard_uid: ${{ env.ASSETGUARD_UID }}
+          assetguard_gid: ${{ env.ASSETGUARD_GID }}
 
       - name: Test uninstall package
         uses: ./.github/actions/5_builderpackage_linux-smoke-uninstall-test
@@ -513,8 +513,8 @@ jobs:
         id: last-stable-version
         uses: ./.github/actions/5_builderpackage_get-last-stable-version
         with:
-          repo_owner: wazuh
-          repo_name: wazuh
+          repo_owner: assetguard
+          repo_name: assetguard
           testing_version: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -578,11 +578,11 @@ jobs:
 
       - name: Find and upload packages to S3
         run: |
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           RPM_ARCH="${{ steps.map-arch.outputs.rpm_arch }}"
 
           # Find and upload main package
-          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "wazuh-agent*${RPM_ARCH}*.rpm" -exec basename {} \; | grep -v -E "^wazuh-agent-debuginfo" | head -n 1)
+          PACKAGE_NAME=$(find /tmp -maxdepth 1 -type f -name "assetguard-agent*${RPM_ARCH}*.rpm" -exec basename {} \; | grep -v -E "^assetguard-agent-debuginfo" | head -n 1)
           if [ -n "$PACKAGE_NAME" ] && [ -s "/tmp/$PACKAGE_NAME" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME $S3_URI/
             echo "S3 URI: $S3_URI/$PACKAGE_NAME"
@@ -597,7 +597,7 @@ jobs:
           fi
 
           # Find and upload debug symbols
-          SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name "wazuh-agent-debuginfo*${RPM_ARCH}*.rpm" -exec basename {} \; | head -n 1)
+          SYMBOLS_NAME=$(find /tmp -maxdepth 1 -type f -name "assetguard-agent-debuginfo*${RPM_ARCH}*.rpm" -exec basename {} \; | head -n 1)
           if [ -n "$SYMBOLS_NAME" ] && [ -s "/tmp/$SYMBOLS_NAME" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME $S3_URI/
             echo "Uploaded debug symbols: $SYMBOLS_NAME"

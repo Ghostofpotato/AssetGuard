@@ -1,27 +1,27 @@
 #!/bin/sh
 
-# Init functions for Wazuh
-# Copyright (C) 2015, Wazuh Inc.
+# Init functions for AssetGuard
+# Copyright (C) 2015, AssetGuard Inc.
 # Author: Daniel B. Cid <daniel.cid@gmail.com>
 
 UN=${NUNAME};
-service="wazuh";
-file_permissions="wazuh-manager";
+service="assetguard";
+file_permissions="assetguard-manager";
 
 runInit()
 {
     echo ""
     echo ""
-    control_script="wazuh-control"
+    control_script="assetguard-control"
 
     if [ -n "$1" ]; then
         if [ "X$1" = "Xmanager" ]; then
             service="$service-manager"
-            file_permissions="wazuh-manager"
-            control_script="wazuh-manager-control"
+            file_permissions="assetguard-manager"
+            control_script="assetguard-manager-control"
         else
             service="$service-$1"
-            file_permissions="wazuh"
+            file_permissions="assetguard"
         fi
     fi
 
@@ -36,12 +36,12 @@ runInit()
         fi
         # RHEL 8 services must to be installed in /usr/lib/systemd/system/
         if [ "${DIST_NAME}" = "rhel" -a "${DIST_VER}" -ge "7" ] || [ "${DIST_NAME}" = "centos" -a "${DIST_VER}" -ge "7" ]; then
-            SERVICE_UNIT_PATH=/usr/lib/systemd/system/wazuh-$type.service
-            rm -f /etc/systemd/system/wazuh-$type.service
+            SERVICE_UNIT_PATH=/usr/lib/systemd/system/assetguard-$type.service
+            rm -f /etc/systemd/system/assetguard-$type.service
         else
-            SERVICE_UNIT_PATH=/etc/systemd/system/wazuh-$type.service
+            SERVICE_UNIT_PATH=/etc/systemd/system/assetguard-$type.service
         fi
-        GenerateService wazuh-$type.service > ${SERVICE_UNIT_PATH}
+        GenerateService assetguard-$type.service > ${SERVICE_UNIT_PATH}
         chown root:$file_permissions ${SERVICE_UNIT_PATH}
         systemctl daemon-reload
 
@@ -49,7 +49,7 @@ runInit()
 
         if [ "X${update_only}" = "X" ]
         then
-            systemctl enable "wazuh-"$type
+            systemctl enable "assetguard-"$type
         fi
 
         return 0;

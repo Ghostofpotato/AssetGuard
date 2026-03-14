@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Copyright (C) 2015, Wazuh Inc.
-# Shell script update functions for Wazuh
+# Copyright (C) 2015, AssetGuard Inc.
+# Shell script update functions for AssetGuard
 # Author: Daniel B. Cid <daniel.cid@gmail.com>
 
 FALSE="false"
@@ -26,7 +26,7 @@ doUpdatecleanup()
 }
 
 ##########
-# Checks if Wazuh is installed by taking the installdir from the services
+# Checks if AssetGuard is installed by taking the installdir from the services
 # files (if exists) and taking into account the installation type.
 #
 # getPreinstalledDirByType()
@@ -38,26 +38,26 @@ getPreinstalledDirByType()
 
         SED_EXTRACT_PREINSTALLEDDIR="s|^ExecStart=/usr/bin/env \\(.*\\)/bin/[^[:space:]]*control start$|\\1|p"
 
-        if [ "X$pidir_service_name" = "Xwazuh-manager" ]; then #manager or agent
+        if [ "X$pidir_service_name" = "Xassetguard-manager" ]; then #manager or agent
             type="manager"
         else
             type="agent"
         fi
 
-        # Get the unit file and extract the Wazuh home path
-        PREINSTALLEDDIR=$(systemctl cat wazuh-${type}.service 2>/dev/null | sed -n "${SED_EXTRACT_PREINSTALLEDDIR}")
+        # Get the unit file and extract the AssetGuard home path
+        PREINSTALLEDDIR=$(systemctl cat assetguard-${type}.service 2>/dev/null | sed -n "${SED_EXTRACT_PREINSTALLEDDIR}")
         if [ -n "${PREINSTALLEDDIR}" ] && [ -d "${PREINSTALLEDDIR}" ]; then
             return 0;
         fi
 
         # If fail, find the service file
         # RHEL 8 / Amazon / openSUSE Tumbleweed the services should be installed in /usr/lib/systemd/system/
-        if [ -f /usr/lib/systemd/system/wazuh-${type}.service ]; then
-            SERVICE_UNIT_PATH=/usr/lib/systemd/system/wazuh-${type}.service
+        if [ -f /usr/lib/systemd/system/assetguard-${type}.service ]; then
+            SERVICE_UNIT_PATH=/usr/lib/systemd/system/assetguard-${type}.service
         fi
         # Others
-        if [ -f /etc/systemd/system/wazuh-${type}.service ]; then
-            SERVICE_UNIT_PATH=/etc/systemd/system/wazuh-${type}.service
+        if [ -f /etc/systemd/system/assetguard-${type}.service ]; then
+            SERVICE_UNIT_PATH=/etc/systemd/system/assetguard-${type}.service
         fi
 
         if [ -f "$SERVICE_UNIT_PATH" ]; then
@@ -75,7 +75,7 @@ getPreinstalledDirByType()
     if [ -r "/etc/redhat-release" ]; then
         if [ -d /etc/rc.d/init.d ]; then
             if [ -f /etc/rc.d/init.d/${pidir_service_name} ]; then
-                PREINSTALLEDDIR=`sed -n 's/^WAZUH_HOME=\(.*\)$/\1/p' /etc/rc.d/init.d/${pidir_service_name}`
+                PREINSTALLEDDIR=`sed -n 's/^ASSETGUARD_HOME=\(.*\)$/\1/p' /etc/rc.d/init.d/${pidir_service_name}`
                 if [ -d "$PREINSTALLEDDIR" ]; then
                     return 0;
                 else
@@ -89,7 +89,7 @@ getPreinstalledDirByType()
     # Checking for Gentoo
     if [ -r "/etc/gentoo-release" ]; then
         if [ -f /etc/init.d/${pidir_service_name} ]; then
-            PREINSTALLEDDIR=`sed -n 's/^WAZUH_HOME=\(.*\)$/\1/p' /etc/init.d/${pidir_service_name}`
+            PREINSTALLEDDIR=`sed -n 's/^ASSETGUARD_HOME=\(.*\)$/\1/p' /etc/init.d/${pidir_service_name}`
             if [ -d "$PREINSTALLEDDIR" ]; then
                 return 0;
             else
@@ -102,7 +102,7 @@ getPreinstalledDirByType()
     # Checking for Suse
     if [ -r "/etc/SuSE-release" ]; then
         if [ -f /etc/init.d/${pidir_service_name} ]; then
-            PREINSTALLEDDIR=`sed -n 's/^WAZUH_HOME=\(.*\)$/\1/p' /etc/init.d/${pidir_service_name}`
+            PREINSTALLEDDIR=`sed -n 's/^ASSETGUARD_HOME=\(.*\)$/\1/p' /etc/init.d/${pidir_service_name}`
             if [ -d "$PREINSTALLEDDIR" ]; then
                 return 0;
             else
@@ -115,7 +115,7 @@ getPreinstalledDirByType()
     # Checking for Slackware
     if [ -r "/etc/slackware-version" ]; then
         if [ -f /etc/rc.d/rc.${pidir_service_name} ]; then
-            PREINSTALLEDDIR=`sed -n 's/^WAZUH_HOME=\(.*\)$/\1/p' /etc/rc.d/rc.${pidir_service_name}`
+            PREINSTALLEDDIR=`sed -n 's/^ASSETGUARD_HOME=\(.*\)$/\1/p' /etc/rc.d/rc.${pidir_service_name}`
             if [ -d "$PREINSTALLEDDIR" ]; then
                 return 0;
             else
@@ -127,8 +127,8 @@ getPreinstalledDirByType()
     fi
     # Checking for Darwin
     if [ "X${NUNAME}" = "XDarwin" ]; then
-        if [ -f /Library/StartupItems/WAZUH/WAZUH ]; then
-            PREINSTALLEDDIR=`sed -n 's/^ *//; s|^\\s*\\(.*\\)/bin/[^[:space:]]*control start$|\\1|p' /Library/StartupItems/WAZUH/WAZUH`
+        if [ -f /Library/StartupItems/ASSETGUARD/ASSETGUARD ]; then
+            PREINSTALLEDDIR=`sed -n 's/^ *//; s|^\\s*\\(.*\\)/bin/[^[:space:]]*control start$|\\1|p' /Library/StartupItems/ASSETGUARD/ASSETGUARD`
             if [ -d "$PREINSTALLEDDIR" ]; then
                 return 0;
             else
@@ -141,7 +141,7 @@ getPreinstalledDirByType()
     # Checking for BSD
     if [ "X${UN}" = "XOpenBSD" -o "X${UN}" = "XNetBSD" -o "X${UN}" = "XFreeBSD" -o "X${UN}" = "XDragonFly" ]; then
         # Checking for the presence of the control script on rc.local
-        grep -E 'wazuh(-manager)?-control' /etc/rc.local > /dev/null 2>&1
+        grep -E 'assetguard(-manager)?-control' /etc/rc.local > /dev/null 2>&1
         if [ $? = 0 ]; then
             PREINSTALLEDDIR=`sed -n 's|^\\(.*\\)/bin/[^[:space:]]*control start$|\\1|p' /etc/rc.local`
             if [ -d "$PREINSTALLEDDIR" ]; then
@@ -155,7 +155,7 @@ getPreinstalledDirByType()
     elif [ "X${NUNAME}" = "XLinux" ]; then
         # Checking for Linux
         if [ -e "/etc/rc.d/rc.local" ]; then
-            grep -E 'wazuh(-manager)?-control' /etc/rc.d/rc.local > /dev/null 2>&1
+            grep -E 'assetguard(-manager)?-control' /etc/rc.d/rc.local > /dev/null 2>&1
             if [ $? = 0 ]; then
                 PREINSTALLEDDIR=`sed -n 's|^\\(.*\\)/bin/[^[:space:]]*control start$|\\1|p' /etc/rc.d/rc.local`
                 if [ -d "$PREINSTALLEDDIR" ]; then
@@ -169,7 +169,7 @@ getPreinstalledDirByType()
         # Checking for Linux (SysV)
         elif [ -d "/etc/rc.d/init.d" ]; then
             if [ -f /etc/rc.d/init.d/${pidir_service_name} ]; then
-                PREINSTALLEDDIR=`sed -n 's/^WAZUH_HOME=\(.*\)$/\1/p' /etc/rc.d/init.d/${pidir_service_name}`
+                PREINSTALLEDDIR=`sed -n 's/^ASSETGUARD_HOME=\(.*\)$/\1/p' /etc/rc.d/init.d/${pidir_service_name}`
                 if [ -d "$PREINSTALLEDDIR" ]; then
                     return 0;
                 else
@@ -181,7 +181,7 @@ getPreinstalledDirByType()
         # Checking for Debian (Ubuntu or derivative)
         elif [ -d "/etc/init.d" -a -f "/usr/sbin/update-rc.d" ]; then
             if [ -f /etc/init.d/${pidir_service_name} ]; then
-                PREINSTALLEDDIR=`sed -n 's/^WAZUH_HOME=\(.*\)$/\1/p' /etc/init.d/${pidir_service_name}`
+                PREINSTALLEDDIR=`sed -n 's/^ASSETGUARD_HOME=\(.*\)$/\1/p' /etc/init.d/${pidir_service_name}`
                 if [ -d "$PREINSTALLEDDIR" ]; then
                     return 0;
                 else
@@ -197,15 +197,15 @@ getPreinstalledDirByType()
 }
 
 ##########
-# Checks if Wazuh is installed in the specified path by searching for the control binary.
+# Checks if AssetGuard is installed in the specified path by searching for the control binary.
 #
-# isWazuhInstalled()
+# isAssetGuardInstalled()
 ##########
-isWazuhInstalled()
+isAssetGuardInstalled()
 {
-    if [ -f "${1}/bin/wazuh-manager-control" ]; then
+    if [ -f "${1}/bin/assetguard-manager-control" ]; then
         return 0;
-    elif [ -f "${1}/bin/wazuh-control" ]; then
+    elif [ -f "${1}/bin/assetguard-control" ]; then
         return 0;
     elif [ -f "${1}/bin/ossec-control" ]; then
         return 0;
@@ -215,25 +215,25 @@ isWazuhInstalled()
 }
 
 ##########
-# Checks if Wazuh is installed by trying with each installation type.
+# Checks if AssetGuard is installed by trying with each installation type.
 # If it finds an installation, it sets the PREINSTALLEDDIR variable.
-# After that it checks if Wazuh is truly installed there, if it is installed it returns TRUE.
+# After that it checks if AssetGuard is truly installed there, if it is installed it returns TRUE.
 # If it isn't installed continue searching in other installation types and replacing PREINSTALLEDDIR variable.
-# It returns FALSE if Wazuh isn't installed in any of this.
+# It returns FALSE if AssetGuard isn't installed in any of this.
 #
 # getPreinstalledDir()
 ##########
 getPreinstalledDir()
 {
-    # Getting preinstalled dir for Wazuh manager installations
-    pidir_service_name="wazuh-manager"
-    if getPreinstalledDirByType && isWazuhInstalled $PREINSTALLEDDIR; then
+    # Getting preinstalled dir for AssetGuard manager installations
+    pidir_service_name="assetguard-manager"
+    if getPreinstalledDirByType && isAssetGuardInstalled $PREINSTALLEDDIR; then
         return 0;
     fi
 
-    # Getting preinstalled dir for Wazuh agent installations
-    pidir_service_name="wazuh-agent"
-    if getPreinstalledDirByType && isWazuhInstalled $PREINSTALLEDDIR; then
+    # Getting preinstalled dir for AssetGuard agent installations
+    pidir_service_name="assetguard-agent"
+    if getPreinstalledDirByType && isAssetGuardInstalled $PREINSTALLEDDIR; then
         return 0;
     fi
 
@@ -246,10 +246,10 @@ getPreinstalledType()
         getPreinstalledDir
     fi
 
-    if [ -f "$PREINSTALLEDDIR/bin/wazuh-manager-control" ]; then
-        TYPE=`$PREINSTALLEDDIR/bin/wazuh-manager-control info -t`
+    if [ -f "$PREINSTALLEDDIR/bin/assetguard-manager-control" ]; then
+        TYPE=`$PREINSTALLEDDIR/bin/assetguard-manager-control info -t`
     else
-        TYPE=`$PREINSTALLEDDIR/bin/wazuh-control info -t`
+        TYPE=`$PREINSTALLEDDIR/bin/assetguard-control info -t`
     fi
 
     echo $TYPE
@@ -262,10 +262,10 @@ getPreinstalledVersion()
         getPreinstalledDir
     fi
 
-    if [ -f "$PREINSTALLEDDIR/bin/wazuh-manager-control" ]; then
-        VERSION=`$PREINSTALLEDDIR/bin/wazuh-manager-control info -v`
+    if [ -f "$PREINSTALLEDDIR/bin/assetguard-manager-control" ]; then
+        VERSION=`$PREINSTALLEDDIR/bin/assetguard-manager-control info -v`
     else
-        VERSION=`$PREINSTALLEDDIR/bin/wazuh-control info -v`
+        VERSION=`$PREINSTALLEDDIR/bin/assetguard-control info -v`
     fi
 
     echo $VERSION
@@ -273,7 +273,7 @@ getPreinstalledVersion()
 
 getPreinstalledName()
 {
-    NAME="Wazuh"
+    NAME="AssetGuard"
     echo $NAME
 }
 
@@ -288,18 +288,18 @@ UpdateStartOSSEC()
     fi
 
     if [ `stat /proc/1/exe 2> /dev/null | grep "systemd" | wc -l` -ne 0 ]; then
-        systemctl start wazuh-$TYPE
+        systemctl start assetguard-$TYPE
     elif [ `stat /proc/1/exe 2> /dev/null | grep "init.d" | wc -l` -ne 0 ]; then
-        service wazuh-$TYPE start
+        service assetguard-$TYPE start
     else
         # Considering that this function is only used after finishing the installation
         # the INSTALLDIR variable is always set. It could have either the default value,
         # or a value equals to the PREINSTALLEDDIR, or a value specified by the user.
         # The last two possibilities are set in the setInstallDir function.
-        if [ -f "$INSTALLDIR/bin/wazuh-manager-control" ]; then
-            $INSTALLDIR/bin/wazuh-manager-control start
+        if [ -f "$INSTALLDIR/bin/assetguard-manager-control" ]; then
+            $INSTALLDIR/bin/assetguard-manager-control start
         else
-            $INSTALLDIR/bin/wazuh-control start
+            $INSTALLDIR/bin/assetguard-control start
         fi
     fi
 }
@@ -320,22 +320,22 @@ UpdateStopOSSEC()
     fi
 
     if [ `stat /proc/1/exe 2> /dev/null | grep "systemd" | wc -l` -ne 0 ]; then
-        systemctl stop wazuh-$TYPE
+        systemctl stop assetguard-$TYPE
     elif [ `stat /proc/1/exe 2> /dev/null | grep "init.d" | wc -l` -ne 0 ]; then
-        service wazuh-$TYPE stop
+        service assetguard-$TYPE stop
     fi
 
-    # Make sure Wazuh is stopped
+    # Make sure AssetGuard is stopped
     if [ "X$PREINSTALLEDDIR" = "X" ]; then
         getPreinstalledDir
     fi
 
     if [ -f "$PREINSTALLEDDIR/bin/ossec-control" ]; then
         $PREINSTALLEDDIR/bin/ossec-control stop > /dev/null 2>&1
-    elif [ -f "$PREINSTALLEDDIR/bin/wazuh-manager-control" ]; then
-        $PREINSTALLEDDIR/bin/wazuh-manager-control stop > /dev/null 2>&1
+    elif [ -f "$PREINSTALLEDDIR/bin/assetguard-manager-control" ]; then
+        $PREINSTALLEDDIR/bin/assetguard-manager-control stop > /dev/null 2>&1
     else
-        $PREINSTALLEDDIR/bin/wazuh-control stop > /dev/null 2>&1
+        $PREINSTALLEDDIR/bin/assetguard-control stop > /dev/null 2>&1
     fi
 
     sleep 2
@@ -349,12 +349,12 @@ UpdateStopOSSEC()
     rm -f $PREINSTALLEDDIR/wodles/aws/aws > /dev/null 2>&1 # this script has been renamed
     rm -f $PREINSTALLEDDIR/wodles/aws/aws.py > /dev/null 2>&1 # this script has been renamed
 
-    # Deleting plain-text agent information if exists (it was migrated to Wazuh DB in v4.1)
+    # Deleting plain-text agent information if exists (it was migrated to AssetGuard DB in v4.1)
     if [ -d "$PREINSTALLEDDIR/queue/agent-info" ]; then
         rm -rf $PREINSTALLEDDIR/queue/agent-info > /dev/null 2>&1
     fi
 
-    # Deleting plain-text rootcheck information if exists (it was migrated to Wazuh DB in v4.1)
+    # Deleting plain-text rootcheck information if exists (it was migrated to AssetGuard DB in v4.1)
     if [ -d "$PREINSTALLEDDIR/queue/rootcheck" ]; then
         rm -rf $PREINSTALLEDDIR/queue/rootcheck > /dev/null 2>&1
     fi
@@ -368,8 +368,8 @@ UpdateStopOSSEC()
 UpdateOldVersions()
 {
 
-    # If it is Wazuh 2.0 or newer, exit
-    if [ "X$USER_OLD_NAME" = "XWazuh" ]; then
+    # If it is AssetGuard 2.0 or newer, exit
+    if [ "X$USER_OLD_NAME" = "XAssetGuard" ]; then
         return
     fi
 
@@ -377,8 +377,8 @@ UpdateOldVersions()
         getPreinstalledDir
     fi
 
-    OSSEC_CONF_FILE="$PREINSTALLEDDIR/etc/${WAZUH_CONF:-ossec.conf}"
-    OSSEC_CONF_FILE_ORIG="$PREINSTALLEDDIR/etc/${WAZUH_CONF:-ossec.conf}.orig"
+    OSSEC_CONF_FILE="$PREINSTALLEDDIR/etc/${ASSETGUARD_CONF:-ossec.conf}"
+    OSSEC_CONF_FILE_ORIG="$PREINSTALLEDDIR/etc/${ASSETGUARD_CONF:-ossec.conf}.orig"
 
     # config file -> config file.orig
     cp -pr $OSSEC_CONF_FILE $OSSEC_CONF_FILE_ORIG

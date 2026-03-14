@@ -1,5 +1,5 @@
-run-name: Build ${{ inputs.system }} wazuh-server on ${{ inputs.architecture }} ${{ inputs.is_stage && '- is stage' || '' }} ${{ inputs.checksum && '- checksum' || '' }} ${{ inputs.debug && '- debug' || '' }} ${{ inputs.id }}
-name: 6.X - Build Wazuh server
+run-name: Build ${{ inputs.system }} assetguard-server on ${{ inputs.architecture }} ${{ inputs.is_stage && '- is stage' || '' }} ${{ inputs.checksum && '- checksum' || '' }} ${{ inputs.debug && '- debug' || '' }} ${{ inputs.id }}
+name: 6.X - Build AssetGuard server
 
 on:
   workflow_dispatch:
@@ -91,14 +91,14 @@ on:
         required: false
 
 env:
-  S3_PRECOMPILED_STORE: s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/engine-store/store.tar.gz
+  S3_PRECOMPILED_STORE: s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/engine-store/store.tar.gz
   LOCAL_PRECOMPILED_STORE_PATH: src/engine/engine_precompiled_store.tar.gz # Also used in the build script
 
 jobs:
   Build-server-packages:
     runs-on: ${{ (inputs.architecture == 'arm64' || inputs.architecture == 'aarch64') && 'wz-linux-arm64' || 'ubuntu-24.04' }}
     timeout-minutes: 35
-    name: Build ${{ inputs.system }} wazuh-server on ${{ inputs.architecture }}
+    name: Build ${{ inputs.system }} assetguard-server on ${{ inputs.architecture }}
 
     steps:
       - name: Cancel previous runs
@@ -149,7 +149,7 @@ jobs:
           # Save the store in the workspace
 
 
-      - name: Build ${{ inputs.system }} wazuh-server on ${{ env.ARCH }}
+      - name: Build ${{ inputs.system }} assetguard-server on ${{ env.ARCH }}
         working-directory: packages
         run: |
           REVISION=${{ inputs.revision }}
@@ -167,8 +167,8 @@ jobs:
           else
             SYMBOLS_TAG="debuginfo"
           fi
-          # Find all files starting with 'wazuh-server' and ending with '.rpm or .deb'
-          for file in $(find /tmp -maxdepth 1 -type f -name 'wazuh-server*.${{ inputs.system }}' -exec basename {} 2>/dev/null \;); do
+          # Find all files starting with 'assetguard-server' and ending with '.rpm or .deb'
+          for file in $(find /tmp -maxdepth 1 -type f -name 'assetguard-server*.${{ inputs.system }}' -exec basename {} 2>/dev/null \;); do
             if [[ "$file" == *"$SYMBOLS_TAG"* ]]; then
               PACKAGE_SYMBOLS_NAME="$file"
             else
@@ -183,8 +183,8 @@ jobs:
         run: |
           if [ -z "${{ env.PACKAGE_NAME }}" ]; then echo "No package found matching the pattern!"; exit 1; fi
           sudo docker run -v $GITHUB_WORKSPACE/.github/actions/test-install-components/:/tests -v /tmp/:/packages --entrypoint '/tests/install_component.sh' $CONTAINER_NAME:${{ env.TAG }} $PACKAGE_NAME server
-          # Check if Wazuh was installed. The /tmp/status.log file was generated in the previous step.
-          if grep -iq " installed.*wazuh-server" /tmp/status.log ; then
+          # Check if AssetGuard was installed. The /tmp/status.log file was generated in the previous step.
+          if grep -iq " installed.*assetguard-server" /tmp/status.log ; then
             echo "Installation successfully."
           else
             echo "The installation could not be completed. The package will not be uploaded.";
@@ -208,20 +208,20 @@ jobs:
       - name: Upload package to S3
         working-directory: packages
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_NAME }} s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/
-          s3uri="s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/${{ env.PACKAGE_NAME }}"
+          aws s3 cp /tmp/${{ env.PACKAGE_NAME }} s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/
+          s3uri="s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/${{ env.PACKAGE_NAME }}"
           echo "S3 URI: ${s3uri}"
 
       - name: Upload checksum to S3
         if: ${{ inputs.checksum }}
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/
-          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/
-          s3uri="s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/${{ env.PACKAGE_NAME }}.sha512"
+          aws s3 cp /tmp/${{ env.PACKAGE_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/
+          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/
+          s3uri="s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/${{ env.PACKAGE_NAME }}.sha512"
           echo "S3 sha512 URI: ${s3uri}"
 
       - name: Upload debug symbols to S3
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }} s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/
-          symbols="s3://xdrsiem-packages-dev-internal/development/wazuh/6.x/main/packages/${symbols_name}"
+          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }} s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/
+          symbols="s3://xdrsiem-packages-dev-internal/development/assetguard/6.x/main/packages/${symbols_name}"
           echo "S3 symbols URI: ${symbols}"

@@ -1,6 +1,6 @@
 # Engine Schema Tool
 
-Standalone tool for generating engine schema and associated configuration files from Wazuh Common Schema (WCS).
+Standalone tool for generating engine schema and associated configuration files from AssetGuard Common Schema (WCS).
 
 ## Installation
 
@@ -11,27 +11,27 @@ pip install -e .
 It can also be used directly without the installation:
 
 ```bash
-python3 engine_schema.py generate --output-dir /engine_schema_test --wcs-path "ecs_flat_1.yaml , ecs_flat_2.yaml" --decoder-template /path/to/wazuh-decoders.template.json
+python3 engine_schema.py generate --output-dir /engine_schema_test --wcs-path "ecs_flat_1.yaml , ecs_flat_2.yaml" --decoder-template /path/to/assetguard-decoders.template.json
 ```
 
 ## Usage
 
 ```bash
 # Using a single YAML file
-engine-schema generate --wcs-path /path/to/wcs_flat.yml --output-dir ./output --decoder-template /path/to/wazuh-decoders.template.json
+engine-schema generate --wcs-path /path/to/wcs_flat.yml --output-dir ./output --decoder-template /path/to/assetguard-decoders.template.json
 
 # Using a directory with multiple YAML files (they will be merged)
-engine-schema generate --wcs-path /path/to/wcs_directory/ --output-dir ./output --decoder-template /path/to/wazuh-decoders.template.json
+engine-schema generate --wcs-path /path/to/wcs_directory/ --output-dir ./output --decoder-template /path/to/assetguard-decoders.template.json
 
 # Using a list of YAML files (they will be merged)
-engine-schema generate --wcs-path "/path/to/wcs_directory/file_1.yaml , /path/to/wcs_directory/file_2.yaml" --output-dir ./output --decoder-template /path/to/wazuh-decoders.template.json
+engine-schema generate --wcs-path "/path/to/wcs_directory/file_1.yaml , /path/to/wcs_directory/file_2.yaml" --output-dir ./output --decoder-template /path/to/assetguard-decoders.template.json
 ```
 
 ## Arguments
 
-- `--wcs-path`: Path to the Wazuh Common Schema YAML file, directory containing YAML files or list of files separated by comma. If a directory is provided, all .yml and .yaml files will be merged into a single schema without duplicated keys
+- `--wcs-path`: Path to the AssetGuard Common Schema YAML file, directory containing YAML files or list of files separated by comma. If a directory is provided, all .yml and .yaml files will be merged into a single schema without duplicated keys
 - `--output-dir`: Root directory to store generated files (default: current directory)
-- `--decoder-template`: Path to wazuh-decoders.json template file for fields injection
+- `--decoder-template`: Path to assetguard-decoders.json template file for fields injection
 - `--types-output`: Optional path to write the list of ECS field types
 - `--exclude-geo-ip`: Optional comma-separated list of IP fields to exclude from geo enrichment (e.g., "observer.ip,client.nat.ip")
 - `--ioc-enrichment-cfg`: Optional path to a JSON file that defines IOC enrichment configuration (which fields to check for IOCs)
@@ -39,8 +39,8 @@ engine-schema generate --wcs-path "/path/to/wcs_directory/file_1.yaml , /path/to
 ## Generated Files
 
 The tool generates the following files:
-- `wazuh-decoders.json`: Unified decoder schema with all fields injected into the template
-- `wazuh-logpar-overrides.json`: Logpar configuration overrides
+- `assetguard-decoders.json`: Unified decoder schema with all fields injected into the template
+- `assetguard-logpar-overrides.json`: Logpar configuration overrides
 - `engine-schema.json`: Engine schema definition
 - `enrichment-geo.json`: Geo/AS enrichment configuration mapping
 - `enrichment-ioc.json`: IOC enrichment source fields configuration
@@ -355,7 +355,7 @@ All three levels are merged (union) when filtering fields.
 engine-schema generate \
   --wcs-path /path/to/wcs.yml \
   --output-dir ./output \
-  --decoder-template /path/to/wazuh-decoders.template.json \
+  --decoder-template /path/to/assetguard-decoders.template.json \
   --ioc-enrichment-cfg /path/to/ioc-enrichment-cfg.json
 
 # This will generate enrichment-ioc.json containing all source fields to check

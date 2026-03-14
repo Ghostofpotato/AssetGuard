@@ -6,7 +6,7 @@ on:
     paths:
       - "src/ci/**"
       - "src/build.py"
-      - "src/wazuh_modules/agent_info/**"
+      - "src/assetguard_modules/agent_info/**"
       - "src/config/src/wmodules-agent_info.c"
       - "src/Makefile"
       - ".github/workflows/5_testcomponent_agent_info-rtr.yml"
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        module: [wazuh_modules/agent_info]
+        module: [assetguard_modules/agent_info]
         target: [agent, winagent]
     runs-on: ubuntu-24.04
     steps:

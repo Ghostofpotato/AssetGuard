@@ -22,4 +22,4 @@ jobs:
       - name: Inventory harvester - Coding style
         uses: ./.github/actions/clang_format
         with:
-          path: src/wazuh_modules/inventory_harvester
+          path: src/assetguard_modules/inventory_harvester

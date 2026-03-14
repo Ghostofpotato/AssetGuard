@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -8,8 +8,8 @@
     port: '1514'
     rids_closing_time: '1s'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -18,8 +18,8 @@
     port: '1514'
     rids_closing_time: '30s'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -28,8 +28,8 @@
     port: '1514'
     rids_closing_time: '1m'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -38,8 +38,8 @@
     port: '1514'
     rids_closing_time: '30m'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -48,8 +48,8 @@
     port: '1514'
     rids_closing_time: '1h'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -58,8 +58,8 @@
     port: '1514'
     rids_closing_time: '30h'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'
@@ -68,8 +68,8 @@
     port: '1514'
     rids_closing_time: '1d'
 
-- name: Command config wazuh manager for rids closing time
-  description: Command config wazuh manager for rids closing time
+- name: Command config assetguard manager for rids closing time
+  description: Command config assetguard manager for rids closing time
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'TCP'

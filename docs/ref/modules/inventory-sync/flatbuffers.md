@@ -1,6 +1,6 @@
 # Flatbuffers
 
-The Inventory Sync module uses Google FlatBuffers for efficient serialization and deserialization of synchronization messages between Wazuh agents and the manager. FlatBuffers provide zero-copy deserialization and compact binary representation ideal for high-throughput inventory synchronization.
+The Inventory Sync module uses Google FlatBuffers for efficient serialization and deserialization of synchronization messages between AssetGuard agents and the manager. FlatBuffers provide zero-copy deserialization and compact binary representation ideal for high-throughput inventory synchronization.
 
 ## Schema Definition
 
@@ -311,18 +311,18 @@ The Inventory Sync module validates all incoming FlatBuffer messages:
 ```cpp
 // Verify the flatbuffer structure
 flatbuffers::Verifier verifier(buffer.data(), buffer.size());
-if (!Wazuh::SyncSchema::VerifyMessageBuffer(verifier))
+if (!AssetGuard::SyncSchema::VerifyMessageBuffer(verifier))
 {
     throw InventorySyncException("Invalid message buffer");
 }
 
 // Parse the message
-auto syncMessage = Wazuh::SyncSchema::GetMessage(buffer.data());
+auto syncMessage = AssetGuard::SyncSchema::GetMessage(buffer.data());
 
 // Validate content type
 switch (syncMessage->content_type())
 {
-    case Wazuh::SyncSchema::MessageType_Start:
+    case AssetGuard::SyncSchema::MessageType_Start:
         // Validate Start message fields
         if (syncMessage->content_as_Start()->module() == nullptr)
         {
@@ -330,7 +330,7 @@ switch (syncMessage->content_type())
         }
         break;
 
-    case Wazuh::SyncSchema::MessageType_DataValue:
+    case AssetGuard::SyncSchema::MessageType_DataValue:
         // Validate DataValue message fields
         auto dataValue = syncMessage->content_as_DataValue();
         if (dataValue->id() == nullptr || dataValue->index() == nullptr)
@@ -372,13 +372,13 @@ FlatBuffers provide several performance advantages for inventory synchronization
 
 ```cpp
 auto fbBuilder = std::make_shared<flatbuffers::FlatBufferBuilder>();
-auto startAckOffset = Wazuh::SyncSchema::CreateStartAck(
+auto startAckOffset = AssetGuard::SyncSchema::CreateStartAck(
     *fbBuilder,
-    Wazuh::SyncSchema::Status_Ok,
+    AssetGuard::SyncSchema::Status_Ok,
     sessionId);
-auto messageOffset = Wazuh::SyncSchema::CreateMessage(
+auto messageOffset = AssetGuard::SyncSchema::CreateMessage(
     *fbBuilder,
-    Wazuh::SyncSchema::MessageType_StartAck,
+    AssetGuard::SyncSchema::MessageType_StartAck,
     startAckOffset.Union());
 fbBuilder->Finish(messageOffset);
 ```
@@ -386,10 +386,10 @@ fbBuilder->Finish(messageOffset);
 ### Processing DataValue Message
 
 ```cpp
-auto message = Wazuh::SyncSchema::GetMessage(buffer.data());
-if (message->content_type() == Wazuh::SyncSchema::MessageType_DataValue)
+auto message = AssetGuard::SyncSchema::GetMessage(buffer.data());
+if (message->content_type() == AssetGuard::SyncSchema::MessageType_DataValue)
 {
-    auto dataValue = static_cast<const Wazuh::SyncSchema::DataValue*>(message->content());
+    auto dataValue = static_cast<const AssetGuard::SyncSchema::DataValue*>(message->content());
     const auto seq = dataValue->seq();
     const auto session = dataValue->session();
     const auto version = dataValue->version();
@@ -408,14 +408,14 @@ if (message->content_type() == Wazuh::SyncSchema::MessageType_DataValue)
 ```cpp
 flatbuffers::FlatBufferBuilder builder;
 
-auto endAck = Wazuh::SyncSchema::CreateEndAck(
+auto endAck = AssetGuard::SyncSchema::CreateEndAck(
     builder,
-    Wazuh::SyncSchema::Status_Ok,
+    AssetGuard::SyncSchema::Status_Ok,
     sessionId);
 
-auto message = Wazuh::SyncSchema::CreateMessage(
+auto message = AssetGuard::SyncSchema::CreateMessage(
     builder,
-    Wazuh::SyncSchema::MessageType_EndAck,
+    AssetGuard::SyncSchema::MessageType_EndAck,
     endAck.Union());
 
 builder.Finish(message);
@@ -427,18 +427,18 @@ builder.Finish(message);
 flatbuffers::FlatBufferBuilder builder;
 
 // Create pairs of sequence ranges to retransmit
-std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> pairs;
-pairs.push_back(Wazuh::SyncSchema::CreatePair(builder, 10, 15));  // Request seq 10-15
-pairs.push_back(Wazuh::SyncSchema::CreatePair(builder, 20, 25));  // Request seq 20-25
+std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> pairs;
+pairs.push_back(AssetGuard::SyncSchema::CreatePair(builder, 10, 15));  // Request seq 10-15
+pairs.push_back(AssetGuard::SyncSchema::CreatePair(builder, 20, 25));  // Request seq 20-25
 
-auto reqRet = Wazuh::SyncSchema::CreateReqRet(
+auto reqRet = AssetGuard::SyncSchema::CreateReqRet(
     builder,
     builder.CreateVector(pairs),
     sessionId);
 
-auto message = Wazuh::SyncSchema::CreateMessage(
+auto message = AssetGuard::SyncSchema::CreateMessage(
     builder,
-    Wazuh::SyncSchema::MessageType_ReqRet,
+    AssetGuard::SyncSchema::MessageType_ReqRet,
     reqRet.Union());
 
 builder.Finish(message);
@@ -468,7 +468,7 @@ The module implements robust error handling for flatbuffer operations:
 
 ## Integration with Router
 
-The flatbuffer messages integrate seamlessly with the Wazuh Router system:
+The flatbuffer messages integrate seamlessly with the AssetGuard Router system:
 
 ```cpp
 m_inventorySubscription = std::make_unique<TRouterSubscriber>(
@@ -482,4 +482,4 @@ m_inventorySubscription->subscribe(
     });
 ```
 
-This integration allows for efficient message routing and processing across the Wazuh infrastructure while maintaining type safety and performance through FlatBuffers.
+This integration allows for efficient message routing and processing across the AssetGuard infrastructure while maintaining type safety and performance through FlatBuffers.

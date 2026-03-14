@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -10,8 +10,8 @@ from typing import Dict, List
 from defusedxml import ElementTree as ET
 from jsonschema import Draft4Validator
 
-from wazuh.core import common
-from wazuh.core.exception import WazuhError
+from assetguard.core import common
+from assetguard.core.exception import AssetGuardError
 
 _alphanumeric_param = re.compile(r'^[\w,\-.+\s:]+$')
 _symbols_alphanumeric_param = re.compile(r'^[\w,*<>!\-.+\s:/()\[\]\'\"|=~#]+$')
@@ -27,8 +27,8 @@ _iso8601_date_time = re.compile(
 _names = re.compile(r'^[\w\-.%]+$', re.ASCII)
 _numbers = re.compile(r'^\d+$')
 _numbers_or_all = re.compile(r'^(\d+|all)$')
-_wazuh_key = re.compile(r'[a-zA-Z0-9]+$')
-_wazuh_version = re.compile(r'^(?:wazuh |)v?\d+\.\d+\.\d+$', re.IGNORECASE)
+_assetguard_key = re.compile(r'[a-zA-Z0-9]+$')
+_assetguard_version = re.compile(r'^(?:assetguard |)v?\d+\.\d+\.\d+$', re.IGNORECASE)
 _paths = re.compile(r'^[\w\-.\\/:]+$')
 _query_param = re.compile(r"^[\w.\-]+(?:=|!=|<|>|~)[\w.\- ]+(?:[;,][\w.\-]+(?:=|!=|<|>|~)[\w.\- ]+)*$")
 _ranges = re.compile(r'[\d]+$|^[\d]{1,2}-[\d]{1,2}$')
@@ -205,7 +205,7 @@ api_config_schema = {
     }
 }
 
-WAZUH_AGENT_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
+ASSETGUARD_AGENT_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
     {
         'agent': {"client", "buffer", "labels", "internal", "anti_tampering"},
         'com': {"active-response", "logging", "internal"},
@@ -215,12 +215,12 @@ WAZUH_AGENT_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
     }
 )
 
-WAZUH_MANAGER_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
+ASSETGUARD_MANAGER_COMPONENT_CONFIGURATION_MAPPING = MappingProxyType(
     {
         'auth': {"auth"},
         'monitor': {"global", "internal"},
         'request': {"global", "remote", "internal"},
-        'wazuh-manager-db': {"wdb", "internal"},
+        'assetguard-manager-db': {"wdb", "internal"},
         'wmodules': {"wmodules"}
     }
 )
@@ -286,7 +286,7 @@ def allowed_fields(filters: Dict) -> List:
     return [field for field in filters]
 
 
-def is_safe_path(path: str, basedir: str = common.WAZUH_PATH, relative: bool = True) -> bool:
+def is_safe_path(path: str, basedir: str = common.ASSETGUARD_PATH, relative: bool = True) -> bool:
     """Check if a path is correct.
 
     Parameters
@@ -294,7 +294,7 @@ def is_safe_path(path: str, basedir: str = common.WAZUH_PATH, relative: bool = T
     path : str
         Path to be checked.
     basedir : str
-        Wazuh installation directory.
+        AssetGuard installation directory.
     relative : bool
         True if path is relative. False otherwise (absolute).
 
@@ -315,13 +315,13 @@ def is_safe_path(path: str, basedir: str = common.WAZUH_PATH, relative: bool = T
     return os.path.commonpath([full_path, full_basedir]) == full_basedir
 
 
-def check_component_configuration_pair(component: str, configuration: str, is_manager: bool = False) -> WazuhError:
+def check_component_configuration_pair(component: str, configuration: str, is_manager: bool = False) -> AssetGuardError:
     """
 
     Parameters
     ----------
     component : str
-        Wazuh component name.
+        AssetGuard component name.
     configuration : str
         Component configuration.
     is_manager : bool
@@ -329,16 +329,16 @@ def check_component_configuration_pair(component: str, configuration: str, is_ma
 
     Returns
     -------
-    WazuhError
-        It can either return a `WazuhError` or `None`, depending on the given component and configuration. The exception
+    AssetGuardError
+        It can either return a `AssetGuardError` or `None`, depending on the given component and configuration. The exception
         is returned and not raised because we use the object to create a problem on API level.
     """
-    mapping = WAZUH_MANAGER_COMPONENT_CONFIGURATION_MAPPING if is_manager else WAZUH_AGENT_COMPONENT_CONFIGURATION_MAPPING
+    mapping = ASSETGUARD_MANAGER_COMPONENT_CONFIGURATION_MAPPING if is_manager else ASSETGUARD_AGENT_COMPONENT_CONFIGURATION_MAPPING
 
     if component not in mapping:
-        return WazuhError(1118, extra_message=f"Valid components: {list(mapping.keys())}")
+        return AssetGuardError(1118, extra_message=f"Valid components: {list(mapping.keys())}")
     if configuration not in mapping[component]:
-        return WazuhError(1128, extra_message=f"Valid configuration values for '{component}': "
+        return AssetGuardError(1128, extra_message=f"Valid configuration values for '{component}': "
                                               f"{mapping[component]}")
 
 
@@ -416,14 +416,14 @@ def format_timeframe(value):
     return check_exp(value, _timeframe_type)
 
 
-@Draft4Validator.FORMAT_CHECKER.checks("wazuh_key")
-def format_wazuh_key(value):
-    return check_exp(value, _wazuh_key)
+@Draft4Validator.FORMAT_CHECKER.checks("assetguard_key")
+def format_assetguard_key(value):
+    return check_exp(value, _assetguard_key)
 
 
-@Draft4Validator.FORMAT_CHECKER.checks("wazuh_version")
-def format_wazuh_version(value):
-    return check_exp(value, _wazuh_version)
+@Draft4Validator.FORMAT_CHECKER.checks("assetguard_version")
+def format_assetguard_version(value):
+    return check_exp(value, _assetguard_version)
 
 
 @Draft4Validator.FORMAT_CHECKER.checks("date")

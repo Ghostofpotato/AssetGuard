@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(wazuh-util C)
+project(assetguard-util C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -31,15 +31,15 @@ include_directories(
   ${SRC_FOLDER}/config/include/
   ${SRC_FOLDER}/logcollector/include/
   ${SRC_FOLDER}/data_provider/include/
-  ${SRC_FOLDER}/wazuh_modules/include/
-  ${SRC_FOLDER}/wazuh_modules/src/
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/
-  ${SRC_FOLDER}/wazuh_modules/src/task_manager/)
+  ${SRC_FOLDER}/assetguard_modules/include/
+  ${SRC_FOLDER}/assetguard_modules/src/
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/
+  ${SRC_FOLDER}/assetguard_modules/src/task_manager/)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_definitions(-DGROUPGLOBAL="wazuh")
+add_definitions(-DGROUPGLOBAL="assetguard")
 
 set(LIB_DIR ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIB_DIR})
@@ -52,8 +52,8 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set_target_properties(
     verify-agent-conf PROPERTIES LINKER_LANGUAGE C RUNTIME_OUTPUT_DIRECTORY
                                                    ${SRC_FOLDER}/build/bin)
-  target_link_libraries(verify-agent-conf PRIVATE config wazuh_modulesd_lib
-                                                  wazuhext pthread wazuh)
+  target_link_libraries(verify-agent-conf PRIVATE config assetguard_modulesd_lib
+                                                  assetguardext pthread assetguard)
 
   if(UNIX)
     target_link_libraries(verify-agent-conf PRIVATE dl)

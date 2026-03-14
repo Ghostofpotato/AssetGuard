@@ -8,7 +8,7 @@ if [ -z "$package_name" ] || [ -z "$target" ]; then
     exit 1
 fi
 
-echo "Uninstalling Wazuh $target."
+echo "Uninstalling AssetGuard $target."
 
 if [ -n "$(command -v yum)" ]; then
     uninstall="yum remove -y"
@@ -21,12 +21,12 @@ else
     exit 1
 fi
 
-$uninstall "wazuh-$target" | tee /packages/status.log
+$uninstall "assetguard-$target" | tee /packages/status.log
 
-if grep -i " removed.*wazuh-$target" $installed_log | tee -a /packages/status.log; then
-    echo "Wazuh $target was uninstalled successfully."
+if grep -i " removed.*assetguard-$target" $installed_log | tee -a /packages/status.log; then
+    echo "AssetGuard $target was uninstalled successfully."
     exit 0
 else
-    echo "Failed to uninstall Wazuh $target."
+    echo "Failed to uninstall AssetGuard $target."
     exit 1
 fi

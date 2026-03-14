@@ -1,29 +1,29 @@
-# End-to-End Tests for Wazuh-Engine
+# End-to-End Tests for AssetGuard-Engine
 
-This directory contains a comprehensive suite of end-to-end tests for the Wazuh-Engine project. These tests are designed to ensure the reliability and stability of the Wazuh-Engine across various components and operations.
+This directory contains a comprehensive suite of end-to-end tests for the AssetGuard-Engine project. These tests are designed to ensure the reliability and stability of the AssetGuard-Engine across various components and operations.
 
 ## Test Categories
 
-- **Acceptance Tests**: Located in the `acceptance/` directory. These tests focus on performance comparisons between Wazuh-Engine and wazuh-manager-analysisd.
-- **Integration Tests**: Located in the `integration/` directory. These tests cover the integration aspects of the Wazuh-Engine components.
+- **Acceptance Tests**: Located in the `acceptance/` directory. These tests focus on performance comparisons between AssetGuard-Engine and assetguard-manager-analysisd.
+- **Integration Tests**: Located in the `integration/` directory. These tests cover the integration aspects of the AssetGuard-Engine components.
 - **Helper Functions Tests**: Located in the `helpers/` directory. These tests validate the functionality of helper functions used within the assets.
 
 
 ## Environment Setup Script
 
-The `setupEnvironment.py` script is used to configure the environment necessary for running the tests, ensuring that Wazuh-Engine operates in a controlled, sandboxed environment.
+The `setupEnvironment.py` script is used to configure the environment necessary for running the tests, ensuring that AssetGuard-Engine operates in a controlled, sandboxed environment.
 
 ### Prerequisites
 
 - **Python 3.8+**
 - **pip3**
-- **engine-suite**: This package includes several tools that facilitate the use of the Wazuh-Engine ecosystem, these tools are used by the tests and the user to interact with the api in a simple way.
-- **api-communication**: This package facilitates communication with the Wazuh API, crucial for some components that interact directly with the Wazuh API.
+- **engine-suite**: This package includes several tools that facilitate the use of the AssetGuard-Engine ecosystem, these tools are used by the tests and the user to interact with the api in a simple way.
+- **api-communication**: This package facilitates communication with the AssetGuard API, crucial for some components that interact directly with the AssetGuard API.
 - **engine-test-utils** This package includes utilities used by the tests.
 
 ### Installation
 
-First, ensure that you have Python and pip installed on your system. Then, install the required Python packages by navigating to the root directory of the Wazuh repository and running the following commands:
+First, ensure that you have Python and pip installed on your system. Then, install the required Python packages by navigating to the root directory of the AssetGuard repository and running the following commands:
 
 ```bash
 pip3 install tools/api-communication

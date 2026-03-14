@@ -15,7 +15,7 @@ else()
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../wrappers/unix)
   include_directories(
     ${CMAKE_SOURCE_DIR}/../shared_modules/file_helper/filesystem/include)
-  if(NOT DEFINED WAZUH_MAIN_PROJECT)
+  if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
     get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
   endif()
   link_directories(${SRC_FOLDER}/shared_modules/file_helper/build)

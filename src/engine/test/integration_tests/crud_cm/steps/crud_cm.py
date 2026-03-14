@@ -19,7 +19,7 @@ api_client = APIClient(SOCKET_PATH)
 # ============================================================
 
 POLICY_DEFAULT_PARENT_NAME = "decoder/integration/0"
-POLICY_ROOT_DECODER_NAME = "decoder/core-wazuh-message/0"
+POLICY_ROOT_DECODER_NAME = "decoder/core-assetguard-message/0"
 POLICY_DECODER_UUID = "85853f26-5779-469b-86c4-c47ee7d400b4"
 POLICY_INTEGRATION_UUID = "42e28392-4f5e-473d-89e8-c9030e6fedc2"
 POLICY_INTEGRATION_NAME = "integration_development_0"

@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts
        when these files are modified. Specifically, these tests will verify that FIM limits
        the maximum events per second that it generates, set in the 'max_eps' tag.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'assetguard-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - linux
@@ -43,8 +43,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#synchronization
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#synchronization
 
 pytest_args:
     - fim_mode:
@@ -69,15 +69,15 @@ import json
 from datetime import datetime
 
 import pytest
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils import file
-from wazuh_testing.modules.fim.patterns import FIM_EVENT_JSON, PATH_MONITORED_REALTIME, PATH_MONITORED_WHODATA, PATH_MONITORED_WHODATA_WINDOWS
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils import file
+from assetguard_testing.modules.fim.patterns import FIM_EVENT_JSON, PATH_MONITORED_REALTIME, PATH_MONITORED_WHODATA, PATH_MONITORED_WHODATA_WINDOWS
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -99,16 +99,16 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_max_eps(test_configuration, test_metadata, configure_local_internal_options,
-                 truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, clean_fim_db, daemons_handler):
+                 truncate_monitored_files, set_assetguard_configuration, folder_to_monitor, clean_fim_db, daemons_handler):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon applies the limit set in the 'max_eps' tag when
+    description: Check if the 'assetguard-syscheckd' daemon applies the limit set in the 'max_eps' tag when
                  a lot of 'syscheck' events are generated. For this purpose, the test will monitor a folder,
                  and once FIM is started, it will create multiple testing files in it. Then, the test
                  will collect FIM 'added' events generated and check if the number of events matches
                  the testing files created. Finally, it will verify the limit of events per second (eps)
                  is not exceeded by checking the creation time of the testing files.
 
-    wazuh_min_version: 4.6.0
+    assetguard_min_version: 4.6.0
 
     tier: 1
 
@@ -125,7 +125,7 @@ def test_max_eps(test_configuration, test_metadata, configure_local_internal_opt
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - folder_to_monitor:
@@ -133,7 +133,7 @@ def test_max_eps(test_configuration, test_metadata, configure_local_internal_opt
             brief: Folder created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
 
 
     assertions:
@@ -141,7 +141,7 @@ def test_max_eps(test_configuration, test_metadata, configure_local_internal_opt
         - Verify that the eps limit set in the 'max_eps' tag has not been exceeded at generating FIM events.
 
     input_description: A test case (max_eps) is contained in external YAML file (cases_max_eps.yaml) which
-                       includes configuration settings for the 'wazuh-syscheckd' daemon and, these are
+                       includes configuration settings for the 'assetguard-syscheckd' daemon and, these are
                        combined with the testing directory to be monitored defined in the module.
 
     expected_output:
@@ -162,14 +162,14 @@ def test_max_eps(test_configuration, test_metadata, configure_local_internal_opt
     else:
         regex = PATH_MONITORED_REALTIME if test_metadata['fim_mode'] == 'realtime' else PATH_MONITORED_WHODATA
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=generate_callback(regex))
-    assert wazuh_log_monitor.callback_result
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
+    assetguard_log_monitor.start(callback=generate_callback(regex))
+    assert assetguard_log_monitor.callback_result
 
     # Wait for the first FIM synchronization cycle to complete (succeed or fail) so that the
     # sync thread releases fim_scan_mutex and fim_realtime_mutex. Without this, the sync
     # handshake with the manager blocks all event processing for its entire duration.
-    wazuh_log_monitor.start(
+    assetguard_log_monitor.start(
         timeout=250,
         callback=generate_callback(r'.*FIM synchronization (finished|failed).*')
     )
@@ -183,10 +183,10 @@ def test_max_eps(test_configuration, test_metadata, configure_local_internal_opt
 
     n_results = max_eps * 3
 
-    wazuh_log_monitor.start(accumulations=n_results, callback=generate_callback(FIM_EVENT_JSON))
-    assert wazuh_log_monitor.callback_result
+    assetguard_log_monitor.start(accumulations=n_results, callback=generate_callback(FIM_EVENT_JSON))
+    assert assetguard_log_monitor.callback_result
 
-    result = parse_integrity_message(wazuh_log_monitor.callback_result)
+    result = parse_integrity_message(assetguard_log_monitor.callback_result)
     date_time_count = {}
 
     for date_time in result:

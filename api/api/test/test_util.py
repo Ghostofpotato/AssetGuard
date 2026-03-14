@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import asyncio
@@ -10,8 +10,8 @@ import pytest
 from connexion import ProblemException
 
 from api import util
-from wazuh.core.exception import WazuhError, WazuhPermissionError, WazuhResourceNotFound, \
-    WazuhInternalError
+from assetguard.core.exception import AssetGuardError, AssetGuardPermissionError, AssetGuardResourceNotFound, \
+    AssetGuardInternalError
 
 
 class TestClass:
@@ -189,10 +189,10 @@ def test_to_relative_path(mock_real_path):
 
 @pytest.mark.parametrize('exception_type, code, extra_fields, returned_code, returned_exception', [
     (ValueError, 100, None, ValueError(100), ValueError),
-    (WazuhError, 1000, ['remediation', 'code'], 400, ProblemException),
-    (WazuhPermissionError, 4000, ['remediation', 'code'], 403, ProblemException),
-    (WazuhResourceNotFound, 1710, ['remediation', 'code'], 404, ProblemException),
-    (WazuhInternalError, 1000, ['remediation', 'code'], 500, ProblemException)
+    (AssetGuardError, 1000, ['remediation', 'code'], 400, ProblemException),
+    (AssetGuardPermissionError, 4000, ['remediation', 'code'], 403, ProblemException),
+    (AssetGuardResourceNotFound, 1710, ['remediation', 'code'], 404, ProblemException),
+    (AssetGuardInternalError, 1000, ['remediation', 'code'], 500, ProblemException)
 ])
 def test_create_problem(exception_type, code, extra_fields, returned_code, returned_exception):
     """Check that _create_problem returns exception with expected data"""
@@ -207,10 +207,10 @@ def test_create_problem(exception_type, code, extra_fields, returned_code, retur
 
 
 @pytest.mark.parametrize('obj, code', [
-    ((WazuhError(6001), ['value0', 'value1']), 429),
-    ((WazuhInternalError(1000), ['value0', 'value1']), None),
-    ((WazuhPermissionError(4000), ['value0', 'value1']), None),
-    ((WazuhResourceNotFound(1710), ['value0', 'value1']), None)
+    ((AssetGuardError(6001), ['value0', 'value1']), 429),
+    ((AssetGuardInternalError(1000), ['value0', 'value1']), None),
+    ((AssetGuardPermissionError(4000), ['value0', 'value1']), None),
+    ((AssetGuardResourceNotFound(1710), ['value0', 'value1']), None)
 ])
 @patch('api.util._create_problem')
 def test_raise_if_exc(mock_create_problem, obj, code):
@@ -255,7 +255,7 @@ def test_get_invalid_keys(dikt, f_kwargs, invalid_keys):
 
 @pytest.mark.parametrize('link', [
     '',
-    'https://documentation.wazuh.com/current/user-manual/api/reference.html'
+    'https://documentation.assetguard.com/current/user-manual/api/reference.html'
 ])
 @pytest.mark.asyncio
 async def test_deprecate_endpoint(link):

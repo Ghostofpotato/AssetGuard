@@ -1,20 +1,20 @@
 - name: REMOTED_ENDPOINT
   description: remoted statistics endpoint
   configuration_parameters:
-    ENDPOINT: wazuh-manager-remoted
+    ENDPOINT: assetguard-manager-remoted
   metadata:
-    endpoint: wazuh-manager-remoted
+    endpoint: assetguard-manager-remoted
 
 - name: ANALYSISD_ENDPOINT
   description: analysisd statistics endpoint
   configuration_parameters:
-    ENDPOINT: wazuh-manager-analysisd
+    ENDPOINT: assetguard-manager-analysisd
   metadata:
-    endpoint: wazuh-manager-analysisd
+    endpoint: assetguard-manager-analysisd
 
-- name: WAZUH_DB_ENDPOINT
-  description: wazuh-manager-db statistics endpoint
+- name: ASSETGUARD_DB_ENDPOINT
+  description: assetguard-manager-db statistics endpoint
   configuration_parameters:
-    ENDPOINT: wazuh-manager-db
+    ENDPOINT: assetguard-manager-db
   metadata:
-    endpoint: wazuh-manager-db
+    endpoint: assetguard-manager-db

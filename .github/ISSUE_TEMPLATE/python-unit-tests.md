@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - Python unit tests 
 about: Report the results after running Python unit tests.
-title: 'Release [WAZUH VERSION] - Release Candidate [RC VERSION] - Python unit tests'
+title: 'Release [ASSETGUARD VERSION] - Release Candidate [RC VERSION] - Python unit tests'
 labels: 'API, framework, qa'
 assignees: ''
 

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The **Agent Sync Protocol** is a shared module that provides a standardized interface for internal Wazuh modules (FIM, SCA, Inventory) to synchronize data with the Wazuh Manager. It implements a reliable, session-based synchronization mechanism that ensures data consistency and handles errors gracefully.
+The **Agent Sync Protocol** is a shared module that provides a standardized interface for internal AssetGuard modules (FIM, SCA, Inventory) to synchronize data with the AssetGuard Manager. It implements a reliable, session-based synchronization mechanism that ensures data consistency and handles errors gracefully.
 
 The protocol supports both **full** and **delta synchronization modes**, enabling efficient data transfer while maintaining state consistency. It uses a persistent queue backed by SQLite for durability and implements retry mechanisms with timeout controls to handle failures.
 
@@ -43,7 +43,7 @@ Each internal module maintains its own instance of the Agent Sync Protocol with 
            └────────┬────────┘
                     │
                     ▼
-             Wazuh Manager
+             AssetGuard Manager
 ```
 
 Each module instance:

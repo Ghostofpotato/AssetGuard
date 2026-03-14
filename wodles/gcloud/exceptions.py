@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -13,8 +13,8 @@ import tools
 UNKNOWN_ERROR_ERRCODE = 999
 
 
-class WazuhIntegrationException(Exception):
-    """Class that represents an exception for the Wazuh external integrations.
+class AssetGuardIntegrationException(Exception):
+    """Class that represents an exception for the AssetGuard external integrations.
 
     Parameters
     ----------
@@ -44,13 +44,13 @@ class WazuhIntegrationException(Exception):
         return self._message
 
 
-class WazuhIntegrationInternalError(WazuhIntegrationException):
-    """Class that represents a critical exception for the Wazuh external integrations."""
+class AssetGuardIntegrationInternalError(AssetGuardIntegrationException):
+    """Class that represents a critical exception for the AssetGuard external integrations."""
     ERRORS = {
         # 1-99 -> Internal errors
         1: {
-            'key': 'GCloudWazuhNotRunning',
-            'message': 'Wazuh must be running'
+            'key': 'GCloudAssetGuardNotRunning',
+            'message': 'AssetGuard must be running'
         },
         2: {
             'key': 'GCloudSocketError',
@@ -58,11 +58,11 @@ class WazuhIntegrationInternalError(WazuhIntegrationException):
         },
         3: {
             'key': 'GCloudSocketSendError',
-            'message': 'Error sending event to Wazuh'
+            'message': 'Error sending event to AssetGuard'
         },
     }
 
-class GCloudError(WazuhIntegrationException):
+class GCloudError(AssetGuardIntegrationException):
     """Class that represents an error of the GCloud package."""
     ERRORS = {
         # 1000-1099 General errors

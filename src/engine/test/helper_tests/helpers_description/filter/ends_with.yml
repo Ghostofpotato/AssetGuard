@@ -31,17 +31,17 @@ target_field:
 
 test:
   - arguments:
-      conteined: wazuh!!
-    target_field: hello wazuh!!
+      conteined: assetguard!!
+    target_field: hello assetguard!!
     should_pass: true
     description: Success ends with
   - arguments:
-      conteined: wazuh
-    target_field: hello wazuh!!!
+      conteined: assetguard
+    target_field: hello assetguard!!!
     should_pass: false
     description: Failure ends with
   - arguments:
       conteined: hello
-    target_field: hello wazuh!
+    target_field: hello assetguard!
     should_pass: false
     description: Failure ends with

@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       project:
-        description: "Project (use ossec-wazuh for development)"
+        description: "Project (use ossec-assetguard for development)"
         required: true
         type: choice
         options:
-          - wazuh
-          - ossec-wazuh
+          - assetguard
+          - ossec-assetguard
       threads:
         description: "Number of threads for make -j (0 = auto)"
         required: false
@@ -43,10 +43,10 @@ jobs:
       - name: Set up project and build variables
         id: vars
         run: |
-          if [[ "${{ github.event.inputs.project }}" == "wazuh" ]]; then
-            echo "PROJECT=wazuh/wazuh" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event.inputs.project }}" == "assetguard" ]]; then
+            echo "PROJECT=assetguard/assetguard" >> $GITHUB_OUTPUT
           else
-            echo "PROJECT=wazuh/ossec-wazuh" >> $GITHUB_OUTPUT
+            echo "PROJECT=assetguard/ossec-assetguard" >> $GITHUB_OUTPUT
           fi
 
           if [[ ${{ github.event.inputs.threads }} -le 0 ]]; then
@@ -97,13 +97,13 @@ jobs:
         run: ls -l cov-int/emit/*/emit-db*
 
       - name: Archive Coverity build
-        run: tar czf wazuh.tgz cov-int
+        run: tar czf assetguard.tgz cov-int
 
       - name: Upload Coverity artifact
         uses: actions/upload-artifact@v4
         with:
-          name: wazuh.tgz
-          path: wazuh.tgz
+          name: assetguard.tgz
+          path: assetguard.tgz
 
   upload:
     runs-on: ubuntu-latest
@@ -117,13 +117,13 @@ jobs:
       - name: Download Coverity artifact
         uses: actions/download-artifact@v4
         with:
-          name: wazuh.tgz
+          name: assetguard.tgz
 
       - name: Upload to Coverity Scan
         uses: ./.github/actions/coverity/upload
         with:
           project: ${{ needs.prepare.outputs.project }}
           email: ${{ secrets.COVERITY_SCAN_NOTIFICATION_EMAIL }}
-          token: ${{ github.event.inputs.project == 'wazuh' && secrets.COVERITY_SCAN_WAZUH_TOKEN || secrets.COVERITY_SCAN_OSSEC_TOKEN }}
+          token: ${{ github.event.inputs.project == 'assetguard' && secrets.COVERITY_SCAN_ASSETGUARD_TOKEN || secrets.COVERITY_SCAN_OSSEC_TOKEN }}
           version: ${{ needs.prepare.outputs.version }}
           description: "${{ needs.prepare.outputs.description }}"

@@ -20,7 +20,7 @@ on:
         required: false
         type: string
       issue-link:
-        description: 'Issue link in format https://github.com/wazuh/<REPO>/issues/<ISSUE-NUMBER>'
+        description: 'Issue link in format https://github.com/assetguard/<REPO>/issues/<ISSUE-NUMBER>'
         required: true
         type: string
       id:
@@ -37,10 +37,10 @@ jobs:
       pull-requests: write
 
     env:
-      CI_COMMIT_AUTHOR: wazuhci
-      CI_COMMIT_EMAIL: 22834044+wazuhci@users.noreply.github.com
-      CI_GPG_PRIVATE_KEY: ${{ secrets.CI_WAZUHCI_GPG_PRIVATE }}
-      GH_TOKEN: ${{ secrets.CI_WAZUHCI_BUMPER_TOKEN }}
+      CI_COMMIT_AUTHOR: assetguardci
+      CI_COMMIT_EMAIL: 22834044+assetguardci@users.noreply.github.com
+      CI_GPG_PRIVATE_KEY: ${{ secrets.CI_ASSETGUARDCI_GPG_PRIVATE }}
+      GH_TOKEN: ${{ secrets.CI_ASSETGUARDCI_BUMPER_TOKEN }}
       BUMP_SCRIPT_PATH: tools/repository_bumper.sh
       BUMP_LOG_PATH: tools/
 
@@ -72,7 +72,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Using workflow-specific GITHUB_TOKEN because currently CI_WAZUHCI_BUMPER_TOKEN
+          # Using workflow-specific GITHUB_TOKEN because currently CI_ASSETGUARDCI_BUMPER_TOKEN
           # doesn't have all the necessary permissions
           token: ${{ env.GH_TOKEN }}
 

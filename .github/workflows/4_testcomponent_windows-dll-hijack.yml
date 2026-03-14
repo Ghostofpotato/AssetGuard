@@ -16,13 +16,13 @@ jobs:
         run: make -C src deps TARGET=winagent -j2
       - name: make
         # We force the binary to exit when a library isn't signed because we could end up having a false
-        # positive if a Wazuh .dll is required after the verification mechanism has been enabled
+        # positive if a AssetGuard .dll is required after the verification mechanism has been enabled
         run: make -C src TARGET=winagent -j2 IMAGE_TRUST_CHECKS=2
       - name: Copy executables
         run: |
           mkdir -p src/exe_files
           # We exclude the installer from the test
-          find src/win32/ -regex '.*wazuh-agent-[0-9]+.[0-9]+.[0-9]+\.exe$' -delete
+          find src/win32/ -regex '.*assetguard-agent-[0-9]+.[0-9]+.[0-9]+\.exe$' -delete
           # We remove the executables that aren't distributed in the signed installer
           rm -f src/win32/setup-*.exe
           cp src/win32/*.exe src/exe_files/

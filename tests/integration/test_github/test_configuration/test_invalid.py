@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The Wazuh 'github' module allows you to collect all the 'audit logs' from GitHub using its API.
+brief: The AssetGuard 'github' module allows you to collect all the 'audit logs' from GitHub using its API.
        Specifically, these tests will check if that module detects invalid configurations and indicates
        the location of the errors detected. The 'audit log' allows organization admins to quickly review
        the actions performed by members of your organization. It includes details such as who performed
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-modulesd
+    - assetguard-modulesd
 
 os_platform:
     - linux
@@ -43,7 +43,7 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://github.com/wazuh/wazuh-documentation/blob/develop/source/github/monitoring-github-activity.rst
+    - https://github.com/assetguard/assetguard-documentation/blob/develop/source/github/monitoring-github-activity.rst
 
 tags:
     - github_configuration
@@ -51,13 +51,13 @@ tags:
 import pytest
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.modulesd import patterns
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.configuration import get_test_cases_data
-from wazuh_testing.utils.configuration import load_configuration_template
-from wazuh_testing.utils import callbacks
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from assetguard_testing.modules.modulesd import patterns
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils.configuration import get_test_cases_data
+from assetguard_testing.utils.configuration import load_configuration_template
+from assetguard_testing.utils import callbacks
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
 # Marks
@@ -75,14 +75,14 @@ local_internal_options = {MODULESD_DEBUG: '2'}
 
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_invalid(test_configuration, test_metadata, set_assetguard_configuration, configure_local_internal_options,
                  truncate_monitored_files, daemons_handler, wait_for_github_start):
     '''
     description: Check if the 'github' module detects invalid configurations. For this purpose, the test
                  will configure that module using invalid configuration settings with different attributes.
                  Finally, it will verify that error events are generated indicating the source of the errors.
 
-    wazuh_min_version: 4.3.0
+    assetguard_min_version: 4.3.0
 
     tier: 0
 
@@ -93,7 +93,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -104,7 +104,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
             brief: Reset the 'ossec.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
-            brief: Manages daemons to reset Wazuh.
+            brief: Manages daemons to reset AssetGuard.
         - wait_for_github_start:
             type: fixture
             brief: Checks integration start message does not appear.
@@ -113,7 +113,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - Verify that the 'github' module generates error events when invalid configurations are used.
 
     input_description: A configuration template (github_integration) is contained in an external YAML file
-                       (wazuh_conf.yaml). That template is combined with different test cases defined in
+                       (assetguard_conf.yaml). That template is combined with different test cases defined in
                        the module. Those include configuration settings for the 'github' module.
 
     expected_output:
@@ -124,11 +124,11 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - invalid_settings
     '''
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(patterns.MODULESD_CONFIGURATION_ERROR, {
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
+    assetguard_log_monitor.start(callback=callbacks.generate_callback(patterns.MODULESD_CONFIGURATION_ERROR, {
                               'error_type': str(test_metadata['error_type']),
                               'tag': str(test_metadata['event_monitor']),
                               'integration': str(test_metadata['module']),
                           }))
 
-    assert (wazuh_log_monitor.callback_result != None), f'Error invalid configuration event not detected'
+    assert (assetguard_log_monitor.callback_result != None), f'Error invalid configuration event not detected'

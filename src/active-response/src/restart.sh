@@ -1,6 +1,6 @@
 #!/bin/sh
-# Restarts Wazuh.
-# Copyright (C) 2015, Wazuh Inc.
+# Restarts AssetGuard.
+# Copyright (C) 2015, AssetGuard Inc.
 
 
 PARAM_TYPE=$1
@@ -42,12 +42,12 @@ if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ] && [ "$(ca
         TIMEOUT=60
         ELAPSED=0
         while [ $ELAPSED -lt $TIMEOUT ]; do
-            STATE=$(systemctl is-active wazuh-$TYPE 2>/dev/null)
+            STATE=$(systemctl is-active assetguard-$TYPE 2>/dev/null)
 
             # Exit immediately if service is in a failed or stopped state
             case "$STATE" in
                 inactive|failed)
-                    echo "Service wazuh-$TYPE is in state '$STATE', cannot reload" >> ${PWD}/logs/active-responses.log
+                    echo "Service assetguard-$TYPE is in state '$STATE', cannot reload" >> ${PWD}/logs/active-responses.log
                     exit 1
                     ;;
                 active)
@@ -60,15 +60,15 @@ if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ] && [ "$(ca
         done
 
         # Check if service is now active
-        if ! systemctl is-active --quiet wazuh-$TYPE; then
-            echo "Service wazuh-$TYPE is not active after waiting $TIMEOUT seconds" >> ${PWD}/logs/active-responses.log
+        if ! systemctl is-active --quiet assetguard-$TYPE; then
+            echo "Service assetguard-$TYPE is not active after waiting $TIMEOUT seconds" >> ${PWD}/logs/active-responses.log
             exit 1
         fi
     fi
 
-    systemctl $PARAM_ACTION wazuh-$TYPE
+    systemctl $PARAM_ACTION assetguard-$TYPE
 else
-    ${PWD}/bin/wazuh-control $PARAM_ACTION
+    ${PWD}/bin/assetguard-control $PARAM_ACTION
 fi
 
 exit $?;

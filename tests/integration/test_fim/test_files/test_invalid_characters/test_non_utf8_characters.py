@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -20,7 +20,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - Linux
@@ -41,8 +41,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -64,16 +64,16 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim import configuration
-from wazuh_testing.modules.fim.patterns import (IGNORING_DUE_TO_INVALID_NAME,
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim import configuration
+from assetguard_testing.modules.fim.patterns import (IGNORING_DUE_TO_INVALID_NAME,
                                                 FIM_EVENT_JSON)
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import (get_test_cases_data,
+from assetguard_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import file
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils.configuration import (get_test_cases_data,
                                                load_configuration_template)
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
@@ -135,19 +135,19 @@ valid_utf8_sequences= [
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_valid_utf8_filenames_do_not_trigger_warning(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_valid_utf8_filenames_do_not_trigger_warning(test_configuration, test_metadata, set_assetguard_configuration, configure_local_internal_options,
                                                      truncate_monitored_files, folder_to_monitor, daemons_handler, start_monitoring) -> None:
     '''
-    description: Check if the 'wazuh-syscheckd' correctly processes valid UTF-8 file names without triggering warnings.
+    description: Check if the 'assetguard-syscheckd' correctly processes valid UTF-8 file names without triggering warnings.
     '''
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(ASSETGUARD_LOG_PATH)
 
     # iterate over invalid UTF-8 sequences
     for valid_sequence in valid_utf8_sequences:
         # No UTF-8 conversion here, just direct file name creation with invalid sequences
         test_path_bytes = os.path.join(
             test_metadata['folder_to_monitor'], valid_sequence)
-        file.truncate_file(WAZUH_LOG_PATH)
+        file.truncate_file(ASSETGUARD_LOG_PATH)
 
         try:
             # Create the file with the invalid byte sequence as part of the file name

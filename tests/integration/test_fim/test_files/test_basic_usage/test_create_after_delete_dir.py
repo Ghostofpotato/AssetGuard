@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when these
        files are modified. In particular, these tests will check if FIM events are still generated when
        a monitored directory is deleted and created again.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'assetguard-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - linux
@@ -44,9 +44,9 @@ os_version:
 
 references:
     - https://man7.org/linux/man-pages/man8/auditd.8.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -66,17 +66,17 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, MONITORING_PATH
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, MONITORING_PATH
+from assetguard_testing.modules.fim.utils import get_fim_event_data
+from assetguard_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from assetguard_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import file
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -104,7 +104,7 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_create_after_delete(test_configuration, test_metadata, configure_local_internal_options,
-                             truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, file_to_monitor, daemons_handler):
+                             truncate_monitored_files, set_assetguard_configuration, folder_to_monitor, file_to_monitor, daemons_handler):
     '''
     description: Check if a monitored directory keeps reporting FIM events after deleting and creating it again.
                  Under Windows systems, it verifies that the directory watcher is refreshed (checks the SACLs)
@@ -112,7 +112,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
                  directory to be monitored, checks that FIM events are generated, and then deletes it.
                  Finally, it creates the directory again and verifies that the events are still generated correctly.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     tier: 0
 
@@ -123,7 +123,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -140,7 +140,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -149,7 +149,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
         - Verify that FIM events are still generated when a monitored directory is deleted and created again.
 
     input_description: The test cases are contained in external YAML file (cases_create_after_delete_dir.yaml)
-                       which includes configuration parameters for the 'wazuh-syscheckd' daemon and testing
+                       which includes configuration parameters for the 'assetguard-syscheckd' daemon and testing
                        directories to monitor. The configuration template is contained in another external YAML
                        file (configuration_basic.yaml).
 
@@ -163,23 +163,23 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
         - who_data
     '''
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
 
-    wazuh_log_monitor.start(generate_callback(MONITORING_PATH), timeout=60)
-    assert wazuh_log_monitor.callback_result
+    assetguard_log_monitor.start(generate_callback(MONITORING_PATH), timeout=60)
+    assert assetguard_log_monitor.callback_result
 
     fim_mode = test_metadata.get('fim_mode')
     folder_to_delete = test_metadata.get('folder_to_monitor')
     filename = test_metadata.get('file_to_monitor')
 
     file.delete_path_recursively(folder_to_delete)
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_DELETED), timeout=60)
-    assert wazuh_log_monitor.callback_result
-    assert get_fim_event_data(wazuh_log_monitor.callback_result)['file']['mode'] == fim_mode
+    assetguard_log_monitor.start(generate_callback(EVENT_TYPE_DELETED), timeout=60)
+    assert assetguard_log_monitor.callback_result
+    assert get_fim_event_data(assetguard_log_monitor.callback_result)['file']['mode'] == fim_mode
 
     file.recursive_directory_creation(folder_to_delete)
     time.sleep(2)
     file.write_file(filename, 'content')
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=60)
-    assert wazuh_log_monitor.callback_result
-    assert get_fim_event_data(wazuh_log_monitor.callback_result)['file']['mode'] == fim_mode
+    assetguard_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=60)
+    assert assetguard_log_monitor.callback_result
+    assert get_fim_event_data(assetguard_log_monitor.callback_result)['file']['mode'] == fim_mode

@@ -1,8 +1,8 @@
-# Acceptance Tests for Wazuh-Engine
+# Acceptance Tests for AssetGuard-Engine
 
 ## Overview
 
-The `acceptance` directory contains scripts to measure the performance of the Wazuh-Engine. The primary script, `acceptance_test.sh`, is used to send events to the Wazuh-Engine, capturing and plotting the performance metrics.
+The `acceptance` directory contains scripts to measure the performance of the AssetGuard-Engine. The primary script, `acceptance_test.sh`, is used to send events to the AssetGuard-Engine, capturing and plotting the performance metrics.
 
 ## Configuration
 

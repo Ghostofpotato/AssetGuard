@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -37,7 +37,7 @@ TEST_DATA_PATH = join(dirname(dirname(realpath(__file__))), 'data')
     'auth_path, la_id, key, offset, query, workspace, reparse, tag',
     [
         (None, 'client', 'secret', '1d', 'query', 'workspace', False, 'la_tag'),
-        (os.environ.get('INSTALLDIR', '/var/wazuh-manager'), None, None, '', '', '', False, ''),
+        (os.environ.get('INSTALLDIR', '/var/assetguard-manager'), None, None, '', '', '', False, ''),
     ],
 )
 @patch('azure_services.analytics.get_log_analytics_events')

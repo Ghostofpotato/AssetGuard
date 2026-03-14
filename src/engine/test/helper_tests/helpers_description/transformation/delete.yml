@@ -23,7 +23,7 @@ target_field:
     - array
 
 test:
-  - target_field: -- Hi wazuh! --
+  - target_field: -- Hi assetguard! --
     should_pass: true
     expected: ""
     description: Success delete

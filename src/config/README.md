@@ -1,6 +1,6 @@
-# Wazuh configurations
+# AssetGuard configurations
 
-Wazuh manager and agent configuration are managed and disposed to each module or system component in different ways.
+AssetGuard manager and agent configuration are managed and disposed to each module or system component in different ways.
 
 Each module has a different configuration section, for specific information about each section please refer to online documentation.
 
@@ -22,4 +22,4 @@ This configuration data has 2 special array fields "hosts" and "certificate_auth
 
 ## Documentation
 
-* [Configuration documentation](https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/index.html)
+* [Configuration documentation](https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/index.html)

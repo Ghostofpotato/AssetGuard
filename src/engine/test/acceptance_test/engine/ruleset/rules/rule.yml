@@ -2,7 +2,7 @@
 #    "event": {
 #       "original": "::1 - - Dec 10 01:02:02 host test_decoder_example[1234]: Test_example for acceptation test\n"
 #    },
-#    "wazuh": {
+#    "assetguard": {
 #        "test": {
 #            "format": "text",
 #            "id": "123",
@@ -17,10 +17,10 @@ name: test
 metadata:
   creation_date: "2020/02/03"
   updated_date: "2020/02/03"
-  contributors: ["Wazuh"]
+  contributors: ["AssetGuard"]
   description: "Rule for acceptation test"
   level: 10
 
 check:
-  - wazuh.test.kind: event
+  - assetguard.test.kind: event
 

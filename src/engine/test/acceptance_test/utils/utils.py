@@ -12,14 +12,14 @@ from typing import Any, List, Set
 from time import sleep
 import json
 
-WAZUH_PATH = os.path.join('/','Library', 'Ossec') if platform.system() == "Darwin" else os.path.join('/', 'var', 'ossec')
+ASSETGUARD_PATH = os.path.join('/','Library', 'Ossec') if platform.system() == "Darwin" else os.path.join('/', 'var', 'ossec')
 
-WAZUH_BIN = os.path.join(WAZUH_PATH, 'bin')
-WAZUH_CONF = os.path.join(WAZUH_PATH, 'etc', 'ossec.conf')
-WIN_WAZUH_PATH = os.path.join('C:','Program Files (x86)','ossec-agent')
-WIN_WAZUH_CONF = os.path.join(WIN_WAZUH_PATH, 'ossec.conf')
-WAZUH_SOURCES = os.path.join('/', 'wazuh')
-WAZUH_SOURCE_REPOSITORY = 'https://github.com/wazuh/wazuh.git'
+ASSETGUARD_BIN = os.path.join(ASSETGUARD_PATH, 'bin')
+ASSETGUARD_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'ossec.conf')
+WIN_ASSETGUARD_PATH = os.path.join('C:','Program Files (x86)','ossec-agent')
+WIN_ASSETGUARD_CONF = os.path.join(WIN_ASSETGUARD_PATH, 'ossec.conf')
+ASSETGUARD_SOURCES = os.path.join('/', 'assetguard')
+ASSETGUARD_SOURCE_REPOSITORY = 'https://github.com/assetguard/assetguard.git'
 DEVNULL = open(os.devnull, 'w')
 
 stat_modes = [
@@ -158,59 +158,59 @@ def indent(elem, level=0):
             elem.tail = i
 
 
-def restart_wazuh():
+def restart_assetguard():
     """
-    Restart Wazuh service.
+    Restart AssetGuard service.
     """
     if sys.platform == 'win32':
-        os.system('net stop wazuh')
-        os.system('net start wazuh')
+        os.system('net stop assetguard')
+        os.system('net start assetguard')
     else:
-        command = os.path.join(WAZUH_PATH, 'bin/wazuh-control')
+        command = os.path.join(ASSETGUARD_PATH, 'bin/assetguard-control')
         arguments = ['restart']
         check_call([command] + arguments, stdout=DEVNULL, stderr=DEVNULL)
 
 
-def stop_wazuh():
+def stop_assetguard():
     """
-    Stop Wazuh service.
+    Stop AssetGuard service.
     """
     if sys.platform == 'win32':
-        os.system('net stop wazuh')
+        os.system('net stop assetguard')
     else:
-        command = os.path.join(WAZUH_PATH, 'bin/wazuh-control')
+        command = os.path.join(ASSETGUARD_PATH, 'bin/assetguard-control')
         arguments = ['stop']
         check_call([command] + arguments, stdout=DEVNULL, stderr=DEVNULL)
 
 
-def write_wazuh_conf(wazuh_conf: ET.ElementTree):
+def write_assetguard_conf(assetguard_conf: ET.ElementTree):
     """
     Write a new configuration in 'ossec.conf' file.
     """
-    dest_file = WIN_WAZUH_CONF if sys.platform == 'Win32' else WAZUH_CONF
-    return wazuh_conf.write(dest_file, encoding='utf-8')
+    dest_file = WIN_ASSETGUARD_CONF if sys.platform == 'Win32' else ASSETGUARD_CONF
+    return assetguard_conf.write(dest_file, encoding='utf-8')
 
 
 
-def get_wazuh_conf() -> ET.ElementTree:
+def get_assetguard_conf() -> ET.ElementTree:
     """
     Get current 'ossec.conf' file.
-    :return: ElemenTree with current Wazuh configuration
+    :return: ElemenTree with current AssetGuard configuration
     """
-    conf_file = WIN_WAZUH_CONF if sys.platform == 'Win32' else WAZUH_CONF
+    conf_file = WIN_ASSETGUARD_CONF if sys.platform == 'Win32' else ASSETGUARD_CONF
     return ET.parse(conf_file)
 
 
-def clean_section_wazuh_conf(section: str) -> ET.ElementTree:
+def clean_section_assetguard_conf(section: str) -> ET.ElementTree:
     """
-    Clean all the configuration blocks refered to the selected section on wazuh conf
-    :param section: Section of Wazuh configuration to replace
+    Clean all the configuration blocks refered to the selected section on assetguard conf
+    :param section: Section of AssetGuard configuration to replace
     """
 
-    # get Wazuh configuration
-    wazuh_conf = get_wazuh_conf()
+    # get AssetGuard configuration
+    assetguard_conf = get_assetguard_conf()
 
-    root = wazuh_conf.getroot()
+    root = assetguard_conf.getroot()
 
     # clean section if exists
 
@@ -219,21 +219,21 @@ def clean_section_wazuh_conf(section: str) -> ET.ElementTree:
 
     indent(root)
 
-    write_wazuh_conf(wazuh_conf)
+    write_assetguard_conf(assetguard_conf)
 
 
-def set_section_wazuh_conf(wazuh_conf: ET.ElementTree, section: str,
+def set_section_assetguard_conf(assetguard_conf: ET.ElementTree, section: str,
                            new_elements: List = None) -> ET.ElementTree:
     """
-    Set a configuration in a section of Wazuh. It replaces the content if it exists.
-    :param wazuh_conf: ElementTree with the base wazuh conf to add section options
-    :param section: Section of Wazuh configuration to replace
+    Set a configuration in a section of AssetGuard. It replaces the content if it exists.
+    :param assetguard_conf: ElementTree with the base assetguard conf to add section options
+    :param section: Section of AssetGuard configuration to replace
     :param new_elements: List with dictionaries for settings elements in the section
-    :return: ElementTree with the custom Wazuh configuration
+    :return: ElementTree with the custom AssetGuard configuration
     """
     def create_elements(section: ET.Element, elements: List):
         """
-        Insert new elements in a Wazuh configuration section.
+        Insert new elements in a AssetGuard configuration section.
         :param section: Section where the element will be inserted
         :param elements: List with the new elements to be inserted
         """
@@ -252,9 +252,9 @@ def set_section_wazuh_conf(wazuh_conf: ET.ElementTree, section: str,
                             if isinstance(attribute, dict):
                                 tag.attrib = { **tag.attrib, **attribute }
 
-    root = wazuh_conf.getroot()
+    root = assetguard_conf.getroot()
 
-    section_conf = ET.SubElement(wazuh_conf.getroot(), section)
+    section_conf = ET.SubElement(assetguard_conf.getroot(), section)
 
     # insert elements
     if new_elements is not None:
@@ -262,4 +262,4 @@ def set_section_wazuh_conf(wazuh_conf: ET.ElementTree, section: str,
 
     indent(root)
 
-    return wazuh_conf
+    return assetguard_conf

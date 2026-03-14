@@ -9,7 +9,7 @@ if [ -z "$package_name" ] || [ -z "$target" ]; then
     exit 1
 fi
 
-echo "Installing Wazuh $target."
+echo "Installing AssetGuard $target."
 
 if [ -n "$(command -v yum)" ]; then
     install="yum install -y --nogpgcheck"
@@ -26,9 +26,9 @@ if [ "${ARCH}" = "i386" ] || [ "${ARCH}" = "armhf" ]; then
     linux="linux32"
     if [ "${ARCH}" = "armhf" ] && [ "${SYSTEM}" = "rpm" ]; then
         install="rpm -ivh --force --ignorearch"
-        WAZUH_MANAGER="10.0.0.2" $linux $install "/packages/$package_name"| tee /packages/status.log
-        if [ "$(rpm -qa | grep wazuh-agent)" ]; then
-            echo " installed wazuh-agent" >> /packages/status.log
+        ASSETGUARD_MANAGER="10.0.0.2" $linux $install "/packages/$package_name"| tee /packages/status.log
+        if [ "$(rpm -qa | grep assetguard-agent)" ]; then
+            echo " installed assetguard-agent" >> /packages/status.log
             exit 0
         else
             echo "Package could not be installed."
@@ -37,17 +37,17 @@ if [ "${ARCH}" = "i386" ] || [ "${ARCH}" = "armhf" ]; then
     fi
 fi
 
-WAZUH_MANAGER="10.0.0.2" $linux $install "/packages/$package_name"| tee /packages/status.log
-grep -i " installed.*wazuh-$target" $installed_log| tee -a /packages/status.log
+ASSETGUARD_MANAGER="10.0.0.2" $linux $install "/packages/$package_name"| tee /packages/status.log
+grep -i " installed.*assetguard-$target" $installed_log| tee -a /packages/status.log
 
-# Retrieve wazuh gid and uid
+# Retrieve assetguard gid and uid
 if [ "$target" = "manager" ]; then
-    wazuh_gid=$(getent group wazuh-manager | cut -d: -f3)
-    wazuh_uid=$(getent passwd wazuh-manager | cut -d: -f3)
+    assetguard_gid=$(getent group assetguard-manager | cut -d: -f3)
+    assetguard_uid=$(getent passwd assetguard-manager | cut -d: -f3)
 else
-    wazuh_gid=$(getent group wazuh | cut -d: -f3)
-    wazuh_uid=$(getent passwd wazuh | cut -d: -f3)
+    assetguard_gid=$(getent group assetguard | cut -d: -f3)
+    assetguard_uid=$(getent passwd assetguard | cut -d: -f3)
 fi
 
-echo $wazuh_gid > /tests/wazuh_gid
-echo $wazuh_uid > /tests/wazuh_uid
+echo $assetguard_gid > /tests/assetguard_gid
+echo $assetguard_uid > /tests/assetguard_uid

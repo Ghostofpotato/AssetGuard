@@ -2,13 +2,13 @@
 
 ## Overview
 
-The remoted module is the communication gateway between Wazuh agents and the manager. It handles secure connections, message parsing, metadata enrichment, and event forwarding to the analysis engine.
+The remoted module is the communication gateway between AssetGuard agents and the manager. It handles secure connections, message parsing, metadata enrichment, and event forwarding to the analysis engine.
 
 ## High-Level Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│                        Wazuh Manager                                 │
+│                        AssetGuard Manager                                 │
 │                                                                      │
 │  ┌────────────────────────────────────────────────────────────────┐  │
 │  │                    Remoted Module                              │  │
@@ -35,7 +35,7 @@ The remoted module is the communication gateway between Wazuh agents and the man
 │  │         │                     │                     │    │     │  │
 │  │         │                     │                     │    │     │  │
 │  │         │            ┌────────▼─────────┐           │    │     │  │
-│  │         │            │   wazuh-db       │◀──────────┘    │     │  │
+│  │         │            │   assetguard-db       │◀──────────┘    │     │  │
 │  │         │            │   (Agent Info)   │                │     │  │
 │  │         │            └──────────────────┘                │     │  │
 │  │         │                                                │     │  │
@@ -92,20 +92,20 @@ In-memory cache storing agent metadata extracted from keep-alive messages:
 
 - Round-robin queue buffers events from all agents
 - Dispatcher thread batches events and enriches them with metadata
-- Sends batched events via HTTP POST to wazuh-manager-analysisd
+- Sends batched events via HTTP POST to assetguard-manager-analysisd
 
 ### 5. HTTP Client
 
 Forwards enriched event batches to analysisd:
 - **Transport**: HTTP over Unix domain socket
-- **Socket Path**: `/var/wazuh-manager/queue/sockets/queue`
+- **Socket Path**: `/var/assetguard-manager/queue/sockets/queue`
 - **Protocol**: x-wev1 (custom event framing)
 
 ## Data Flow
 
 Agent sends event → Network Listener → Decrypt & Validate → Message Classification:
-- **Control Message** → Parse Keep-Alive → Update Metadata Cache → Update wazuh-manager-db
-- **Event Message** → Event Queue → Batch & Enrich with Metadata → HTTP POST to wazuh-manager-analysisd
+- **Control Message** → Parse Keep-Alive → Update Metadata Cache → Update assetguard-manager-db
+- **Event Message** → Event Queue → Batch & Enrich with Metadata → HTTP POST to assetguard-manager-analysisd
 
 ## Key Configuration Options
 

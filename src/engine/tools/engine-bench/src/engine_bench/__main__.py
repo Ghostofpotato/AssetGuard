@@ -14,7 +14,7 @@ from engine_handler.handler import EngineHandler
 @click.option('--output', '-o', required=True, type=click.Path(exists=False), help='Path to the output directory for the benchmark results.')
 def main(environment, output):
     """
-    Benchmark the Wazuh engine executable using perf.
+    Benchmark the AssetGuard engine executable using perf.
     """
     # Check if perf is available
     if not is_perf_available():
@@ -39,7 +39,7 @@ def main(environment, output):
         output.mkdir(parents=True, exist_ok=True)
 
     engine_conf = Path(environment) / 'config.env'
-    engine_bin = Path(environment) / 'wazuh-engine'
+    engine_bin = Path(environment) / 'assetguard-engine'
     engine_log = Path(environment) / 'logs' / 'engine.log'
     engine_log.parent.mkdir(parents=True, exist_ok=True)
     perf_report = output / 'perf.data'

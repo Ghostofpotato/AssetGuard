@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: wazuh/coverity-scan
+  IMAGE_NAME: assetguard/coverity-scan
 
 jobs:
   build-and-push-image:
@@ -27,7 +27,7 @@ jobs:
       packages: write
 
     env:
-      PROJECT: wazuh/wazuh
+      PROJECT: assetguard/assetguard
 
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
       - name: Download Coverity tarball
         run: |
           wget -q https://scan.coverity.com/download/linux64 \
-            --post-data "token=${{ secrets.COVERITY_SCAN_WAZUH_TOKEN }}&project=${PROJECT//\//%2F}" \
+            --post-data "token=${{ secrets.COVERITY_SCAN_ASSETGUARD_TOKEN }}&project=${PROJECT//\//%2F}" \
             -O tools/testing/coverity/coverity_tool.tgz
 
       - name: Log in to the Container registry

@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when these
        files are modified. In particular, these tests will check if FIM events are still generated when
        a monitored directory is deleted and created again.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'assetguard-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - linux
@@ -40,9 +40,9 @@ os_version:
 
 references:
     - https://man7.org/linux/man-pages/man8/auditd.8.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -62,17 +62,17 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, EVENT_TYPE_MODIFIED
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim import configuration
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, EVENT_TYPE_MODIFIED
+from assetguard_testing.modules.fim.utils import get_fim_event_data
+from assetguard_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from assetguard_testing.modules.fim import configuration
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import file
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -91,10 +91,10 @@ local_internal_options = {configuration.SYSCHECK_DEBUG: 2, AGENTD_DEBUG: 2, MONI
 if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG: 2})
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_checkers(test_configuration, test_metadata, set_assetguard_configuration, configure_local_internal_options,
                   truncate_monitored_files, folder_to_monitor, file_to_monitor, daemons_handler, start_monitoring):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon adds in the generated events the 'check_' specified in
+    description: Check if the 'assetguard-syscheckd' daemon adds in the generated events the 'check_' specified in
                  the configuration. These checks are attributes indicating that a monitored directory entry has
                  been modified. For example, if 'check_all=yes' and 'check_perm=no' are set for the same entry,
                  'syscheck' must send an event containing every possible 'check_' except the perms.
@@ -104,7 +104,7 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
                  will verify that the FIM events generated contain only the fields of the 'checks' specified for
                  the monitored keys/values.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     tier: 0
 
@@ -115,7 +115,7 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -132,7 +132,7 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -141,7 +141,7 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
         - Verify that the FIM events generated contains the 'check_' fields specified in the configuration.
 
     input_description: The test cases are contained in external YAML file (cases_checkers.yaml) which includes
-                       configuration parameters for the 'wazuh-syscheckd' daemon and testing directories to monitor.
+                       configuration parameters for the 'assetguard-syscheckd' daemon and testing directories to monitor.
                        The configuration template is contained in another external YAML file
                        (configuration_basic.yaml).
 
@@ -153,13 +153,13 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
         - realtime
         - who_data
     '''
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     fim_mode = test_metadata.get('fim_mode')
     checks = set(test_metadata.get('checks'))
     checks_hash = set(test_metadata.get('checks_hash'))
 
     # Update
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(ASSETGUARD_LOG_PATH)
     file.write_file(file_to_monitor, "update")
     monitor.start(generate_callback(EVENT_TYPE_MODIFIED))
     if not checks:
@@ -173,7 +173,7 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
         time.sleep(0.1)
 
     # Delete
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(ASSETGUARD_LOG_PATH)
     file.remove_file(file_to_monitor)
     monitor.start(generate_callback(EVENT_TYPE_DELETED))
     fim_data = get_fim_event_data(monitor.callback_result)
@@ -184,7 +184,7 @@ def test_checkers(test_configuration, test_metadata, set_wazuh_configuration, co
             assert checks_hash.issubset(fim_data['file']['hash'].keys())
 
     # Create
-    file.truncate_file(WAZUH_LOG_PATH)
+    file.truncate_file(ASSETGUARD_LOG_PATH)
     file.write_file(file_to_monitor)
     monitor.start(generate_callback(EVENT_TYPE_ADDED))
     fim_data = get_fim_event_data(monitor.callback_result)

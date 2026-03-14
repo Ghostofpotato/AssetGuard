@@ -17,11 +17,11 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(WIN32 ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(WIN32 ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 link_directories(${SRC_FOLDER}/build/bin)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 # Generate win32 tests
 list(APPEND win32_names "test_win_utils")
@@ -44,8 +44,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${win32_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${ASSETGUARDLIB}
+        ${ASSETGUARDEXT}
         WIN32
         ${TEST_DEPS}
         fimdb

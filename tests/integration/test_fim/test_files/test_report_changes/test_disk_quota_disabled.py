@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -9,9 +9,9 @@ type: integration
 
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when
        these files are modified. Specifically, these tests will verify that FIM does not limit
-       the size of the 'queue/diff/local' folder where Wazuh stores the compressed files used
+       the size of the 'queue/diff/local' folder where AssetGuard stores the compressed files used
        to perform the 'diff' operation when the 'disk_quota' option is disabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'assetguard-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - linux
@@ -47,8 +47,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
 
 pytest_args:
     - fim_mode:
@@ -68,16 +68,16 @@ import pytest
 import time
 import sys
 
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import DISK_QUOTA_LIMIT_REACHED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.file import write_file
-from wazuh_testing.utils.string import generate_string
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from assetguard_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim.patterns import DISK_QUOTA_LIMIT_REACHED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils.file import write_file
+from assetguard_testing.utils.string import generate_string
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -100,16 +100,16 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: '2'}
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_disk_quota_disabled(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                             set_wazuh_configuration, folder_to_monitor, file_to_monitor, clean_fim_sync_db, daemons_handler, detect_end_scan):
+                             set_assetguard_configuration, folder_to_monitor, file_to_monitor, clean_fim_sync_db, daemons_handler, detect_end_scan):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon limits the size of the folder where the data used
+    description: Check if the 'assetguard-syscheckd' daemon limits the size of the folder where the data used
                  to perform the 'diff' operations is stored when the 'disk_quota' option is disabled.
                  For this purpose, the test will monitor a directory and, once the FIM is started, it
                  will create a testing file that, when compressed, is larger than the configured
                  'disk_quota' limit. Finally, the test will verify that the FIM event related
                  to the reached disk quota has not been generated.
 
-    wazuh_min_version: 4.6.0
+    assetguard_min_version: 4.6.0
 
     tier: 1
 
@@ -126,7 +126,7 @@ def test_disk_quota_disabled(test_configuration, test_metadata, configure_local_
         - truncate_monitored_files:
             type: fixture
             brief: Reset the 'ossec.log' file and start a new monitor.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - folder_to_monitor:
@@ -137,7 +137,7 @@ def test_disk_quota_disabled(test_configuration, test_metadata, configure_local_
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
 
     assertions:
         - Verify that no FIM events are generated indicating the disk quota exceeded for monitored files
@@ -160,10 +160,10 @@ def test_disk_quota_disabled(test_configuration, test_metadata, configure_local_
     to_write = generate_string(test_metadata.get('string_size'), '0')
     write_file(test_metadata.get('file_to_monitor'), data=to_write)
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(generate_callback(DISK_QUOTA_LIMIT_REACHED), timeout=30)
-    assert (wazuh_log_monitor.callback_result == None), f'Error, unexpected disk_quota limit event.'
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
+    assetguard_log_monitor.start(generate_callback(DISK_QUOTA_LIMIT_REACHED), timeout=30)
+    assert (assetguard_log_monitor.callback_result == None), f'Error, unexpected disk_quota limit event.'
 
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=60)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-    assert 'More changes...' in str(wazuh_log_monitor.callback_result[0]), 'Wrong content_changes field'
+    assetguard_log_monitor.start(generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=60)
+    assert assetguard_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+    assert 'More changes...' in str(assetguard_log_monitor.callback_result[0]), 'Wrong content_changes field'

@@ -7,8 +7,8 @@ JOBS="${2:-}"              # Reserved for parallelism (if needed by your rules/s
 CHECKSUM_ARG="${3:-no}"    # "yes" to emit .sha512 files; default "no"
 
 SYSTEM="${SYSTEM:-deb}"                       # deb|rpm
-SRC_ROOT="${SRC_ROOT:-/wazuh-local-src}"      # mounted repo path
-OUTDIR="${OUTDIR:-/var/local/wazuh}"          # artifacts path (bind-mounted)
+SRC_ROOT="${SRC_ROOT:-/assetguard-local-src}"      # mounted repo path
+OUTDIR="${OUTDIR:-/var/local/assetguard}"          # artifacts path (bind-mounted)
 ARCH_INPUT="${ARCHITECTURE_TARGET:-amd64}"    # amd64|arm64|x86_64|aarch64
 
 # Normalize arch names for DEB (amd64|arm64) and RPM (x86_64|aarch64)
@@ -31,7 +31,7 @@ ARCH_DEB="$(norm_arch_deb "${ARCH_INPUT}")"
 ARCH_RPM="$(norm_arch_rpm "${ARCH_INPUT}")"
 
 # Working directories
-WORK="/tmp/pkgbuild/wazuh-internal-tools"
+WORK="/tmp/pkgbuild/assetguard-internal-tools"
 rm -rf "${WORK}"
 mkdir -p "${WORK}"
 mkdir -p "${OUTDIR}"

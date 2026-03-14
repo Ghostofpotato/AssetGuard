@@ -11,7 +11,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 
@@ -48,7 +48,7 @@ set(INDEXER_CONNECTOR_SRC src/indexerConnectorAsync.cpp
 add_library(indexer_connector SHARED ${INDEXER_CONNECTOR_SRC})
 
 target_link_libraries(indexer_connector PRIVATE rocksdb urlrequest gcc_s
-                                                wazuhext keystore simdjson)
+                                                assetguardext keystore simdjson)
 
 set_target_properties(indexer_connector PROPERTIES BUILD_RPATH_USE_ORIGIN TRUE
                                                    BUILD_RPATH "$ORIGIN/../lib")

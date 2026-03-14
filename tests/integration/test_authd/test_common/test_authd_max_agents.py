@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests verify that wazuh-manager-authd enforces the authd.max_agents internal option during enrollment.
+brief: These tests verify that assetguard-manager-authd enforces the authd.max_agents internal option during enrollment.
 
 components:
     - authd
@@ -16,9 +16,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-authd
-    - wazuh-manager-db
-    - wazuh-manager-modulesd
+    - assetguard-manager-authd
+    - assetguard-manager-db
+    - assetguard-manager-modulesd
 
 os_platform:
     - linux
@@ -35,7 +35,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-manager-authd.html
+    - https://documentation.assetguard.com/current/user-manual/reference/daemons/assetguard-manager-authd.html
 
 tags:
     - enrollment
@@ -46,13 +46,13 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import callbacks
-from wazuh_testing.modules.authd import PREFIX
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from assetguard_testing.constants.daemons import AUTHD_DAEMON, ASSETGUARD_DB_DAEMON, MODULES_DAEMON
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import callbacks
+from assetguard_testing.modules.authd import PREFIX
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -69,7 +69,7 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 
 # Variables
 receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (ASSETGUARD_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 
 daemons_handler_configuration = {'all_daemons': True}
@@ -89,14 +89,14 @@ def _receive_response(authd_socket, timeout_seconds=10):
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_authd_max_agents(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_authd_max_agents(test_configuration, test_metadata, set_assetguard_configuration, configure_local_internal_options,
                           truncate_monitored_files, clean_agents_ctx, configure_sockets_environment, daemons_handler,
                           wait_for_authd_startup, connect_to_sockets, set_up_groups):
     '''
     description:
         Checks that authd enforces the max agents limit during enrollment and reports the expected response and log.
 
-    wazuh_min_version:
+    assetguard_min_version:
         5.0.0
 
     tier: 0
@@ -108,9 +108,9 @@ def test_authd_max_agents(test_configuration, test_metadata, set_wazuh_configura
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -125,7 +125,7 @@ def test_authd_max_agents(test_configuration, test_metadata, set_wazuh_configura
             brief: Configure environment for sockets.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.
@@ -142,7 +142,7 @@ def test_authd_max_agents(test_configuration, test_metadata, set_wazuh_configura
         - Verify that the manager log includes the limit reached message.
     '''
     authd_socket = receiver_sockets[0]
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
 
     for stage in test_metadata['stages']:
         authd_socket.open()
@@ -159,6 +159,6 @@ def test_authd_max_agents(test_configuration, test_metadata, set_wazuh_configura
                 logs = [logs]
             for log in logs:
                 log = re.escape(log)
-                wazuh_log_monitor.start(callback=callbacks.generate_callback(fr'{PREFIX}{log}'),
+                assetguard_log_monitor.start(callback=callbacks.generate_callback(fr'{PREFIX}{log}'),
                                         timeout=10, encoding='utf-8')
-                assert wazuh_log_monitor.callback_result, 'Error event not detected'
+                assert assetguard_log_monitor.callback_result, 'Error event not detected'

@@ -18,7 +18,7 @@ RUN apt-get update &&  apt-get build-dep python3.5 -y --allow-change-held-packag
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install --allow-change-held-packages -y nodejs
 
-ADD https://packages.wazuh.com/utils/gcc/gcc_14.3-1_arm64.deb /tmp/gcc_14.3-1_arm64.deb
+ADD https://packages.assetguard.com/utils/gcc/gcc_14.3-1_arm64.deb /tmp/gcc_14.3-1_arm64.deb
 RUN dpkg -i /tmp/gcc_14.3-1_arm64.deb && \
     ln -fs /opt/gcc-14/bin/g++ /usr/bin/c++ && \
     ln -fs /opt/gcc-14/bin/g++ /usr/bin/g++ && \
@@ -28,7 +28,7 @@ ENV CPLUS_INCLUDE_PATH "/opt/gcc-14/include/c++/14.3.0/"
 ENV LD_LIBRARY_PATH "/opt/gcc-14/lib64:${LD_LIBRARY_PATH}"
 ENV PATH "/opt/gcc-14/bin:${PATH}"
 
-ADD https://packages.wazuh.com/utils/binutils/binutils_2.38-1_arm64.deb /tmp/binutils_2.38-1_arm64.deb
+ADD https://packages.assetguard.com/utils/binutils/binutils_2.38-1_arm64.deb /tmp/binutils_2.38-1_arm64.deb
 RUN dpkg -i /tmp/binutils_2.38-1_arm64.deb
 
 ENV PATH "/opt/binutils-2/bin:${PATH}"

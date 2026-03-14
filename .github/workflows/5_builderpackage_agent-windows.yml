@@ -1,5 +1,5 @@
-run-name: Build Wazuh agent Windows i686 - ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
-name: 5.X - Build Wazuh agent Windows (MSI)
+run-name: Build AssetGuard agent Windows i686 - ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
+name: 5.X - Build AssetGuard agent Windows (MSI)
 
 on:
   pull_request:
@@ -118,21 +118,21 @@ jobs:
           COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
           REVISION="${{ inputs.revision }}"
           if [ -z "$REVISION" ]; then REVISION="0"; fi
-          PKG_NAME="wazuh-agent_${VERSION}-${REVISION}_windows_${COMMIT_HASH}"
+          PKG_NAME="assetguard-agent_${VERSION}-${REVISION}_windows_${COMMIT_HASH}"
           echo "PKG_NAME=$PKG_NAME" >> $GITHUB_ENV
-          echo "PKG_NAME_SYMBOLS_SHORT=wazuh-agent-debug-symbols_${VERSION}-${REVISION}_windows_${COMMIT_HASH}" >> $GITHUB_ENV
-          echo "PACKAGE_SYMBOLS_NAME=wazuh-agent-debug-symbols_${VERSION}-${REVISION}_windows_${COMMIT_HASH}" >> $GITHUB_ENV
+          echo "PKG_NAME_SYMBOLS_SHORT=assetguard-agent-debug-symbols_${VERSION}-${REVISION}_windows_${COMMIT_HASH}" >> $GITHUB_ENV
+          echo "PACKAGE_SYMBOLS_NAME=assetguard-agent-debug-symbols_${VERSION}-${REVISION}_windows_${COMMIT_HASH}" >> $GITHUB_ENV
 
       - name: Disable signing in MSI script
         shell: bash
         run: |
-          sed -i 's+signtool+::signtool+g' src/win32/wazuh-installer-build-msi.bat
-          sed -i 's+pause+::pause+g' src/win32/wazuh-installer-build-msi.bat
+          sed -i 's+signtool+::signtool+g' src/win32/assetguard-installer-build-msi.bat
+          sed -i 's+pause+::pause+g' src/win32/assetguard-installer-build-msi.bat
 
       - name: Copy generation script
         shell: bash
         run: |
-          cp packages/windows/generate_wazuh_msi.ps1 src/win32/
+          cp packages/windows/generate_assetguard_msi.ps1 src/win32/
 
       - name: Download cv2pdb for debug symbols
         shell: pwsh
@@ -156,7 +156,7 @@ jobs:
         shell: pwsh
         run: |
           cd src/win32
-          ./generate_wazuh_msi.ps1 -MSI_NAME ${{ env.PKG_NAME }}.msi -SIGN no
+          ./generate_assetguard_msi.ps1 -MSI_NAME ${{ env.PKG_NAME }}.msi -SIGN no
 
           $PACKAGE_NAME = "${{ env.PKG_NAME }}.msi"
           $PACKAGE_SYMBOLS_NAME = ""
@@ -233,9 +233,9 @@ jobs:
       - name: Test install Windows agent
         shell: pwsh
         run: |
-          Start-Process -FilePath "src/win32/${{ env.PACKAGE_NAME }}" -ArgumentList '/q WAZUH_MANAGER="1.1.1.1" /l installer.log' -Wait
+          Start-Process -FilePath "src/win32/${{ env.PACKAGE_NAME }}" -ArgumentList '/q ASSETGUARD_MANAGER="1.1.1.1" /l installer.log' -Wait
           $installerfile = Get-Content installer.log
-          if ($installerfile -match "Wazuh Agent -- Installation completed successfully") {
+          if ($installerfile -match "AssetGuard Agent -- Installation completed successfully") {
             Write-Output "Installation successfully."
           } else {
             Write-Output "The installation could not be completed."
@@ -254,17 +254,17 @@ jobs:
         shell: pwsh
         run: |
           & checkfiles_env\Scripts\Activate.ps1
-          net stop WazuhSvc
-          python .github/actions/check_files/check_files.py -f .github/actions/check_files/windows_agent_base.csv --wazuh_gid -1 --wazuh_uid -1 --directory "C:\Program Files (x86)\ossec-agent"
-          python .github/actions/check_files/check_files.py -b windows_actual_state.csv --wazuh_gid -1 --wazuh_uid -1 --directory "C:\Program Files (x86)\ossec-agent"
+          net stop AssetGuardSvc
+          python .github/actions/check_files/check_files.py -f .github/actions/check_files/windows_agent_base.csv --assetguard_gid -1 --assetguard_uid -1 --directory "C:\Program Files (x86)\ossec-agent"
+          python .github/actions/check_files/check_files.py -b windows_actual_state.csv --assetguard_gid -1 --assetguard_uid -1 --directory "C:\Program Files (x86)\ossec-agent"
           Get-Content windows_actual_state.csv
 
       - name: Get last stable version
         id: last-stable-version
         uses: ./.github/actions/5_builderpackage_get-last-stable-version
         with:
-          repo_owner: wazuh
-          repo_name: wazuh
+          repo_owner: assetguard
+          repo_name: assetguard
           testing_version: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -333,7 +333,7 @@ jobs:
       - name: Upload package to S3
         run: |
           PACKAGE_NAME="${{ needs.package-windows-i686.outputs.package-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
               if [ -s "/tmp/$PACKAGE_NAME" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME $S3_URI/
             echo "S3 URI: $S3_URI/$PACKAGE_NAME"
@@ -346,7 +346,7 @@ jobs:
         if: inputs.checksum == true
         run: |
           PACKAGE_NAME="${{ needs.package-windows-i686.outputs.package-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$PACKAGE_NAME.sha512" ]; then
             aws s3 cp /tmp/$PACKAGE_NAME.sha512 $S3_URI/
           else
@@ -357,7 +357,7 @@ jobs:
         if: needs.package-windows-i686.outputs.package-symbols-name != ''
         run: |
           SYMBOLS_NAME="${{ needs.package-windows-i686.outputs.package-symbols-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME $S3_URI/
           else
@@ -368,7 +368,7 @@ jobs:
         if: inputs.checksum == true && needs.package-windows-i686.outputs.package-symbols-name != ''
         run: |
           SYMBOLS_NAME="${{ needs.package-windows-i686.outputs.package-symbols-name }}"
-          S3_URI="s3://xdrsiem-packages-dev-internal/development/wazuh/5.x/main/packages"
+          S3_URI="s3://xdrsiem-packages-dev-internal/development/assetguard/5.x/main/packages"
           if [ -s "/tmp/$SYMBOLS_NAME.sha512" ]; then
             aws s3 cp /tmp/$SYMBOLS_NAME.sha512 $S3_URI/
           else

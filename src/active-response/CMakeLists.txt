@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(wazuh-active-response C)
+project(assetguard-active-response C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -44,8 +44,8 @@ function(add_active_response_executable name source)
   set_target_properties(${name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                                            ${SRC_FOLDER}/build/bin OUTPUT_NAME ${name})
 
-  # Link with libwazuh.a
-  target_link_libraries(${name} PRIVATE wazuh)
+  # Link with libassetguard.a
+  target_link_libraries(${name} PRIVATE assetguard)
 
   # Platform-specific linker flags
   if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -95,30 +95,30 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   add_active_response_executable(
     ip-customblock ${CMAKE_CURRENT_SOURCE_DIR}/src/ip-customblock.c)
   add_active_response_executable(
-    restart-wazuh ${CMAKE_CURRENT_SOURCE_DIR}/src/restart-wazuh.c)
+    restart-assetguard ${CMAKE_CURRENT_SOURCE_DIR}/src/restart-assetguard.c)
   add_active_response_executable(route-null
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/route-null.c)
   add_active_response_executable(kaspersky
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/kaspersky.c)
-  add_active_response_executable(wazuh-slack
-                                 ${CMAKE_CURRENT_SOURCE_DIR}/src/wazuh-slack.c)
+  add_active_response_executable(assetguard-slack
+                                 ${CMAKE_CURRENT_SOURCE_DIR}/src/assetguard-slack.c)
 endif()
 
 # Build Windows active responses
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Windows active responses need win32_stubs and resource files (.rc)
 
-  # restart-wazuh.exe
+  # restart-assetguard.exe
   add_executable(
-    restart-wazuh
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/restart-wazuh.c
-    $<TARGET_OBJECTS:win32_stubs> ${SRC_FOLDER}/win32/restart-wazuh.rc
+    restart-assetguard
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/restart-assetguard.c
+    $<TARGET_OBJECTS:win32_stubs> ${SRC_FOLDER}/win32/restart-assetguard.rc
     ${RESOURCE_OBJ_APP})
-  target_compile_definitions(restart-wazuh PRIVATE ARGV0="restart-wazuh")
+  target_compile_definitions(restart-assetguard PRIVATE ARGV0="restart-assetguard")
   set_target_properties(
-    restart-wazuh PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/bin
-                             OUTPUT_NAME restart-wazuh)
-  target_link_libraries(restart-wazuh PRIVATE wazuh ${WAZUH_WINDOWS_LIBS})
+    restart-assetguard PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/bin
+                             OUTPUT_NAME restart-assetguard)
+  target_link_libraries(restart-assetguard PRIVATE assetguard ${ASSETGUARD_WINDOWS_LIBS})
 
   # route-null.exe
   add_executable(
@@ -129,7 +129,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set_target_properties(
     route-null PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/bin
                           OUTPUT_NAME route-null)
-  target_link_libraries(route-null PRIVATE wazuh ${WAZUH_WINDOWS_LIBS})
+  target_link_libraries(route-null PRIVATE assetguard ${ASSETGUARD_WINDOWS_LIBS})
 
   # netsh.exe
   add_executable(
@@ -138,5 +138,5 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   target_compile_definitions(netsh PRIVATE ARGV0="netsh")
   set_target_properties(netsh PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                                          ${SRC_FOLDER}/build/bin OUTPUT_NAME netsh)
-  target_link_libraries(netsh PRIVATE wazuh ${WAZUH_WINDOWS_LIBS})
+  target_link_libraries(netsh PRIVATE assetguard ${ASSETGUARD_WINDOWS_LIBS})
 endif()

@@ -334,7 +334,7 @@ This ensures that a rotated file that was not yet compressed before a crash will
 | `${name}` | Channel name | `alerts` |
 | `${counter}` | Rotation counter | `3` |
 
-**Example:** pattern `${YYYY}/${MMM}/wazuh-${name}-${DD}.json` for channel `alerts` on July 1, 2025 → `2025/Jul/wazuh-alerts-01.json`.
+**Example:** pattern `${YYYY}/${MMM}/assetguard-${name}-${DD}.json` for channel `alerts` on July 1, 2025 → `2025/Jul/assetguard-alerts-01.json`.
 
 ---
 
@@ -352,8 +352,8 @@ streamlog::LogManager logManager(store, scheduler);
 
 // Register a channel
 streamlog::RotationConfig cfg {
-    "/var/wazuh-manager/logs/alerts",
-    "wazuh-${name}-${YYYY}-${MM}-${DD}.json",
+    "/var/assetguard-manager/logs/alerts",
+    "assetguard-${name}-${YYYY}-${MM}-${DD}.json",
     10 * 1024 * 1024,   // 10 MiB max size
     1 << 20,            // buffer
     true,               // compress

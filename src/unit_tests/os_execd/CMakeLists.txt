@@ -22,7 +22,7 @@ else()
       LINKER_LANGUAGE C
   )
 
-  target_link_libraries(EXECD_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+  target_link_libraries(EXECD_O ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 endif()
 
 if(${TARGET} STREQUAL "winagent")
@@ -30,10 +30,10 @@ if(${TARGET} STREQUAL "winagent")
 endif(${TARGET} STREQUAL "winagent")
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 # Execd is agent-only.
-set(EXECD_TEST_ARGV0 "wazuh-execd")
+set(EXECD_TEST_ARGV0 "assetguard-execd")
 
 # Generate Execd tests
 if(${TARGET} STREQUAL "winagent")
@@ -74,16 +74,16 @@ foreach(counter RANGE ${count})
         # On winagent, execd objects come from DEPENDENCIES_O (in TEST_DEPS)
         target_link_libraries(
             ${execd_test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${ASSETGUARDLIB}
+            ${ASSETGUARDEXT}
             ${TEST_DEPS}
         )
         target_link_libraries(${execd_test_name} fimdb)
     else()
         target_link_libraries(
             ${execd_test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${ASSETGUARDLIB}
+            ${ASSETGUARDEXT}
             EXECD_O
             ${TEST_DEPS}
         )

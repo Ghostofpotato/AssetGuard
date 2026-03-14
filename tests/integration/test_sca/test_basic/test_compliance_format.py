@@ -1,6 +1,6 @@
 '''
-copyright: Copyright (C) 2015-2026, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2026, AssetGuard Inc.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
@@ -17,7 +17,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-modulesd
+    - assetguard-modulesd
 
 os_platform:
     - linux
@@ -30,7 +30,7 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/sec-config-assessment/index.html
+    - https://documentation.assetguard.com/current/user-manual/capabilities/sec-config-assessment/index.html
 
 tags:
     - sca
@@ -41,14 +41,14 @@ import json
 import sys
 from pathlib import Path
 
-from wazuh_testing.constants.paths import WAZUH_PATH
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.utils import callbacks, configuration
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.modulesd.sca import patterns
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from assetguard_testing.constants.paths import ASSETGUARD_PATH
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.utils import callbacks, configuration
+from assetguard_testing.tools.monitors import file_monitor
+from assetguard_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.modulesd.sca import patterns
+from assetguard_testing.modules.modulesd.configuration import MODULESD_DEBUG
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -69,7 +69,7 @@ configurations = configuration.load_configuration_template(configurations_path, 
 # Test daemons to restart.
 daemons_handler_configuration = {'all_daemons': True}
 
-SCA_DB_DIR = Path(WAZUH_PATH, 'queue', 'sca', 'db')
+SCA_DB_DIR = Path(ASSETGUARD_PATH, 'queue', 'sca', 'db')
 
 
 @pytest.fixture()
@@ -108,7 +108,7 @@ def extract_compliance_from_event_json(json_str):
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(configurations, configuration_metadata), ids=case_ids)
 def test_sca_compliance_format(test_configuration, test_metadata, prepare_cis_policies_file, truncate_monitored_files,
-                               set_wazuh_configuration, configure_local_internal_options, clean_sca_db,
+                               set_assetguard_configuration, configure_local_internal_options, clean_sca_db,
                                daemons_handler, wait_for_sca_enabled):
     '''
     description: This test validates the SCA compliance field handling across three scenarios:
@@ -119,37 +119,37 @@ def test_sca_compliance_format(test_configuration, test_metadata, prepare_cis_po
 
     test_phases:
         - Copy SCA policy file into agent.
-        - Restart wazuh.
+        - Restart assetguard.
         - Wait for SCA scan to complete.
         - Validate WARNING messages in log for invalid/old-format compliance.
         - Validate compliance keys in SCA event JSON.
 
-    wazuh_min_version: 5.0.0
+    assetguard_min_version: 5.0.0
 
     tier: 0
 
     parameters:
         - test_configuration:
             type: dict
-            brief: Wazuh configuration data. Needed for set_wazuh_configuration fixture.
+            brief: AssetGuard configuration data. Needed for set_assetguard_configuration fixture.
         - test_metadata:
             type: dict
-            brief: Wazuh configuration metadata.
+            brief: AssetGuard configuration metadata.
         - prepare_cis_policies_file:
             type: fixture
             brief: Copy test SCA policy file. Delete it after test.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Set the wazuh configuration according to the configuration data.
+            brief: Set the assetguard configuration according to the configuration data.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local_internal_options_file.
         - daemons_handler:
             type: fixture
-            brief: Restart all wazuh daemons.
+            brief: Restart all assetguard daemons.
         - wait_for_sca_enabled:
             type: fixture
             brief: Wait for the SCA module to start before starting the test.
@@ -176,7 +176,7 @@ def test_sca_compliance_format(test_configuration, test_metadata, prepare_cis_po
     # ------------------------------------------------------------------
     # Phase 1: Wait for scan completion
     # ------------------------------------------------------------------
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(ASSETGUARD_LOG_PATH)
 
     timeout = 60 if sys.platform == WINDOWS else 30
 
@@ -193,7 +193,7 @@ def test_sca_compliance_format(test_configuration, test_metadata, prepare_cis_po
     # ------------------------------------------------------------------
     # Phase 2: Validate WARNING messages
     # ------------------------------------------------------------------
-    with open(WAZUH_LOG_PATH, 'r') as f:
+    with open(ASSETGUARD_LOG_PATH, 'r') as f:
         log_content = f.read()
 
     # Old-format scenario: assert 'Unexpected compliance format' warnings for all check IDs

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -274,7 +274,7 @@ def download_blob(container_client, blob, number_of_retries=3):
     Returns
     -------
     StorageStreamDownloader[str]
-        Message that will be sent to the WazuhQueue socket.
+        Message that will be sent to the AssetGuardQueue socket.
 
     Raises
     ------

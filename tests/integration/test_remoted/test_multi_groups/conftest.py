@@ -1,14 +1,14 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, AssetGuard Inc.
+ Created by AssetGuard, Inc. <info@assetguard.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
 import pytest
 import time
 
-from wazuh_testing.tools.simulators import agent_simulator
-from wazuh_testing.utils.agent_groups import create_group, delete_group, add_agent_to_group
+from assetguard_testing.tools.simulators import agent_simulator
+from assetguard_testing.utils.agent_groups import create_group, delete_group, add_agent_to_group
 
 
 @pytest.fixture()

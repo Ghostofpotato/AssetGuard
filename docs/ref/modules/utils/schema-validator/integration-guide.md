@@ -1,6 +1,6 @@
 # Integration Guide
 
-This guide provides step-by-step instructions for integrating the Schema Validator into Wazuh modules.
+This guide provides step-by-step instructions for integrating the Schema Validator into AssetGuard modules.
 
 ---
 
@@ -584,7 +584,7 @@ TEST_F(SchemaValidatorTest, ValidMessage)
     auto& factory = SchemaValidator::SchemaValidatorFactory::getInstance();
     ASSERT_TRUE(factory.initialize());
 
-    auto validator = factory.getValidator("wazuh-states-inventory-packages");
+    auto validator = factory.getValidator("assetguard-states-inventory-packages");
     ASSERT_NE(validator, nullptr);
 
     std::string validJson = R"({
@@ -602,7 +602,7 @@ TEST_F(SchemaValidatorTest, InvalidMessage)
     auto& factory = SchemaValidator::SchemaValidatorFactory::getInstance();
     ASSERT_TRUE(factory.initialize());
 
-    auto validator = factory.getValidator("wazuh-states-inventory-packages");
+    auto validator = factory.getValidator("assetguard-states-inventory-packages");
     ASSERT_NE(validator, nullptr);
 
     std::string invalidJson = R"({

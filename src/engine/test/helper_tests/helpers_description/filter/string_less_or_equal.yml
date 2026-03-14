@@ -33,13 +33,13 @@ target_field:
 
 test:
   - arguments:
-      any_string: wazuh
+      any_string: assetguard
     target_field: hello world!
     should_pass: true
     description: Success string less or equal
   - arguments:
       any_string: hello world!
-    target_field: wazuh
+    target_field: assetguard
     should_pass: false
     description: Failure string less or equal
   - arguments:

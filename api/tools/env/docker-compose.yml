@@ -1,41 +1,41 @@
 services:
-    wazuh-base:
+    assetguard-base:
         build:
-            context: ./wazuh-base
+            context: ./assetguard-base
             args:
-                WAZUH_BRANCH: ${WAZUH_BRANCH}
+                ASSETGUARD_BRANCH: ${ASSETGUARD_BRANCH}
         pull_policy: never
-        image: dev-wazuh-base
+        image: dev-assetguard-base
         networks:
-            - wazuh-net
+            - assetguard-net
 
     certs-generator:
         build:
             context: ./certs-generator
-        image: wazuh-certs-generator
+        image: assetguard-certs-generator
         pull_policy: never
         volumes:
-            - wazuh-certs:/certificates
-            - ./config/wazuh_dashboard_certs:/export/dashboard
+            - assetguard-certs:/certificates
+            - ./config/assetguard_dashboard_certs:/export/dashboard
             - ./certs-generator/config.yml:/config/config.yml:ro
         restart: "no"
         networks:
-            - wazuh-net
+            - assetguard-net
 
-    wazuh.indexer:
-        image: quay.io/wazuh/wazuh-indexer:5.0.0-0
-        container_name: wazuh.indexer
-        hostname: wazuh.indexer
+    assetguard.indexer:
+        image: quay.io/assetguard/assetguard-indexer:5.0.0-0
+        container_name: assetguard.indexer
+        hostname: assetguard.indexer
         ports:
             - "9200:9200"
         networks:
-            wazuh-net:
+            assetguard-net:
                 aliases:
-                    - wazuh.indexer
+                    - assetguard.indexer
         volumes:
-            - wazuh-indexer-data:/var/lib/wazuh-indexer
-            - wazuh-certs:/etc/wazuh-indexer/certs
-            - ./wazuh-indexer/wazuh.indexer.yml:/usr/share/wazuh-indexer/config/opensearch.yml:ro
+            - assetguard-indexer-data:/var/lib/assetguard-indexer
+            - assetguard-certs:/etc/assetguard-indexer/certs
+            - ./assetguard-indexer/assetguard.indexer.yml:/usr/share/assetguard-indexer/config/opensearch.yml:ro
         environment:
             - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
         depends_on:
@@ -48,83 +48,83 @@ services:
             retries: 20
             start_period: 120s
 
-    wazuh.master:
+    assetguard.master:
         build:
-            context: ./wazuh-manager
+            context: ./assetguard-manager
             target: server
         pull_policy: never
-        image: dev-wazuh-manager
-        hostname: wazuh.master
+        image: dev-assetguard-manager
+        hostname: assetguard.master
         networks:
-            - wazuh-net
+            - assetguard-net
         ports:
             - "55050:55000"
         volumes:
-            - wazuh-certs:/var/wazuh-manager/etc/certs
-            - ${WAZUH_LOCAL_PATH}/framework/scripts:/var/wazuh-manager/framework/scripts
-            - ${WAZUH_LOCAL_PATH}/api/scripts:/var/wazuh-manager/api/scripts
-            - ${WAZUH_LOCAL_PATH}/framework/wazuh:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/wazuh
-            - ${WAZUH_LOCAL_PATH}/api/api:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/api
+            - assetguard-certs:/var/assetguard-manager/etc/certs
+            - ${ASSETGUARD_LOCAL_PATH}/framework/scripts:/var/assetguard-manager/framework/scripts
+            - ${ASSETGUARD_LOCAL_PATH}/api/scripts:/var/assetguard-manager/api/scripts
+            - ${ASSETGUARD_LOCAL_PATH}/framework/assetguard:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/assetguard
+            - ${ASSETGUARD_LOCAL_PATH}/api/api:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/api
         environment:
             OPENDISTRO_SECURITY_ENABLED: "false"
-            NODE_NAME: "wazuh.master"
+            NODE_NAME: "assetguard.master"
         entrypoint:
             - /scripts/entrypoint.sh
-            - wazuh.master
+            - assetguard.master
             - master-node
             - master
         depends_on:
-            wazuh.indexer:
+            assetguard.indexer:
                 condition: service_healthy
-            wazuh-base:
+            assetguard-base:
                 condition: service_started
 
-    wazuh.worker:
-        image: dev-wazuh-manager
-        hostname: wazuh.worker
+    assetguard.worker:
+        image: dev-assetguard-manager
+        hostname: assetguard.worker
         pull_policy: never
         networks:
-            - wazuh-net
+            - assetguard-net
         volumes:
-            - wazuh-certs:/var/wazuh-manager/etc/certs
-            - ${WAZUH_LOCAL_PATH}/framework/scripts:/var/wazuh-manager/framework/scripts
-            - ${WAZUH_LOCAL_PATH}/api/scripts:/var/wazuh-manager/api/scripts
-            - ${WAZUH_LOCAL_PATH}/framework/wazuh:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/wazuh
-            - ${WAZUH_LOCAL_PATH}/api/api:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/api
+            - assetguard-certs:/var/assetguard-manager/etc/certs
+            - ${ASSETGUARD_LOCAL_PATH}/framework/scripts:/var/assetguard-manager/framework/scripts
+            - ${ASSETGUARD_LOCAL_PATH}/api/scripts:/var/assetguard-manager/api/scripts
+            - ${ASSETGUARD_LOCAL_PATH}/framework/assetguard:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/assetguard
+            - ${ASSETGUARD_LOCAL_PATH}/api/api:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/api
         depends_on:
-            wazuh.master:
+            assetguard.master:
                 condition: service_started
         environment:
-            NODE_NAME: "wazuh.worker"
+            NODE_NAME: "assetguard.worker"
         ports:
             - "55051:55000"
         entrypoint:
             - /scripts/entrypoint.sh
-            - wazuh.worker
+            - assetguard.worker
             - worker
 
-    wazuh2.worker:
-        image: dev-wazuh-manager
-        hostname: wazuh.worker
+    assetguard2.worker:
+        image: dev-assetguard-manager
+        hostname: assetguard.worker
         pull_policy: never
         networks:
-            - wazuh-net
+            - assetguard-net
         volumes:
-            - wazuh-certs:/var/wazuh-manager/etc/certs
-            - ${WAZUH_LOCAL_PATH}/framework/scripts:/var/wazuh-manager/framework/scripts
-            - ${WAZUH_LOCAL_PATH}/api/scripts:/var/wazuh-manager/api/scripts
-            - ${WAZUH_LOCAL_PATH}/framework/wazuh:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/wazuh
-            - ${WAZUH_LOCAL_PATH}/api/api:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/api
+            - assetguard-certs:/var/assetguard-manager/etc/certs
+            - ${ASSETGUARD_LOCAL_PATH}/framework/scripts:/var/assetguard-manager/framework/scripts
+            - ${ASSETGUARD_LOCAL_PATH}/api/scripts:/var/assetguard-manager/api/scripts
+            - ${ASSETGUARD_LOCAL_PATH}/framework/assetguard:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/assetguard
+            - ${ASSETGUARD_LOCAL_PATH}/api/api:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/api
         depends_on:
-            wazuh.master:
+            assetguard.master:
                 condition: service_started
         environment:
-            NODE_NAME: "wazuh2.worker"
+            NODE_NAME: "assetguard2.worker"
         ports:
             - "55052:55000"
         entrypoint:
             - /scripts/entrypoint.sh
-            - wazuh2.worker
+            - assetguard2.worker
             - worker
 
     nginx-lb:
@@ -136,53 +136,53 @@ services:
         ports:
             - "1514:1514"
         networks:
-            - wazuh-net
+            - assetguard-net
         depends_on:
-            wazuh.master:
+            assetguard.master:
                 condition: service_started
-            wazuh.worker:
+            assetguard.worker:
                 condition: service_started
-            wazuh2.worker:
+            assetguard2.worker:
                 condition: service_started
         entrypoint:
             - /scripts/entrypoint.sh
 
-    wazuh-agent:
+    assetguard-agent:
         build:
-            context: ./wazuh-agent
-        image: dev-wazuh-agent
+            context: ./assetguard-agent
+        image: dev-assetguard-agent
         pull_policy: never
         networks:
-            - wazuh-net
+            - assetguard-net
         entrypoint:
             - /scripts/entrypoint.sh
             - nginx-lb
-            - ${WAZUH_VERSION}
+            - ${ASSETGUARD_VERSION}
         depends_on:
             nginx-lb:
                 condition: service_started
 
-    wazuh.dashboard:
-        image: public.ecr.aws/wazuh-cicd/wazuh/wazuh-dashboard:5.0.0-latest
-        container_name: wazuh.dashboard
-        hostname: wazuh.dashboard
+    assetguard.dashboard:
+        image: public.ecr.aws/assetguard-cicd/assetguard/assetguard-dashboard:5.0.0-latest
+        container_name: assetguard.dashboard
+        hostname: assetguard.dashboard
         networks:
-            - wazuh-net
+            - assetguard-net
         ports:
             - "443:5601"
         volumes:
-            - ./config/wazuh_dashboard_certs:/tmp/certs
-            - ./wazuh-dashboard/wazuh.dashboard.yml:/usr/share/wazuh-dashboard/config/opensearch_dashboards.yml:ro
-            - wazuh-dashboard-custom:/usr/share/wazuh-dashboard/plugins/wazuh/public/assets/custom
+            - ./config/assetguard_dashboard_certs:/tmp/certs
+            - ./assetguard-dashboard/assetguard.dashboard.yml:/usr/share/assetguard-dashboard/config/opensearch_dashboards.yml:ro
+            - assetguard-dashboard-custom:/usr/share/assetguard-dashboard/plugins/assetguard/public/assets/custom
         depends_on:
-            wazuh.indexer:
+            assetguard.indexer:
                 condition: service_healthy
 
 volumes:
-  wazuh-indexer-data:
-  wazuh-certs:
-  wazuh-dashboard-custom:
+  assetguard-indexer-data:
+  assetguard-certs:
+  assetguard-dashboard-custom:
 
 networks:
-  wazuh-net:
+  assetguard-net:
     driver: bridge

@@ -229,9 +229,9 @@ FIM uses different indexes for different data types:
 
 | Data Type | Index Name | Constant |
 |-----------|------------|----------|
-| Files | `"wazuh-states-fim-files"` | `FIM_FILES_SYNC_INDEX` |
-| Registry Keys | `"wazuh-states-fim-registry-keys"` | `FIM_REGISTRY_KEYS_SYNC_INDEX` |
-| Registry Values | `"wazuh-states-fim-registry-values"` | `FIM_REGISTRY_VALUES_SYNC_INDEX` |
+| Files | `"assetguard-states-fim-files"` | `FIM_FILES_SYNC_INDEX` |
+| Registry Keys | `"assetguard-states-fim-registry-keys"` | `FIM_REGISTRY_KEYS_SYNC_INDEX` |
+| Registry Values | `"assetguard-states-fim-registry-values"` | `FIM_REGISTRY_VALUES_SYNC_INDEX` |
 
 ---
 

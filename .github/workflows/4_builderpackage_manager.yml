@@ -1,5 +1,5 @@
-run-name: Package - Build ${{ inputs.system }} wazuh-manager on ${{ inputs.architecture }} ${{ inputs.is_stage && '- is stage' || '' }} ${{ inputs.checksum && '- checksum' || '' }} ${{ inputs.debug && '- debug' || '' }} ${{ inputs.id }}
-name: 4.X - Package - Build Wazuh manager
+run-name: Package - Build ${{ inputs.system }} assetguard-manager on ${{ inputs.architecture }} ${{ inputs.is_stage && '- is stage' || '' }} ${{ inputs.checksum && '- checksum' || '' }} ${{ inputs.debug && '- debug' || '' }} ${{ inputs.id }}
+name: 4.X - Package - Build AssetGuard manager
 
 on:
   workflow_dispatch:
@@ -104,7 +104,7 @@ jobs:
 
     runs-on: ${{ (inputs.architecture == 'arm64' || inputs.architecture == 'aarch64') && 'wz-linux-arm64' || 'ubuntu-22.04' }}
     timeout-minutes: 35
-    name: Build ${{ inputs.system }} wazuh-manager on ${{ inputs.architecture }}
+    name: Build ${{ inputs.system }} assetguard-manager on ${{ inputs.architecture }}
 
     steps:
       - name: Cancel previous runs
@@ -168,7 +168,7 @@ jobs:
           sed -i '/"stage":/s/$/,/; /"stage":/a \    "commit": "'"$SHORT_COMMIT"'"' VERSION.json || exit 1
           cat VERSION.json
 
-      - name: Build ${{ inputs.system }} wazuh-manager on ${{ inputs.architecture }}
+      - name: Build ${{ inputs.system }} assetguard-manager on ${{ inputs.architecture }}
         working-directory: packages
         run: |
           SHORT_COMMIT=$(git rev-parse --short HEAD)
@@ -187,8 +187,8 @@ jobs:
           else
             SYMBOLS_TAG="debuginfo"
           fi
-          # Find all files starting with 'wazuh-manager' and ending with '.rpm or .deb'
-          for file in $(find /tmp -maxdepth 1 -type f -name 'wazuh-manager*.${{ inputs.system }}' -exec basename {} 2>/dev/null \;); do
+          # Find all files starting with 'assetguard-manager' and ending with '.rpm or .deb'
+          for file in $(find /tmp -maxdepth 1 -type f -name 'assetguard-manager*.${{ inputs.system }}' -exec basename {} 2>/dev/null \;); do
             if [[ "$file" == *"$SYMBOLS_TAG"* ]]; then
               PACKAGE_SYMBOLS_NAME="$file"
             else
@@ -210,8 +210,8 @@ jobs:
 
           sudo docker exec $CONTAINER_ID /tests/install_component.sh $PACKAGE_NAME manager
 
-          # Check if Wazuh was installed. The /tmp/status.log file was generated in the previous step.
-          if grep -iq " installed.*wazuh-manager" /tmp/status.log ; then
+          # Check if AssetGuard was installed. The /tmp/status.log file was generated in the previous step.
+          if grep -iq " installed.*assetguard-manager" /tmp/status.log ; then
             echo "Installation successfully."
           else
             echo "The installation could not be completed. The package will not be uploaded.";
@@ -219,15 +219,15 @@ jobs:
           fi
 
           echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
-          echo "WAZUH_UID=$(cat $TESTS_PATH/wazuh_uid)" | tee -a $GITHUB_ENV
-          echo "WAZUH_GID=$(cat $TESTS_PATH/wazuh_gid)" | tee -a $GITHUB_ENV
+          echo "ASSETGUARD_UID=$(cat $TESTS_PATH/assetguard_uid)" | tee -a $GITHUB_ENV
+          echo "ASSETGUARD_GID=$(cat $TESTS_PATH/assetguard_gid)" | tee -a $GITHUB_ENV
 
       - name: Check installed files
         uses: ./.github/actions/check_files
         with:
           expected_files: manager_base.csv
-          wazuh_uid: ${{ env.WAZUH_UID }}
-          wazuh_gid: ${{ env.WAZUH_GID }}
+          assetguard_uid: ${{ env.ASSETGUARD_UID }}
+          assetguard_gid: ${{ env.ASSETGUARD_GID }}
           size_check: "false"
           ignore: "site-packages,/var/ossec/framework/python"
 
@@ -256,29 +256,29 @@ jobs:
           sudo docker exec $CONTAINER_ID /tests/uninstall_component.sh $PACKAGE_NAME manager
           sudo docker stop $CONTAINER_ID && sudo docker rm $CONTAINER_ID
 
-      - name: Get latest Wazuh release from GitHub
+      - name: Get latest AssetGuard release from GitHub
         run: |
           sudo apt-get update
           sudo apt-get install -y curl jq
 
           CURRENT_TAG="${{ env.TAG }}"
-          PREVIOUS_TAG=$(curl -s https://api.github.com/repos/wazuh/wazuh/releases | jq -r '.[].tag_name' | grep -vE 'alpha|beta|rc' | sed 's/^v//' | grep -E '^4\.[0-9]+\.[0-9]+$' | \
+          PREVIOUS_TAG=$(curl -s https://api.github.com/repos/assetguard/assetguard/releases | jq -r '.[].tag_name' | grep -vE 'alpha|beta|rc' | sed 's/^v//' | grep -E '^4\.[0-9]+\.[0-9]+$' | \
           grep -v "^${CURRENT_TAG}$" | sort -V | awk -v current="$CURRENT_TAG" '$0 < current' | tail -n1)
 
           echo "Latest release detected: $PREVIOUS_TAG"
           echo "PUBLIC_RELEASE_VERSION=$PREVIOUS_TAG" >> $GITHUB_ENV
 
-      - name: Download latest public wazuh-manager package
+      - name: Download latest public assetguard-manager package
         run: |
           ARCH=${{ env.ARCH }}
           VERSION=${{ env.PUBLIC_RELEASE_VERSION }}
 
           if [ "${{ inputs.system }}" = "deb" ]; then
-            FILE_NAME_PUBLIC="wazuh-manager_${VERSION}-1_${ARCH}.deb"
-            BASE_URL="https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-manager"
+            FILE_NAME_PUBLIC="assetguard-manager_${VERSION}-1_${ARCH}.deb"
+            BASE_URL="https://packages.assetguard.com/4.x/apt/pool/main/w/assetguard-manager"
           elif [ "${{ inputs.system }}" = "rpm" ]; then
-            FILE_NAME_PUBLIC="wazuh-manager-${VERSION}-1.${ARCH}.rpm"
-            BASE_URL="https://packages.wazuh.com/4.x/yum"
+            FILE_NAME_PUBLIC="assetguard-manager-${VERSION}-1.${ARCH}.rpm"
+            BASE_URL="https://packages.assetguard.com/4.x/yum"
           else
             echo "Unsupported system type: ${{ inputs.system }}"
             exit 1
@@ -289,7 +289,7 @@ jobs:
           curl -fSL "$PACKAGE_URL" -o "/tmp/$FILE_NAME_PUBLIC"
           echo "PUBLIC_PACKAGE_NAME=$FILE_NAME_PUBLIC" >> $GITHUB_ENV
 
-      - name: Run container and install public wazuh-manager
+      - name: Run container and install public assetguard-manager
         run: |
           FILE_NAME=${{ env.PUBLIC_PACKAGE_NAME }}
           SYSTEM=${{ inputs.system }}
@@ -298,24 +298,24 @@ jobs:
             BASE_IMAGE="ubuntu:22.04"
             INSTALL_CMD="dpkg -i /packages/$FILE_NAME || apt-get -f install -y"
             UPDATE_CMD="apt-get update"
-            docker run --name wazuh_previous -d -v /tmp:/packages $BASE_IMAGE tail -f /dev/null
+            docker run --name assetguard_previous -d -v /tmp:/packages $BASE_IMAGE tail -f /dev/null
             sleep 5
           else
             BASE_IMAGE="centos:8"
             INSTALL_CMD="yum localinstall -y /packages/$FILE_NAME"
             UPDATE_CMD="yum update -y"
-            docker run --name wazuh_previous -d -v /tmp:/packages $BASE_IMAGE tail -f /dev/null
+            docker run --name assetguard_previous -d -v /tmp:/packages $BASE_IMAGE tail -f /dev/null
             # Configuring CentOS 8 repositories
-            docker exec wazuh_previous bash -c "sed -i.bak 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*"
-            docker exec wazuh_previous bash -c "sed -i.bak 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*"
+            docker exec assetguard_previous bash -c "sed -i.bak 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*"
+            docker exec assetguard_previous bash -c "sed -i.bak 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*"
             sleep 5
           fi
 
-          docker exec wazuh_previous bash -c "$UPDATE_CMD"
-          docker exec wazuh_previous bash -c "$INSTALL_CMD"
-          docker exec wazuh_previous bash -c "/var/ossec/bin/wazuh-control info || echo 'Manager not started yet'"
+          docker exec assetguard_previous bash -c "$UPDATE_CMD"
+          docker exec assetguard_previous bash -c "$INSTALL_CMD"
+          docker exec assetguard_previous bash -c "/var/ossec/bin/assetguard-control info || echo 'Manager not started yet'"
 
-      - name: Upgrade to current Wazuh version
+      - name: Upgrade to current AssetGuard version
         run: |
           SYSTEM=${{ inputs.system }}
           FILE_NAME=${{ env.PACKAGE_NAME }}
@@ -327,9 +327,9 @@ jobs:
           fi
 
           echo "Upgrading to current version with package: $FILE_NAME"
-          docker cp /tmp/$FILE_NAME wazuh_previous:/packages/$FILE_NAME
-          docker exec wazuh_previous bash -c "$INSTALL_CMD"
-          docker exec wazuh_previous bash -c "/var/ossec/bin/wazuh-control info || echo 'Manager not started yet after upgrade'"
+          docker cp /tmp/$FILE_NAME assetguard_previous:/packages/$FILE_NAME
+          docker exec assetguard_previous bash -c "$INSTALL_CMD"
+          docker exec assetguard_previous bash -c "/var/ossec/bin/assetguard-control info || echo 'Manager not started yet after upgrade'"
 
       - name: Upload package to GitHub
         if: always()
@@ -359,28 +359,28 @@ jobs:
         if: ${{ env.SHOULD_UPLOAD == 'true' }}
         working-directory: packages
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_NAME }} s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/
-          s3uri="s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/${{ env.PACKAGE_NAME }}"
+          aws s3 cp /tmp/${{ env.PACKAGE_NAME }} s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/
+          s3uri="s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/${{ env.PACKAGE_NAME }}"
           echo "S3 URI: ${s3uri}"
 
       - name: Upload checksum to S3
         if: ${{ env.SHOULD_UPLOAD_CHECKSUM == 'true' }}
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/
-          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/
-          s3uri="s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/${{ env.PACKAGE_NAME }}.sha512"
+          aws s3 cp /tmp/${{ env.PACKAGE_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/
+          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/
+          s3uri="s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/${{ env.PACKAGE_NAME }}.sha512"
           echo "S3 sha512 URI: ${s3uri}"
 
       - name: Upload debug symbols to S3
         if: ${{ env.SHOULD_UPLOAD == 'true' }}
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }} s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/
-          symbols="s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/${{ env.PACKAGE_SYMBOLS_NAME }}"
+          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }} s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/
+          symbols="s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/${{ env.PACKAGE_SYMBOLS_NAME }}"
           echo "S3 symbols URI: ${symbols}"
 
       - name: Upload debug symbols checksum to S3
         if: ${{ env.SHOULD_UPLOAD_CHECKSUM == 'true' }}
         run: |
-          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/
-          symbols="s3://xdrsiem-packages-dev-internal/development/wazuh/4.x/main/packages/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512"
+          aws s3 cp /tmp/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512 s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/
+          symbols="s3://xdrsiem-packages-dev-internal/development/assetguard/4.x/main/packages/${{ env.PACKAGE_SYMBOLS_NAME }}.sha512"
           echo "S3 symbols sha512 URI: ${symbols}"

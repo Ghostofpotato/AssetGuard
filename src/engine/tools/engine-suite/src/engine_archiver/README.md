@@ -37,7 +37,7 @@ options:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   --api-socket API_SOCKET
-                        Path to the Wazuh API socket
+                        Path to the AssetGuard API socket
 
 subcommands:
   {activate,deactivate,status}

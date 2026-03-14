@@ -40,35 +40,35 @@
         {
             "label": "Scripts: Mount proc",
             "type": "shell",
-            "command": "${env:WAZUH_DEV_SCRIPTS}/mount_wazuh_proc.sh",
+            "command": "${env:ASSETGUARD_DEV_SCRIPTS}/mount_assetguard_proc.sh",
             "args": [],
             "problemMatcher": []
         },
         {
             "label": "Scripts: Create standalone structure",
             "type": "shell",
-            "command": "${env:WAZUH_DEV_SCRIPTS}/create_struct_standalone.sh",
+            "command": "${env:ASSETGUARD_DEV_SCRIPTS}/create_struct_standalone.sh",
             "args": [],
             "problemMatcher": []
         },
         {
-            "label": "Scripts: Purge wazuh-manger",
+            "label": "Scripts: Purge assetguard-manger",
             "type": "shell",
-            "command": "${env:WAZUH_DEV_SCRIPTS}/purge_wazuh.sh",
+            "command": "${env:ASSETGUARD_DEV_SCRIPTS}/purge_assetguard.sh",
             "args": [],
             "problemMatcher": []
         },
         {
             "label": "E2E Scripts: Init setup (certs && pkg)",
             "type": "shell",
-            "command": "${env:WAZUH_DEV_SCRIPTS}/../e2e/init.sh",
+            "command": "${env:ASSETGUARD_DEV_SCRIPTS}/../e2e/init.sh",
             "args": [],
             "problemMatcher": []
         },
                 {
-            "label": "E2E Scripts: Copy wazuh-manger certs ",
+            "label": "E2E Scripts: Copy assetguard-manger certs ",
             "type": "shell",
-            "command": "${env:WAZUH_DEV_SCRIPTS}/../e2e/wazuh_copy_certs.sh",
+            "command": "${env:ASSETGUARD_DEV_SCRIPTS}/../e2e/assetguard_copy_certs.sh",
             "args": [],
             "problemMatcher": []
         },
@@ -77,7 +77,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "-j27",
                 "TARGET=manager",
                 "DEBUG=yes"
@@ -92,7 +92,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "-j27",
                 "TARGET=manager",
                 "DEBUG=yes",
@@ -108,7 +108,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "-j",
                 "TARGET=manager",
                 "ENGINE_TEST=y",
@@ -124,7 +124,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "-j27",
                 "TARGET=manager",
                 "ENGINE_TEST=y"
@@ -145,7 +145,7 @@
                 }
             },
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "-j27",
                 "TARGET=manager",
                 "DEBUG=yes"
@@ -166,7 +166,7 @@
                 }
             },
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "-j27",
                 "TARGET=manager",
                 "DEBUG=yes"
@@ -181,7 +181,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "deps",
                 "TARGET=manager",
                 "-j1"
@@ -194,7 +194,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "clean-deps"
             ],
             "group": "build"
@@ -204,7 +204,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "clean-external"
             ],
             "group": "build"
@@ -214,7 +214,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "clean-internals"
             ],
             "group": "build",
@@ -225,7 +225,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src",
+                "--directory=${env:ASSETGUARD_REPO}/src",
                 "clean"
             ],
             "group": "build",
@@ -241,9 +241,9 @@
             "args": [
                 "-DTARGET=manager",
                 "-S",
-                "${env:WAZUH_REPO}/src/unit_tests",
+                "${env:ASSETGUARD_REPO}/src/unit_tests",
                 "-B",
-                "${env:WAZUH_REPO}/src/unit_tests/build"
+                "${env:ASSETGUARD_REPO}/src/unit_tests/build"
             ],
             "group": "build",
             "problemMatcher": [
@@ -255,7 +255,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src/unit_tests/build"
+                "--directory=${env:ASSETGUARD_REPO}/src/unit_tests/build"
             ],
             "group": "build",
             "problemMatcher": [
@@ -267,7 +267,7 @@
             "type": "shell",
             "command": "/usr/bin/make",
             "args": [
-                "--directory=${env:WAZUH_REPO}/src/unit_tests/build",
+                "--directory=${env:ASSETGUARD_REPO}/src/unit_tests/build",
                 "coverage"
             ],
             "group": "build",
@@ -288,7 +288,7 @@
                 "--num-callers=20",
                 "--show-leak-kinds=definite,indirect",
                 "--log-file=ValgrindPRs.log",
-                "/var/wazuh-manager/bin/wazuh-remoted",
+                "/var/assetguard-manager/bin/assetguard-remoted",
                 "-f",
                 "-d"
             ],

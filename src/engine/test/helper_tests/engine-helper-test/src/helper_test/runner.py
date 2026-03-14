@@ -534,7 +534,7 @@ def create_kvdb_resource(api_client: APIClient):
         "id": KVDB_RESOURCE_UUID,
         "date": "2025-10-06T13:32:19Z",
         "title": "windows_kerberos_status_code_to_code_name",
-        "author": "Wazuh Inc.",
+        "author": "AssetGuard Inc.",
         "content": {
 
             "0x0": "KDC_ERR_NONE",
@@ -838,7 +838,7 @@ def runner(input_path: Path, env_dir: Path, show_failure: bool):
     success = True
 
     print("Validating parameters...")
-    bin_path = (env_dir / "wazuh-engine").resolve()
+    bin_path = (env_dir / "assetguard-engine").resolve()
     if not bin_path.is_file():
         raise FileNotFoundError(f"Binary file not found: {bin_path}")
 

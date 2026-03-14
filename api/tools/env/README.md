@@ -3,14 +3,14 @@
 > [!Warning]
 > This is a testing environment, do not use in production.
 
-This folder contains the development environment for the Wazuh 4.x versions. It includes the following components:
+This folder contains the development environment for the AssetGuard 4.x versions. It includes the following components:
 
-- **wazuh-master**: Master node.
-- **wazuh-worker1**: Worker node #1.
-- **wazuh-worker2**: Worker node #2.
+- **assetguard-master**: Master node.
+- **assetguard-worker1**: Worker node #1.
+- **assetguard-worker2**: Worker node #2.
 - **nginx-lb**: NGINX load balancer to distribute agent connections among nodes.
-- **wazuh-agent**: Agent.
-- **wazuh-indexer**: Indexer
+- **assetguard-agent**: Agent.
+- **assetguard-indexer**: Indexer
 
 ### Working with docker environment
 The following commands runs a cluster:
@@ -19,24 +19,24 @@ The following commands runs a cluster:
 
 If a single docker is needed, it is possible to run:
 1. Move to the dockefile location for instance:
- `cd wazuh-manager`
-2. Run `docker build -t dev-wazuh-manager --target server ./wazuh-manager`
+ `cd assetguard-manager`
+2. Run `docker build -t dev-assetguard-manager --target server ./assetguard-manager`
 3. Define .env with the necessary environment variables
 4. Run docker:
 ```
 docker run -d \
---name wazuh-master \
---hostname wazuh-master \
+--name assetguard-master \
+--hostname assetguard-master \
 -p 55000:55000 \
--v ${WAZUH_LOCAL_PATH}/framework/scripts:/var/wazuh-manager/framework/scripts \
--v ${WAZUH_LOCAL_PATH}/api/scripts:/var/wazuh-manager/api/scripts \
--v ${WAZUH_LOCAL_PATH}/framework/wazuh:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/wazuh \
--v ${WAZUH_LOCAL_PATH}/api/api:/var/wazuh-manager/framework/python/lib/python${WAZUH_PYTHON_VERSION}/site-packages/api \
-dev-wazuh-manager \
-/scripts/entrypoint.sh wazuh-master master-node master
+-v ${ASSETGUARD_LOCAL_PATH}/framework/scripts:/var/assetguard-manager/framework/scripts \
+-v ${ASSETGUARD_LOCAL_PATH}/api/scripts:/var/assetguard-manager/api/scripts \
+-v ${ASSETGUARD_LOCAL_PATH}/framework/assetguard:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/assetguard \
+-v ${ASSETGUARD_LOCAL_PATH}/api/api:/var/assetguard-manager/framework/python/lib/python${ASSETGUARD_PYTHON_VERSION}/site-packages/api \
+dev-assetguard-manager \
+/scripts/entrypoint.sh assetguard-master master-node master
 ```
 If we need more agents we can use:
-`docker compose up --scale wazuh-agent=<number_of_agents>`
+`docker compose up --scale assetguard-agent=<number_of_agents>`
 
 ### Troubleshooting
 - Use option **-no-cache** when you have building issues.

@@ -47,9 +47,9 @@ pip3 install tools/api_communication
 
 ## Engine suite
 
-The `engine-suite` package is a comprehensive tool designed to manage, clean, and compare resources, as well as update decoders and manage integrations within the Wazuh environment.
+The `engine-suite` package is a comprehensive tool designed to manage, clean, and compare resources, as well as update decoders and manage integrations within the AssetGuard environment.
 
-- **Resource Management and Deletion**: Allows the deletion of resources in specific namespaces, such as user, Wazuh, and system, ensuring that the environment remains clean and organized. It also includes the removal of policies and assets, ensuring that rules and configurations are aligned with the desired changes.
+- **Resource Management and Deletion**: Allows the deletion of resources in specific namespaces, such as user, AssetGuard, and system, ensuring that the environment remains clean and organized. It also includes the removal of policies and assets, ensuring that rules and configurations are aligned with the desired changes.
 
 - **Decoder Update**: Facilitates the massive update of auxiliary function names in decoders and allows listing all fields extracted by a specific decoder, helping in the administration and maintenance of the decoders.
 

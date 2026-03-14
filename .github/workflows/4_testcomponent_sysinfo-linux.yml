@@ -13,8 +13,8 @@ jobs:
           submodules: recursive
       - name: "Install a compatible CMake"
         uses: ./.github/actions/reinstall_cmake
-      # Build wazuh agent for linux.
-      - name: Build wazuh agent for linux
+      # Build assetguard agent for linux.
+      - name: Build assetguard agent for linux
         run: |
           make deps -C src TARGET=agent -j2
           make -C src build_syscollector TARGET=agent -j2

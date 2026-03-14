@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Project settings
-project(wazuh-engine
+project(assetguard-engine
     VERSION 0.1
     LANGUAGES CXX
 )
@@ -32,16 +32,16 @@ option(ENGINE_GENERATE_PROTO "Generate protobuf code" OFF)
 
 
 ####################################################################################################
-#    If WAZUH_ENGINE_TEST is defined (make ENGINE_TEST=1), we build the engine with tests and benchmarks.
+#    If ASSETGUARD_ENGINE_TEST is defined (make ENGINE_TEST=1), we build the engine with tests and benchmarks.
 #    If UNIT_TEST is defined (make TEST=1), we build the engine with tests and enable AddressSanitizer
 ####################################################################################################
-if(WAZUH_ENGINE_TEST)
+if(ASSETGUARD_ENGINE_TEST)
     set(ENGINE_BUILD_TEST ON CACHE BOOL "Generate tests" FORCE)
     set(ENGINE_BUILD_BENCHMARK ON CACHE BOOL "Generate benchmarks" FORCE)
 elseif(UNIT_TEST)
   set(ENGINE_BUILD_TEST ON CACHE BOOL "Generate tests" FORCE)
   set(ENGINE_ENABLE_ASAN ON CACHE BOOL "Enable AddressSanitizer for all targets" FORCE)
-  message(WARNING "When compiling with ASAN, you must specify in LD_LIBRARY_PATH the directory where it should look for libwazuhshared.so")
+  message(WARNING "When compiling with ASAN, you must specify in LD_LIBRARY_PATH the directory where it should look for libassetguardshared.so")
 endif()
 
 
@@ -49,9 +49,9 @@ endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     if(ENGINE_ASSERT_WITH_SYMBOLS)
         add_link_options ( -rdynamic ) #For asserts bt
-        add_compile_definitions ( WAZUH_ASSERT_WITH_SYM )
+        add_compile_definitions ( ASSETGUARD_ASSERT_WITH_SYM )
     endif()
-    add_compile_definitions ( WAZUH_DEBUG )
+    add_compile_definitions ( ASSETGUARD_DEBUG )
 endif()
 
 if(ENGINE_BUILD_BENCHMARK AND
@@ -194,22 +194,22 @@ include_directories(${CMAKE_SOURCE_DIR}/external/rocksdb/include)
 link_directories(${ROCKSDB_LIB_BUILD_DIR})
 
 ####################################################################################################
-#     Main executable for the Wazuh Engine.
+#     Main executable for the AssetGuard Engine.
 ####################################################################################################
-add_executable(wazuh-engine ${ENGINE_SOURCE_DIR}/main.cpp)
+add_executable(assetguard-engine ${ENGINE_SOURCE_DIR}/main.cpp)
 
 
 ####################################################################################################
 # RPATH configuration
-# This is needed to ensure that the wazuh-engine can find its dependencies at runtime.
+# This is needed to ensure that the assetguard-engine can find its dependencies at runtime.
 ####################################################################################################
-get_target_property(_orig_rpath wazuh-engine INSTALL_RPATH)
+get_target_property(_orig_rpath assetguard-engine INSTALL_RPATH)
 if(NOT _orig_rpath)
   set(_orig_rpath "")
 endif()
 
 set(_new_paths
-  ${CMAKE_SOURCE_DIR}               # For shared libwazuhext.so
+  ${CMAKE_SOURCE_DIR}               # For shared libassetguardext.so
   ${ROCKSDB_LIB_BUILD_DIR}          # External precompiled rocksdb lib
   ${INDEXERCONNECTOR_LIB_BUILD_DIR} # Internal precompiled indexer connector lib
   "$ORIGIN/../lib"
@@ -220,14 +220,14 @@ set(_new_paths
 list(APPEND _orig_rpath ${_new_paths})
 string(REPLACE ";" ":" _final_rpath "${_orig_rpath}")
 
-set_target_properties(wazuh-engine PROPERTIES
+set_target_properties(assetguard-engine PROPERTIES
   INSTALL_RPATH "${_final_rpath}"
   BUILD_WITH_INSTALL_RPATH TRUE
 )
 
 # Print the final RPATH on debug
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    message(STATUS "RPATH for wazuh-engine: ${_final_rpath}")
+    message(STATUS "RPATH for assetguard-engine: ${_final_rpath}")
 endif()
 
 ####################################################################################################
@@ -300,7 +300,7 @@ add_subdirectory(${ENGINE_SOURCE_DIR}/cmsync)
 add_subdirectory(${ENGINE_SOURCE_DIR}/confremote)
 add_subdirectory(${ENGINE_SOURCE_DIR}/rawevtindexer)
 
-target_link_libraries(wazuh-engine
+target_link_libraries(assetguard-engine
     base
     conf
     yml
@@ -335,7 +335,7 @@ target_link_libraries(wazuh-engine
 
 # If ASAN, UBSAN or any other sanitizers are enabled do not link with static libraries
 if(NOT CMAKE_CXX_FLAGS MATCHES "-fsanitize=.*")
-    target_link_libraries(wazuh-engine -static-libgcc -static-libstdc++)
+    target_link_libraries(assetguard-engine -static-libgcc -static-libstdc++)
 endif()
 
 # Print LD anc CXX flags

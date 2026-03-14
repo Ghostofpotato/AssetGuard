@@ -2,13 +2,13 @@
 
 ## Overview
 
-The Control Module (`wm_control`) is a lightweight module within `wazuh-modulesd` that provides manager control operations. It implements a Unix domain socket server that accepts control commands and executes system-level operations.
+The Control Module (`wm_control`) is a lightweight module within `assetguard-modulesd` that provides manager control operations. It implements a Unix domain socket server that accepts control commands and executes system-level operations.
 
 ## Component Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      wazuh-modulesd                         │
+│                      assetguard-modulesd                         │
 │                                                             │
 │  ┌───────────────────────────────────────────────────────┐ │
 │  │              wm_control Module                        │ │
@@ -33,7 +33,7 @@ The Control Module (`wm_control`) is a lightweight module within `wazuh-modulesd
          ▼                                           │
 ┌──────────────────────┐                  ┌─────────────────────┐
 │  systemctl/          │                  │   API / Framework   │
-│  wazuh-control       │                  │   Clients           │
+│  assetguard-control       │                  │   Clients           │
 └──────────────────────┘                  └─────────────────────┘
 ```
 
@@ -58,7 +58,7 @@ int sock = OS_BindUnixDomainWithPerms(
     SOCK_STREAM,         // Stream socket
     OS_MAXSTR,           // Max connections
     getuid(),            // Owner UID
-    wm_getGroupID(),     // Wazuh group GID
+    wm_getGroupID(),     // AssetGuard group GID
     0660                 // Permissions: rw-rw----
 );
 ```
@@ -119,9 +119,9 @@ Executes restart/reload operations via system commands.
        │                   │
        ▼                   ▼
 ┌─────────────┐    ┌──────────────────┐
-│ systemctl   │    │ wazuh-control    │
+│ systemctl   │    │ assetguard-control    │
 │ restart     │    │ restart          │
-│ wazuh-      │    │                  │
+│ assetguard-      │    │                  │
 │ manager     │    │                  │
 └─────────────┘    └──────────────────┘
 ```
@@ -159,7 +159,7 @@ switch (fork()) {
         }
 
         // Execute command
-        execv("/usr/bin/systemctl", ["systemctl", action, "wazuh-manager"]);
+        execv("/usr/bin/systemctl", ["systemctl", action, "assetguard-manager"]);
         _exit(1);
 
     default:  // Parent process
@@ -179,7 +179,7 @@ static bool wm_control_wait_for_service_active() {
 
     while (elapsed < timeout) {
         // Check service state
-        FILE *fp = popen("systemctl is-active wazuh-manager", "r");
+        FILE *fp = popen("systemctl is-active assetguard-manager", "r");
         char state[256];
         fgets(state, sizeof(state), fp);
 
@@ -228,7 +228,7 @@ Retrieves the manager's primary network interface IP address.
        └─► wm_control_execute_action("restart", &output)
            ├─► Check systemd available?
            ├─► fork()
-           │   └─► Child: execv("systemctl restart wazuh-manager")
+           │   └─► Child: execv("systemctl restart assetguard-manager")
            └─► Parent: return "ok "
 
 4. API/Framework
@@ -275,12 +275,12 @@ Retrieves the manager's primary network interface IP address.
 
 **Access Control**:
 - Socket permissions: `0660` (owner and group only)
-- Socket group: Wazuh group (for API/framework access)
+- Socket group: AssetGuard group (for API/framework access)
 - No authentication required (filesystem permissions provide security)
 
 **Privilege Model**:
 - Module runs as root (within modulesd)
-- Can execute privileged commands (systemctl, wazuh-control)
+- Can execute privileged commands (systemctl, assetguard-control)
 - No privilege escalation needed
 
 **Attack Surface**:
@@ -289,11 +289,11 @@ Retrieves the manager's primary network interface IP address.
 - Limited command set (restart, reload, getip)
 - No arbitrary command execution
 
-## Migration from wazuh-execd
+## Migration from assetguard-execd
 
 ### Previous Architecture (v4.x)
 
-**Component**: `wazuh-execd` daemon
+**Component**: `assetguard-execd` daemon
 - **Socket**: `/var/ossec/queue/sockets/com`
 - **Commands**: restart, reload, getconfig, check-manager-configuration, unmerge, uncompress, lock_restart
 - **Responsibilities**:
@@ -357,5 +357,5 @@ Potential improvements for future versions:
 ## See Also
 
 - [Control Module README](README.md) - Module overview
-- [wazuh-modulesd](../modulesd/) - Host daemon documentation
+- [assetguard-modulesd](../modulesd/) - Host daemon documentation
 - [Manager Installation](../../getting-started/installation.md) - Manager setup and systemctl

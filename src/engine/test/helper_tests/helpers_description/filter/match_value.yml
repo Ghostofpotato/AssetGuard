@@ -43,7 +43,7 @@ test:
     description: Value is in array
   - arguments:
       array: [hello]
-    target_field: wazuh
+    target_field: assetguard
     should_pass: false
     description: Value not is in array
   - arguments:

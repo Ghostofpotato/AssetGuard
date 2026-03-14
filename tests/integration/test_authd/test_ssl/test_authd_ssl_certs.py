@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the 'wazuh-manager-authd' daemon is able to handle secure connections using
-       the 'SSL' (Secure Socket Layer) protocol. The 'wazuh-manager-authd' daemon can automatically add
-       a Wazuh agent to a Wazuh manager and provide the key to the agent.
+brief: These tests will check if the 'assetguard-manager-authd' daemon is able to handle secure connections using
+       the 'SSL' (Secure Socket Layer) protocol. The 'assetguard-manager-authd' daemon can automatically add
+       a AssetGuard agent to a AssetGuard manager and provide the key to the agent.
 
 components:
     - authd
@@ -18,9 +18,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-authd
-    - wazuh-manager-db
-    - wazuh-manager-modulesd
+    - assetguard-manager-authd
+    - assetguard-manager-db
+    - assetguard-manager-modulesd
 
 os_platform:
     - linux
@@ -37,8 +37,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-manager-authd.html
-    - https://documentation.wazuh.com/current/user-manual/registering/host-verification-registration.html
+    - https://documentation.assetguard.com/current/user-manual/reference/daemons/assetguard-manager-authd.html
+    - https://documentation.assetguard.com/current/user-manual/registering/host-verification-registration.html
 
 tags:
     - enrollment
@@ -49,10 +49,10 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.tools.socket_controller import SocketController
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.tools.socket_controller import SocketController
+from assetguard_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from assetguard_testing.constants.daemons import AUTHD_DAEMON, ASSETGUARD_DB_DAEMON, MODULES_DAEMON
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -92,7 +92,7 @@ OUPUT_MESSAGE = "OSSEC K:'"
 
 receiver_sockets_params = [((AGENT_IP, DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
 
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (ASSETGUARD_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 
 receiver_sockets, monitored_sockets = None, None
 
@@ -100,17 +100,17 @@ daemons_handler_configuration = {'daemons': [AUTHD_DAEMON], 'ignore_errors': Tru
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_authd_ssl_certs(test_configuration, test_metadata, set_wazuh_configuration,
+def test_authd_ssl_certs(test_configuration, test_metadata, set_assetguard_configuration,
                          generate_ca_certificate, truncate_monitored_files, daemons_handler,
                          wait_for_authd_startup):
     '''
     description:
-        Checks if the 'wazuh-manager-authd' daemon can manage 'SSL' connections with agents
+        Checks if the 'assetguard-manager-authd' daemon can manage 'SSL' connections with agents
         and the 'host verification' feature is working properly. For this purpose,
         it generates and signs the necessary certificates and builds the
         enrollment requests using them.
 
-    wazuh_min_version:
+    assetguard_min_version:
         4.2.0
 
     tier: 0
@@ -122,9 +122,9 @@ def test_authd_ssl_certs(test_configuration, test_metadata, set_wazuh_configurat
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - generate_ca_certificate:
             type: fixture
             brief: Build the 'CA' (Certificate of Authority) and sign the certificate used by the testing agent.
@@ -133,13 +133,13 @@ def test_authd_ssl_certs(test_configuration, test_metadata, set_wazuh_configurat
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.
 
     assertions:
-        - Verify that the agent can only connect to the 'wazuh-manager-authd' daemon socket using a valid certificate.
+        - Verify that the agent can only connect to the 'assetguard-manager-authd' daemon socket using a valid certificate.
         - Verify that using a valid certificate the agent can only enroll using the IP address linked to it.
 
     input_description:

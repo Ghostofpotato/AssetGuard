@@ -7,11 +7,11 @@ on:
     branches:
       - main
     paths:
-      - "src/wazuh_modules/vulnerability_scanner/testtool/**"
-      - "src/wazuh_modules/vulnerability_scanner/src/**"
-      - "src/wazuh_modules/vulnerability_scanner/include/**"
+      - "src/assetguard_modules/vulnerability_scanner/testtool/**"
+      - "src/assetguard_modules/vulnerability_scanner/src/**"
+      - "src/assetguard_modules/vulnerability_scanner/include/**"
       - ".github/workflows/4_builderprecompiled_vdscanner-testtools.yml"
-      - "src/wazuh_modules/vulnerability_scanner/schemas/**"
+      - "src/assetguard_modules/vulnerability_scanner/schemas/**"
 
   # Allows manual trigger.
   workflow_dispatch:
@@ -21,7 +21,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
 env:
-  TOOLS_DIR: ${{github.workspace}}/src/wazuh_modules/vulnerability_scanner/build/testtool/
+  TOOLS_DIR: ${{github.workspace}}/src/assetguard_modules/vulnerability_scanner/build/testtool/
   TOOLS_FILE_NAME: legacy_vdscanner_testtools
 
 jobs:
@@ -71,7 +71,7 @@ jobs:
       - name: Vulnerability scanner
         uses: ./.github/actions/compile_and_test
         with:
-          path: src/wazuh_modules/vulnerability_scanner
+          path: src/assetguard_modules/vulnerability_scanner
           test: "false"
 
       - name: Prepare vdscanner tools
@@ -80,7 +80,7 @@ jobs:
           SRC_DIR=${{github.workspace}}/src/
           SHARED_MODULES_DIR=${{github.workspace}}/src/shared_modules/
           EXTERNAL_DIR=${{github.workspace}}/src/external/
-          VDSCANNER_DIR=${{github.workspace}}/src/wazuh_modules/vulnerability_scanner/
+          VDSCANNER_DIR=${{github.workspace}}/src/assetguard_modules/vulnerability_scanner/
 
           # Copy flatbuffer schemas
           cp -r ${VDSCANNER_DIR}schemas ${{env.TOOLS_DIR}}
@@ -88,7 +88,7 @@ jobs:
           cp ${SHARED_MODULES_DIR}utils/flatbuffers/schemas/rsync.fbs ${{env.TOOLS_DIR}}/schemas
 
           # Copy required libraries
-          cp ${SRC_DIR}libwazuhext.so ${{env.TOOLS_DIR}}
+          cp ${SRC_DIR}libassetguardext.so ${{env.TOOLS_DIR}}
           cp ${EXTERNAL_DIR}rocksdb/build/librocksdb.so.8.3.2 ${{env.TOOLS_DIR}}librocksdb.so.8
           cp ${SHARED_MODULES_DIR}indexer_connector/build/libindexer_connector.so ${{env.TOOLS_DIR}}
           cp ${SHARED_MODULES_DIR}router/build/librouter.so ${{env.TOOLS_DIR}}

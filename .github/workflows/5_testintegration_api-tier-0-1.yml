@@ -20,7 +20,7 @@ jobs:
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
       BRANCH_BASE: ${{ github.base_ref || inputs.base_branch }}
-      INSTALLATION_DIR: /var/wazuh-manager
+      INSTALLATION_DIR: /var/assetguard-manager
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repo
@@ -32,13 +32,13 @@ jobs:
           architecture: x64
       - name: "Install a compatible CMake"
         uses: ./.github/actions/reinstall_cmake
-      # Build wazuh manager for linux.
-      - name: Build wazuh manager for linux
+      # Build assetguard manager for linux.
+      - name: Build assetguard manager for linux
         run: |
           make deps -C src TARGET=manager -j2
           make -C src TARGET=manager -j2
-      # Install wazuh manager for linux.
-      - name: Install wazuh manager for linux
+      # Install assetguard manager for linux.
+      - name: Install assetguard manager for linux
         run: |
           echo 'USER_LANGUAGE="en"' > ./etc/preloaded-vars.conf
           echo "" >> ./etc/preloaded-vars.conf
@@ -75,45 +75,45 @@ jobs:
           sudo openssl req -x509 -new -nodes -newkey rsa:2048 \
             -keyout $INSTALLATION_DIR/etc/certs/manager-key.pem -out $INSTALLATION_DIR/etc/certs/manager.pem \
             -days 1 -subj "/CN=test" 2>/dev/null
-          sudo $INSTALLATION_DIR/bin/wazuh-manager-control restart
+          sudo $INSTALLATION_DIR/bin/assetguard-manager-control restart
       # Download and install integration tests framework.
       - name: Download and install integration tests framework
         run: |
           VERSION="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' VERSION.json)"
-          if [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_NAME}`" != "X" ]; then
+          if [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${BRANCH_NAME}`" != "X" ]; then
               QA_BRANCH=${BRANCH_NAME}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
               QA_BRANCH=${BRANCH_BASE}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${VERSION}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${VERSION}`" != "X" ]; then
               QA_BRANCH=${VERSION}
           else
               QA_BRANCH="main"
           fi
-          git clone -b ${QA_BRANCH} --single-branch https://github.com/wazuh/qa-integration-framework.git
+          git clone -b ${QA_BRANCH} --single-branch https://github.com/assetguard/qa-integration-framework.git
           sudo pip install qa-integration-framework/
           sudo rm -rf qa-integration-framework/
       # Run integration tests.
       - name: Run API tests
         run: |
-          mkdir -p /tmp/wazuh-logs
-          sudo tail -F $INSTALLATION_DIR/logs/api.log >> /tmp/wazuh-logs/api.log 2>/dev/null &
-          sudo tail -F $INSTALLATION_DIR/logs/wazuh-manager.log >> /tmp/wazuh-logs/wazuh-manager.log 2>/dev/null &
-          sudo tail -F $INSTALLATION_DIR/logs/cluster.log >> /tmp/wazuh-logs/cluster.log 2>/dev/null &
+          mkdir -p /tmp/assetguard-logs
+          sudo tail -F $INSTALLATION_DIR/logs/api.log >> /tmp/assetguard-logs/api.log 2>/dev/null &
+          sudo tail -F $INSTALLATION_DIR/logs/assetguard-manager.log >> /tmp/assetguard-logs/assetguard-manager.log 2>/dev/null &
+          sudo tail -F $INSTALLATION_DIR/logs/cluster.log >> /tmp/assetguard-logs/cluster.log 2>/dev/null &
           cd tests/integration
-          sudo WAZUH_PATH="$INSTALLATION_DIR" GITHUB_SHA="${{ github.sha }}" GITHUB_REF_NAME="${BRANCH_NAME}" python -m pytest --tier 0 --tier 1 test_api/ --html=results.html --self-contained-html
+          sudo ASSETGUARD_PATH="$INSTALLATION_DIR" GITHUB_SHA="${{ github.sha }}" GITHUB_REF_NAME="${BRANCH_NAME}" python -m pytest --tier 0 --tier 1 test_api/ --html=results.html --self-contained-html
       # Collect logs if tests fail
       - name: Collect logs on failure
         if: failure()
         run: |
-          sudo journalctl -u wazuh-manager > /tmp/wazuh-logs/wazuh-manager.service.log || true
-          sudo chown -R $(whoami):$(whoami) /tmp/wazuh-logs || true
+          sudo journalctl -u assetguard-manager > /tmp/assetguard-logs/assetguard-manager.service.log || true
+          sudo chown -R $(whoami):$(whoami) /tmp/assetguard-logs || true
       # Upload logs artifact if test fails
       - name: Upload logs artifact
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: wazuh-logs-${{ github.job }}
-          path: /tmp/wazuh-logs
+          name: assetguard-logs-${{ github.job }}
+          path: /tmp/assetguard-logs
       # Upload the tests result html as an artifact
       - name: Upload failed test results
         if: failure()

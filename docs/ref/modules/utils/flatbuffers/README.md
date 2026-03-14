@@ -1,8 +1,8 @@
 # Flatbuffers
 
-FlatBuffers is a high-performance serialization library used throughout Wazuh for efficient data exchange between components. It enables zero-copy deserialization and provides direct access to data without unpacking or parsing overhead.
+FlatBuffers is a high-performance serialization library used throughout AssetGuard for efficient data exchange between components. It enables zero-copy deserialization and provides direct access to data without unpacking or parsing overhead.
 
-## Usage in Wazuh
+## Usage in AssetGuard
 
 ### Inventory Sync Module
 

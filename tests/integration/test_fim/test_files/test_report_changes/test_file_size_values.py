@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        these files are modified. Specifically, these tests will check if FIM limits the size of
        the file monitored to generate 'diff' information to the limit set in the 'file_size' tag
        when the 'report_changes' option is enabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'assetguard-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - linux
@@ -47,8 +47,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#file-size
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#file-size
 
 pytest_args:
     - fim_mode:
@@ -70,18 +70,18 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG, FILE_MAX_SIZE, RT_DELAY
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import FILE_SIZE_LIMIT_REACHED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED, ERROR_MSG_FILE_LIMIT_REACHED, \
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.fim.configuration import SYSCHECK_DEBUG, FILE_MAX_SIZE, RT_DELAY
+from assetguard_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim.patterns import FILE_SIZE_LIMIT_REACHED, EVENT_TYPE_REPORT_CHANGES, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED, ERROR_MSG_FILE_LIMIT_REACHED, \
                                                DIFF_FOLDER_DELETED, ERROR_MSG_FOLDER_DELETED, EVENT_UNABLE_DIFF
-from wazuh_testing.modules.fim.utils import make_diff_file_path
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.file import write_file, translate_size
-from wazuh_testing.utils.string import generate_string
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.modules.fim.utils import make_diff_file_path
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils.file import write_file, translate_size
+from assetguard_testing.utils.string import generate_string
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -104,9 +104,9 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: 2, FILE_MAX_S
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_file_size_values(test_configuration, test_metadata, configure_local_internal_options,
-                                    truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, file_to_monitor, clean_fim_sync_db, daemons_handler, detect_end_scan):
+                                    truncate_monitored_files, set_assetguard_configuration, folder_to_monitor, file_to_monitor, clean_fim_sync_db, daemons_handler, detect_end_scan):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+    description: Check if the 'assetguard-syscheckd' daemon limits the size of the monitored file to generate
                  'diff' information from the limit set in the 'file_size' tag. For this purpose, the test
                  will monitor a directory, create a testing file smaller than the 'file_limit' value,
                  and check if the compressed file has been created. Then, it will increase the size of
@@ -114,7 +114,7 @@ def test_file_size_values(test_configuration, test_metadata, configure_local_int
                  file size limit has been generated, and the compressed file in the 'queue/diff/local'
                  directory does not exist.
 
-    wazuh_min_version: 4.6.0
+    assetguard_min_version: 4.6.0
 
     tier: 1
 
@@ -131,7 +131,7 @@ def test_file_size_values(test_configuration, test_metadata, configure_local_int
         - truncate_monitored_files:
             type: fixture
             brief: Reset the 'ossec.log' file and start a new monitor.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - folder_to_monitor:
@@ -142,7 +142,7 @@ def test_file_size_values(test_configuration, test_metadata, configure_local_int
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - detect_end_scan
             type: fixture
             brief: Check first scan end.
@@ -177,11 +177,11 @@ def test_file_size_values(test_configuration, test_metadata, configure_local_int
     to_write = "test_string" + generate_string(int(size_limit / 2), '0')
     write_file(file_to_monitor, data=to_write)
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
 
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=60)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-    content_changes = str(wazuh_log_monitor.callback_result)
+    assetguard_log_monitor.start(callback=generate_callback(EVENT_TYPE_REPORT_CHANGES), timeout=60)
+    assert assetguard_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+    content_changes = str(assetguard_log_monitor.callback_result)
     assert 'test_string' in content_changes or 'More changes...' in content_changes, 'Wrong content_changes field'
 
     if not os.path.exists(diff_file_path):
@@ -191,16 +191,16 @@ def test_file_size_values(test_configuration, test_metadata, configure_local_int
     to_write = generate_string(size_limit, '1')
     write_file(file_to_monitor, data=to_write * 2)
 
-    wazuh_log_monitor.start(callback=generate_callback(DIFF_FOLDER_DELETED), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_FOLDER_DELETED
+    assetguard_log_monitor.start(callback=generate_callback(DIFF_FOLDER_DELETED), timeout=30)
+    assert assetguard_log_monitor.callback_result, ERROR_MSG_FOLDER_DELETED
 
     if os.path.exists(diff_file_path):
         pytest.raises(FileExistsError(f"{diff_file_path} found. It should not exist after incresing the size."))
 
-    wazuh_log_monitor.start(callback=generate_callback(FILE_SIZE_LIMIT_REACHED), timeout=60)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_FILE_LIMIT_REACHED
+    assetguard_log_monitor.start(callback=generate_callback(FILE_SIZE_LIMIT_REACHED), timeout=60)
+    assert assetguard_log_monitor.callback_result, ERROR_MSG_FILE_LIMIT_REACHED
 
     # Check the content_changes field in the event
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_UNABLE_DIFF), timeout=30)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
-    assert 'Unable to calculate diff due to \'file_size\' limit has been reached.' in wazuh_log_monitor.callback_result, 'Wrong content_changes field'
+    assetguard_log_monitor.start(callback=generate_callback(EVENT_UNABLE_DIFF), timeout=30)
+    assert assetguard_log_monitor.callback_result, ERROR_MSG_REPORT_CHANGES_EVENT_NOT_DETECTED
+    assert 'Unable to calculate diff due to \'file_size\' limit has been reached.' in assetguard_log_monitor.callback_result, 'Wrong content_changes field'

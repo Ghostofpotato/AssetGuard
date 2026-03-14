@@ -14,7 +14,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> <TARGET>")
 endif()
 
-project(Wazuh)
+project(AssetGuard)
 
 enable_testing()
 
@@ -68,9 +68,9 @@ endfunction()
 # SRC_FOLDER should point to the src/ directory Sub-modules will try to redefine
 # it, so we set a guard variable
 set(SRC_FOLDER ${CMAKE_SOURCE_DIR})
-set(WAZUH_MAIN_PROJECT
+set(ASSETGUARD_MAIN_PROJECT
     ON
-    CACHE BOOL "Main Wazuh CMake project" FORCE)
+    CACHE BOOL "Main AssetGuard CMake project" FORCE)
 
 # Define CLIENT for agent builds
 if("${TARGET}" STREQUAL "winagent" OR "${TARGET}" STREQUAL "agent")
@@ -136,8 +136,8 @@ if("${VERSION_FILE}" STREQUAL "")
 endif("${VERSION_FILE}" STREQUAL "")
 
 message("==============================================")
-message("Wazuh version: ${VERSION_FILE}")
-message("Wazuh revision: ${REVISION_FILE}")
+message("AssetGuard version: ${VERSION_FILE}")
+message("AssetGuard revision: ${REVISION_FILE}")
 message("==============================================")
 
 set(BENCHMARK_ENABLE_TESTING "OFF")
@@ -145,7 +145,7 @@ set(BENCHMARK_ENABLE_TESTING "OFF")
 link_directories(${SRC_FOLDER})
 link_directories(${SRC_FOLDER}/build/lib)
 
-# Wazuh headers
+# AssetGuard headers
 include_directories(${SRC_FOLDER}/shared/include)
 
 # Shared modules includes
@@ -208,8 +208,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
                                                   ${WIN_PTHREAD_DLL_COPY})
 
   # Common Windows libraries that all Windows executables need
-  set(WAZUH_WINDOWS_LIBS
-      ${SRC_FOLDER}/build/lib/libwazuhext.lib ${PATCHED_PTHREAD_LIB} wintrust
+  set(ASSETGUARD_WINDOWS_LIBS
+      ${SRC_FOLDER}/build/lib/libassetguardext.lib ${PATCHED_PTHREAD_LIB} wintrust
       psapi crypt32 shlwapi
       CACHE INTERNAL "Common Windows libraries for all executables")
 endif()
@@ -227,11 +227,11 @@ add_subdirectory(external)
 add_subdirectory(config)
 add_subdirectory(shared)
 add_subdirectory(shared_modules/file_helper)
-set(CURL_DEP wazuhext)
+set(CURL_DEP assetguardext)
 add_subdirectory(shared_modules/http-request)
 add_subdirectory(shared_modules/schema_validator)
 add_subdirectory(shared_modules/utils)
-add_subdirectory(wazuh_modules)
+add_subdirectory(assetguard_modules)
 
 # Agent-only modules
 if(IS_AGENT)
@@ -263,7 +263,7 @@ if(NOT IS_AGENT)
   add_subdirectory(shared_modules/keystore)
   add_subdirectory(shared_modules/router)
   add_subdirectory(util)
-  add_subdirectory(wazuh_db)
+  add_subdirectory(assetguard_db)
 endif()
 
 # Create flatbuffers alias if the real target wasn't created by subdirectories

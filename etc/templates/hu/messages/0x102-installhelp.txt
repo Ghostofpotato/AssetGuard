@@ -19,4 +19,4 @@
     a naplókat további elemzés céljából
     (ideális megoldás webszervereknek, adatbázis szervereknek , stb).
 
-  - További információk: https://documentation.wazuh.com
+  - További információk: https://documentation.assetguard.com

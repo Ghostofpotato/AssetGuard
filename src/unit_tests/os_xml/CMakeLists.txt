@@ -2,10 +2,10 @@
 # Collect syscheckd object files from CMake build
 if(${TARGET} STREQUAL "winagent")
   file(GLOB os_xml_files
-       ${SRC_FOLDER}/build/shared/CMakeFiles/wazuh.dir/os_xml/*.obj)
+       ${SRC_FOLDER}/build/shared/CMakeFiles/assetguard.dir/os_xml/*.obj)
 else()
   file(GLOB os_xml_files
-       ${SRC_FOLDER}/build/shared/CMakeFiles/wazuh.dir/os_xml/*.o)
+       ${SRC_FOLDER}/build/shared/CMakeFiles/assetguard.dir/os_xml/*.o)
 endif()
 
 add_library(OS_XML_O STATIC ${os_xml_files})
@@ -19,7 +19,7 @@ if(${TARGET} STREQUAL "winagent")
   link_directories(${SRC_FOLDER}/build/bin)
 endif(${TARGET} STREQUAL "winagent")
 
-target_link_libraries(OS_XML_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OS_XML_O ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 
 add_executable(test_os_xml test_os_xml.c)
 target_compile_options(test_os_xml PRIVATE "-Wall")

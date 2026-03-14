@@ -3,7 +3,7 @@ include_directories(${SRC_FOLDER}/monitord/include)
 include_directories(${SRC_FOLDER}/monitord/src)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 list(APPEND monitord_tests_names "test_monitord")
 list(APPEND monitord_tests_flags "-Wl,--wrap,time\
@@ -30,8 +30,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${ASSETGUARDLIB}
+        ${ASSETGUARDEXT}
         monitord_lib
         ${TEST_DEPS}
     )

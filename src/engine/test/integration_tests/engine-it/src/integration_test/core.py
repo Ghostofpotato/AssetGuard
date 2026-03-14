@@ -47,7 +47,7 @@ def it(env_path: Path, test_path: Path, feature: Optional[str]):
         print(f"Error: Configuration file {conf_path} not found.")
         sys.exit(1)
 
-    bin_path = (env_path / "wazuh-engine").resolve()
+    bin_path = (env_path / "assetguard-engine").resolve()
     if not bin_path.exists():
         print(f"Error: Engine binary {bin_path} not found.")
         sys.exit(1)

@@ -41,7 +41,7 @@ runs:
         MAIN_ISSUE="${{ inputs.main_issue }}"
         PREV_ISSUE="${{ inputs.prev_issue }}"
 
-        REPO="wazuh/wazuh"
+        REPO="assetguard/assetguard"
         PROJECT="XDR+SIEM/Agent team"
         LABEL="level/task,type/test"
         TITLE="Release $RELEASE - $STAGE - WPK Upgrade Tests"
@@ -50,7 +50,7 @@ runs:
         BODY=$(cat <<EOF
         |Main RC issue|Version|Stage|Tag|Previous issue|
         |---|---|---|---|---|
-        |#$MAIN_ISSUE|$RELEASE|$STAGE|[$TAG](https://github.com/wazuh/wazuh/tree/$TAG)|#$PREV_ISSUE|
+        |#$MAIN_ISSUE|$RELEASE|$STAGE|[$TAG](https://github.com/assetguard/assetguard/tree/$TAG)|#$PREV_ISSUE|
 
         The purpose of this issue is to perform remote upgrade (WPK) tests for the current release candidate, report the results, and open new issues for any errors encountered.
 
@@ -63,7 +63,7 @@ runs:
         1. Set up the previous released version of the agent: install it and connect it to the manager.
         2. Perform a remote upgrade:
            \`\`\`shell
-           /var/ossec/bin/agent_upgrade -a <ID> -f /var/ossec/tmp/wazuh_agent_v$RELEASE_<PLATFORM>.wpk
+           /var/ossec/bin/agent_upgrade -a <ID> -f /var/ossec/tmp/assetguard_agent_v$RELEASE_<PLATFORM>.wpk
            \`\`\`
         3. Verify that the upgrade completes successfully and that the agent version is updated correctly.
 
@@ -85,17 +85,17 @@ runs:
         ## Download the manager package
 
         \`\`\`shell
-        curl -LsO https://packages-dev.wazuh.com/pre-release/apt/pool/main/w/wazuh-manager/wazuh-manager_${RELEASE}-1_amd64.deb
-        curl -LsO https://packages-dev.wazuh.com/pre-release/yum/wazuh-manager-${RELEASE}-1.x86_64.rpm
+        curl -LsO https://packages-dev.assetguard.com/pre-release/apt/pool/main/w/assetguard-manager/assetguard-manager_${RELEASE}-1_amd64.deb
+        curl -LsO https://packages-dev.assetguard.com/pre-release/yum/assetguard-manager-${RELEASE}-1.x86_64.rpm
         \`\`\`
 
         ## Download the WPK packages
 
         \`\`\`shell
-        curl -LsO https://packages-dev.wazuh.com/pre-release/wpk/linux/deb/amd64/wazuh_agent_v${RELEASE}_linux_amd64.deb.wpk
-        curl -LsO https://packages-dev.wazuh.com/pre-release/wpk/linux/rpm/x86_64/wazuh_agent_v${RELEASE}_linux_x86_64.rpm.wpk
-        curl -LsO https://packages-dev.wazuh.com/pre-release/wpk/macos/pkg/intel64/wazuh_agent_v${RELEASE}_macos_intel64.pkg.wpk
-        curl -LsO https://packages-dev.wazuh.com/pre-release/wpk/windows/wazuh_agent_v${RELEASE}_windows.wpk
+        curl -LsO https://packages-dev.assetguard.com/pre-release/wpk/linux/deb/amd64/assetguard_agent_v${RELEASE}_linux_amd64.deb.wpk
+        curl -LsO https://packages-dev.assetguard.com/pre-release/wpk/linux/rpm/x86_64/assetguard_agent_v${RELEASE}_linux_x86_64.rpm.wpk
+        curl -LsO https://packages-dev.assetguard.com/pre-release/wpk/macos/pkg/intel64/assetguard_agent_v${RELEASE}_macos_intel64.pkg.wpk
+        curl -LsO https://packages-dev.assetguard.com/pre-release/wpk/windows/assetguard_agent_v${RELEASE}_windows.wpk
         \`\`\`
 
         ## Report procedure
@@ -149,8 +149,8 @@ runs:
 
         All of the following must be approved in order to close this issue:
 
-        - [ ] @wazuh/devel-xdrsiem-agent
-        - [ ] @wazuh/devel-xdrsiem-qa-release
+        - [ ] @assetguard/devel-xdrsiem-agent
+        - [ ] @assetguard/devel-xdrsiem-qa-release
         EOF
         )
 
@@ -173,7 +173,7 @@ runs:
             export GITHUB_TOKEN="${{ inputs.project_token }}"
 
             # Add issue to project first
-            gh project item-add 86 --owner wazuh --url "$ISSUE_URL"
+            gh project item-add 86 --owner assetguard --url "$ISSUE_URL"
 
             # Configure project fields
             bash .github/scripts/configure-project-fields.sh "$ISSUE_NUMBER" "$RELEASE" "$STAGE"

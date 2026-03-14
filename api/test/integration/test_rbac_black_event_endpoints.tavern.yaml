@@ -2,7 +2,7 @@
 test_name: POST /events
 
 marks:
-  - skip: https://github.com/wazuh/wazuh/issues/33608
+  - skip: https://github.com/assetguard/assetguard/issues/33608
 
 stages:
 

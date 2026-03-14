@@ -22,7 +22,7 @@ list(APPEND SOURCES
      ${CMAKE_CURRENT_SOURCE_DIR}/filesystem/src/filesystem_wrapper.cpp
      ${CMAKE_CURRENT_SOURCE_DIR}/filesystem/src/filesystem_utils.cpp)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 add_library(FilesystemWrapper STATIC ${SOURCES})

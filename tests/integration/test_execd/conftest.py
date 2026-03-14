@@ -1,16 +1,16 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 import pytest
 
-from wazuh_testing.constants.paths.configurations import AR_CONF
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.agentd.patterns import AGENTD_CONNECTED_TO_SERVER
-from wazuh_testing.modules.execd.patterns import EXECD_RECEIVED_MESSAGE
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
+from assetguard_testing.constants.paths.configurations import AR_CONF
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.agentd.patterns import AGENTD_CONNECTED_TO_SERVER
+from assetguard_testing.modules.execd.patterns import EXECD_RECEIVED_MESSAGE
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from assetguard_testing.utils import file
+from assetguard_testing.utils.callbacks import generate_callback
 
 
 @pytest.fixture()
@@ -67,7 +67,7 @@ def send_execd_message(test_metadata: dict, remoted_simulator: RemotedSimulator)
     if test_metadata.get('input') is None:
         raise AttributeError('No `input` key in `test_metadata`.')
 
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(ASSETGUARD_LOG_PATH)
 
     monitor.start(callback=generate_callback(AGENTD_CONNECTED_TO_SERVER))
     remoted_simulator.send_custom_message(test_metadata['input'])

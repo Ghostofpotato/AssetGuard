@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -19,7 +19,7 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-authd
+    - assetguard-manager-authd
 
 os_platform:
     - linux
@@ -45,13 +45,13 @@ import pytest
 from pathlib import Path
 import re
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
-from wazuh_testing.utils.services import control_service
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import callbacks
-from wazuh_testing.modules.authd import PREFIX
-from wazuh_testing.modules.authd.configuration import AUTHD_DEBUG_CONFIG
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from assetguard_testing.utils.services import control_service
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import callbacks
+from assetguard_testing.modules.authd import PREFIX
+from assetguard_testing.modules.authd.configuration import AUTHD_DEBUG_CONFIG
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -69,7 +69,7 @@ local_internal_options = {AUTHD_DEBUG_CONFIG: '2'}
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_authd_use_password_invalid(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files_module,
+def test_authd_use_password_invalid(test_configuration, test_metadata, set_assetguard_configuration, truncate_monitored_files_module,
                                     configure_local_internal_options, set_authd_pass):
     '''
     description:
@@ -78,7 +78,7 @@ def test_authd_use_password_invalid(test_configuration, test_metadata, set_wazuh
         to come from the cases yaml, this is done this way to handle easily
         the different error logs that could be raised from different inputs.
 
-    wazuh_min_version: 4.6.0
+    assetguard_min_version: 4.6.0
 
     tier: 1
 
@@ -89,9 +89,9 @@ def test_authd_use_password_invalid(test_configuration, test_metadata, set_wazuh
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local internal options file.
@@ -104,10 +104,10 @@ def test_authd_use_password_invalid(test_configuration, test_metadata, set_wazuh
 
     assertions:
         - Error log 'Empty password provided.' is raised in ossec.log.
-        - wazuh-manager.service must not be able to restart.
+        - assetguard-manager.service must not be able to restart.
 
     input_description:
-        ./data/configuration_template/config_authd_use_password_invalid.yaml: Wazuh config needed for the tests.
+        ./data/configuration_template/config_authd_use_password_invalid.yaml: AssetGuard config needed for the tests.
         ./data/test_cases/cases_authd_use_password_invalid.yaml: Values to be used and expected error.
 
     expected_output:
@@ -116,15 +116,15 @@ def test_authd_use_password_invalid(test_configuration, test_metadata, set_wazuh
     '''
     log = test_metadata['error']
     if log == 'Invalid password provided.':
-        pytest.xfail(reason="No password validation in authd.pass - Issue wazuh/wazuh#16282.")
+        pytest.xfail(reason="No password validation in authd.pass - Issue assetguard/assetguard#16282.")
 
-    # Verify wazuh-manager fails at restart.
+    # Verify assetguard-manager fails at restart.
     with pytest.raises(ValueError):
         control_service('restart')
 
     # Verify the error log is raised.
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     log = re.escape(log)
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(fr'{PREFIX}{log}'), timeout=10)
-    assert wazuh_log_monitor.callback_result, f'Error event not detected'
+    assetguard_log_monitor.start(callback=callbacks.generate_callback(fr'{PREFIX}{log}'), timeout=10)
+    assert assetguard_log_monitor.callback_result, f'Error event not detected'

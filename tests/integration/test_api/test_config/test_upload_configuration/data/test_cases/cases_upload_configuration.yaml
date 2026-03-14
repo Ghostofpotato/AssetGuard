@@ -3,11 +3,11 @@
   configuration_parameters:
   metadata:
     body: >
-      <wazuh_config>
+      <assetguard_config>
         <remote>
           <port>1514</port>
         </remote>
-      </wazuh_config>
+      </assetguard_config>
     expected_code: 200
 
 - name: UPLOAD_TWO_BLOCKS_CONFIG
@@ -15,15 +15,15 @@
   configuration_parameters:
   metadata:
     body: >
-      <wazuh_config>
+      <assetguard_config>
         <remote>
           <port>1514</port>
         </remote>
-      </wazuh_config>
+      </assetguard_config>
 
-      <wazuh_config>
+      <assetguard_config>
         <remote>
           <port>514</port>
         </remote>
-      </wazuh_config>
+      </assetguard_config>
     expected_code: 200

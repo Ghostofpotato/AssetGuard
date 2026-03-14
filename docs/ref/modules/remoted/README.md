@@ -1,6 +1,6 @@
 # Remoted Module
 
-The `remoted` module is responsible for managing secure communication between Wazuh agents and the manager. It handles agent connections, authentication, message routing, and event enrichment.
+The `remoted` module is responsible for managing secure communication between AssetGuard agents and the manager. It handles agent connections, authentication, message routing, and event enrichment.
 
 ## Key Features
 
@@ -30,7 +30,7 @@ The remoted module serves as the primary entry point for all agent communication
 
 ## Related Modules
 
-- **wazuh-manager-db**: Stores agent information and connection status
-- **wazuh-manager-analysisd**: Consumes enriched events for rule evaluation
+- **assetguard-manager-db**: Stores agent information and connection status
+- **assetguard-manager-analysisd**: Consumes enriched events for rule evaluation
 - **agent-upgrade**: Handles agent update notifications
 - **inventory-sync**: Synchronizes agent inventory data

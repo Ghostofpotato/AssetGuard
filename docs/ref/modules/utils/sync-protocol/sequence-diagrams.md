@@ -49,8 +49,8 @@ sequenceDiagram
     participant ASP as Agent Sync Protocol
     participant Queue as Persistent Queue
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>ASP: synchronizeModule(DELTA, timeout, retries, maxEps)
     ASP->>Queue: Get pending differences
@@ -100,8 +100,8 @@ sequenceDiagram
     participant ASP as Agent Sync Protocol
     participant Queue as Persistent Queue
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>ASP: synchronizeModule(DELTA, timeout, retries, maxEps)
     ASP->>Queue: Get pending differences
@@ -150,8 +150,8 @@ sequenceDiagram
     participant ASP as Agent Sync Protocol
     participant Queue as Persistent Queue
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>ASP: synchronizeModule(DELTA, timeout, retries, maxEps)
     ASP->>Queue: Get pending differences
@@ -206,8 +206,8 @@ sequenceDiagram
     participant Module as Internal Module
     participant ASP as Agent Sync Protocol
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>ASP: synchronizeModule(FULL, timeout=30s, retries=3, maxEps=1000)
 
@@ -255,8 +255,8 @@ sequenceDiagram
     participant Module as Internal Module
     participant ASP as Agent Sync Protocol
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>ASP: synchronizeModule()
     ASP->>MQ: Send Start
@@ -286,8 +286,8 @@ sequenceDiagram
     participant ASP as Agent Sync Protocol
     participant State as Sync State
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Thread1->>ASP: synchronizeModule()
     ASP->>State: Set phase = WaitingStartAck
@@ -335,8 +335,8 @@ sequenceDiagram
     participant Module as Internal Module
     participant ASP as Agent Sync Protocol
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>Module: Calculate checksum for index
     Module->>ASP: requiresFullSync(index, checksum, timeout, retries, maxEps)
@@ -382,8 +382,8 @@ sequenceDiagram
     participant ASP as Agent Sync Protocol
     participant Memory as In-Memory Vector
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Note over Module: Module recovery initiated
 
@@ -436,8 +436,8 @@ sequenceDiagram
     participant Module as Internal Module
     participant ASP as Agent Sync Protocol
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Module->>ASP: synchronizeMetadataOrGroups(METADATA_DELTA, timeout, retries, maxEps, globalVersion)
 
@@ -475,8 +475,8 @@ sequenceDiagram
     participant ASP as Agent Sync Protocol
     participant Queue as Persistent Queue
     participant MQ as Message Queue
-    participant AD as Wazuh agentd
-    participant Manager as Wazuh Manager
+    participant AD as AssetGuard agentd
+    participant Manager as AssetGuard Manager
 
     Note over Module: Module disabled or<br/>specific indices removed
 

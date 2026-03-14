@@ -1,6 +1,6 @@
 {
   "index_patterns": [
-    "wazuh-states-vulnerabilities"
+    "assetguard-states-vulnerabilities"
   ],
   "priority": 1,
   "template": {
@@ -24,8 +24,8 @@
           "vulnerability.id",
           "vulnerability.description.text",
           "vulnerability.severity",
-          "wazuh.agent.id",
-          "wazuh.cluster.name"
+          "assetguard.agent.id",
+          "assetguard.cluster.name"
         ],
         "refresh_interval": "2s"
       }
@@ -213,7 +213,7 @@
             }
           }
         },
-        "wazuh": {
+        "assetguard": {
           "properties": {
             "agent": {
               "properties": {

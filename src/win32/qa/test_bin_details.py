@@ -38,15 +38,15 @@ def test_bin_details(current_bin):
     product_version, file_version_major, file_version_minor, file_version_build, file_version_revision = read_version()
 
     fields_dict = {
-        'FileDescription': 'Wazuh Agent',
-        'ProductName': 'Wazuh Windows Agent',
+        'FileDescription': 'AssetGuard Agent',
+        'ProductName': 'AssetGuard Windows Agent',
         'ProductVersion': f"v{product_version}",
         'FileVersionRaw.Major': file_version_major,
         'FileVersionRaw.Minor': file_version_minor,
         'FileVersionRaw.Build': file_version_build,
         'FileVersionRaw.Revision': file_version_revision,
         'OriginalFilename': '',
-        'LegalCopyright': 'Copyright (C) Wazuh, Inc.',
+        'LegalCopyright': 'Copyright (C) AssetGuard, Inc.',
         'Language': 'English (United States)'
     }
 

@@ -6,7 +6,7 @@ include_directories(${SRC_FOLDER}/remoted/include)
 include_directories(${SRC_FOLDER}/remoted/src)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 # Generate remoted tests
 list(APPEND remoted_names "test_manager")
@@ -31,7 +31,7 @@ list(APPEND remoted_flags "-Wl,--wrap,_mdebug2 -Wl,--wrap,_mdebug1 -Wl,--wrap,w_
                             -Wl,--wrap,wdb_update_agent_data -Wl,--wrap,linked_queue_push_ex \
                             -Wl,--wrap,wdb_update_agent_connection_status -Wl,--wrap,wdb_update_agent_status_code -Wl,--wrap,SendMSG -Wl,--wrap,StartMQ \
                             -Wl,--wrap,get_ipv4_string -Wl,--wrap,get_ipv6_string \
-                            -Wl,--wrap,wdb_get_agent_group -Wl,--wrap,compare_wazuh_versions \
+                            -Wl,--wrap,wdb_get_agent_group -Wl,--wrap,compare_assetguard_versions \
                             -Wl,--wrap,wdb_set_agent_groups_csv -Wl,--wrap,w_is_single_node \
                             -Wl,--wrap,wdb_get_agent_info \
                             -Wl,--wrap,rem_inc_send_ack -Wl,--wrap,rem_inc_recv_ctrl_request -Wl,--wrap,rem_inc_recv_ctrl_keepalive \
@@ -110,8 +110,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${remoted_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${ASSETGUARDLIB}
+        ${ASSETGUARDEXT}
         remoted_lib
         ${TEST_DEPS}
     )

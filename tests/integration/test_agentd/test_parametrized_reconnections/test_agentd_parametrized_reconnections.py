@@ -1,16 +1,16 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-agentd' program is the client-side daemon that communicates with the server.
-       The objective is to check how the 'wazuh-agentd' daemon behaves when there are delays
-       between connection attempts to the 'wazuh-manager-remoted' daemon using TCP protocol.
-       The 'wazuh-manager-remoted' program is the server side daemon that communicates with the agents.
+brief: The 'assetguard-agentd' program is the client-side daemon that communicates with the server.
+       The objective is to check how the 'assetguard-agentd' daemon behaves when there are delays
+       between connection attempts to the 'assetguard-manager-remoted' daemon using TCP protocol.
+       The 'assetguard-manager-remoted' program is the server side daemon that communicates with the agents.
 
 components:
     - agentd
@@ -19,9 +19,9 @@ targets:
     - agent
 
 daemons:
-    - wazuh-agentd
-    - wazuh-manager-authd
-    - wazuh-manager-remoted
+    - assetguard-agentd
+    - assetguard-manager-authd
+    - assetguard-manager-remoted
 
 os_platform:
     - linux
@@ -50,7 +50,7 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/registering/index.html
+    - https://documentation.assetguard.com/current/user-manual/registering/index.html
 
 tags:
     - enrollment
@@ -60,14 +60,14 @@ import pytest
 from pathlib import Path
 import sys
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG, AGENTD_TIMEOUT
-from wazuh_testing.modules.agentd.patterns import AGENTD_TRYING_CONNECT, AGENTD_CONNECTED_TO_SERVER
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.tools.simulators.remoted_simulator import RemotedSimulator
-from wazuh_testing.utils import callbacks
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG, AGENTD_TIMEOUT
+from assetguard_testing.modules.agentd.patterns import AGENTD_TRYING_CONNECT, AGENTD_CONNECTED_TO_SERVER
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.tools.simulators.remoted_simulator import RemotedSimulator
+from assetguard_testing.utils import callbacks
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 from utils import wait_connect, wait_server_rollback, check_connection_try
@@ -76,7 +76,7 @@ from utils import wait_connect, wait_server_rollback, check_connection_try
 pytestmark = [pytest.mark.agent, pytest.mark.linux, pytest.mark.win32, pytest.mark.tier(level=0)]
 
 # Configuration and cases data.
-configs_path = Path(CONFIGS_PATH, 'wazuh_conf.yaml')
+configs_path = Path(CONFIGS_PATH, 'assetguard_conf.yaml')
 cases_path = Path(TEST_CASES_PATH, 'cases_reconnection_protocol.yaml')
 
 # Test configurations.
@@ -101,14 +101,14 @@ This test covers different options of delays between server connection attempts:
 """
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_agentd_parametrized_reconnections(test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_agentd_parametrized_reconnections(test_metadata, set_assetguard_configuration, configure_local_internal_options,
                                            truncate_monitored_files, clean_keys, add_keys, daemons_handler):
     '''
     description: Check how the agent behaves when there are delays between connection
                  attempts to the server. For this purpose, different values for
                  'max_retries' and 'retry_interval' parameters are tested.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     tier: 0
 
@@ -116,7 +116,7 @@ def test_agentd_parametrized_reconnections(test_metadata, set_wazuh_configuratio
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -133,15 +133,15 @@ def test_agentd_parametrized_reconnections(test_metadata, set_wazuh_configuratio
             brief: Adds keys to keys file
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
 
     assertions:
-        - Verify that when the 'wazuh-agentd' daemon initializes, it connects to
-          the 'wazuh-manager-remoted' daemon of the manager before reaching the maximum number of attempts.
+        - Verify that when the 'assetguard-agentd' daemon initializes, it connects to
+          the 'assetguard-manager-remoted' daemon of the manager before reaching the maximum number of attempts.
         - Verify the successful enrollment of the agent if the auto-enrollment option is enabled.
         - Verify that the rollback feature of the server works correctly.
 
-    input_description: An external YAML file (wazuh_conf.yaml) includes configuration settings for the agent.
+    input_description: An external YAML file (assetguard_conf.yaml) includes configuration settings for the agent.
                        Different test cases are found in the test module and include parameters
                        for the environment setup using the TCP protocols.
 
@@ -195,14 +195,14 @@ def test_agentd_parametrized_reconnections(test_metadata, set_wazuh_configuratio
     wait_server_rollback()
 
     #Check number of retries messages is the expected
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(accumulations = test_metadata['MAX_RETRIES'], callback=callbacks.generate_callback(AGENTD_TRYING_CONNECT,{'IP':'','PORT':''}))
-    assert (wazuh_log_monitor.callback_result != None), f'Trying to connect to server message not found expected times'
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
+    assetguard_log_monitor.start(accumulations = test_metadata['MAX_RETRIES'], callback=callbacks.generate_callback(AGENTD_TRYING_CONNECT,{'IP':'','PORT':''}))
+    assert (assetguard_log_monitor.callback_result != None), f'Trying to connect to server message not found expected times'
 
     #Check number of connected message is the expected
     if test_metadata['ENROLL'] == 'yes':
-        wazuh_log_monitor.start(callback=callbacks.generate_callback(AGENTD_CONNECTED_TO_SERVER))
-        assert (wazuh_log_monitor.callback_result != None), f'Connected to the server message not found'
+        assetguard_log_monitor.start(callback=callbacks.generate_callback(AGENTD_CONNECTED_TO_SERVER))
+        assert (assetguard_log_monitor.callback_result != None), f'Connected to the server message not found'
 
 
 def parse_time_from_log_line(log_line):

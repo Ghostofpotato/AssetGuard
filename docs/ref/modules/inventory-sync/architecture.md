@@ -1,6 +1,6 @@
 # Architecture
 
-The **Inventory Sync module** implements a **session-based synchronization architecture** designed to ensure reliable transfer of inventory data from Wazuh agents to the Wazuh Indexer.
+The **Inventory Sync module** implements a **session-based synchronization architecture** designed to ensure reliable transfer of inventory data from AssetGuard agents to the AssetGuard Indexer.
 It leverages a combination of design patterns — **Facade**, **Template Method**, and **Publisher–Subscriber** — to modularize responsibilities, simplify extensibility, and provide scalable synchronization capabilities.
 
 ---
@@ -189,8 +189,8 @@ This ensures that inventory documents receive correct agent context without conf
 ```mermaid
 flowchart TD
 
-subgraph WazuhManager[" "]
-  subgraph WazuhModulesM[" "]
+subgraph AssetGuardManager[" "]
+  subgraph AssetGuardModulesM[" "]
     subgraph InventorySync[" "]
       AgentSessions["Agent Sessions"]
       LocalStorage["RocksDB Storage"]
@@ -201,26 +201,26 @@ subgraph WazuhManager[" "]
     IndexerConnector["Indexer Connector"]
     InventorySync -- "Bulk Operations" --> IndexerConnector
   end
-  C@{ shape: braces, label: "Wazuh Modules" } --> WazuhModulesM
+  C@{ shape: braces, label: "AssetGuard Modules" } --> AssetGuardModulesM
   Router -- "FlatBuffer Messages" --> InventorySync
   InventorySync -- "ACK / Status" --> Router
 end
-B@{ shape: braces, label: "Wazuh Manager" } --> WazuhManager
-IndexerConnector -- "HTTP Bulk API" --> WazuhIndexer
+B@{ shape: braces, label: "AssetGuard Manager" } --> AssetGuardManager
+IndexerConnector -- "HTTP Bulk API" --> AssetGuardIndexer
 
-subgraph WazuhAgent["Wazuh Agent"]
-  subgraph WazuhModulesA[" "]
+subgraph AssetGuardAgent["AssetGuard Agent"]
+  subgraph AssetGuardModulesA[" "]
     Syscollector["Syscollector"]
     FIM["FIM Module"]  
   end
-  A@{ shape: braces, label: "Wazuh Modules" } --> WazuhModulesA
+  A@{ shape: braces, label: "AssetGuard Modules" } --> AssetGuardModulesA
   Syscollector -- "Inventory States" --> Router
   FIM -- "FIM States" --> Router
 end
 
-WazuhIndexer["Wazuh Indexer"]
-WazuhDashboard["Wazuh Dashboard"]
-WazuhDashboard -- "/wazuh-states-*/_search" --> WazuhIndexer
+AssetGuardIndexer["AssetGuard Indexer"]
+AssetGuardDashboard["AssetGuard Dashboard"]
+AssetGuardDashboard -- "/assetguard-states-*/_search" --> AssetGuardIndexer
 ```
 
 ---

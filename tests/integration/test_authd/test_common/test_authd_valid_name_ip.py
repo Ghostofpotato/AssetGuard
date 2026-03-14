@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -16,9 +16,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-authd
-    - wazuh-manager-db
-    - wazuh-manager-modulesd
+    - assetguard-manager-authd
+    - assetguard-manager-db
+    - assetguard-manager-modulesd
 
 os_platform:
     - linux
@@ -42,10 +42,10 @@ import time
 import pytest
 from pathlib import Path
 
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
-from wazuh_testing.modules.authd.utils import validate_authd_response
+from assetguard_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from assetguard_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from assetguard_testing.constants.daemons import AUTHD_DAEMON, ASSETGUARD_DB_DAEMON, MODULES_DAEMON
+from assetguard_testing.modules.authd.utils import validate_authd_response
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -61,7 +61,7 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 
 # Variables
 receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (ASSETGUARD_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 hostname = socket.gethostname()
 
@@ -70,14 +70,14 @@ daemons_handler_configuration = {'daemons': [AUTHD_DAEMON], 'ignore_errors': Tru
 
 # Test
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_authd_valid_name_ip(test_configuration, test_metadata, set_wazuh_configuration, configure_sockets_environment_module,
+def test_authd_valid_name_ip(test_configuration, test_metadata, set_assetguard_configuration, configure_sockets_environment_module,
                              connect_to_sockets_module,
                              truncate_monitored_files, daemons_handler, wait_for_authd_startup):
     '''
     description:
         Checks that every input message in authd port generates the adequate output.
 
-    wazuh_min_version:
+    assetguard_min_version:
         4.2.0
 
     tier: 0
@@ -89,15 +89,15 @@ def test_authd_valid_name_ip(test_configuration, test_metadata, set_wazuh_config
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - configure_sockets_environment_module:
             type: fixture
             brief: Configure the socket listener to receive and send messages on the sockets.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.

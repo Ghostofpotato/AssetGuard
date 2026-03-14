@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
@@ -31,8 +31,8 @@ def test_aws_waf_bucket_initializes_properly(mock_custom_bucket):
     (os.path.join(logs_path, 'WAF', 'aws-waf-invalid-json'), True),
     (os.path.join(logs_path, 'WAF', 'aws-waf-wrong-structure'), True),
 ])
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardAWSDatabase.__init__')
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
 @patch('aws_bucket.AWSBucket.__init__', side_effect=aws_bucket.AWSBucket.__init__)
 @patch('aws_bucket.AWSCustomBucket.__init__', side_effect=aws_bucket.AWSCustomBucket.__init__)
 def test_aws_waf_bucket_load_information_from_file(mock_custom_bucket, mock_bucket, mock_sts, mock_integration,
@@ -58,8 +58,8 @@ def test_aws_waf_bucket_load_information_from_file(mock_custom_bucket, mock_buck
     (os.path.join(logs_path, 'WAF', 'aws-waf-invalid-json'), False, SystemExit),
     (os.path.join(logs_path, 'WAF', 'aws-waf-wrong-structure'), False, SystemExit),
 ])
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardAWSDatabase.__init__')
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
 @patch('aws_bucket.AWSBucket.__init__', side_effect=aws_bucket.AWSBucket.__init__)
 @patch('aws_bucket.AWSCustomBucket.__init__', side_effect=aws_bucket.AWSCustomBucket.__init__)
 def test_aws_waf_bucket_load_information_from_file_handles_exception_on_invalid_argument(mock_custom_bucket,

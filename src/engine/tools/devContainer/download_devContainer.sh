@@ -6,9 +6,9 @@ set -euo pipefail  # Exit on error, undefined variables, and pipe failures
 readonly OLD_PWD=$(pwd)
 
 # Constants
-readonly TMP_DIR="/tmp/wazuh_devContainer_$$"  # Use PID for unique temp dir
+readonly TMP_DIR="/tmp/assetguard_devContainer_$$"  # Use PID for unique temp dir
 readonly REPO_DEV_DIR="src/engine/tools/devContainer"
-readonly REPO_URL="https://github.com/wazuh/wazuh.git"
+readonly REPO_URL="https://github.com/assetguard/assetguard.git"
 readonly DEFAULT_BRANCH="main"
 
 readonly EXCLUDED_FILES=(

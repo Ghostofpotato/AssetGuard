@@ -1,5 +1,5 @@
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/build/bin)
@@ -259,10 +259,10 @@ list(APPEND shared_tests_flags "-Wl,--wrap=OS_StrIsNum,--wrap=_merror,--wrap=w_t
 list(APPEND shared_tests_names "test_fs_op")
 list(APPEND shared_tests_flags " ")
 
-list(APPEND shared_tests_names "test_wazuhdb_op")
+list(APPEND shared_tests_names "test_assetguarddb_op")
 list(APPEND shared_tests_flags "-Wl,--wrap,OS_ConnectUnixDomain -Wl,--wrap,OS_SendSecureTCP -Wl,--wrap,OS_RecvSecureTCP")
 
-list(APPEND shared_tests_names "test_wazuhdb_queries_op")
+list(APPEND shared_tests_names "test_assetguarddb_queries_op")
 list(APPEND shared_tests_flags "-Wl,--wrap,strerror \
                                 -Wl,--wrap,cJSON_CreateObject -Wl,--wrap,cJSON_CreateArray -Wl,--wrap,cJSON_CreateString -Wl,--wrap,cJSON_Parse \
                                 -Wl,--wrap,cJSON_AddItemToObject -Wl,--wrap,cJSON_AddItemToArray -Wl,--wrap,cJSON_AddNumberToObject \
@@ -398,15 +398,15 @@ foreach(counter RANGE ${count})
     if("${test_name}" STREQUAL "test_read-alert")
         target_sources(${test_name} PRIVATE
             ${SRC_FOLDER}/shared/src/read-alert.c
-            ${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/debug_op_wrappers.c
+            ${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/debug_op_wrappers.c
         )
     endif()
 
     if(${TARGET} STREQUAL "manager")
         target_link_libraries(
             ${test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${ASSETGUARDLIB}
+            ${ASSETGUARDEXT}
             ${TEST_DEPS}
         )
     else()

@@ -4,23 +4,23 @@ The Windows Registry is a vital part of the Windows operating system. It is a da
 
 An unauthorized or unexpected change to the registry might result in system instability, application failures, and security breaches. Attackers might modify registry keys to execute malicious code or to maintain persistence on the system. In addition, legitimate software and system updates might also modify the registry. It's essential to track these changes to ensure system stability and security.
 
-The Wazuh FIM module scans the Windows Registry periodically and triggers an alert when it detects changes in the entries.
+The AssetGuard FIM module scans the Windows Registry periodically and triggers an alert when it detects changes in the entries.
 
 ## How it works
 
-The FIM module runs periodic scans of monitored Windows Registry entries and stores their checksums and other attributes in a local FIM database. You can specify which registry entries to monitor in the configuration of the Wazuh agent.
+The FIM module runs periodic scans of monitored Windows Registry entries and stores their checksums and other attributes in a local FIM database. You can specify which registry entries to monitor in the configuration of the AssetGuard agent.
 
-Upon a scan, the Wazuh agent reports any changes the FIM module finds in the monitored registry entries to the Wazuh server. The FIM module looks for file modifications by comparing the checksums of a registry entry to its stored checksums and attribute values. It generates an alert if it finds discrepancies.
+Upon a scan, the AssetGuard agent reports any changes the FIM module finds in the monitored registry entries to the AssetGuard server. The FIM module looks for file modifications by comparing the checksums of a registry entry to its stored checksums and attribute values. It generates an alert if it finds discrepancies.
 
-The Wazuh FIM module uses two databases to collect FIM event data, such as registry entry creation, modification, and deletion data:
+The AssetGuard FIM module uses two databases to collect FIM event data, such as registry entry creation, modification, and deletion data:
 
 - Local SQLite database on the endpoint:  
   `C:\Program Files (x86)\ossec-agent\queue\fim\db`
-- Agent database on the Wazuh server:  
+- Agent database on the AssetGuard server:  
   `/var/ossec/queue/db`
 
 
-The FIM module synchronization mechanism ensures synchronization between the Wazuh agent and the Wazuh server databases. It always updates the file inventory in the Wazuh server with the data available to the Wazuh agent. This allows servicing FIM-related API queries regarding the Wazuh agents.
+The FIM module synchronization mechanism ensures synchronization between the AssetGuard agent and the AssetGuard server databases. It always updates the file inventory in the AssetGuard server with the data available to the AssetGuard agent. This allows servicing FIM-related API queries regarding the AssetGuard agents.
 
 ## Configuration
 
@@ -80,7 +80,7 @@ The `windows_registry` option supports several attributes:
 Restart the agent:
 
 ```console
-Restart-Service -Name wazuh
+Restart-Service -Name assetguard
 ```
 
 ---
@@ -103,7 +103,7 @@ The `recursion_level` attribute defines the maximum depth to monitor.
 Restart the agent:
 
 ```console
-Restart-Service -Name wazuh
+Restart-Service -Name assetguard
 ```
 
 Example structure with `recursion_level="3"`:
@@ -151,7 +151,7 @@ The `report_changes` attribute allows reporting the exact content changed.
 Restart the agent:
 
 ```console
-Restart-Service -Name wazuh
+Restart-Service -Name assetguard
 ```
 
 ---
@@ -172,7 +172,7 @@ You can ignore registry entries using `registry_ignore`.
 Restart the agent:
 
 ```console
-Restart-Service -Name wazuh
+Restart-Service -Name assetguard
 ```
 
 ---
@@ -183,7 +183,7 @@ Malware often persists by adding entries to `Run` and `RunOnce` registry keys.
 
 ### Configuration
 
-By default, Wazuh monitors startup registry keys:
+By default, AssetGuard monitors startup registry keys:
 
 ```xml
 <syscheck>

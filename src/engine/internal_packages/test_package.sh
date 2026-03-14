@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Test script for wazuh-internal-tools package
+# Test script for assetguard-internal-tools package
 # Verifies that all installed tools respond correctly to -h flag
 
 set -uo pipefail  # Removed -e to allow test failures without stopping script
@@ -24,7 +24,7 @@ EXTRA_TESTS=(
 )
 
 echo "=========================================="
-echo "Testing wazuh-internal-tools installation"
+echo "Testing assetguard-internal-tools installation"
 echo "=========================================="
 echo
 
