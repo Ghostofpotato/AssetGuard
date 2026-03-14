@@ -1,0 +1,3 @@
+certs/*
+wazuh-indexer/*.deb
+wazuh-dashboard/*.deb
