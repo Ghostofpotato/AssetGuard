@@ -1,0 +1,17 @@
+_meta:
+  type: "internalusers"
+  config_version: 2
+
+admin:
+  hash: "$2y$12$VcCDgh2NDk07JGN0rjGbM.Ad41qVR/YFJcgHp0UGns5JDymrtI"
+  reserved: true
+  backend_roles:
+  - "admin"
+  description: "Admin user"
+
+kibanaserver:
+  hash: "$2y$12$4NNkE2V8KN1GLKC3rWvo/e/pjVQblWYxPFqEbWkQzh0j1lFx/jDa"
+  reserved: true
+  backend_roles:
+  - "kibanauser"
+  description: "kibana server user"
