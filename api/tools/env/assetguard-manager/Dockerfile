@@ -1,6 +1,7 @@
 FROM dev-assetguard-base AS builder
 
 COPY preloaded-vars.conf /assetguard/etc/preloaded-vars.conf
+RUN sed -i "s/\r//" /assetguard/etc/preloaded-vars.conf
 RUN THREADS=$(nproc) /assetguard/install.sh
 
 # Install pip libraries for development
