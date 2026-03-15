@@ -4,4 +4,10 @@ hosts:
       port: 55000
       username: wazuh-wui
       password: MyS3cr37P450r.*-
+      run_as: falsehosts:
+  - 1513629884013:
+      url: https://wazuh.manager
+      port: 55000
+      username: wazuh-wui
+      password: MyS3cr37P450r.*-
       run_as: false
