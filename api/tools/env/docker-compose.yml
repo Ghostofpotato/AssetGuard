@@ -23,7 +23,7 @@ services:
             - assetguard-net
 
     assetguard.indexer:
-        image: quay.io/assetguard/assetguard-indexer:5.0.0-0
+        image: quay.io/wazuh/wazuh-indexer:5.0.0-0
         container_name: assetguard.indexer
         hostname: assetguard.indexer
         ports:
@@ -163,7 +163,7 @@ services:
                 condition: service_started
 
     assetguard.dashboard:
-        image: public.ecr.aws/assetguard-cicd/assetguard/assetguard-dashboard:5.0.0-latest
+        image: public.ecr.aws/wazuh-cicd/wazuh/wazuh-dashboard:5.0.0-latest
         container_name: assetguard.dashboard
         hostname: assetguard.dashboard
         networks:
