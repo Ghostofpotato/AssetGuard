@@ -13,6 +13,7 @@
 # Reference Manual
 
 - [Introduction](ref/README.md)
+- [Developer Onboarding](ref/onboarding.md)
   - [Description](ref/description.md)
   - [Architecture](ref/architecture.md)
   - [Compatibility](ref/compatibility.md)
