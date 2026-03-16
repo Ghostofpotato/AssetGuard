@@ -11,7 +11,7 @@ opensearch.password: "kibanaserver"
 opensearch.requestHeadersWhitelist: [ authorization,securitytenant ]
 opensearch_security.multitenancy.enabled: false
 opensearch_security.readonly_mode.roles: ["kibana_read_only"]
-server.ssl.enabled: true
+server.ssl.enabled: false
 server.ssl.certificate: "/usr/share/wazuh-dashboard/certs/wazuh-dashboard.pem"
 server.ssl.key: "/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem"
 server.ssl.certificateAuthorities: "/usr/share/wazuh-dashboard/certs/root-ca.pem"
