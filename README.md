@@ -8,7 +8,7 @@
 [![YouTube](https://img.shields.io/youtube/views/peTSzcAueEc?style=social)](https://www.youtube.com/watch?v=peTSzcAueEc)
 
 
-AssetGuard is a free and open source platform based on Wazuh, used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments.
+AssetGuard is a internal security platform based on Wazuh, used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments.
 
 AssetGuard solution consists of an endpoint security agent, deployed to the monitored systems, and a management server, which collects and analyzes data gathered by the agents. Besides, Wazuh has been fully integrated with the Elastic Stack, providing a search engine and data visualization tool that allows users to navigate through their security alerts.
 
@@ -50,7 +50,7 @@ Additionally, configuration checks can be customized, tailoring them to properly
 
 AssetGuard agents provide out-of-the-box active responses to perform various countermeasures to address active threats, such as blocking access to a system from the threat source when certain criteria are met.
 
-In addition, Wazuh can be used to remotely run commands or system queries on agents, identifying indicators of compromise (IOCs) and helping perform other live forensics or incident response tasks.
+In addition, Assetguard can be used to remotely run commands or system queries on agents, identifying indicators of compromise (IOCs) and helping perform other live forensics or incident response tasks.
 
 **Regulatory compliance**
 
@@ -62,7 +62,7 @@ AssetGuard is widely used by payment processing companies and financial institut
 
 AssetGuard helps monitoring cloud infrastructure at an API level, using integration modules that are able to pull security data from well known cloud providers, such as Amazon AWS, Azure or Google Cloud. In addition, Wazuh provides rules to assess the configuration of your cloud environment, easily spotting weaknesses.
 
-In addition, Wazuh light-weight and multi-platform agents are commonly used to monitor cloud environments at the instance level.
+In addition, Assetguard light-weight and multi-platform agents are commonly used to monitor cloud environments at the instance level.
 
 **Containers security**
 
@@ -72,7 +72,7 @@ AssetGuard continuously collects and analyzes detailed runtime information. For 
 
 ## WUI
 
-The AssetGuard WUI provides a powerful user interface for data visualization and analysis. This interface can also be used to manage Wazuh configuration and to monitor its status.
+The AssetGuard WUI provides a powerful user interface for data visualization and analysis. This interface can also be used to manage Assetguard configuration and to monitor its status.
 
 **Modules overview**
 
