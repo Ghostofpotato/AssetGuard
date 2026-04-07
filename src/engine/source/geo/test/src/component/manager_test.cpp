@@ -152,12 +152,12 @@ TEST_F(GeoManagerTest, MultithreadLookup)
             }
             else
             {
-                if (base::getResponse(res) != "Wazuh")
+                if (base::getResponse(res) != "AssetGuard")
                 {
                     setError(
                         error,
                         errorMsg,
-                        fmt::format("Locator thread got response '{}' which is not 'Wazuh'", base::getResponse(res)));
+                        fmt::format("Locator thread got response '{}' which is not 'AssetGuard'", base::getResponse(res)));
                 }
             }
         }
@@ -207,12 +207,12 @@ TEST_F(GeoManagerTest, MultithreadListLookup)
             }
             else
             {
-                if (base::getResponse(res) != "Wazuh")
+                if (base::getResponse(res) != "AssetGuard")
                 {
                     setError(
                         error,
                         errorMsg,
-                        fmt::format("Locator thread got response '{}' which is not 'Wazuh'", base::getResponse(res)));
+                        fmt::format("Locator thread got response '{}' which is not 'AssetGuard'", base::getResponse(res)));
                 }
             }
         }
@@ -331,11 +331,11 @@ TEST_F(GeoManagerTest, ComplexUseCase)
                 }
                 else
                 {
-                    if (base::getResponse(res) != "Wazuh")
+                    if (base::getResponse(res) != "AssetGuard")
                     {
                         setError(error,
                                  errorMsg,
-                                 fmt::format("Locator thread got response '{}' which is not 'Wazuh'",
+                                 fmt::format("Locator thread got response '{}' which is not 'AssetGuard'",
                                              base::getResponse(res)));
                     }
                 }

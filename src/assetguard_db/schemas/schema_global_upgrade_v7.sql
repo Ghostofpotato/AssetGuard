@@ -1,6 +1,6 @@
 /*
  * SQL Schema for upgrading databases
- * Copyright (C) 2015-2024, Wazuh Inc.
+ * Copyright (C) 2015-2024, AssetGuard Inc.
  *
  * April 30, 2025.
  *

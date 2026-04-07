@@ -1,8 +1,8 @@
 #!/bin/sh
-# prerm script for wazuh-manager
+# prerm script for assetguard-manager
 
 set -e
-DIR="/var/wazuh-manager"
+DIR="/var/assetguard-manager"
 
 case "$1" in
     upgrade|deconfigure)
@@ -12,13 +12,13 @@ case "$1" in
     remove)
       # Stop the services before uninstalling the package
       # Check for systemd
-      if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-manager > /dev/null 2>&1; then
-          systemctl stop wazuh-manager > /dev/null 2>&1
+      if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet assetguard-manager > /dev/null 2>&1; then
+          systemctl stop assetguard-manager > /dev/null 2>&1
       # Check for SysV
-      elif command -v service > /dev/null 2>&1 && service wazuh-manager status 2>/dev/null | grep "running" > /dev/null 2>&1; then
-          service wazuh-manager stop > /dev/null 2>&1
+      elif command -v service > /dev/null 2>&1 && service assetguard-manager status 2>/dev/null | grep "running" > /dev/null 2>&1; then
+          service assetguard-manager stop > /dev/null 2>&1
       fi
-      ${DIR}/bin/wazuh-manager-control stop > /dev/null 2>&1
+      ${DIR}/bin/assetguard-manager-control stop > /dev/null 2>&1
 
       # Purging files
       rm -rf ${DIR}/stats/*
@@ -37,9 +37,9 @@ case "$1" in
       if [ -f ${DIR}/etc/local_internal_options.conf ]; then
         cp -p ${DIR}/etc/local_internal_options.conf ${DIR}/tmp/conffiles
       fi
-      # Save the wazuh-manager.conf
-      if [ -f ${DIR}/etc/wazuh-manager.conf ]; then
-        cp -p ${DIR}/etc/wazuh-manager.conf ${DIR}/tmp/conffiles
+      # Save the assetguard-manager.conf
+      if [ -f ${DIR}/etc/assetguard-manager.conf ]; then
+        cp -p ${DIR}/etc/assetguard-manager.conf ${DIR}/tmp/conffiles
       fi
 
       # Save the rootcheck files
@@ -59,8 +59,8 @@ case "$1" in
     ;;
 
     failed-upgrade)
-      if [ -f ${DIR}/bin/wazuh-manager-control ]; then
-	       ${DIR}/bin/wazuh-manager-control stop > /dev/null 2>&1
+      if [ -f ${DIR}/bin/assetguard-manager-control ]; then
+	       ${DIR}/bin/assetguard-manager-control stop > /dev/null 2>&1
       fi
     ;;
 

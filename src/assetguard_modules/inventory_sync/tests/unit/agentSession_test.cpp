@@ -1,6 +1,6 @@
 /**
- * Wazuh Inventory Sync - AgentSession Unit tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Inventory Sync - AgentSession Unit tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 26, 2023.
  *
  * This program is free software; you can redistribute it
@@ -36,24 +36,24 @@ protected:
     uint64_t sessionId = 12345;
     std::string agentId = "001";
 
-    flatbuffers::Offset<Wazuh::SyncSchema::Start>
+    flatbuffers::Offset<AssetGuard::SyncSchema::Start>
     createStartMessage(uint64_t size,
                        const std::string& agentIdStr = "001",
                        const std::string& agentName = "test-agent",
                        const std::string& agentVersion = "4.0.0",
                        const std::string& moduleName = "syscollector",
-                       Wazuh::SyncSchema::Mode mode = Wazuh::SyncSchema::Mode_ModuleFull)
+                       AssetGuard::SyncSchema::Mode mode = AssetGuard::SyncSchema::Mode_ModuleFull)
     {
         auto agentIdOffset = builder.CreateString(agentIdStr);
         auto agentNameOffset = builder.CreateString(agentName);
         auto agentVersionOffset = builder.CreateString(agentVersion);
         auto moduleOffset = builder.CreateString(moduleName);
 
-        Wazuh::SyncSchema::StartBuilder startBuilder(builder);
+        AssetGuard::SyncSchema::StartBuilder startBuilder(builder);
         startBuilder.add_module_(moduleOffset);
         startBuilder.add_size(size);
         startBuilder.add_mode(mode);
-        startBuilder.add_option(Wazuh::SyncSchema::Option_Sync);
+        startBuilder.add_option(AssetGuard::SyncSchema::Option_Sync);
         startBuilder.add_agentid(agentIdOffset);
         startBuilder.add_agentname(agentNameOffset);
         startBuilder.add_agentversion(agentVersionOffset);
@@ -71,7 +71,7 @@ TEST_F(AgentSessionTest, Constructor_Success)
     auto startMsg = createStartMessage(10, "001", "test-agent", "4.0.0");
     builder.Finish(startMsg);
 
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
 
@@ -90,9 +90,9 @@ TEST_F(AgentSessionTest, Constructor_InvalidSize)
 {
     auto startMsg = createStartMessage(0);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
-    EXPECT_CALL(mockResponseDispatcher, sendStartAck(Wazuh::SyncSchema::Status_Error, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendStartAck(AssetGuard::SyncSchema::Status_Error, _, _, _)).Times(1);
     EXPECT_THROW(
         { AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher); },
         AgentSessionException);
@@ -100,17 +100,17 @@ TEST_F(AgentSessionTest, Constructor_InvalidSize)
 
 TEST_F(AgentSessionTest, Constructor_NullModule)
 {
-    Wazuh::SyncSchema::StartBuilder startBuilder(builder);
+    AssetGuard::SyncSchema::StartBuilder startBuilder(builder);
     startBuilder.add_size(10);
-    startBuilder.add_mode(Wazuh::SyncSchema::Mode_ModuleFull);
-    startBuilder.add_option(Wazuh::SyncSchema::Option_Sync);
+    startBuilder.add_mode(AssetGuard::SyncSchema::Mode_ModuleFull);
+    startBuilder.add_option(AssetGuard::SyncSchema::Option_Sync);
     auto startMsg = startBuilder.Finish();
 
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     // Now this should succeed since we use the constructor parameter for moduleName
-    EXPECT_CALL(mockResponseDispatcher, sendStartAck(Wazuh::SyncSchema::Status_Ok, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendStartAck(AssetGuard::SyncSchema::Status_Ok, _, _, _)).Times(1);
     EXPECT_NO_THROW(
         { AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher); });
 }
@@ -119,9 +119,9 @@ TEST_F(AgentSessionTest, Constructor_ValidAgentIdZero)
 {
     auto startMsg = createStartMessage(10, "0");
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
-    EXPECT_CALL(mockResponseDispatcher, sendStartAck(Wazuh::SyncSchema::Status_Ok, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendStartAck(AssetGuard::SyncSchema::Status_Ok, _, _, _)).Times(1);
 
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
 }
@@ -130,7 +130,7 @@ TEST_F(AgentSessionTest, HandleData_Success)
 {
     auto startMsg = createStartMessage(1, "1");
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -141,14 +141,14 @@ TEST_F(AgentSessionTest, HandleData_Success)
     std::vector<int8_t> testData = {0x01, 0x02, 0x03, 0x04};
     auto dataVector = dataBuilder.CreateVector(testData);
 
-    Wazuh::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
+    AssetGuard::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
     dataMsgBuilder.add_seq(0);
     dataMsgBuilder.add_session(sessionId);
     dataMsgBuilder.add_data(dataVector);
     auto dataMsg = dataMsgBuilder.Finish();
     dataBuilder.Finish(dataMsg);
 
-    auto data = flatbuffers::GetRoot<Wazuh::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
+    auto data = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
 
     EXPECT_CALL(mockStore, put(_, _)).Times(1);
     EXPECT_CALL(mockIndexerQueue, push(_)).Times(0);
@@ -160,7 +160,7 @@ TEST_F(AgentSessionTest, HandleData_CompletesGapSet_EndNotReceived)
 {
     auto startMsg = createStartMessage(1, "1");
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -171,14 +171,14 @@ TEST_F(AgentSessionTest, HandleData_CompletesGapSet_EndNotReceived)
     std::vector<int8_t> testData = {0x01, 0x02, 0x03, 0x04};
     auto dataVector = dataBuilder.CreateVector(testData);
 
-    Wazuh::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
+    AssetGuard::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
     dataMsgBuilder.add_seq(0);
     dataMsgBuilder.add_session(sessionId);
     dataMsgBuilder.add_data(dataVector);
     auto dataMsg = dataMsgBuilder.Finish();
     dataBuilder.Finish(dataMsg);
 
-    auto data = flatbuffers::GetRoot<Wazuh::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
+    auto data = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
 
     EXPECT_CALL(mockStore, put(_, _)).Times(1);
     EXPECT_CALL(mockIndexerQueue, push(_)).Times(0); // End not received, should not push
@@ -190,7 +190,7 @@ TEST_F(AgentSessionTest, HandleData_CompletesGapSet_EndReceived)
 {
     auto startMsg = createStartMessage(1, "1");
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -204,14 +204,14 @@ TEST_F(AgentSessionTest, HandleData_CompletesGapSet_EndReceived)
     std::vector<int8_t> testData = {0x01, 0x02, 0x03, 0x04};
     auto dataVector = dataBuilder.CreateVector(testData);
 
-    Wazuh::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
+    AssetGuard::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
     dataMsgBuilder.add_seq(0);
     dataMsgBuilder.add_session(sessionId);
     dataMsgBuilder.add_data(dataVector);
     auto dataMsg = dataMsgBuilder.Finish();
     dataBuilder.Finish(dataMsg);
 
-    auto data = flatbuffers::GetRoot<Wazuh::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
+    auto data = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
 
     EXPECT_CALL(mockStore, put(_, _)).Times(1);
     EXPECT_CALL(mockIndexerQueue, push(_)).Times(1);
@@ -223,7 +223,7 @@ TEST_F(AgentSessionTest, HandleEnd_GapSetNotEmpty)
 {
     auto startMsg = createStartMessage(2, "1");
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -238,7 +238,7 @@ TEST_F(AgentSessionTest, HandleEnd_GapSetEmpty)
 {
     auto startMsg = createStartMessage(1, "1");
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -249,21 +249,21 @@ TEST_F(AgentSessionTest, HandleEnd_GapSetEmpty)
     std::vector<int8_t> testData = {0x01, 0x02, 0x03, 0x04};
     auto dataVector = dataBuilder.CreateVector(testData);
 
-    Wazuh::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
+    AssetGuard::SyncSchema::DataValueBuilder dataMsgBuilder(dataBuilder);
     dataMsgBuilder.add_seq(0);
     dataMsgBuilder.add_session(sessionId);
     dataMsgBuilder.add_data(dataVector);
     auto dataMsg = dataMsgBuilder.Finish();
     dataBuilder.Finish(dataMsg);
 
-    auto data = flatbuffers::GetRoot<Wazuh::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
+    auto data = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataValue>(dataBuilder.GetBufferPointer());
 
     EXPECT_CALL(mockStore, put(_, _)).Times(1);
     session.handleData(data, reinterpret_cast<const uint8_t*>(data->data()->data()), data->data()->size());
 
     EXPECT_CALL(mockIndexerQueue, push(_)).Times(1);
     EXPECT_CALL(mockResponseDispatcher, sendEndMissingSeq(_, _, _, _)).Times(0);
-    EXPECT_CALL(mockResponseDispatcher, sendEndAck(Wazuh::SyncSchema::Status_Processing, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendEndAck(AssetGuard::SyncSchema::Status_Processing, _, _, _)).Times(1);
 
     session.handleEnd(mockResponseDispatcher);
 }
@@ -271,9 +271,9 @@ TEST_F(AgentSessionTest, HandleEnd_GapSetEmpty)
 TEST_F(AgentSessionTest, HandleChecksumModule_Success)
 {
     auto startMsg =
-        createStartMessage(0, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleCheck);
+        createStartMessage(0, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleCheck);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     // Create session with ModuleCheck mode (size can be 0 for ModuleCheck)
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
@@ -282,16 +282,16 @@ TEST_F(AgentSessionTest, HandleChecksumModule_Success)
     // Create ChecksumModule message
     flatbuffers::FlatBufferBuilder checksumBuilder;
     auto checksumStr = checksumBuilder.CreateString("abc123def456");
-    auto indexStr = checksumBuilder.CreateString("wazuh-states-vulnerabilities");
+    auto indexStr = checksumBuilder.CreateString("assetguard-states-vulnerabilities");
 
-    Wazuh::SyncSchema::ChecksumModuleBuilder checksumModuleBuilder(checksumBuilder);
+    AssetGuard::SyncSchema::ChecksumModuleBuilder checksumModuleBuilder(checksumBuilder);
     checksumModuleBuilder.add_session(sessionId);
     checksumModuleBuilder.add_checksum(checksumStr);
     checksumModuleBuilder.add_index(indexStr);
     auto checksumMsg = checksumModuleBuilder.Finish();
     checksumBuilder.Finish(checksumMsg);
 
-    auto checksumModule = flatbuffers::GetRoot<Wazuh::SyncSchema::ChecksumModule>(checksumBuilder.GetBufferPointer());
+    auto checksumModule = flatbuffers::GetRoot<AssetGuard::SyncSchema::ChecksumModule>(checksumBuilder.GetBufferPointer());
 
     ASSERT_NO_THROW({ session.handleChecksumModule(checksumModule); });
 }
@@ -299,9 +299,9 @@ TEST_F(AgentSessionTest, HandleChecksumModule_Success)
 TEST_F(AgentSessionTest, HandleChecksumModule_NullData)
 {
     auto startMsg =
-        createStartMessage(0, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleCheck);
+        createStartMessage(0, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleCheck);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -312,24 +312,24 @@ TEST_F(AgentSessionTest, HandleChecksumModule_NullData)
 TEST_F(AgentSessionTest, HandleChecksumModule_EmptyChecksum)
 {
     auto startMsg =
-        createStartMessage(0, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleCheck);
+        createStartMessage(0, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleCheck);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
 
     // Create ChecksumModule message with no checksum
     flatbuffers::FlatBufferBuilder checksumBuilder;
-    auto indexStr = checksumBuilder.CreateString("wazuh-states-vulnerabilities");
+    auto indexStr = checksumBuilder.CreateString("assetguard-states-vulnerabilities");
 
-    Wazuh::SyncSchema::ChecksumModuleBuilder checksumModuleBuilder(checksumBuilder);
+    AssetGuard::SyncSchema::ChecksumModuleBuilder checksumModuleBuilder(checksumBuilder);
     checksumModuleBuilder.add_session(sessionId);
     checksumModuleBuilder.add_index(indexStr);
     auto checksumMsg = checksumModuleBuilder.Finish();
     checksumBuilder.Finish(checksumMsg);
 
-    auto checksumModule = flatbuffers::GetRoot<Wazuh::SyncSchema::ChecksumModule>(checksumBuilder.GetBufferPointer());
+    auto checksumModule = flatbuffers::GetRoot<AssetGuard::SyncSchema::ChecksumModule>(checksumBuilder.GetBufferPointer());
 
     // Should handle gracefully without throwing
     ASSERT_NO_THROW({ session.handleChecksumModule(checksumModule); });
@@ -337,25 +337,25 @@ TEST_F(AgentSessionTest, HandleChecksumModule_EmptyChecksum)
 
 TEST_F(AgentSessionTest, HandleDataClean_Success)
 {
-    auto startMsg = createStartMessage(1, "001", "test-agent", "4.0.0", "fim", Wazuh::SyncSchema::Mode_ModuleDelta);
+    auto startMsg = createStartMessage(1, "001", "test-agent", "4.0.0", "fim", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
 
     // Create DataClean message
     flatbuffers::FlatBufferBuilder dataCleanBuilder;
-    auto indexStr = dataCleanBuilder.CreateString("wazuh-states-fim-files");
+    auto indexStr = dataCleanBuilder.CreateString("assetguard-states-fim-files");
 
-    Wazuh::SyncSchema::DataCleanBuilder dataCleanMsgBuilder(dataCleanBuilder);
+    AssetGuard::SyncSchema::DataCleanBuilder dataCleanMsgBuilder(dataCleanBuilder);
     dataCleanMsgBuilder.add_session(sessionId);
     dataCleanMsgBuilder.add_seq(0);
     dataCleanMsgBuilder.add_index(indexStr);
     auto dataCleanMsg = dataCleanMsgBuilder.Finish();
     dataCleanBuilder.Finish(dataCleanMsg);
 
-    auto dataClean = flatbuffers::GetRoot<Wazuh::SyncSchema::DataClean>(dataCleanBuilder.GetBufferPointer());
+    auto dataClean = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataClean>(dataCleanBuilder.GetBufferPointer());
 
     // Handle DataClean message
     ASSERT_NO_THROW({ session.handleDataClean(dataClean); });
@@ -363,39 +363,39 @@ TEST_F(AgentSessionTest, HandleDataClean_Success)
 
 TEST_F(AgentSessionTest, HandleDataClean_MultipleIndices)
 {
-    auto startMsg = createStartMessage(3, "001", "test-agent", "4.0.0", "fim", Wazuh::SyncSchema::Mode_ModuleDelta);
+    auto startMsg = createStartMessage(3, "001", "test-agent", "4.0.0", "fim", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
 
     // Create DataClean messages for multiple indices
     std::vector<std::string> indices = {
-        "wazuh-states-fim-files", "wazuh-states-fim-registry-keys", "wazuh-states-fim-registry-values"};
+        "assetguard-states-fim-files", "assetguard-states-fim-registry-keys", "assetguard-states-fim-registry-values"};
 
     for (size_t i = 0; i < indices.size(); ++i)
     {
         flatbuffers::FlatBufferBuilder dataCleanBuilder;
         auto indexStr = dataCleanBuilder.CreateString(indices[i]);
 
-        Wazuh::SyncSchema::DataCleanBuilder dataCleanMsgBuilder(dataCleanBuilder);
+        AssetGuard::SyncSchema::DataCleanBuilder dataCleanMsgBuilder(dataCleanBuilder);
         dataCleanMsgBuilder.add_session(sessionId);
         dataCleanMsgBuilder.add_seq(i);
         dataCleanMsgBuilder.add_index(indexStr);
         auto dataCleanMsg = dataCleanMsgBuilder.Finish();
         dataCleanBuilder.Finish(dataCleanMsg);
 
-        auto dataClean = flatbuffers::GetRoot<Wazuh::SyncSchema::DataClean>(dataCleanBuilder.GetBufferPointer());
+        auto dataClean = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataClean>(dataCleanBuilder.GetBufferPointer());
         ASSERT_NO_THROW({ session.handleDataClean(dataClean); });
     }
 }
 
 TEST_F(AgentSessionTest, HandleDataClean_NullData)
 {
-    auto startMsg = createStartMessage(1, "001", "test-agent", "4.0.0", "fim", Wazuh::SyncSchema::Mode_ModuleDelta);
+    auto startMsg = createStartMessage(1, "001", "test-agent", "4.0.0", "fim", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -406,50 +406,50 @@ TEST_F(AgentSessionTest, HandleDataClean_NullData)
 
 TEST_F(AgentSessionTest, HandleDataClean_WithEnd)
 {
-    auto startMsg = createStartMessage(1, "001", "test-agent", "4.0.0", "fim", Wazuh::SyncSchema::Mode_ModuleDelta);
+    auto startMsg = createStartMessage(1, "001", "test-agent", "4.0.0", "fim", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
 
     // Create DataClean message
     flatbuffers::FlatBufferBuilder dataCleanBuilder;
-    auto indexStr = dataCleanBuilder.CreateString("wazuh-states-fim-files");
+    auto indexStr = dataCleanBuilder.CreateString("assetguard-states-fim-files");
 
-    Wazuh::SyncSchema::DataCleanBuilder dataCleanMsgBuilder(dataCleanBuilder);
+    AssetGuard::SyncSchema::DataCleanBuilder dataCleanMsgBuilder(dataCleanBuilder);
     dataCleanMsgBuilder.add_session(sessionId);
     dataCleanMsgBuilder.add_seq(0);
     dataCleanMsgBuilder.add_index(indexStr);
     auto dataCleanMsg = dataCleanMsgBuilder.Finish();
     dataCleanBuilder.Finish(dataCleanMsg);
 
-    auto dataClean = flatbuffers::GetRoot<Wazuh::SyncSchema::DataClean>(dataCleanBuilder.GetBufferPointer());
+    auto dataClean = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataClean>(dataCleanBuilder.GetBufferPointer());
 
     // Handle DataClean message
     session.handleDataClean(dataClean);
 
     // Create and handle End message
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndBuilder endMsgBuilder(endBuilder);
+    AssetGuard::SyncSchema::EndBuilder endMsgBuilder(endBuilder);
     endMsgBuilder.add_session(sessionId);
     auto endMsg = endMsgBuilder.Finish();
     endBuilder.Finish(endMsg);
 
-    auto end = flatbuffers::GetRoot<Wazuh::SyncSchema::End>(endBuilder.GetBufferPointer());
+    auto end = flatbuffers::GetRoot<AssetGuard::SyncSchema::End>(endBuilder.GetBufferPointer());
 
     // Expect the indexer queue to be pushed when all sequences received
     EXPECT_CALL(mockIndexerQueue, push(_)).Times(1);
-    EXPECT_CALL(mockResponseDispatcher, sendEndAck(Wazuh::SyncSchema::Status_Processing, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendEndAck(AssetGuard::SyncSchema::Status_Processing, _, _, _)).Times(1);
     ASSERT_NO_THROW({ session.handleEnd(mockResponseDispatcher); });
 }
 
 TEST_F(AgentSessionTest, HandleDataContext_Success)
 {
     auto startMsg =
-        createStartMessage(1, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleDelta);
+        createStartMessage(1, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -457,11 +457,11 @@ TEST_F(AgentSessionTest, HandleDataContext_Success)
     // Create DataContext message
     flatbuffers::FlatBufferBuilder dataContextBuilder;
     auto idStr = dataContextBuilder.CreateString("context-id-123");
-    auto indexStr = dataContextBuilder.CreateString("wazuh-states-vulnerabilities");
+    auto indexStr = dataContextBuilder.CreateString("assetguard-states-vulnerabilities");
     std::vector<int8_t> contextData = {0x01, 0x02, 0x03, 0x04};
     auto dataVec = dataContextBuilder.CreateVector(contextData);
 
-    Wazuh::SyncSchema::DataContextBuilder dataContextMsgBuilder(dataContextBuilder);
+    AssetGuard::SyncSchema::DataContextBuilder dataContextMsgBuilder(dataContextBuilder);
     dataContextMsgBuilder.add_session(sessionId);
     dataContextMsgBuilder.add_seq(0);
     dataContextMsgBuilder.add_id(idStr);
@@ -470,7 +470,7 @@ TEST_F(AgentSessionTest, HandleDataContext_Success)
     auto dataContextMsg = dataContextMsgBuilder.Finish();
     dataContextBuilder.Finish(dataContextMsg);
 
-    auto dataContext = flatbuffers::GetRoot<Wazuh::SyncSchema::DataContext>(dataContextBuilder.GetBufferPointer());
+    auto dataContext = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataContext>(dataContextBuilder.GetBufferPointer());
 
     // Expect put call to RocksDB
     EXPECT_CALL(mockStore, put(_, _)).Times(1);
@@ -484,9 +484,9 @@ TEST_F(AgentSessionTest, HandleDataContext_Success)
 TEST_F(AgentSessionTest, HandleDataContext_MultipleMessages)
 {
     auto startMsg =
-        createStartMessage(3, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleDelta);
+        createStartMessage(3, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     EXPECT_CALL(mockStore, put(_, _)).Times(3); // Expect 3 put calls for 3 DataContext messages
@@ -497,11 +497,11 @@ TEST_F(AgentSessionTest, HandleDataContext_MultipleMessages)
     {
         flatbuffers::FlatBufferBuilder dataContextBuilder;
         auto idStr = dataContextBuilder.CreateString(std::string("context-id-") + std::to_string(i));
-        auto indexStr = dataContextBuilder.CreateString("wazuh-states-vulnerabilities");
+        auto indexStr = dataContextBuilder.CreateString("assetguard-states-vulnerabilities");
         std::vector<int8_t> contextData = {static_cast<int8_t>(i), 0x02, 0x03, 0x04};
         auto dataVec = dataContextBuilder.CreateVector(contextData);
 
-        Wazuh::SyncSchema::DataContextBuilder dataContextMsgBuilder(dataContextBuilder);
+        AssetGuard::SyncSchema::DataContextBuilder dataContextMsgBuilder(dataContextBuilder);
         dataContextMsgBuilder.add_session(sessionId);
         dataContextMsgBuilder.add_seq(i);
         dataContextMsgBuilder.add_id(idStr);
@@ -510,7 +510,7 @@ TEST_F(AgentSessionTest, HandleDataContext_MultipleMessages)
         auto dataContextMsg = dataContextMsgBuilder.Finish();
         dataContextBuilder.Finish(dataContextMsg);
 
-        auto dataContext = flatbuffers::GetRoot<Wazuh::SyncSchema::DataContext>(dataContextBuilder.GetBufferPointer());
+        auto dataContext = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataContext>(dataContextBuilder.GetBufferPointer());
         ASSERT_NO_THROW({
             session.handleDataContext(dataContext, dataContextBuilder.GetBufferPointer(), dataContextBuilder.GetSize());
         });
@@ -520,9 +520,9 @@ TEST_F(AgentSessionTest, HandleDataContext_MultipleMessages)
 TEST_F(AgentSessionTest, HandleDataContext_NullData)
 {
     auto startMsg =
-        createStartMessage(1, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleDelta);
+        createStartMessage(1, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -534,9 +534,9 @@ TEST_F(AgentSessionTest, HandleDataContext_NullData)
 TEST_F(AgentSessionTest, HandleDataContext_WithEnd)
 {
     auto startMsg =
-        createStartMessage(1, "001", "test-agent", "4.0.0", "syscollector", Wazuh::SyncSchema::Mode_ModuleDelta);
+        createStartMessage(1, "001", "test-agent", "4.0.0", "syscollector", AssetGuard::SyncSchema::Mode_ModuleDelta);
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
     EXPECT_CALL(mockResponseDispatcher, sendStartAck(_, _, _, _)).Times(1);
     AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher);
@@ -544,11 +544,11 @@ TEST_F(AgentSessionTest, HandleDataContext_WithEnd)
     // Create DataContext message
     flatbuffers::FlatBufferBuilder dataContextBuilder;
     auto idStr = dataContextBuilder.CreateString("context-id-123");
-    auto indexStr = dataContextBuilder.CreateString("wazuh-states-vulnerabilities");
+    auto indexStr = dataContextBuilder.CreateString("assetguard-states-vulnerabilities");
     std::vector<int8_t> contextData = {0x01, 0x02, 0x03, 0x04};
     auto dataVec = dataContextBuilder.CreateVector(contextData);
 
-    Wazuh::SyncSchema::DataContextBuilder dataContextMsgBuilder(dataContextBuilder);
+    AssetGuard::SyncSchema::DataContextBuilder dataContextMsgBuilder(dataContextBuilder);
     dataContextMsgBuilder.add_session(sessionId);
     dataContextMsgBuilder.add_seq(0);
     dataContextMsgBuilder.add_id(idStr);
@@ -557,7 +557,7 @@ TEST_F(AgentSessionTest, HandleDataContext_WithEnd)
     auto dataContextMsg = dataContextMsgBuilder.Finish();
     dataContextBuilder.Finish(dataContextMsg);
 
-    auto dataContext = flatbuffers::GetRoot<Wazuh::SyncSchema::DataContext>(dataContextBuilder.GetBufferPointer());
+    auto dataContext = flatbuffers::GetRoot<AssetGuard::SyncSchema::DataContext>(dataContextBuilder.GetBufferPointer());
 
     // Expect put call to RocksDB
     EXPECT_CALL(mockStore, put(_, _)).Times(1);
@@ -567,16 +567,16 @@ TEST_F(AgentSessionTest, HandleDataContext_WithEnd)
 
     // Create and handle End message
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndBuilder endMsgBuilder(endBuilder);
+    AssetGuard::SyncSchema::EndBuilder endMsgBuilder(endBuilder);
     endMsgBuilder.add_session(sessionId);
     auto endMsg = endMsgBuilder.Finish();
     endBuilder.Finish(endMsg);
 
-    auto end = flatbuffers::GetRoot<Wazuh::SyncSchema::End>(endBuilder.GetBufferPointer());
+    auto end = flatbuffers::GetRoot<AssetGuard::SyncSchema::End>(endBuilder.GetBufferPointer());
 
     // Expect the indexer queue to be pushed when all sequences received
     EXPECT_CALL(mockIndexerQueue, push(_)).Times(1);
-    EXPECT_CALL(mockResponseDispatcher, sendEndAck(Wazuh::SyncSchema::Status_Processing, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendEndAck(AssetGuard::SyncSchema::Status_Processing, _, _, _)).Times(1);
     ASSERT_NO_THROW({ session.handleEnd(mockResponseDispatcher); });
 }
 
@@ -588,20 +588,20 @@ TEST_F(AgentSessionTest, Constructor_ValidSize_ModuleCheck)
     auto agentVersionOffset = builder.CreateString("4.0.0");
     auto moduleOffset = builder.CreateString("syscollector");
 
-    Wazuh::SyncSchema::StartBuilder startBuilder(builder);
+    AssetGuard::SyncSchema::StartBuilder startBuilder(builder);
     startBuilder.add_module_(moduleOffset);
     startBuilder.add_size(0);
-    startBuilder.add_mode(Wazuh::SyncSchema::Mode_ModuleCheck);
-    startBuilder.add_option(Wazuh::SyncSchema::Option_Sync);
+    startBuilder.add_mode(AssetGuard::SyncSchema::Mode_ModuleCheck);
+    startBuilder.add_option(AssetGuard::SyncSchema::Option_Sync);
     startBuilder.add_agentid(agentIdOffset);
     startBuilder.add_agentname(agentNameOffset);
     startBuilder.add_agentversion(agentVersionOffset);
     auto startMsg = startBuilder.Finish();
 
     builder.Finish(startMsg);
-    auto start = flatbuffers::GetRoot<Wazuh::SyncSchema::Start>(builder.GetBufferPointer());
+    auto start = flatbuffers::GetRoot<AssetGuard::SyncSchema::Start>(builder.GetBufferPointer());
 
-    EXPECT_CALL(mockResponseDispatcher, sendStartAck(Wazuh::SyncSchema::Status_Ok, _, _, _)).Times(1);
+    EXPECT_CALL(mockResponseDispatcher, sendStartAck(AssetGuard::SyncSchema::Status_Ok, _, _, _)).Times(1);
     ASSERT_NO_THROW(
         { AgentSessionForTest session(sessionId, start, mockStore, mockIndexerQueue, mockResponseDispatcher); });
 }

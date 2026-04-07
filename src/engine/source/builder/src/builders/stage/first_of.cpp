@@ -17,9 +17,9 @@ namespace
  *
  * Validates the JSON structure (must be array of output objects)
  * and builds the corresponding output expressions by looking up builders
- * in the registry. Only "wazuh-indexer" and "file" outputs are supported.
+ * in the registry. Only "assetguard-indexer" and "file" outputs are supported.
  *
- * @param thenDefinition JSON array like [{"wazuh-indexer": {"index": "..."}}]
+ * @param thenDefinition JSON array like [{"assetguard-indexer": {"index": "..."}}]
  * @param buildCtx Build context with registry access
  * @param contextName Context name for error messages (e.g., "first_of.item-0")
  * @return base::Expression The built output expression (Broadcast if multiple, single if one)

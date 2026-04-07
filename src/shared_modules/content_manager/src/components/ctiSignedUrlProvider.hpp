@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 04, 2025.
  *
  * This program is free software; you can redistribute it
@@ -53,14 +53,14 @@ struct SignedUrlCacheEntry
  *   "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
  *   "subject_token": "<access_token>",
  *   "subject_token_type": "urn:ietf:params:oauth:token-type:access_token",
- *   "requested_token_type": "urn:wazuh:params:oauth:token-type:signed_url",
- *   "resource": "https://cti.wazuh.com/api/v1/catalog/..."
+ *   "requested_token_type": "urn:assetguard:params:oauth:token-type:signed_url",
+ *   "resource": "https://cti.assetguard.com/api/v1/catalog/..."
  * }
  *
  * Response:
  * {
- *   "access_token": "https://cti.wazuh.com/...?verify=<hmac_signature>",
- *   "issued_token_type": "urn:wazuh:params:oauth:token-type:signed_url",
+ *   "access_token": "https://cti.assetguard.com/...?verify=<hmac_signature>",
+ *   "issued_token_type": "urn:assetguard:params:oauth:token-type:signed_url",
  *   "expires_in": 300
  * }
  */
@@ -135,7 +135,7 @@ private:
         requestBody["grant_type"] = "urn:ietf:params:oauth:grant-type:token-exchange";
         requestBody["subject_token"] = m_accessToken;
         requestBody["subject_token_type"] = "urn:ietf:params:oauth:token-type:access_token";
-        requestBody["requested_token_type"] = "urn:wazuh:params:oauth:token-type:signed_url";
+        requestBody["requested_token_type"] = "urn:assetguard:params:oauth:token-type:signed_url";
         requestBody["resource"] = resourceUrl;
 
         std::string responseBody;

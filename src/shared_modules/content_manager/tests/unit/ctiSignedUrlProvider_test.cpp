@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 04, 2025.
  *
  * This program is free software; you can redistribute it
@@ -18,7 +18,7 @@ using namespace testing;
  */
 TEST_F(CTISignedUrlProviderTest, TokenExchangeSuccess)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl = resourceUrl + "?verify=1234567890-hmac_signature";
 
     EXPECT_CALL(*m_mockUrlRequest, post(_, _, _))
@@ -50,7 +50,7 @@ TEST_F(CTISignedUrlProviderTest, TokenExchangeSuccess)
  */
 TEST_F(CTISignedUrlProviderTest, TokenExchangeNoAccessToken)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
 
     CTISignedUrlProvider provider(*m_mockUrlRequest, m_config);
     // Don't set access token
@@ -63,7 +63,7 @@ TEST_F(CTISignedUrlProviderTest, TokenExchangeNoAccessToken)
  */
 TEST_F(CTISignedUrlProviderTest, CacheHitOnSecondRequest)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl = resourceUrl + "?verify=1234567890-hmac_signature";
 
     EXPECT_CALL(*m_mockUrlRequest, post(_, _, _))
@@ -100,7 +100,7 @@ TEST_F(CTISignedUrlProviderTest, CacheHitOnSecondRequest)
  */
 TEST_F(CTISignedUrlProviderTest, CacheExpiration)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl1 = resourceUrl + "?verify=first_signature";
     const std::string signedUrl2 = resourceUrl + "?verify=second_signature";
 
@@ -157,7 +157,7 @@ TEST_F(CTISignedUrlProviderTest, CacheExpiration)
  */
 TEST_F(CTISignedUrlProviderTest, GetCachedSignedUrlMiss)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
 
     CTISignedUrlProvider provider(*m_mockUrlRequest, m_config);
 
@@ -170,7 +170,7 @@ TEST_F(CTISignedUrlProviderTest, GetCachedSignedUrlMiss)
  */
 TEST_F(CTISignedUrlProviderTest, GetCachedSignedUrlHit)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl = resourceUrl + "?verify=1234567890-hmac_signature";
 
     CTISignedUrlProvider provider(*m_mockUrlRequest, m_config);
@@ -186,8 +186,8 @@ TEST_F(CTISignedUrlProviderTest, GetCachedSignedUrlHit)
  */
 TEST_F(CTISignedUrlProviderTest, ClearExpiredCacheEntries)
 {
-    const std::string resourceUrl1 = "https://cti.wazuh.com/api/v1/resource1";
-    const std::string resourceUrl2 = "https://cti.wazuh.com/api/v1/resource2";
+    const std::string resourceUrl1 = "https://cti.assetguard.com/api/v1/resource1";
+    const std::string resourceUrl2 = "https://cti.assetguard.com/api/v1/resource2";
     const std::string signedUrl1 = resourceUrl1 + "?verify=sig1";
     const std::string signedUrl2 = resourceUrl2 + "?verify=sig2";
 
@@ -217,7 +217,7 @@ TEST_F(CTISignedUrlProviderTest, ClearExpiredCacheEntries)
  */
 TEST_F(CTISignedUrlProviderTest, TokenExchangeHttpError)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
 
     EXPECT_CALL(*m_mockUrlRequest, post(_, _, _))
         .WillOnce(Invoke(
@@ -245,7 +245,7 @@ TEST_F(CTISignedUrlProviderTest, TokenExchangeHttpError)
  */
 TEST_F(CTISignedUrlProviderTest, TokenExchangeInvalidJson)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
 
     EXPECT_CALL(*m_mockUrlRequest, post(_, _, _))
         .WillOnce(Invoke(
@@ -273,7 +273,7 @@ TEST_F(CTISignedUrlProviderTest, TokenExchangeInvalidJson)
  */
 TEST_F(CTISignedUrlProviderTest, TokenExchangeMissingFields)
 {
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
 
     EXPECT_CALL(*m_mockUrlRequest, post(_, _, _))
         .WillOnce(Invoke(
@@ -281,7 +281,7 @@ TEST_F(CTISignedUrlProviderTest, TokenExchangeMissingFields)
             {
                 // Return JSON missing required fields
                 nlohmann::json response;
-                response["issued_token_type"] = "urn:wazuh:params:oauth:token-type:signed_url";
+                response["issued_token_type"] = "urn:assetguard:params:oauth:token-type:signed_url";
                 // Missing access_token and expires_in
 
                 if (std::holds_alternative<TPostRequestParameters<const std::string&>>(postParams))
@@ -332,7 +332,7 @@ TEST_F(CTISignedUrlProviderTest, CachingDisabled)
 {
     m_config["tokenExchange"]["cacheSignedUrls"] = false;
 
-    const std::string resourceUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string resourceUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl = resourceUrl + "?verify=1234567890-hmac_signature";
 
     EXPECT_CALL(*m_mockUrlRequest, post(_, _, _))

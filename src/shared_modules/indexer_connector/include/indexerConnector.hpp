@@ -1,6 +1,6 @@
 /*
- * Wazuh - Indexer connector.
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Indexer connector.
+ * Copyright (C) 2015, AssetGuard Inc.
  * June 2, 2023.
  *
  * This program is free software; you can redistribute it
@@ -26,7 +26,7 @@
 #endif
 
 /**
- * @brief PointInTime class - Holds wazuh-indexer Point In Time data.
+ * @brief PointInTime class - Holds assetguard-indexer Point In Time data.
  *
  */
 class EXPORTED PointInTime final
@@ -129,7 +129,7 @@ public:
      *
      * Example updateQuery structure:
      * {
-     *   "query": { "term": { "wazuh.agent.id": "001" } },
+     *   "query": { "term": { "assetguard.agent.id": "001" } },
      *   "script": {
      *     "source": "ctx._source.field = params.value",
      *     "lang": "painless",

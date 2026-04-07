@@ -1,13 +1,13 @@
-WAZUH
-Copyright (C) 2015, Wazuh Inc.
+ASSETGUARD
+Copyright (C) 2015, AssetGuard Inc.
 
 Based on OSSEC
 Copyright (C) 2014 Trend Micro Inc.
 
 
-= Information about Wazuh =
+= Information about AssetGuard =
 
-Visit https://www.wazuh.com
+Visit https://www.assetguard.com
 
 
 = Recommended Installation =
@@ -15,8 +15,8 @@ Visit https://www.wazuh.com
 See INSTALL
 
 
-== Configuring Wazuh ==
+== Configuring AssetGuard ==
 
 Just follow the steps from the install.sh script.
 More information at
-https://documentation.wazuh.com
+https://documentation.assetguard.com

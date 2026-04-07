@@ -92,13 +92,13 @@ Name='IpAddress'>::1</Data><Data Name='IpPort'>0</Data></EventData>)",
     <EventData>
         <Data/>
         <Data>DetailSequence=1 DetailTotal=1 SequenceNumber=143 UserId=VAGRANT\\vagrant HostName=ConsoleHost HostVersion=5.1.17763.1007 CommandLine=</Data>
-        <Data>CommandInvocation(Out-Default): 'Out-Default' ParameterBinding(Out-Default): name='InputObject'; value='Cannot find the Windows PowerShell data file 'ArchiveResources.psd1' in directory 'C:\\Wazuh\\', or in any parent culture directories.'</Data>
+        <Data>CommandInvocation(Out-Default): 'Out-Default' ParameterBinding(Out-Default): name='InputObject'; value='Cannot find the Windows PowerShell data file 'ArchiveResources.psd1' in directory 'C:\\AssetGuard\\', or in any parent culture directories.'</Data>
     </EventData>
 </Event>)",
             j(fmt::format(
                 R"({{"{}":{}}})",
                 TARGET.substr(1),
-                R"({"System":{"Provider":{"@Name":"PowerShell"},"EventID":{"#text":"800","@Qualifiers":"0"},"Level":{"#text":"4"},"Security":{}},"EventData":["","DetailSequence=1 DetailTotal=1 SequenceNumber=143 UserId=VAGRANT\\\\vagrant HostName=ConsoleHost HostVersion=5.1.17763.1007 CommandLine=","CommandInvocation(Out-Default): 'Out-Default' ParameterBinding(Out-Default): name='InputObject'; value='Cannot find the Windows PowerShell data file 'ArchiveResources.psd1' in directory 'C:\\\\Wazuh\\\\', or in any parent culture directories.'"]})")),
+                R"({"System":{"Provider":{"@Name":"PowerShell"},"EventID":{"#text":"800","@Qualifiers":"0"},"Level":{"#text":"4"},"Security":{}},"EventData":["","DetailSequence=1 DetailTotal=1 SequenceNumber=143 UserId=VAGRANT\\\\vagrant HostName=ConsoleHost HostVersion=5.1.17763.1007 CommandLine=","CommandInvocation(Out-Default): 'Out-Default' ParameterBinding(Out-Default): name='InputObject'; value='Cannot find the Windows PowerShell data file 'ArchiveResources.psd1' in directory 'C:\\\\AssetGuard\\\\', or in any parent culture directories.'"]})")),
             700,
             getXMLParser,
             {NAME, TARGET, {""}, {"windows"}}),

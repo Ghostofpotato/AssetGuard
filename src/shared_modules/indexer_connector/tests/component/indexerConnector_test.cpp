@@ -1,6 +1,6 @@
 /*
- * Wazuh Indexer Connector - Component tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Indexer Connector - Component tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * January 09, 2024.
  *
  * This program is free software; you can redistribute it
@@ -209,9 +209,9 @@ TEST_F(IndexerConnectorTest, ConnectionWithSslCredentials)
     indexerConfig["name"] = INDEXER_NAME;
     indexerConfig["hosts"] = nlohmann::json::array({A_ADDRESS});
     indexerConfig["ssl"]["certificate_authorities"] =
-        nlohmann::json::array({"/var/wazuh-manager/etc/certs/root-ca.pem"});
-    indexerConfig["ssl"]["certificate"] = "/var/wazuh-manager/etc/certs/manager.pem";
-    indexerConfig["ssl"]["key"] = "/var/wazuh-manager/etc/certs/manager-key.pem";
+        nlohmann::json::array({"/var/assetguard-manager/etc/certs/root-ca.pem"});
+    indexerConfig["ssl"]["certificate"] = "/var/assetguard-manager/etc/certs/manager.pem";
+    indexerConfig["ssl"]["key"] = "/var/assetguard-manager/etc/certs/manager-key.pem";
 
     // Create connector and wait until the connection is established.
     auto indexerConnector {IndexerConnector(indexerConfig, TEMPLATE_FILE_PATH, "", true, nullptr, INDEXER_TIMEOUT)};
@@ -504,7 +504,7 @@ TEST_F(IndexerConnectorTest, PublishDeletedByQuery)
     // Define the agent IDs
     std::vector<std::string> agentIds {INDEX_ID_A};
     nlohmann::json expectedMetadata;
-    expectedMetadata["query"]["bool"]["filter"]["terms"]["wazuh.agent.id"] = agentIds;
+    expectedMetadata["query"]["bool"]["filter"]["terms"]["assetguard.agent.id"] = agentIds;
 
     // Callback that checks the expected data to be published.
     // The format of the data published is divided in two lines:

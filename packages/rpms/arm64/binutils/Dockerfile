@@ -8,7 +8,7 @@ RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 
 # Enable EPEL
-RUN yum install -y http://packages.wazuh.com/utils/pkg/epel-release-latest-7.noarch.rpm
+RUN yum install -y http://packages.assetguard.com/utils/pkg/epel-release-latest-7.noarch.rpm
 
 RUN yum -y install git make bzip2 xz wget \
                    texinfo flex diffutils which ruby rubygems gcc bison g++ && \

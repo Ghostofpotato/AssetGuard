@@ -189,7 +189,7 @@ protected:
         if (success)
         {
             ASSERT_FALSE(base::isError(resStr)) << base::getError(resStr).message;
-            ASSERT_EQ("Wazuh", base::getResponse<std::string>(resStr));
+            ASSERT_EQ("AssetGuard", base::getResponse<std::string>(resStr));
 
             ASSERT_FALSE(base::isError(resUint)) << base::getError(resUint).message;
             ASSERT_EQ(94043, base::getResponse<uint32_t>(resUint));
@@ -198,7 +198,7 @@ protected:
             ASSERT_EQ(37.386, base::getResponse<double>(resDouble));
 
             ASSERT_FALSE(base::isError(resJson)) << base::getError(resJson).message;
-            ASSERT_EQ(json::Json(R"("Wazuh")"), base::getResponse<json::Json>(resJson));
+            ASSERT_EQ(json::Json(R"("AssetGuard")"), base::getResponse<json::Json>(resJson));
         }
         else
         {
@@ -325,7 +325,7 @@ TEST_F(LocatorTest, GetAsJson)
 
     ASSERT_NO_THROW(res = locator->getAsJson(g_ipFullData, "test_map.test_str1"));
     ASSERT_FALSE(base::isError(res));
-    expected.setString("Wazuh");
+    expected.setString("AssetGuard");
     ASSERT_EQ(expected, base::getResponse<json::Json>(res));
 
     ASSERT_NO_THROW(res = locator->getAsJson(g_ipFullData, "test_map")); // Complex type
@@ -403,7 +403,7 @@ TEST_F(LocatorTest, GetAllReturnsCompleteJson)
 
     // Verify data types and values match those from GetAsJson test
     ASSERT_EQ(jsonData.getBool("/test_boolean").value(), true);
-    ASSERT_EQ(jsonData.getString("/test_map/test_str1").value(), "Wazuh");
+    ASSERT_EQ(jsonData.getString("/test_map/test_str1").value(), "AssetGuard");
     ASSERT_EQ(jsonData.getInt("/test_uint32").value(), 94043);
 }
 

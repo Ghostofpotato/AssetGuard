@@ -1,6 +1,6 @@
 /*
  * SQL Schema SCA tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * March 21, 2019.
  * This program is a free software, you can redistribute it
  * and/or modify it under the terms of GPLv2.
@@ -183,9 +183,9 @@ INSERT INTO sys_osinfo VALUES (2011369001, '2019/03/21 10:25:00', 'agent', 'x86_
 INSERT INTO sys_hwinfo VALUES (2089525312, '2019/03/21 11:25:00', '0', 'Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz', 2,
                                1992.001, 492832, 64032, 88);
 
-INSERT INTO sys_programs VALUES (95033803, '2019/03/21 13:25:00', 'deb', 'wazuh-manager', 'extra', 'admin', 320462,
-                                 'Wazuh', null, '3.9.0-1', 'amd64', null, null,
-                                 'Wazuh helps you to gain security visibility into your infrastructure by monitoring hosts at an operating system and application level. It provides the following capabilities: log analysis, file integrity monitoring, intrusions detection and policy and compliance monitoring',
+INSERT INTO sys_programs VALUES (95033803, '2019/03/21 13:25:00', 'deb', 'assetguard-manager', 'extra', 'admin', 320462,
+                                 'AssetGuard', null, '3.9.0-1', 'amd64', null, null,
+                                 'AssetGuard helps you to gain security visibility into your infrastructure by monitoring hosts at an operating system and application level. It provides the following capabilities: log analysis, file integrity monitoring, intrusions detection and policy and compliance monitoring',
                                  null, 0);
 INSERT INTO sys_programs VALUES (95033803, '2019/03/21 13:25:00', 'deb', 'curl', 'optional', 'web', 386,
                                  'Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>', null, '7.58.0-2ubuntu3.6',
@@ -201,7 +201,7 @@ INSERT INTO sys_programs VALUES (1554688024, '2019/03/21 14:18:35', 'deb', 'libn
                                  null, 0);
 
 INSERT INTO sys_processes VALUES (1794805470, '2019/03/21 13:25:06', 8012, 'python3', 'S', 1, 850, 111,
-                                  '/var/wazuh-manager/framework/python/bin/python3', '/var/wazuh-manager/framework/scripts/wazuh_manager_clusterd.py',
+                                  '/var/assetguard-manager/framework/python/bin/python3', '/var/assetguard-manager/framework/scripts/assetguard_manager_clusterd.py',
                                   'ossec', 'ossec', 'ossec', 'ossec', 'ossec', 'ossec', 'ossec', 20, 0, 30264, 121056,
                                   5621, 1211, 15073, 8011, 8011, 1, 8012, 0, 0);
 INSERT INTO sys_processes VALUES (1794805470, '2019/03/21 13:25:06', 1, 'systemd', 'S', 0, 146, 744, '/sbin/init', null,

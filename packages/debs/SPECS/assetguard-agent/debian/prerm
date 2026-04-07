@@ -1,17 +1,17 @@
 #!/bin/sh
-# prerm script for wazuh-manager
+# prerm script for assetguard-manager
 
 set -e
 
 DIR="/var/ossec"
-WAZUH_TMP_DIR="${DIR}/packages_files/agent_config_files"
+ASSETGUARD_TMP_DIR="${DIR}/packages_files/agent_config_files"
 
 # environment configuration
-if [ ! -d ${WAZUH_TMP_DIR} ]; then
-    mkdir -p ${WAZUH_TMP_DIR}
+if [ ! -d ${ASSETGUARD_TMP_DIR} ]; then
+    mkdir -p ${ASSETGUARD_TMP_DIR}
 else
-    rm -rf ${WAZUH_TMP_DIR}
-    mkdir -p ${WAZUH_TMP_DIR}
+    rm -rf ${ASSETGUARD_TMP_DIR}
+    mkdir -p ${ASSETGUARD_TMP_DIR}
 fi
 
 # Function to extract package_uninstallation value from XML
@@ -62,11 +62,11 @@ validate_uninstall() {
 
   # Validate uninstallation
   if [ -n "$VALIDATION_TOKEN" ] && [ -n "$VALIDATION_LOGIN" ]; then
-    validation_command="${DIR}/bin/wazuh-agentd --uninstall-auth-token=${VALIDATION_TOKEN} --uninstall-auth-login=${VALIDATION_LOGIN} --uninstall-auth-host=${VALIDATION_HOST} --uninstall-ssl-verify=${VALIDATION_SSL_VERIFY}"
+    validation_command="${DIR}/bin/assetguard-agentd --uninstall-auth-token=${VALIDATION_TOKEN} --uninstall-auth-login=${VALIDATION_LOGIN} --uninstall-auth-host=${VALIDATION_HOST} --uninstall-ssl-verify=${VALIDATION_SSL_VERIFY}"
   elif [ -n "$VALIDATION_TOKEN" ]; then
-    validation_command="${DIR}/bin/wazuh-agentd --uninstall-auth-token=${VALIDATION_TOKEN} --uninstall-auth-host=${VALIDATION_HOST} --uninstall-ssl-verify=${VALIDATION_SSL_VERIFY}"
+    validation_command="${DIR}/bin/assetguard-agentd --uninstall-auth-token=${VALIDATION_TOKEN} --uninstall-auth-host=${VALIDATION_HOST} --uninstall-ssl-verify=${VALIDATION_SSL_VERIFY}"
   elif [ -n "$VALIDATION_LOGIN" ]; then
-    validation_command="${DIR}/bin/wazuh-agentd --uninstall-auth-login=${VALIDATION_LOGIN} --uninstall-auth-host=${VALIDATION_HOST} --uninstall-ssl-verify=${VALIDATION_SSL_VERIFY}"
+    validation_command="${DIR}/bin/assetguard-agentd --uninstall-auth-login=${VALIDATION_LOGIN} --uninstall-auth-host=${VALIDATION_HOST} --uninstall-ssl-verify=${VALIDATION_SSL_VERIFY}"
   else
     echo "ERROR: Validation login or token not provided. Uninstallation cannot be continued."
     exit 1
@@ -84,16 +84,16 @@ case "$1" in
     upgrade|deconfigure)
 
       # Stop the services before uninstalling the package
-      if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-agent > /dev/null 2>&1; then
-          systemctl stop wazuh-agent > /dev/null 2>&1
-          touch ${WAZUH_TMP_DIR}/wazuh.restart
-      elif command -v service > /dev/null 2>&1 && service wazuh-agent status 2>/dev/null | grep "running" > /dev/null 2>&1; then
-          service wazuh-agent stop > /dev/null 2>&1
-          touch ${WAZUH_TMP_DIR}/wazuh.restart
+      if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet assetguard-agent > /dev/null 2>&1; then
+          systemctl stop assetguard-agent > /dev/null 2>&1
+          touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
+      elif command -v service > /dev/null 2>&1 && service assetguard-agent status 2>/dev/null | grep "running" > /dev/null 2>&1; then
+          service assetguard-agent stop > /dev/null 2>&1
+          touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
       elif ${DIR}/bin/ossec-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-          touch ${WAZUH_TMP_DIR}/wazuh.restart
+          touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
       fi
-      ${DIR}/bin/wazuh-control stop > /dev/null 2>&1
+      ${DIR}/bin/assetguard-control stop > /dev/null 2>&1
 
     ;;
 
@@ -106,13 +106,13 @@ case "$1" in
 
       # Stop the services before uninstalling the package
       # Check for systemd
-      if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-agent > /dev/null 2>&1; then
-          systemctl stop wazuh-agent > /dev/null 2>&1
+      if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet assetguard-agent > /dev/null 2>&1; then
+          systemctl stop assetguard-agent > /dev/null 2>&1
       # Check for SysV
-      elif command -v service > /dev/null 2>&1 && service wazuh-agent status 2>/dev/null | grep "running" > /dev/null 2>&1; then
-          service wazuh-agent stop > /dev/null 2>&1
+      elif command -v service > /dev/null 2>&1 && service assetguard-agent status 2>/dev/null | grep "running" > /dev/null 2>&1; then
+          service assetguard-agent stop > /dev/null 2>&1
       fi
-      ${DIR}/bin/wazuh-control stop > /dev/null 2>&1
+      ${DIR}/bin/assetguard-control stop > /dev/null 2>&1
 
       # Save the conffiles
       mkdir -p ${DIR}/tmp/conffiles
@@ -132,8 +132,8 @@ case "$1" in
     ;;
 
     failed-upgrade)
-      if [ -f ${DIR}/bin/wazuh-control ]; then
-        ${DIR}/bin/wazuh-control stop > /dev/null 2>&1
+      if [ -f ${DIR}/bin/assetguard-control ]; then
+        ${DIR}/bin/assetguard-control stop > /dev/null 2>&1
       fi
     ;;
 

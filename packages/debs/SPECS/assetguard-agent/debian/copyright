@@ -1,10 +1,10 @@
 This work was packaged for Debian by:
 
-    Wazuh, Inc <info@wazuh.com> on Sun, 12 Apr 2026 00:00:00 +0000
+    AssetGuard, Inc <info@assetguard.com> on Sun, 12 Apr 2026 00:00:00 +0000
 
 It was downloaded from:
 
-    https://www.wazuh.com
+    https://www.assetguard.com
 
 Upstream Authors:
 
@@ -17,10 +17,10 @@ Upstream Authors:
     brad.lhotsky@gmail.com
     jeremy@jeremyrossy.com
     santiago.bassett@gmail.com
-    pedro@wazuh.com
-    alberto.rodriguez@wazuh.com
-    braulio@wazuh.com
-    jose.fernandez@wazuh.com
+    pedro@assetguard.com
+    alberto.rodriguez@assetguard.com
+    braulio@assetguard.com
+    jose.fernandez@assetguard.com
 
 Copyright:
 
@@ -32,7 +32,7 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2015 Wazuh, Inc <info@wazuh.com>
+    Copyright (C) 2015 AssetGuard, Inc <info@assetguard.com>
 
 and is licensed under the GPL version 2,
 see "/usr/share/common-licenses/GPL-2".

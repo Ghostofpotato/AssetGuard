@@ -40,18 +40,18 @@ constexpr auto OUTPUTS_KEY = "outputs";              ///< Key for the outputs st
 constexpr auto FIRST_OF_KEY = "first_of";            ///< Key for the first_of stage in an asset.
 constexpr auto THEN_KEY = "then";                    ///< Key for the then action in first_of items.
 constexpr auto FILE_OUTPUT_KEY = "file";             ///< Key for the file output stage in an asset.
-constexpr auto INDEXER_OUTPUT_KEY = "wazuh-indexer"; ///< Key for the INDEXER output stage in an asset.
+constexpr auto INDEXER_OUTPUT_KEY = "assetguard-indexer"; ///< Key for the INDEXER output stage in an asset.
 constexpr auto INDEXER_OUTPUT_INDEX_KEY = "index";   ///< Key for the INDEXER output stage in an asset.
 
 // TODO: Move and document this better
-const auto DECODERS_PATH = json::Json::formatJsonPath("wazuh.integration.decoders");
-const auto INTEGRATION_PATH = json::Json::formatJsonPath("wazuh.integration.name");
-const auto CATEGORY_PATH = json::Json::formatJsonPath("wazuh.integration.category");
+const auto DECODERS_PATH = json::Json::formatJsonPath("assetguard.integration.decoders");
+const auto INTEGRATION_PATH = json::Json::formatJsonPath("assetguard.integration.name");
+const auto CATEGORY_PATH = json::Json::formatJsonPath("assetguard.integration.category");
 
 // Fields preserved when discarding events (index_discarded_events = false)
 namespace discard
 {
-constexpr auto TARGET_FIELD = "wazuh.space.event_discarded"; ///< Target field for discard_events helper
+constexpr auto TARGET_FIELD = "assetguard.space.event_discarded"; ///< Target field for discard_events helper
 } // namespace discard
 
 constexpr auto CONDITION_NAME =

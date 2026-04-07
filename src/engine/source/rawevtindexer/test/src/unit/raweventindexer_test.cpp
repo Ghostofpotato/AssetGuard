@@ -26,16 +26,16 @@ TEST_F(RawEventIndexerUnitTest, ConstructorThrowsIfConnectorIsExpired)
 
 TEST_F(RawEventIndexerUnitTest, ConstructorRespectsInitialEnabledState)
 {
-    raweventindexer::RawEventIndexer disabled(m_connector, "wazuh-events-raw-v5", false);
+    raweventindexer::RawEventIndexer disabled(m_connector, "assetguard-events-raw-v5", false);
     EXPECT_FALSE(disabled.isEnabled());
 
-    raweventindexer::RawEventIndexer enabled(m_connector, "wazuh-events-raw-v5", true);
+    raweventindexer::RawEventIndexer enabled(m_connector, "assetguard-events-raw-v5", true);
     EXPECT_TRUE(enabled.isEnabled());
 }
 
 TEST_F(RawEventIndexerUnitTest, EnableDisableTogglesState)
 {
-    raweventindexer::RawEventIndexer indexer(m_connector, "wazuh-events-raw-v5", false);
+    raweventindexer::RawEventIndexer indexer(m_connector, "assetguard-events-raw-v5", false);
     EXPECT_FALSE(indexer.isEnabled());
 
     indexer.enable();

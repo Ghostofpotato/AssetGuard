@@ -1,6 +1,6 @@
 /*
- * Wazuh SyscollectorNormalizer
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SyscollectorNormalizer
+ * Copyright (C) 2015, AssetGuard Inc.
  * January 12, 2021.
  *
  * This program is free software; you can redistribute it

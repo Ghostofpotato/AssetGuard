@@ -103,7 +103,7 @@ protected:
         // Default config for most tests
         defaultConfig = {
             tmpDir,                                   // basePath
-            "wazuh-${name}-${YYYY}-${MM}-${DD}.json", // pattern
+            "assetguard-${name}-${YYYY}-${MM}-${DD}.json", // pattern
             0,                                        // maxSize (no limit)
             fastqueue::MIN_QUEUE_CAPACITY,            // bufferSize
         };
@@ -1168,7 +1168,7 @@ TEST_F(ChannelHandlerTest, ExistingFileResumption)
         std::time_t now = std::time(nullptr);
         std::tm* tm = std::localtime(&now);
         char buffer[100];
-        std::strftime(buffer, sizeof(buffer), "wazuh-resume-test-%Y-%m-%d.json", tm);
+        std::strftime(buffer, sizeof(buffer), "assetguard-resume-test-%Y-%m-%d.json", tm);
         return std::string(buffer);
     }();
 
@@ -1274,7 +1274,7 @@ TEST_F(ChannelHandlerTest, FileSizeTrackingAccuracy)
         std::time_t now = std::time(nullptr);
         std::tm* tm = std::localtime(&now);
         char buffer[100];
-        std::strftime(buffer, sizeof(buffer), "wazuh-size-accuracy-%Y-%m-%d.json", tm);
+        std::strftime(buffer, sizeof(buffer), "assetguard-size-accuracy-%Y-%m-%d.json", tm);
         return std::string(buffer);
     }();
 
@@ -1348,7 +1348,7 @@ TEST_F(ChannelHandlerTest, EmptyExistingFileResumption)
         std::time_t now = std::time(nullptr);
         std::tm* tm = std::localtime(&now);
         char buffer[100];
-        std::strftime(buffer, sizeof(buffer), "wazuh-empty-resume-%Y-%m-%d.json", tm);
+        std::strftime(buffer, sizeof(buffer), "assetguard-empty-resume-%Y-%m-%d.json", tm);
         return std::string(buffer);
     }();
     auto filePath = tmpDir / fileName;
@@ -1389,7 +1389,7 @@ TEST_F(ChannelHandlerTest, ConcurrentWritesToExistingFile)
         std::time_t now = std::time(nullptr);
         std::tm* tm = std::localtime(&now);
         char buffer[100];
-        std::strftime(buffer, sizeof(buffer), "wazuh-concurrent-existing-%Y-%m-%d.json", tm);
+        std::strftime(buffer, sizeof(buffer), "assetguard-concurrent-existing-%Y-%m-%d.json", tm);
         return std::string(buffer);
     }();
 
@@ -1462,7 +1462,7 @@ TEST_F(ChannelHandlerTest, LargeExistingFileResumption)
         std::time_t now = std::time(nullptr);
         std::tm* tm = std::localtime(&now);
         char buffer[100];
-        std::strftime(buffer, sizeof(buffer), "wazuh-large-resume-%Y-%m-%d.json", tm);
+        std::strftime(buffer, sizeof(buffer), "assetguard-large-resume-%Y-%m-%d.json", tm);
         return std::string(buffer);
     }();
     auto filePath = tmpDir / fileName;
@@ -1509,7 +1509,7 @@ TEST_F(ChannelHandlerTest, FileAppendPositioning)
         std::time_t now = std::time(nullptr);
         std::tm* tm = std::localtime(&now);
         char buffer[100];
-        std::strftime(buffer, sizeof(buffer), "wazuh-append-position-%Y-%m-%d.json", tm);
+        std::strftime(buffer, sizeof(buffer), "assetguard-append-position-%Y-%m-%d.json", tm);
         return std::string(buffer);
     }();
     auto filePath = tmpDir / fileName;

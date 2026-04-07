@@ -12,7 +12,7 @@ public:
     virtual ~IConfRemote() = default;
 
     /**
-     * @brief Synchronizes runtime settings from wazuh-indexer.
+     * @brief Synchronizes runtime settings from assetguard-indexer.
      *
      * Non-throwing outward behavior: failures are handled internally.
      */

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -215,13 +215,13 @@ class AgentSyncProtocol : public IAgentSyncProtocol
 
         /// @brief Converts internal Mode enum to protocol schema Mode.
         /// @param mode The internal Mode enum value.
-        /// @return The corresponding Wazuh::SyncSchema::Mode value.
-        Wazuh::SyncSchema::Mode toProtocolMode(Mode mode) const;
+        /// @return The corresponding AssetGuard::SyncSchema::Mode value.
+        AssetGuard::SyncSchema::Mode toProtocolMode(Mode mode) const;
 
         /// @brief Converts internal Option enum to protocol schema Option.
         /// @param option The internal Option enum value.
-        /// @return The corresponding Wazuh::SyncSchema::Option value.
-        Wazuh::SyncSchema::Option toProtocolOption(Option option) const;
+        /// @return The corresponding AssetGuard::SyncSchema::Option value.
+        AssetGuard::SyncSchema::Option toProtocolOption(Option option) const;
 
         /// @brief Synchronization state shared between threads during module sync.
         ///

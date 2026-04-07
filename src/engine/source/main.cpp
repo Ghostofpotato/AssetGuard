@@ -11,7 +11,7 @@
 #include <api/handlers.hpp>
 #include <archiver/archiver.hpp>
 #include <base/eventParser.hpp>
-#include <base/libwazuhshared.hpp>
+#include <base/libassetguardshared.hpp>
 #include <base/logging.hpp>
 #include <base/process.hpp>
 #include <base/utils/singletonLocator.hpp>
@@ -128,21 +128,21 @@ int main(int argc, char* argv[])
     }
     else
     {
-        // Use wazuh-shared logging
+        // Use assetguard-shared logging
         try
         {
-            base::libwazuhshared::init();
-            exitHandler.add([]() { base::libwazuhshared::shutdown(); });
+            base::libassetguardshared::init();
+            exitHandler.add([]() { base::libassetguardshared::shutdown(); });
         }
         catch (const std::exception& e)
         {
-            fprintf(stderr, "Error initializing wazuh-shared: %s\n", e.what());
+            fprintf(stderr, "Error initializing assetguard-shared: %s\n", e.what());
             return EXIT_FAILURE;
         }
 
-        if (chdir(base::process::getWazuhHome().string().c_str()) == -1)
+        if (chdir(base::process::getAssetGuardHome().string().c_str()) == -1)
         {
-            fprintf(stderr, "chdir to WAZUH_HOME failed: %s\n", strerror(errno));
+            fprintf(stderr, "chdir to ASSETGUARD_HOME failed: %s\n", strerror(errno));
             return EXIT_FAILURE;
         }
 
@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
 
             try
             {
-                const auto ReadXML = base::libwazuhshared::getFunction<void (*)()>("os_logging_config");
+                const auto ReadXML = base::libassetguardshared::getFunction<void (*)()>("os_logging_config");
                 ReadXML();
             }
             catch (const std::exception& e)
@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
             {
                 auto verbosity = confManager.get<int>(conf::key::LOGGING_LEVEL);
                 auto level = logging::verbosityToLevel(verbosity);
-                logging::applyLevelWazuh(level, opts.debugCount);
+                logging::applyLevelAssetGuard(level, opts.debugCount);
             }
         }
 
@@ -269,7 +269,7 @@ int main(int argc, char* argv[])
         if (!base::process::isStandaloneModeEnable())
         {
             // Get executable file name
-            std::string exePath {"wazuh-manager-analysisd"};
+            std::string exePath {"assetguard-manager-analysisd"};
 
             const auto pidError =
                 base::process::createPID(confManager.get<std::string>(conf::key::PID_FILE_PATH), exePath, getpid());
@@ -342,7 +342,7 @@ int main(int argc, char* argv[])
                 confManager.get<bool>(conf::key::TZDB_AUTO_UPDATE),
                 confManager.get<std::string>(conf::key::TZDB_FORCE_VERSION_UPDATE));
 
-            base::Name logparFieldOverrides({"schema", "wazuh-logpar-overrides", "0"});
+            base::Name logparFieldOverrides({"schema", "assetguard-logpar-overrides", "0"});
             auto res = store->readDoc(logparFieldOverrides);
             if (std::holds_alternative<base::Error>(res))
             {
@@ -383,7 +383,7 @@ int main(int argc, char* argv[])
             {
                 const auto jsonCnf = base::process::isStandaloneModeEnable()
                                          ? standAloneConfig()
-                                         : base::libwazuhshared::getJsonIndexerCnf();
+                                         : base::libassetguardshared::getJsonIndexerCnf();
                 indexerConnector = std::make_shared<wiconnector::WIndexerConnector>(jsonCnf);
                 LOG_INFO("Indexer Connector initialized.");
             }

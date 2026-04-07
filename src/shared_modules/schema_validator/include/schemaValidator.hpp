@@ -160,7 +160,7 @@ namespace SchemaValidator
             /**
              * @brief Get a validator for a specific index pattern
              *
-             * @param indexPattern Index pattern (e.g., "wazuh-states-inventory-hardware")
+             * @param indexPattern Index pattern (e.g., "assetguard-states-inventory-hardware")
              * @return std::shared_ptr<ISchemaValidatorEngine> Validator instance or nullptr if not found
              */
             std::shared_ptr<ISchemaValidatorEngine> getValidator(const std::string& indexPattern);

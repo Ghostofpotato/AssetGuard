@@ -1,11 +1,11 @@
 #!/bin/sh
-# postrm script for wazuh-internal-tools
-# Wazuh, Inc 2015
+# postrm script for assetguard-internal-tools
+# AssetGuard, Inc 2015
 
 set -e
 case "$1" in
   purge)
-    rm -rf /opt/wazuh-internal-tools || true
+    rm -rf /opt/assetguard-internal-tools || true
     ;;
 esac
 exit 0

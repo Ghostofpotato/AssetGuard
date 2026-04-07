@@ -35,7 +35,7 @@ static unsigned int g_integrity_interval = 86400;
 /// @brief Sets the message pushing functions for SCA module.
 ///
 /// Configures the callback functions used to send stateless and stateful
-/// messages from the SCA module to other Wazuh components.
+/// messages from the SCA module to other AssetGuard components.
 ///
 /// @param stateless_func Function pointer for sending stateless messages
 /// @param stateful_func Function pointer for sending stateful messages with persistence

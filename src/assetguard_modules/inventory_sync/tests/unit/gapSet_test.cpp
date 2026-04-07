@@ -1,6 +1,6 @@
 /**
- * Wazuh Inventory Sync - GapSet Unit tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Inventory Sync - GapSet Unit tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 26, 2023.
  *
  * This program is free software; you can redistribute it

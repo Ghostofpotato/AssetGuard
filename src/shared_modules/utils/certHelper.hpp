@@ -1,6 +1,6 @@
 /*
- * Wazuh Vulnerability scanner - Scan Orchestrator
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Vulnerability scanner - Scan Orchestrator
+ * Copyright (C) 2015, AssetGuard Inc.
  * Nov 23, 2023.
  *
  * This program is free software; you can redistribute it
@@ -20,7 +20,7 @@
 #include <unistd.h>
 #include <vector>
 
-constexpr auto USER_GROUP {"wazuh"};
+constexpr auto USER_GROUP {"assetguard"};
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"

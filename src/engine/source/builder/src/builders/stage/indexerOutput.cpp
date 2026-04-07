@@ -49,10 +49,10 @@ base::Expression indexerOutputBuilder(const json::Json& definition,
 
     // Index name can’t contain any of the following characters:
     // ' ', ',', ':', '"', '*', '+', '/', '\', '|', '?', '#', '>', or '<'
-    if (!std::regex_match(indexName, std::regex(R"(^wazuh-events-v5-(?:[a-z0-9.-]+|\$\{[^}]+\})*$)")))
+    if (!std::regex_match(indexName, std::regex(R"(^assetguard-events-v5-(?:[a-z0-9.-]+|\$\{[^}]+\})*$)")))
     {
         throw std::runtime_error(
-            fmt::format("Stage '{}' expects the index name to start with 'wazuh-events-v5-' and it should only contain "
+            fmt::format("Stage '{}' expects the index name to start with 'assetguard-events-v5-' and it should only contain "
                         "lowercase letters, numbers, dots, hyphens, or placeholders but got '{}'",
                         syntax::asset::INDEXER_OUTPUT_KEY,
                         indexName));

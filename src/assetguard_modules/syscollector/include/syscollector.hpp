@@ -1,6 +1,6 @@
 /*
- * Wazuh SysCollector
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SysCollector
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 8, 2020.
  *
  * This program is free software; you can redistribute it
@@ -277,7 +277,7 @@ class EXPORTED Syscollector final
          * the schema for the given index and logs detailed error messages if validation fails.
          *
          * @param data JSON string to validate
-         * @param index Index name for schema lookup (e.g., "wazuh-states-inventory-packages")
+         * @param index Index name for schema lookup (e.g., "assetguard-states-inventory-packages")
          * @param context Context string for logging (e.g., "table: dbsync_packages")
          * @return true if validation passed or validator not initialized, false if validation failed
          */
@@ -377,7 +377,7 @@ class EXPORTED Syscollector final
          * syscollector, returns an empty optional.
          *
          * Expected response format from agentd:
-         * "ok {\"wazuh-states-inventory-packages\": 10000, ...}"
+         * "ok {\"assetguard-states-inventory-packages\": 10000, ...}"
          *
          * @return Optional JSON with limits if available, empty optional otherwise
          */

@@ -1,6 +1,6 @@
 /*
- * Wazuh router - C API tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router - C API tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * June 25, 2025.
  *
  * This program is free software; you can redistribute it
@@ -658,12 +658,12 @@ static std::vector<uint8_t> createStartMessage(const std::string& agentId)
     auto agentIdOffset = builder.CreateString(agentId);
     auto moduleOffset = builder.CreateString("test-module");
 
-    auto startMsg = Wazuh::SyncSchema::CreateStart(builder,
+    auto startMsg = AssetGuard::SyncSchema::CreateStart(builder,
                                                    moduleOffset,                       // module
-                                                   Wazuh::SyncSchema::Mode_ModuleFull, // mode
+                                                   AssetGuard::SyncSchema::Mode_ModuleFull, // mode
                                                    100,                                // size
                                                    0,                                  // index
-                                                   Wazuh::SyncSchema::Option_Sync,     // option
+                                                   AssetGuard::SyncSchema::Option_Sync,     // option
                                                    0,                                  // architecture
                                                    0,                                  // hostname
                                                    0,                                  // osname
@@ -674,7 +674,7 @@ static std::vector<uint8_t> createStartMessage(const std::string& agentId)
                                                    0,                                  // agentname
                                                    agentIdOffset);                     // agentid
 
-    auto msg = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType_Start, startMsg.Union());
+    auto msg = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType_Start, startMsg.Union());
 
     builder.Finish(msg);
 

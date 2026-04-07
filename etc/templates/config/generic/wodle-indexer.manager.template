@@ -4,9 +4,9 @@
     </hosts>
     <ssl>
       <certificate_authorities>
-        <ca>/var/wazuh-manager/etc/certs/root-ca.pem</ca>
+        <ca>/var/assetguard-manager/etc/certs/root-ca.pem</ca>
       </certificate_authorities>
-      <certificate>/var/wazuh-manager/etc/certs/manager.pem</certificate>
-      <key>/var/wazuh-manager/etc/certs/manager-key.pem</key>
+      <certificate>/var/assetguard-manager/etc/certs/manager.pem</certificate>
+      <key>/var/assetguard-manager/etc/certs/manager-key.pem</key>
     </ssl>
   </indexer>

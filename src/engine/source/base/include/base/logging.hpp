@@ -13,7 +13,7 @@
 #include "commonDefs.h"
 #include "loggerHelper.h"
 
-#include <base/libwazuhshared.hpp>
+#include <base/libassetguardshared.hpp>
 #include <base/process.hpp>
 
 #define LAMBDA_SEPARATOR "::<lambda>"
@@ -33,7 +33,7 @@ constexpr auto STD_ERR_PATH {"/dev/stderr"};
  */
 constexpr auto STD_OUT_PATH {"/dev/stdout"};
 
-// constexpr auto WAZUH_LOG_HEADER {"%D %T wazuh-engine[%P] %s:%# at %!(): %l: %v"};
+// constexpr auto ASSETGUARD_LOG_HEADER {"%D %T assetguard-engine[%P] %s:%# at %!(): %l: %v"};
 
 /**
  * @brief Default log header format.
@@ -259,16 +259,16 @@ extern "C"
 /**
  * @brief Get the default logging tag string.
  *
- * @return constexpr const char* The default tag ("wazuh-manager-analysisd").
+ * @return constexpr const char* The default tag ("assetguard-manager-analysisd").
  */
 constexpr inline const char* default_tag()
 {
-    return "wazuh-manager-analysisd";
+    return "assetguard-manager-analysisd";
 }
 
 /**
  * @brief Dispatches a fully composed log message to either spdlog (standalone)
- *        or the Wazuh logging callback (integrated mode).
+ *        or the AssetGuard logging callback (integrated mode).
  *
  * @param lvl      spdlog severity level (trace, debug, info, warn, err, critical).
  * @param file     Source file path of the logging call (typically `__FILE__`).
@@ -277,7 +277,7 @@ constexpr inline const char* default_tag()
  * @param text     Fully composed message to log; treated as literal data in both modes.
  *
  * @note This function assumes the logger has already been initialized in standalone mode
- *       (see `getDefaultLogger()`), and that the Wazuh logging symbols are available in
+ *       (see `getDefaultLogger()`), and that the AssetGuard logging symbols are available in
  *       callback mode. It does not perform formatting; callers should preformat when needed.
  *
  * @see isStandaloneModeEnable(), getDefaultLogger(), log_bridge()
@@ -330,11 +330,11 @@ inline bool should_log(logging::Level lvl)
         return getDefaultLogger()->should_log(SEVERITY_LEVEL.at(lvl));
     }
 
-    // TODO: CHECK THIS BECAUSE SOME TESTS DO NOT USE STANDALONE MODE AND FAIL BECAUSE THEY DO NOT HAVE LIBWAZUHSHARED
-    // // In Wazuh mode, check debug flag from the C logging system
+    // TODO: CHECK THIS BECAUSE SOME TESTS DO NOT USE STANDALONE MODE AND FAIL BECAUSE THEY DO NOT HAVE LIBASSETGUARDSHARED
+    // // In AssetGuard mode, check debug flag from the C logging system
     // // isDebug() returns: 0 = Info+, 1 = Debug+, 2+ = Trace+
     // using IsDebugFnType = int (*)();
-    // const auto isDebugFn = base::libwazuhshared::getFunction<IsDebugFnType>("isDebug");
+    // const auto isDebugFn = base::libassetguardshared::getFunction<IsDebugFnType>("isDebug");
     // const int debugLevel = isDebugFn();
 
     // switch (lvl)
@@ -418,7 +418,7 @@ constexpr logging::Level verbosityToLevel(int v)
 void applyLevelStandalone(logging::Level target, int debugCount);
 
 /**
- * @brief Applies the effective log level when running in Wazuh callback mode, honoring CLI -d priority.
+ * @brief Applies the effective log level when running in AssetGuard callback mode, honoring CLI -d priority.
  *
  * @param target         Target log level when no -d is provided (i.e., when debugCount == 0). Typically
  *                       obtained from configuration; ignored if debugCount > 0.
@@ -426,14 +426,14 @@ void applyLevelStandalone(logging::Level target, int debugCount);
  *
  * @throw std::runtime_error If the `nowDebug` symbol cannot be resolved when the effective level is Debug/Trace.
  */
-void applyLevelWazuh(logging::Level target, int debugCount);
+void applyLevelAssetGuard(logging::Level target, int debugCount);
 
 /**
  * @brief Creates a spdlog-based logging function compatible with GLOBAL_LOG_FUNCTION signature
  *        for use in standalone mode.
  *
  * This function returns a logging function that uses spdlog internally and is compatible
- * with the GLOBAL_LOG_FUNCTION signature used throughout the Wazuh codebase.
+ * with the GLOBAL_LOG_FUNCTION signature used throughout the AssetGuard codebase.
  *
  * @return A function that can be used to log messages using spdlog in standalone mode.
  *         The returned function has the signature:

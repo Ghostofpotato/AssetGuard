@@ -1,5 +1,5 @@
-#ifndef WAZUH_ENGINE_PARSE_FIELD_HPP
-#define WAZUH_ENGINE_PARSE_FIELD_HPP
+#ifndef ASSETGUARD_ENGINE_PARSE_FIELD_HPP
+#define ASSETGUARD_ENGINE_PARSE_FIELD_HPP
 
 #include <base/json.hpp>
 #include <optional>
@@ -85,4 +85,4 @@ void updateDoc(json::Json& doc,
                bool is_quoted);
 
 } // namespace hlp
-#endif // WAZUH_ENGINE_PARSE_FIELD_HPP
+#endif // ASSETGUARD_ENGINE_PARSE_FIELD_HPP

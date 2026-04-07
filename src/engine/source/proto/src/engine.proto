@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.assetguard.api.engine;
+package com.wazuh.api.engine;
 
 enum ReturnStatus
 {

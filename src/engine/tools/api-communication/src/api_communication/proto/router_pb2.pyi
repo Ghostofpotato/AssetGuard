@@ -39,10 +39,10 @@ class EntryPost(_message.Message):
     def __init__(self, name: _Optional[str] = ..., namespaceId: _Optional[str] = ..., priority: _Optional[int] = ..., description: _Optional[str] = ...) -> None: ...
 
 class QueuePost_Request(_message.Message):
-    __slots__ = ["wazuh_event"]
-    WAZUH_EVENT_FIELD_NUMBER: _ClassVar[int]
-    wazuh_event: str
-    def __init__(self, wazuh_event: _Optional[str] = ...) -> None: ...
+    __slots__ = ["assetguard_event"]
+    ASSETGUARD_EVENT_FIELD_NUMBER: _ClassVar[int]
+    assetguard_event: str
+    def __init__(self, assetguard_event: _Optional[str] = ...) -> None: ...
 
 class RouteDelete_Request(_message.Message):
     __slots__ = ["name"]

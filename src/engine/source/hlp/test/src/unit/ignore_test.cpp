@@ -14,9 +14,9 @@ INSTANTIATE_TEST_SUITE_P(IgnoreBuild,
 INSTANTIATE_TEST_SUITE_P(
     IgnoreParse,
     HlpParseTest,
-    ::testing::Values(ParseT(SUCCESS, "wazuh", j("{}"), 5, getIgnoreParser, {NAME, "", {}, {"wazuh"}}),
-                      ParseT(SUCCESS, "wazuh 123", j("{}"), 5, getIgnoreParser, {NAME, "", {}, {"wazuh"}}),
-                      ParseT(SUCCESS, "wazuhwazuh", j("{}"), 10, getIgnoreParser, {NAME, "", {}, {"wazuh"}}),
-                      ParseT(SUCCESS, "wazuhwazuhwazuhwazuh", j("{}"), 20, getIgnoreParser, {NAME, "", {}, {"wazuh"}}),
-                      ParseT(SUCCESS, "wazuhwa", j("{}"), 5, getIgnoreParser, {NAME, "", {}, {"wazuh"}}),
-                      ParseT(FAILURE, "WAZUH", j("{}"), 0, getIgnoreParser, {NAME, "", {}, {"wazuh"}})));
+    ::testing::Values(ParseT(SUCCESS, "assetguard", j("{}"), 5, getIgnoreParser, {NAME, "", {}, {"assetguard"}}),
+                      ParseT(SUCCESS, "assetguard 123", j("{}"), 5, getIgnoreParser, {NAME, "", {}, {"assetguard"}}),
+                      ParseT(SUCCESS, "assetguardassetguard", j("{}"), 10, getIgnoreParser, {NAME, "", {}, {"assetguard"}}),
+                      ParseT(SUCCESS, "assetguardassetguardassetguardassetguard", j("{}"), 20, getIgnoreParser, {NAME, "", {}, {"assetguard"}}),
+                      ParseT(SUCCESS, "assetguardwa", j("{}"), 5, getIgnoreParser, {NAME, "", {}, {"assetguard"}}),
+                      ParseT(FAILURE, "ASSETGUARD", j("{}"), 0, getIgnoreParser, {NAME, "", {}, {"assetguard"}})));

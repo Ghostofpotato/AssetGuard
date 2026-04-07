@@ -1,6 +1,6 @@
 /*
- * Wazuh cmdLine args parser
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard cmdLine args parser
+ * Copyright (C) 2015, AssetGuard Inc.
  * Agoust 6, 2023.
  *
  * This program is free software; you can redistribute it

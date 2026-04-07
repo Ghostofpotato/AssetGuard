@@ -330,7 +330,7 @@ Parser getEofParser(const Params& params);
  *
  * The parser never fails, and the string can be partially repeated, as long as it is the
  * last time it appears. For example, the parser will return parse to ' test!' in the case
- * where the string to ignore is 'wazuh' and the string to parse is "wazuhwazuhwa test!"
+ * where the string to ignore is 'assetguard' and the string to parse is "assetguardassetguardwa test!"
  *
  * @param params.name name of the parser
  * @param params.targetField: field to store the parsed value, if not present, the value is ignored

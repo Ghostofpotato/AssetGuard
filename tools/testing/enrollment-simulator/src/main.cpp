@@ -143,7 +143,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    WazuhAuthSimulator simulator(host, port, password);
+    AssetGuardAuthSimulator simulator(host, port, password);
     simulator.run_simulation(threads, total, new_ratio, incorrect_pass_ratio,
                             modern_version_ratio, group_ratio, connect_delay, send_delay, csv_file);
 

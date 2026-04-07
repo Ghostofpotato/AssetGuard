@@ -149,8 +149,8 @@ extern "C"
     void init()
     {
         using LogginFnWrapperType = void (*)(int, const char*, const char*, int, const char*, const char*, va_list);
-        const auto logWrapper = base::libwazuhshared::getFunction<LogginFnWrapperType>("mtLoggingFunctionsWrapper");
-        base::libwazuhshared::setLoggerTag(logging::default_tag());
+        const auto logWrapper = base::libassetguardshared::getFunction<LogginFnWrapperType>("mtLoggingFunctionsWrapper");
+        base::libassetguardshared::setLoggerTag(logging::default_tag());
 
         initializeFullLogFunction(
             [logWrapper](const int logLevel,
@@ -182,7 +182,7 @@ void applyLevelStandalone(logging::Level target, int debugCount)
     }
 }
 
-void applyLevelWazuh(logging::Level target, int debugCount)
+void applyLevelAssetGuard(logging::Level target, int debugCount)
 {
     // -d takes priority over the configuration
     const logging::Level effective = (debugCount > 1)    ? logging::Level::Trace
@@ -195,7 +195,7 @@ void applyLevelWazuh(logging::Level target, int debugCount)
     }
 
     using NowDebugFnType = void (*)();
-    const auto nowDebug = base::libwazuhshared::getFunction<NowDebugFnType>("nowDebug");
+    const auto nowDebug = base::libassetguardshared::getFunction<NowDebugFnType>("nowDebug");
 
     const int times = (effective == logging::Level::Debug) ? 1 : 2;
     for (int i = 0; i < times; ++i) nowDebug();
@@ -208,7 +208,7 @@ void applyLevelWazuh(logging::Level target, int debugCount)
  *        for use in standalone mode.
  *
  * This function returns a logging function that uses spdlog internally and is compatible
- * with the GLOBAL_LOG_FUNCTION signature used throughout the Wazuh codebase.
+ * with the GLOBAL_LOG_FUNCTION signature used throughout the AssetGuard codebase.
  *
  * @return A function that can be used to log messages using spdlog in standalone mode.
  *         The returned function has the signature:
@@ -225,7 +225,7 @@ createStandaloneLogFunction()
               const char* msg,
               va_list args) -> void
     {
-        // Convert the log level from Wazuh format to logging::Level
+        // Convert the log level from AssetGuard format to logging::Level
         logging::Level level;
         switch (logLevel)
         {

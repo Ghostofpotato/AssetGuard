@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * June 21, 2023.
  *
  * This program is free software; you can redistribute it
@@ -78,7 +78,7 @@ class TMonitoring final
             //     {
             //         "epoch": "1726271464",
             //         "timestamp": "23:51:04",
-            //         "cluster": "wazuh-cluster",
+            //         "cluster": "assetguard-cluster",
             //         "status": "green",
             //         "node.total": "1",
             //         "node.data": "1",

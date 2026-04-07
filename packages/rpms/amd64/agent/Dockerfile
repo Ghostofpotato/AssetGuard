@@ -24,15 +24,15 @@ RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
 RUN yum install -y nodejs
 
 # Update rpmbuild, rpm and autoconf
-RUN curl -O http://packages.wazuh.com/utils/autoconf/autoconf-2.69.tar.gz && \
+RUN curl -O http://packages.assetguard.com/utils/autoconf/autoconf-2.69.tar.gz && \
     gunzip autoconf-2.69.tar.gz && tar xvf autoconf-2.69.tar && \
     cd autoconf-2.69 && ./configure && make -j$(nproc) && \
     make install && cd / && rm -rf autoconf-*
 
-RUN curl -O https://packages.wazuh.com/utils/libarchive/libarchive-3.1.2-12.el7.src.rpm && \
+RUN curl -O https://packages.assetguard.com/utils/libarchive/libarchive-3.1.2-12.el7.src.rpm && \
     rpmbuild --rebuild libarchive-3.1.2-12.el7.src.rpm && rpm -Uvh /root/rpmbuild/RPMS/x86_64/* --nodeps && rm -rf libarchive-*
 
-RUN curl -O http://packages.wazuh.com/utils/rpm/rpm-4.15.1.tar.bz2 && \
+RUN curl -O http://packages.assetguard.com/utils/rpm/rpm-4.15.1.tar.bz2 && \
     tar -xjf rpm-4.15.1.tar.bz2 && cd rpm-4.15.1 && \
     ./configure --without-lua && make -j$(nproc) && make install && cd / && rm -rf rpm-*
 
@@ -43,7 +43,7 @@ RUN mkdir -p /usr/local/var/lib/rpm && \
 # -------------------------------------------------------------------
 # GCC 9.4.0 (bootstrap only)
 # -------------------------------------------------------------------
-RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
+RUN curl -OL http://packages.assetguard.com/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz && cd gcc-9.4.0 && \
     ./contrib/download_prerequisites && \
     ./configure --prefix=/usr/local/gcc-9.4.0 \

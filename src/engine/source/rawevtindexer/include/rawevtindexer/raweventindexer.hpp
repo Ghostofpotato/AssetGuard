@@ -21,7 +21,7 @@ private:
     std::string m_indexName;                                    ///< Index name for raw events
 
 public:
-    static constexpr std::string_view DEFAULT_INDEX_NAME = "wazuh-events-raw-v5"; /// Default index name for raw events
+    static constexpr std::string_view DEFAULT_INDEX_NAME = "assetguard-events-raw-v5"; /// Default index name for raw events
 
     /**
      * @brief Construct a new Raw Event Indexer object

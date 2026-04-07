@@ -1,6 +1,6 @@
 /*
- * Wazuh inventory sync
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard inventory sync
+ * Copyright (C) 2015, AssetGuard Inc.
  * August 6, 2025.
  *
  * This program is free software; you can redistribute it
@@ -82,7 +82,7 @@ class AgentSessionImpl final
 
 public:
     explicit AgentSessionImpl(const uint64_t sessionId,
-                              Wazuh::SyncSchema::Start const* data,
+                              AssetGuard::SyncSchema::Start const* data,
                               TStore& store,
                               TIndexerQueue& indexerQueue,
                               const TResponseDispatcher& responseDispatcher)
@@ -150,12 +150,12 @@ public:
         // Create new session.
         // Size validation: MetadataDelta, MetadataCheck, GroupDelta, GroupCheck, ModuleCheck don't send data messages,
         // so size can be 0
-        if (data->size() == 0 && data->mode() != Wazuh::SyncSchema::Mode_MetadataDelta &&
-            data->mode() != Wazuh::SyncSchema::Mode_MetadataCheck &&
-            data->mode() != Wazuh::SyncSchema::Mode_GroupDelta && data->mode() != Wazuh::SyncSchema::Mode_GroupCheck &&
-            data->mode() != Wazuh::SyncSchema::Mode_ModuleCheck)
+        if (data->size() == 0 && data->mode() != AssetGuard::SyncSchema::Mode_MetadataDelta &&
+            data->mode() != AssetGuard::SyncSchema::Mode_MetadataCheck &&
+            data->mode() != AssetGuard::SyncSchema::Mode_GroupDelta && data->mode() != AssetGuard::SyncSchema::Mode_GroupCheck &&
+            data->mode() != AssetGuard::SyncSchema::Mode_ModuleCheck)
         {
-            responseDispatcher.sendStartAck(Wazuh::SyncSchema::Status_Error, agentId, sessionId, moduleName);
+            responseDispatcher.sendStartAck(AssetGuard::SyncSchema::Status_Error, agentId, sessionId, moduleName);
             throw AgentSessionException("Invalid size");
         }
 
@@ -194,7 +194,7 @@ public:
                   m_context->clusterNode.c_str());
 
         responseDispatcher.sendStartAck(
-            Wazuh::SyncSchema::Status_Ok, m_context->agentId, m_context->sessionId, m_context->moduleName);
+            AssetGuard::SyncSchema::Status_Ok, m_context->agentId, m_context->sessionId, m_context->moduleName);
     }
 
     /// Deleted copy constructor and assignment operator (C.12 compliant).
@@ -217,7 +217,7 @@ public:
      * @param dataRaw Raw binary payload of the chunk.
      * @param dataSize Size of the raw payload.
      */
-    void handleData(Wazuh::SyncSchema::DataValue const* data, const uint8_t* dataRaw, size_t dataSize)
+    void handleData(AssetGuard::SyncSchema::DataValue const* data, const uint8_t* dataRaw, size_t dataSize)
     {
         if (data == nullptr)
         {
@@ -260,7 +260,7 @@ public:
      *
      * @param data Parsed flatbuffer ChecksumModule message.
      */
-    void handleChecksumModule(Wazuh::SyncSchema::ChecksumModule const* data)
+    void handleChecksumModule(AssetGuard::SyncSchema::ChecksumModule const* data)
     {
         if (data == nullptr)
         {
@@ -297,7 +297,7 @@ public:
      * @param dataRaw Raw binary payload of the chunk.
      * @param dataSize Size of the raw payload.
      */
-    void handleDataContext(Wazuh::SyncSchema::DataContext const* data, const uint8_t* dataRaw, size_t dataSize)
+    void handleDataContext(AssetGuard::SyncSchema::DataContext const* data, const uint8_t* dataRaw, size_t dataSize)
     {
         if (data == nullptr)
         {
@@ -343,7 +343,7 @@ public:
      *
      * @param data Parsed flatbuffer DataClean message.
      */
-    void handleDataClean(Wazuh::SyncSchema::DataClean const* data)
+    void handleDataClean(AssetGuard::SyncSchema::DataClean const* data)
     {
         if (data == nullptr)
         {
@@ -404,7 +404,7 @@ public:
         {
             logDebug2(LOGGER_DEFAULT_TAG, "End already enqueued for session %llu", m_context->sessionId);
             responseDispatcher.sendEndAck(
-                Wazuh::SyncSchema::Status_Processing, m_context->agentId, m_context->sessionId, m_context->moduleName);
+                AssetGuard::SyncSchema::Status_Processing, m_context->agentId, m_context->sessionId, m_context->moduleName);
             return;
         }
 
@@ -414,7 +414,7 @@ public:
             m_indexerQueue.push(Response({.status = ResponseStatus::Ok, .context = m_context}));
             m_endEnqueued = true;
             responseDispatcher.sendEndAck(
-                Wazuh::SyncSchema::Status_Processing, m_context->agentId, m_context->sessionId, m_context->moduleName);
+                AssetGuard::SyncSchema::Status_Processing, m_context->agentId, m_context->sessionId, m_context->moduleName);
         }
         else
         {

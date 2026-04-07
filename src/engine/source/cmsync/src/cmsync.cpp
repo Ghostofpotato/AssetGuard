@@ -174,7 +174,7 @@ bool CMSync::existSpaceInRemote(std::string_view space)
 
     return base::utils::executeWithRetry([&indexerPtr, space]() { return indexerPtr->existsPolicy(space); },
                                          fmt::format("{}::exist()", COMPONENT_NAME),
-                                         fmt::format("Check '{}' space in wazuh-indexer", space),
+                                         fmt::format("Check '{}' space in assetguard-indexer", space),
                                          m_attemps,
                                          m_waitSeconds);
 }
@@ -184,11 +184,11 @@ void CMSync::downloadNamespace(std::string_view originSpace, const cm::store::Na
     auto indexerPtr = base::utils::lockWeakPtr(m_indexerPtr, "IndexerConnector");
     auto cmcrudPtr = base::utils::lockWeakPtr(m_cmcrudPtr, "CMCrudService");
 
-    // Download policy from wazuh-indexer
+    // Download policy from assetguard-indexer
     auto policyResource =
         base::utils::executeWithRetry([&indexerPtr, originSpace]() { return indexerPtr->getPolicy(originSpace); },
                                       fmt::format("{}::downloadNamespace()", COMPONENT_NAME),
-                                      fmt::format("Download '{}' space from wazuh-indexer", originSpace),
+                                      fmt::format("Download '{}' space from assetguard-indexer", originSpace),
                                       m_attemps,
                                       m_waitSeconds);
 
@@ -226,7 +226,7 @@ std::pair<std::string, bool> CMSync::getPolicyHashAndEnabledFromRemote(std::stri
     return base::utils::executeWithRetry(
         [&indexerPtr, space]() { return indexerPtr->getPolicyHashAndEnabled(space); },
         fmt::format("{}::getInfoFromRemote()", COMPONENT_NAME),
-        fmt::format("Get policy hash and enabled status for '{}' space from wazuh-indexer", space),
+        fmt::format("Get policy hash and enabled status for '{}' space from assetguard-indexer", space),
         m_attemps,
         m_waitSeconds);
 }

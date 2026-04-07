@@ -59,20 +59,20 @@ INSTANTIATE_TEST_SUITE_P(
                FAILURE()),
         // Invalid string
         StageT(R"({"index": "alerts"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
-        StageT(R"({"index": "wazuh-Alerts"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
-        StageT(R"({"index": "wazuh-alerts-#"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
-        StageT(R"({"index": "wazuh-events-v5-#Someth/ng"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
-        StageT(R"({"index": "wazuh-events-v5-some-${}"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
-        StageT(R"({"index": "wazuh-events-v5-${}${"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
+        StageT(R"({"index": "assetguard-Alerts"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
+        StageT(R"({"index": "assetguard-alerts-#"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
+        StageT(R"({"index": "assetguard-events-v5-#Someth/ng"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
+        StageT(R"({"index": "assetguard-events-v5-some-${}"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
+        StageT(R"({"index": "assetguard-events-v5-${}${"})", getIndexerOutputBuilder(getMockIndexerConnector()), FAILURE()),
         // Valid string
-        StageT(R"({"index": "wazuh-events-v5-applications"})",
+        StageT(R"({"index": "assetguard-events-v5-applications"})",
                getIndexerOutputBuilder(getMockIndexerConnector()),
                SUCCESS(
                    [](const BuildersMocks& mocks)
                    {
                        EXPECT_CALL(*mocks.ctx, runState());
                        return base::Term<base::EngineOp>::create(
-                           "write.output(wazuh-indexer/wazuh-events-v5-applications)", {});
+                           "write.output(assetguard-indexer/assetguard-events-v5-applications)", {});
                    }))
         // End
         ),
@@ -85,7 +85,7 @@ const std::string messageStr {R"({
     "event": {
         "original": "::1 - - [26/Dec/2016:16:16:29 +0200] \"GET /favicon.ico HTTP/1.1\" 404 209\n"
     },
-    "wazuh": {
+    "assetguard": {
         "agent": {
             "id": "001",
             "name": "agentSim",
@@ -134,21 +134,21 @@ TEST_F(IndexerOutputOperationTest, output_success)
     auto builder = getIndexerOutputBuilder(iConnector);
 
     EXPECT_CALL(*(mocks->ctx), runState());
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-applications"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-applications"})");
     auto expression = builder(definition, this->mocks->ctx);
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
     ASSERT_TRUE(expression->isTerm());
     auto term = expression->getPtr<base::Term<base::EngineOp>>();
-    ASSERT_EQ(term->getName(), "write.output(wazuh-indexer/wazuh-events-v5-applications)");
+    ASSERT_EQ(term->getName(), "write.output(assetguard-indexer/assetguard-events-v5-applications)");
 
     // Check the operation
     auto operation = term->getFn();
     ASSERT_TRUE(operation);
 
     // Configure the behavior
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-applications", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-applications", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -164,7 +164,7 @@ TEST_F(IndexerOutputOperationTest, output_several_references)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.a}${wazuh.b}${wazuh.c}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.a}${assetguard.b}${assetguard.c}"})");
     auto expression = builder(definition, this->mocks->ctx);
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
@@ -172,14 +172,14 @@ TEST_F(IndexerOutputOperationTest, output_several_references)
     ASSERT_TRUE(expression->isTerm());
     auto term = expression->getPtr<base::Term<base::EngineOp>>();
     ASSERT_EQ(term->getName(),
-              "write.output(wazuh-indexer/wazuh-events-v5-${wazuh.a}${wazuh.b}${wazuh.c})");
+              "write.output(assetguard-indexer/assetguard-events-v5-${assetguard.a}${assetguard.b}${assetguard.c})");
 
     // Check the operation
     auto operation = term->getFn();
     ASSERT_TRUE(operation);
 
     // Configure the behavior
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-value-avalue-bvalue-c", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-value-avalue-bvalue-c", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -195,7 +195,7 @@ TEST_F(IndexerOutputOperationTest, output_several_references_separators)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.a}---somecrazystring--${wazuh.c}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.a}---somecrazystring--${assetguard.c}"})");
     auto expression = builder(definition, this->mocks->ctx);
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
@@ -203,14 +203,14 @@ TEST_F(IndexerOutputOperationTest, output_several_references_separators)
     ASSERT_TRUE(expression->isTerm());
     auto term = expression->getPtr<base::Term<base::EngineOp>>();
     ASSERT_EQ(term->getName(),
-              "write.output(wazuh-indexer/wazuh-events-v5-${wazuh.a}---somecrazystring--${wazuh.c})");
+              "write.output(assetguard-indexer/assetguard-events-v5-${assetguard.a}---somecrazystring--${assetguard.c})");
 
     // Check the operation
     auto operation = term->getFn();
     ASSERT_TRUE(operation);
 
     // Configure the behavior
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-value-a---somecrazystring--value-c", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-value-a---somecrazystring--value-c", ::testing::_));
     // Run the operation
     auto result = operation(event);
     ASSERT_TRUE(result.success());
@@ -225,23 +225,23 @@ TEST_F(IndexerOutputOperationTest, output_success_with_complex_category_referenc
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}-${wazuh.integration.name}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}-${assetguard.integration.name}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"cloud-services","name":"aws"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"cloud-services","name":"aws"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
     ASSERT_TRUE(expression->isTerm());
     auto term = expression->getPtr<base::Term<base::EngineOp>>();
-    ASSERT_EQ(term->getName(), "write.output(wazuh-indexer/wazuh-events-v5-${wazuh.integration.category}-${wazuh.integration.name})");
+    ASSERT_EQ(term->getName(), "write.output(assetguard-indexer/assetguard-events-v5-${assetguard.integration.category}-${assetguard.integration.name})");
 
     // Check the operation
     auto operation = term->getFn();
     ASSERT_TRUE(operation);
 
     // Configure the behavior
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-cloud-services-aws", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-cloud-services-aws", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -256,10 +256,10 @@ TEST_F(IndexerOutputOperationTest, validate_applications_category)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"applications","name":"nginx"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"applications","name":"nginx"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -271,7 +271,7 @@ TEST_F(IndexerOutputOperationTest, validate_applications_category)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect sanitized category in index name
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-applications", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-applications", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -286,10 +286,10 @@ TEST_F(IndexerOutputOperationTest, validate_system_activity_category)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"system-activity","name":"auditd"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"system-activity","name":"auditd"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -301,7 +301,7 @@ TEST_F(IndexerOutputOperationTest, validate_system_activity_category)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect sanitized category in index name
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-system-activity", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-system-activity", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -316,10 +316,10 @@ TEST_F(IndexerOutputOperationTest, validate_network_activity_category)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"network-activity","name":"suricata"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"network-activity","name":"suricata"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -331,7 +331,7 @@ TEST_F(IndexerOutputOperationTest, validate_network_activity_category)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect sanitized category in index name
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-network-activity", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-network-activity", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -346,10 +346,10 @@ TEST_F(IndexerOutputOperationTest, validate_azure_cloud_integration)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}-${wazuh.integration.name}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}-${assetguard.integration.name}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"cloud-services","name":"azure-ad"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"cloud-services","name":"azure-ad"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -361,7 +361,7 @@ TEST_F(IndexerOutputOperationTest, validate_azure_cloud_integration)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect cloud-services-azure index
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-cloud-services-azure-ad", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-cloud-services-azure-ad", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -376,10 +376,10 @@ TEST_F(IndexerOutputOperationTest, validate_gcp_cloud_integration)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}-${wazuh.integration.name}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}-${assetguard.integration.name}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"cloud-services","name":"gcp-pubsub"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"cloud-services","name":"gcp-pubsub"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -391,7 +391,7 @@ TEST_F(IndexerOutputOperationTest, validate_gcp_cloud_integration)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect cloud-services-gcp-pubsub index
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-cloud-services-gcp-pubsub", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-cloud-services-gcp-pubsub", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -406,10 +406,10 @@ TEST_F(IndexerOutputOperationTest, validate_security_category)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"security","name":"ossec"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"security","name":"ossec"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -421,7 +421,7 @@ TEST_F(IndexerOutputOperationTest, validate_security_category)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect sanitized category in index name
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-security", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-security", ::testing::_));
 
     // Run the operation
     auto result = operation(event);
@@ -436,10 +436,10 @@ TEST_F(IndexerOutputOperationTest, validate_access_management_category)
 
     EXPECT_CALL(*(mocks->ctx), runState());
 
-    auto definition = json::Json(R"({"index": "wazuh-events-v5-${wazuh.integration.category}"})");
+    auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"wazuh":{"integration":{"category":"access-management","name":"okta"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"access-management","name":"okta"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression
@@ -451,7 +451,7 @@ TEST_F(IndexerOutputOperationTest, validate_access_management_category)
     ASSERT_TRUE(operation);
 
     // Configure the behavior - expect sanitized category in index name
-    EXPECT_CALL(mockConnector, index("wazuh-events-v5-access-management", ::testing::_));
+    EXPECT_CALL(mockConnector, index("assetguard-events-v5-access-management", ::testing::_));
 
     // Run the operation
     auto result = operation(event);

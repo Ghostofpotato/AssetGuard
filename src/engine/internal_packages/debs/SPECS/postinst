@@ -1,10 +1,10 @@
 #!/bin/sh
-# postinst script for wazuh-internal-tools
-# Wazuh, Inc.
+# postinst script for assetguard-internal-tools
+# AssetGuard, Inc.
 
 set -eu
 
-PREFIX="/opt/wazuh-internal-tools"
+PREFIX="/opt/assetguard-internal-tools"
 VENV="$PREFIX/venv"
 BIN="$VENV/bin"
 PY="$BIN/python"

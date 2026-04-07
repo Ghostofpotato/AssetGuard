@@ -1611,7 +1611,7 @@ TEST_F(SCAEventHandlerTest, ValidateAndHandleStatefulMessage_ValidationFailure)
     // The method should return false and add check to failedChecks
     if (validatorFactory.isInitialized())
     {
-        auto validator = validatorFactory.getValidator("wazuh-states-sca");
+        auto validator = validatorFactory.getValidator("assetguard-states-sca");
 
         if (validator)
         {
@@ -1649,7 +1649,7 @@ TEST_F(SCAEventHandlerTest, ValidateAndHandleStatefulMessage_ValidComplianceAndM
         GTEST_SKIP() << "Schemas not available for validation test: " << e.what();
     }
 
-    if (!validatorFactory.isInitialized() || !validatorFactory.getValidator("wazuh-states-sca"))
+    if (!validatorFactory.isInitialized() || !validatorFactory.getValidator("assetguard-states-sca"))
     {
         GTEST_SKIP() << "SCA schema validator not available";
     }
@@ -1694,7 +1694,7 @@ TEST_F(SCAEventHandlerTest, ValidateAndHandleStatefulMessage_MitreAttackInCompli
         GTEST_SKIP() << "Schemas not available for validation test: " << e.what();
     }
 
-    if (!validatorFactory.isInitialized() || !validatorFactory.getValidator("wazuh-states-sca"))
+    if (!validatorFactory.isInitialized() || !validatorFactory.getValidator("assetguard-states-sca"))
     {
         GTEST_SKIP() << "SCA schema validator not available";
     }

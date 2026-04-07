@@ -34,7 +34,7 @@ public:
     MOCK_METHOD(
         void,
         sendStartAck,
-        (Wazuh::SyncSchema::Status status, std::string_view agentId, uint64_t sessionId, std::string_view moduleName),
+        (AssetGuard::SyncSchema::Status status, std::string_view agentId, uint64_t sessionId, std::string_view moduleName),
         (const));
     MOCK_CONST_METHOD4(sendEndMissingSeq,
                        void(std::string_view agentId,
@@ -44,7 +44,7 @@ public:
     MOCK_METHOD(
         void,
         sendEndAck,
-        (Wazuh::SyncSchema::Status status, std::string_view agentId, uint64_t sessionId, std::string_view moduleName),
+        (AssetGuard::SyncSchema::Status status, std::string_view agentId, uint64_t sessionId, std::string_view moduleName),
         (const));
 };
 

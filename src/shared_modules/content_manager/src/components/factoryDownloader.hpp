@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * April 14, 2023.
  *
  * This program is free software; you can redistribute it
@@ -49,12 +49,12 @@ private:
      * {
      *   "oauth": {
      *     "indexer": {
-     *       "url": "https://indexer.wazuh.com",
+     *       "url": "https://indexer.assetguard.com",
      *       "credentialsEndpoint": "/_plugins/content-manager/subscription",  // Optional
      *       "timeout": 5000                                     // Optional
      *     },
      *     "console": {
-     *       "url": "https://console.wazuh.com",
+     *       "url": "https://console.assetguard.com",
      *       "instancesEndpoint": "/api/v1/instances/me",        // Optional
      *       "tokenExchangeEndpoint": "/api/v1/instances/token/exchange",  // Optional
      *       "timeout": 5000                                      // Optional

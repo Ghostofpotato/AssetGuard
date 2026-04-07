@@ -65,25 +65,25 @@ static const std::map<std::string, Mode> TABLE_CHECK_MODE_MAP
 // Map modules to their corresponding indices that should be updated when agent metadata or groups change
 static const std::map<std::string, std::vector<std::string>> MODULE_INDICES_MAP
 {
-    {FIM_NAME, {"wazuh-states-fim-files", "wazuh-states-fim-registry-keys", "wazuh-states-fim-registry-values"}},
-    {SCA_WM_NAME, {"wazuh-states-sca"}},
+    {FIM_NAME, {"assetguard-states-fim-files", "assetguard-states-fim-registry-keys", "assetguard-states-fim-registry-values"}},
+    {SCA_WM_NAME, {"assetguard-states-sca"}},
     {
         SYSCOLLECTOR_WM_NAME,
         {
-            "wazuh-states-inventory-system",
-            "wazuh-states-inventory-hardware",
-            "wazuh-states-inventory-hotfixes",
-            "wazuh-states-inventory-packages",
-            "wazuh-states-inventory-processes",
-            "wazuh-states-inventory-ports",
-            "wazuh-states-inventory-interfaces",
-            "wazuh-states-inventory-protocols",
-            "wazuh-states-inventory-networks",
-            "wazuh-states-inventory-users",
-            "wazuh-states-inventory-groups",
-            "wazuh-states-inventory-services",
-            "wazuh-states-inventory-browser-extensions",
-            "wazuh-states-vulnerabilities"
+            "assetguard-states-inventory-system",
+            "assetguard-states-inventory-hardware",
+            "assetguard-states-inventory-hotfixes",
+            "assetguard-states-inventory-packages",
+            "assetguard-states-inventory-processes",
+            "assetguard-states-inventory-ports",
+            "assetguard-states-inventory-interfaces",
+            "assetguard-states-inventory-protocols",
+            "assetguard-states-inventory-networks",
+            "assetguard-states-inventory-users",
+            "assetguard-states-inventory-groups",
+            "assetguard-states-inventory-services",
+            "assetguard-states-inventory-browser-extensions",
+            "assetguard-states-vulnerabilities"
         }
     }};
 

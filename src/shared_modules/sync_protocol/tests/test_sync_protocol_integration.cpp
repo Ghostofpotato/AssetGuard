@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -112,7 +112,7 @@ TEST_F(SyncProtocolIntegrationTest, PersistentQueue_RealDatabase_BasicOperations
 
     // Submit test data
     std::string testId = "test_package_1";
-    std::string testIndex = "wazuh-states-vulnerabilities-packages";
+    std::string testIndex = "assetguard-states-vulnerabilities-packages";
     std::string testData = R"({"name":"test-pkg","version":"1.0","architecture":"x86_64"})";
 
     EXPECT_NO_THROW(
@@ -144,11 +144,11 @@ TEST_F(SyncProtocolIntegrationTest, PersistentQueue_FetchOnlyDataValues)
     PersistentQueue queue(testDbPath, logger);
 
     // Submit DataValue item
-    queue.submit("datavalue1", "wazuh-states-vulnerabilities-packages",
+    queue.submit("datavalue1", "assetguard-states-vulnerabilities-packages",
                  R"({"name":"pkg1"})", Operation::CREATE, 0, false);
 
     // Submit DataContext item
-    queue.submit("datacontext1", "wazuh-states-vulnerabilities-packages",
+    queue.submit("datacontext1", "assetguard-states-vulnerabilities-packages",
                  R"({"context":"data"})", Operation::MODIFY, 0, true);
 
     // Fetch only DataValues
@@ -180,13 +180,13 @@ TEST_F(SyncProtocolIntegrationTest, PersistentQueue_ClearAllDataContext)
     PersistentQueue queue(testDbPath, logger);
 
     // Submit multiple items
-    queue.submit("datavalue1", "wazuh-states-vulnerabilities-packages",
+    queue.submit("datavalue1", "assetguard-states-vulnerabilities-packages",
                  R"({"name":"pkg1"})", Operation::CREATE, 0, false);
-    queue.submit("datacontext1", "wazuh-states-vulnerabilities-packages",
+    queue.submit("datacontext1", "assetguard-states-vulnerabilities-packages",
                  R"({"context":"ctx1"})", Operation::MODIFY, 0, true);
-    queue.submit("datavalue2", "wazuh-states-vulnerabilities-system",
+    queue.submit("datavalue2", "assetguard-states-vulnerabilities-system",
                  R"({"os":"Linux"})", Operation::CREATE, 0, false);
-    queue.submit("datacontext2", "wazuh-states-vulnerabilities-system",
+    queue.submit("datacontext2", "assetguard-states-vulnerabilities-system",
                  R"({"context":"ctx2"})", Operation::MODIFY, 0, true);
 
     // Verify we have 4 items total
@@ -234,7 +234,7 @@ TEST_F(SyncProtocolIntegrationTest, AgentSyncProtocol_PersistAndFetch)
 
     // Persist some data
     std::string packageId = "pkg_001";
-    std::string packageIndex = "wazuh-states-vulnerabilities-packages";
+    std::string packageIndex = "assetguard-states-vulnerabilities-packages";
     std::string packageData = R"({
         "name": "test-package",
         "version": "1.0.0",
@@ -283,20 +283,20 @@ TEST_F(SyncProtocolIntegrationTest, AgentSyncProtocol_VDWorkflow_ClearAndFetch)
 
     // Step 1: Persist DataValue items
     protocol.persistDifference("pkg1", Operation::CREATE,
-                               "wazuh-states-vulnerabilities-packages",
+                               "assetguard-states-vulnerabilities-packages",
                                R"({"name":"pkg1","version":"1.0"})", 0, false);
 
     protocol.persistDifference("os1", Operation::MODIFY,
-                               "wazuh-states-vulnerabilities-system",
+                               "assetguard-states-vulnerabilities-system",
                                R"({"os_name":"Linux","os_version":"5.10"})", 0, false);
 
     // Step 2: Persist DataContext items
     protocol.persistDifference("ctx_pkg", Operation::MODIFY,
-                               "wazuh-states-vulnerabilities-packages",
+                               "assetguard-states-vulnerabilities-packages",
                                R"({"context":"packages_context"})", 0, true);
 
     protocol.persistDifference("ctx_os", Operation::MODIFY,
-                               "wazuh-states-vulnerabilities-system",
+                               "assetguard-states-vulnerabilities-system",
                                R"({"context":"os_context"})", 0, true);
 
     // Step 3: Verify we have both types
@@ -340,17 +340,17 @@ TEST_F(SyncProtocolIntegrationTest, AgentSyncProtocol_MultipleIndices)
 
     // Persist to packages index
     protocol.persistDifference("item1", Operation::CREATE,
-                               "wazuh-states-vulnerabilities-packages",
+                               "assetguard-states-vulnerabilities-packages",
                                R"({"name":"package1"})", 0, false);
 
     // Persist to system index
     protocol.persistDifference("item2", Operation::CREATE,
-                               "wazuh-states-vulnerabilities-system",
+                               "assetguard-states-vulnerabilities-system",
                                R"({"os":"Linux"})", 0, false);
 
     // Persist to hotfixes index
     protocol.persistDifference("item3", Operation::CREATE,
-                               "wazuh-states-vulnerabilities-hotfixes",
+                               "assetguard-states-vulnerabilities-hotfixes",
                                R"({"hotfix":"KB123456"})", 0, false);
 
     // Fetch all items
@@ -366,9 +366,9 @@ TEST_F(SyncProtocolIntegrationTest, AgentSyncProtocol_MultipleIndices)
         indices.insert(item.index);
     }
 
-    EXPECT_TRUE(indices.count("wazuh-states-vulnerabilities-packages") > 0);
-    EXPECT_TRUE(indices.count("wazuh-states-vulnerabilities-system") > 0);
-    EXPECT_TRUE(indices.count("wazuh-states-vulnerabilities-hotfixes") > 0);
+    EXPECT_TRUE(indices.count("assetguard-states-vulnerabilities-packages") > 0);
+    EXPECT_TRUE(indices.count("assetguard-states-vulnerabilities-system") > 0);
+    EXPECT_TRUE(indices.count("assetguard-states-vulnerabilities-hotfixes") > 0);
 }
 
 TEST_F(SyncProtocolIntegrationTest, AgentSyncProtocol_DataPersistenceAcrossInstances)
@@ -398,7 +398,7 @@ TEST_F(SyncProtocolIntegrationTest, AgentSyncProtocol_DataPersistenceAcrossInsta
         );
 
         protocol1.persistDifference("persistent_item", Operation::CREATE,
-                                    "wazuh-states-vulnerabilities-packages",
+                                    "assetguard-states-vulnerabilities-packages",
                                     R"({"name":"persistent_package"})", 0, false);
     }
     // protocol1 goes out of scope and is destroyed

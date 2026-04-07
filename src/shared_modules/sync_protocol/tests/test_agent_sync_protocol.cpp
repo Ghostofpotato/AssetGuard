@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -318,14 +318,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleFullModeWithInMemoryData)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -337,14 +337,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleFullModeWithInMemoryData)
 
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -495,14 +495,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleStartFailDueToManager)
     // StartAck with ERROR status
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Error); // syncFailed = true
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error); // syncFailed = true
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -596,14 +596,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSendDataMessagesFails)
     // StartAck
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -664,14 +664,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSendEndFails)
     // StartAck
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -722,14 +722,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleEndFailDueToManager)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -742,14 +742,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleEndFailDueToManager)
     // EndAck with ERROR status
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Error); // syncFailed = true
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error); // syncFailed = true
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -800,14 +800,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleWithReqRetAndRangesEmpty)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -820,14 +820,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleWithReqRetAndRangesEmpty)
     // ReqRet with EMPTY ranges
     flatbuffers::FlatBufferBuilder reqRetBuilder;
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
     reqRetBuilderObj.add_session(session);
     // No seq ranges
     auto reqRetOffset = reqRetBuilderObj.Finish();
 
-    auto reqRetMessage = Wazuh::SyncSchema::CreateMessage(
+    auto reqRetMessage = AssetGuard::SyncSchema::CreateMessage(
                              reqRetBuilder,
-                             Wazuh::SyncSchema::MessageType::ReqRet,
+                             AssetGuard::SyncSchema::MessageType::ReqRet,
                              reqRetOffset.Union());
     reqRetBuilder.Finish(reqRetMessage);
 
@@ -878,14 +878,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleWithReqRetAndRangesDataEmpty)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -899,26 +899,26 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleWithReqRetAndRangesDataEmpty)
     // Test data seq numbers 1-2, but request ranges 10-15 and 20-25
     flatbuffers::FlatBufferBuilder reqRetBuilder;
 
-    std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> seqRanges;
+    std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> seqRanges;
 
     // Range 10-15
-    auto range1 = Wazuh::SyncSchema::CreatePair(reqRetBuilder, 10, 15);
+    auto range1 = AssetGuard::SyncSchema::CreatePair(reqRetBuilder, 10, 15);
     seqRanges.push_back(range1);
 
     // Range 20-25
-    auto range2 = Wazuh::SyncSchema::CreatePair(reqRetBuilder, 20, 25);
+    auto range2 = AssetGuard::SyncSchema::CreatePair(reqRetBuilder, 20, 25);
     seqRanges.push_back(range2);
 
     auto seqRangesVector = reqRetBuilder.CreateVector(seqRanges);
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
     reqRetBuilderObj.add_session(session);
     reqRetBuilderObj.add_seq(seqRangesVector);
     auto reqRetOffset = reqRetBuilderObj.Finish();
 
-    auto reqRetMessage = Wazuh::SyncSchema::CreateMessage(
+    auto reqRetMessage = AssetGuard::SyncSchema::CreateMessage(
                              reqRetBuilder,
-                             Wazuh::SyncSchema::MessageType::ReqRet,
+                             AssetGuard::SyncSchema::MessageType::ReqRet,
                              reqRetOffset.Union());
     reqRetBuilder.Finish(reqRetMessage);
 
@@ -979,14 +979,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleWithReqRetAndDataResendFails)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -999,22 +999,22 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleWithReqRetAndDataResendFails)
     // ReqRet with valid ranges 1-2
     flatbuffers::FlatBufferBuilder reqRetBuilder;
 
-    std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> seqRanges;
+    std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> seqRanges;
 
     // Range 1-2
-    auto range1 = Wazuh::SyncSchema::CreatePair(reqRetBuilder, 1, 2);
+    auto range1 = AssetGuard::SyncSchema::CreatePair(reqRetBuilder, 1, 2);
     seqRanges.push_back(range1);
 
     auto seqRangesVector = reqRetBuilder.CreateVector(seqRanges);
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
     reqRetBuilderObj.add_session(session);
     reqRetBuilderObj.add_seq(seqRangesVector);
     auto reqRetOffset = reqRetBuilderObj.Finish();
 
-    auto reqRetMessage = Wazuh::SyncSchema::CreateMessage(
+    auto reqRetMessage = AssetGuard::SyncSchema::CreateMessage(
                              reqRetBuilder,
-                             Wazuh::SyncSchema::MessageType::ReqRet,
+                             AssetGuard::SyncSchema::MessageType::ReqRet,
                              reqRetOffset.Union());
     reqRetBuilder.Finish(reqRetMessage);
 
@@ -1066,14 +1066,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleEndAckTimeout)
     // StartAck
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -1125,14 +1125,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSuccessWithNoReqRet)
     // StartAck
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -1145,14 +1145,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSuccessWithNoReqRet)
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -1204,14 +1204,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSuccessWithReqRet)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -1224,22 +1224,22 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSuccessWithReqRet)
     // ReqRet with valid ranges 1-2
     flatbuffers::FlatBufferBuilder reqRetBuilder;
 
-    std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> seqRanges;
+    std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> seqRanges;
 
     // Range 1-2
-    auto range1 = Wazuh::SyncSchema::CreatePair(reqRetBuilder, 1, 2);
+    auto range1 = AssetGuard::SyncSchema::CreatePair(reqRetBuilder, 1, 2);
     seqRanges.push_back(range1);
 
     auto seqRangesVector = reqRetBuilder.CreateVector(seqRanges);
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
     reqRetBuilderObj.add_session(session);
     reqRetBuilderObj.add_seq(seqRangesVector);
     auto reqRetOffset = reqRetBuilderObj.Finish();
 
-    auto reqRetMessage = Wazuh::SyncSchema::CreateMessage(
+    auto reqRetMessage = AssetGuard::SyncSchema::CreateMessage(
                              reqRetBuilder,
-                             Wazuh::SyncSchema::MessageType::ReqRet,
+                             AssetGuard::SyncSchema::MessageType::ReqRet,
                              reqRetOffset.Union());
     reqRetBuilder.Finish(reqRetMessage);
 
@@ -1252,14 +1252,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleSuccessWithReqRet)
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -1319,14 +1319,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleFinalizeSyncStateException)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -1338,14 +1338,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleFinalizeSyncStateException)
 
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -1394,14 +1394,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWhenNotWaitingForStartAck)
 
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -1447,14 +1447,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithStartAckError)
     // StartAck with ERROR status
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Error); // Status Error
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error); // Status Error
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -1502,14 +1502,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithStartAckOffline)
     // StartAck with OFFLINE status
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Offline); // Status Offline
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Offline); // Status Offline
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -1557,14 +1557,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithStartAckSuccess)
     // StartAck
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -1592,14 +1592,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWhenNotWaitingForEndAck)
 
     flatbuffers::FlatBufferBuilder builder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::EndAck,
+                       AssetGuard::SyncSchema::MessageType::EndAck,
                        endAckOffset.Union());
     builder.Finish(message);
 
@@ -1645,14 +1645,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckError)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -1665,14 +1665,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckError)
     // EndAck with ERROR status
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Error); // Status Error
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error); // Status Error
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -1720,14 +1720,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckOffline)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -1740,14 +1740,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckOffline)
     // EndAck with OFFLINE status
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Offline); // Status Offline
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Offline); // Status Offline
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -1795,14 +1795,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckSuccess)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -1815,14 +1815,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckSuccess)
     // EndAck with OK status
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok); // Status Ok
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok); // Status Ok
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -1851,19 +1851,19 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWhenNotWaitingForReqRet)
     flatbuffers::FlatBufferBuilder builder;
 
     // ReqRet message
-    std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> seqRanges;
-    auto range1 = Wazuh::SyncSchema::CreatePair(builder, 1, 2); // Range 1-2
+    std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> seqRanges;
+    auto range1 = AssetGuard::SyncSchema::CreatePair(builder, 1, 2); // Range 1-2
     seqRanges.push_back(range1);
     auto seqRangesVector = builder.CreateVector(seqRanges);
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilder(builder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilder(builder);
     reqRetBuilder.add_session(session);
     reqRetBuilder.add_seq(seqRangesVector);
     auto reqRetOffset = reqRetBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::ReqRet,
+                       AssetGuard::SyncSchema::MessageType::ReqRet,
                        reqRetOffset.Union());
     builder.Finish(message);
 
@@ -1909,14 +1909,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithReqRetAndNoRanges)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -1929,14 +1929,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithReqRetAndNoRanges)
     // ReqRet with no ranges
     flatbuffers::FlatBufferBuilder reqRetBuilder;
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
     reqRetBuilderObj.add_session(session);
     // No seq field
     auto reqRetOffset = reqRetBuilderObj.Finish();
 
-    auto reqRetMessage = Wazuh::SyncSchema::CreateMessage(
+    auto reqRetMessage = AssetGuard::SyncSchema::CreateMessage(
                              reqRetBuilder,
-                             Wazuh::SyncSchema::MessageType::ReqRet,
+                             AssetGuard::SyncSchema::MessageType::ReqRet,
                              reqRetOffset.Union());
     reqRetBuilder.Finish(reqRetMessage);
 
@@ -1984,14 +1984,14 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithReqRetSuccess)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2004,19 +2004,19 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithReqRetSuccess)
     // ReqRet
     flatbuffers::FlatBufferBuilder reqRetBuilder;
 
-    std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> seqRanges;
-    auto range1 = Wazuh::SyncSchema::CreatePair(reqRetBuilder, 1, 2);
+    std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> seqRanges;
+    auto range1 = AssetGuard::SyncSchema::CreatePair(reqRetBuilder, 1, 2);
     seqRanges.push_back(range1);
     auto seqRangesVector = reqRetBuilder.CreateVector(seqRanges);
 
-    Wazuh::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
+    AssetGuard::SyncSchema::ReqRetBuilder reqRetBuilderObj(reqRetBuilder);
     reqRetBuilderObj.add_session(session);
     reqRetBuilderObj.add_seq(seqRangesVector);
     auto reqRetOffset = reqRetBuilderObj.Finish();
 
-    auto reqRetMessage = Wazuh::SyncSchema::CreateMessage(
+    auto reqRetMessage = AssetGuard::SyncSchema::CreateMessage(
                              reqRetBuilder,
-                             Wazuh::SyncSchema::MessageType::ReqRet,
+                             AssetGuard::SyncSchema::MessageType::ReqRet,
                              reqRetOffset.Union());
     reqRetBuilder.Finish(reqRetMessage);
 
@@ -2045,7 +2045,7 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithUnknownMessageType)
 
     flatbuffers::FlatBufferBuilder builder;
 
-    auto message = Wazuh::SyncSchema::CreateMessage(builder);
+    auto message = AssetGuard::SyncSchema::CreateMessage(builder);
     builder.Finish(message);
 
     const uint8_t* buffer = builder.GetBufferPointer();
@@ -2091,14 +2091,14 @@ TEST_F(AgentSyncProtocolTest, RequiresFullSyncWithMatchingChecksum)
 
     // StartAck with matching checksum status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2110,14 +2110,14 @@ TEST_F(AgentSyncProtocolTest, RequiresFullSyncWithMatchingChecksum)
 
     // EndAck with matching checksum (Status::Ok)
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -2163,14 +2163,14 @@ TEST_F(AgentSyncProtocolTest, RequiresFullSyncWithNonMatchingChecksum)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2182,14 +2182,14 @@ TEST_F(AgentSyncProtocolTest, RequiresFullSyncWithNonMatchingChecksum)
 
     // EndAck with non-matching checksum (Status::ChecksumMismatch indicates mismatch)
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::ChecksumMismatch);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::ChecksumMismatch);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -2333,14 +2333,14 @@ TEST_F(AgentSyncProtocolTest, RequiresFullSyncSendChecksumMessageFails)
 
     // Send StartAck with OK status to get past the start phase
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2505,14 +2505,14 @@ TEST_F(AgentSyncProtocolTest, SendDataMessagesException)
 
     // Send StartAck with OK status to get past the start phase
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2673,14 +2673,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithMetadataDeltaMode)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2692,14 +2692,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithMetadataDeltaMode)
 
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -2744,14 +2744,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithMetadataCheckMode)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2763,14 +2763,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithMetadataCheckMode)
 
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -2815,14 +2815,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithGroupDeltaMode)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2834,14 +2834,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithGroupDeltaMode)
 
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -2886,14 +2886,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithGroupCheckMode)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -2905,14 +2905,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithGroupCheckMode)
 
     // EndAck
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -3029,14 +3029,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsEndAckTimeout)
 
     // Send StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3079,14 +3079,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithStartAckError)
 
     // StartAck with Error status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Error);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3127,14 +3127,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithEndAckError)
 
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3146,14 +3146,14 @@ TEST_F(AgentSyncProtocolTest, SynchronizeMetadataOrGroupsWithEndAckError)
 
     // EndAck with Error status
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Error);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -3352,14 +3352,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanStartAckError)
 
     // Send StartAck with ERROR status
     flatbuffers::FlatBufferBuilder builder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Error);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto message = Wazuh::SyncSchema::CreateMessage(
+    auto message = AssetGuard::SyncSchema::CreateMessage(
                        builder,
-                       Wazuh::SyncSchema::MessageType::StartAck,
+                       AssetGuard::SyncSchema::MessageType::StartAck,
                        startAckOffset.Union());
     builder.Finish(message);
 
@@ -3401,14 +3401,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanEndAckTimeout)
 
     // Send StartAck with OK status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3454,14 +3454,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanEndAckError)
 
     // Send StartAck with OK status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3473,14 +3473,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanEndAckError)
 
     // Send EndAck with ERROR status
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Error);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -3522,14 +3522,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanClearItemsByIndexThrows)
 
     // Send StartAck with OK status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3541,14 +3541,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanClearItemsByIndexThrows)
 
     // Send EndAck with OK status
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -3590,14 +3590,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanSuccessWithSingleIndex)
 
     // Send StartAck with OK status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3609,14 +3609,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanSuccessWithSingleIndex)
 
     // Send EndAck with OK status
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -3662,14 +3662,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanSuccessWithMultipleIndices)
 
     // Send StartAck with OK status
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3681,14 +3681,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanSuccessWithMultipleIndices)
 
     // Send EndAck with OK status
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
                           endBuilder,
-                          Wazuh::SyncSchema::MessageType::EndAck,
+                          AssetGuard::SyncSchema::MessageType::EndAck,
                           endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
@@ -3749,14 +3749,14 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanSendDataCleanMessagesException)
 
     // Send StartAck with OK status to get past the start phase
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -3865,14 +3865,14 @@ TEST_F(AgentSyncProtocolTest, SendEndMessageException)
 
     // Send StartAck with OK status to get past the start phase
     flatbuffers::FlatBufferBuilder startBuilder;
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
                             startBuilder,
-                            Wazuh::SyncSchema::MessageType::StartAck,
+                            AssetGuard::SyncSchema::MessageType::StartAck,
                             startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
@@ -4019,13 +4019,13 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanLogsErrorWithoutQueue)
     // Send StartAck with OK status
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
-                            startBuilder, Wazuh::SyncSchema::MessageType::StartAck, startAckOffset.Union());
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
+                            startBuilder, AssetGuard::SyncSchema::MessageType::StartAck, startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
     const uint8_t* startBuffer = startBuilder.GetBufferPointer();
@@ -4036,13 +4036,13 @@ TEST_F(AgentSyncProtocolTest, NotifyDataCleanLogsErrorWithoutQueue)
 
     // Send EndAck with OK status
     flatbuffers::FlatBufferBuilder endBuilder;
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
-    auto endMessage = Wazuh::SyncSchema::CreateMessage(
-                          endBuilder, Wazuh::SyncSchema::MessageType::EndAck, endAckOffset.Union());
+    auto endMessage = AssetGuard::SyncSchema::CreateMessage(
+                          endBuilder, AssetGuard::SyncSchema::MessageType::EndAck, endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
     const uint8_t* endBuffer = endBuilder.GetBufferPointer();
@@ -4144,13 +4144,13 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckChecksumMismatch)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder2;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder2(startBuilder2);
-    startAckBuilder2.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder2(startBuilder2);
+    startAckBuilder2.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder2.add_session(session);
     auto startAckOffset2 = startAckBuilder2.Finish();
 
-    auto startMessage2 = Wazuh::SyncSchema::CreateMessage(
-                             startBuilder2, Wazuh::SyncSchema::MessageType::StartAck, startAckOffset2.Union());
+    auto startMessage2 = AssetGuard::SyncSchema::CreateMessage(
+                             startBuilder2, AssetGuard::SyncSchema::MessageType::StartAck, startAckOffset2.Union());
     startBuilder2.Finish(startMessage2);
 
     const uint8_t* startBuffer2 = startBuilder2.GetBufferPointer();
@@ -4162,13 +4162,13 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckChecksumMismatch)
     // EndAck with ChecksumMismatch status
     flatbuffers::FlatBufferBuilder endBuilder2;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder2(endBuilder2);
-    endAckBuilder2.add_status(Wazuh::SyncSchema::Status::ChecksumMismatch); // Status ChecksumMismatch
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder2(endBuilder2);
+    endAckBuilder2.add_status(AssetGuard::SyncSchema::Status::ChecksumMismatch); // Status ChecksumMismatch
     endAckBuilder2.add_session(session);
     auto endAckOffset2 = endAckBuilder2.Finish();
 
     auto endMessage2 =
-        Wazuh::SyncSchema::CreateMessage(endBuilder2, Wazuh::SyncSchema::MessageType::EndAck, endAckOffset2.Union());
+        AssetGuard::SyncSchema::CreateMessage(endBuilder2, AssetGuard::SyncSchema::MessageType::EndAck, endAckOffset2.Union());
     endBuilder2.Finish(endMessage2);
 
     const uint8_t* endBuffer2 = endBuilder2.GetBufferPointer();
@@ -4223,13 +4223,13 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckGenericError)
     // StartAck
     flatbuffers::FlatBufferBuilder startBuilder;
 
-    Wazuh::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
-    startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+    AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(startBuilder);
+    startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
     startAckBuilder.add_session(session);
     auto startAckOffset = startAckBuilder.Finish();
 
-    auto startMessage = Wazuh::SyncSchema::CreateMessage(
-                            startBuilder, Wazuh::SyncSchema::MessageType::StartAck, startAckOffset.Union());
+    auto startMessage = AssetGuard::SyncSchema::CreateMessage(
+                            startBuilder, AssetGuard::SyncSchema::MessageType::StartAck, startAckOffset.Union());
     startBuilder.Finish(startMessage);
 
     const uint8_t* startBuffer = startBuilder.GetBufferPointer();
@@ -4241,13 +4241,13 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckGenericError)
     // EndAck with Error status (which should map to GENERIC_ERROR)
     flatbuffers::FlatBufferBuilder endBuilder;
 
-    Wazuh::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
-    endAckBuilder.add_status(Wazuh::SyncSchema::Status::Error); // Status Error
+    AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(endBuilder);
+    endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error); // Status Error
     endAckBuilder.add_session(session);
     auto endAckOffset = endAckBuilder.Finish();
 
     auto endMessage =
-        Wazuh::SyncSchema::CreateMessage(endBuilder, Wazuh::SyncSchema::MessageType::EndAck, endAckOffset.Union());
+        AssetGuard::SyncSchema::CreateMessage(endBuilder, AssetGuard::SyncSchema::MessageType::EndAck, endAckOffset.Union());
     endBuilder.Finish(endMessage);
 
     const uint8_t* endBuffer = endBuilder.GetBufferPointer();
@@ -4364,7 +4364,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_OnlyDataValues_True)
     PersistedData item1;
     item1.seq = 1;
     item1.id = "hash_id_1";
-    item1.index = "wazuh-states-inventory-packages";
+    item1.index = "assetguard-states-inventory-packages";
     item1.data = R"({"name":"package1","version":"1.0"})";
     item1.operation = Operation::CREATE;
     expectedData.push_back(item1);
@@ -4372,7 +4372,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_OnlyDataValues_True)
     PersistedData item2;
     item2.seq = 2;
     item2.id = "hash_id_2";
-    item2.index = "wazuh-states-inventory-system";
+    item2.index = "assetguard-states-inventory-system";
     item2.data = R"({"hostname":"test-host"})";
     item2.operation = Operation::MODIFY;
     expectedData.push_back(item2);
@@ -4389,11 +4389,11 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_OnlyDataValues_True)
     ASSERT_EQ(result.size(), 2);
     EXPECT_EQ(result[0].seq, 1);
     EXPECT_EQ(result[0].id, "hash_id_1");
-    EXPECT_EQ(result[0].index, "wazuh-states-inventory-packages");
+    EXPECT_EQ(result[0].index, "assetguard-states-inventory-packages");
     EXPECT_EQ(result[0].operation, Operation::CREATE);
     EXPECT_EQ(result[1].seq, 2);
     EXPECT_EQ(result[1].id, "hash_id_2");
-    EXPECT_EQ(result[1].index, "wazuh-states-inventory-system");
+    EXPECT_EQ(result[1].index, "assetguard-states-inventory-system");
     EXPECT_EQ(result[1].operation, Operation::MODIFY);
 }
 
@@ -4436,7 +4436,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_OnlyDataValues_False)
     PersistedData dataValue;
     dataValue.seq = 1;
     dataValue.id = "hash_id_1";
-    dataValue.index = "wazuh-states-inventory-packages";
+    dataValue.index = "assetguard-states-inventory-packages";
     dataValue.data = R"({"name":"package1","version":"1.0"})";
     dataValue.operation = Operation::CREATE;
     expectedData.push_back(dataValue);
@@ -4445,7 +4445,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_OnlyDataValues_False)
     PersistedData dataContext;
     dataContext.seq = 2;
     dataContext.id = "hash_id_2";
-    dataContext.index = "wazuh-states-inventory-system";
+    dataContext.index = "assetguard-states-inventory-system";
     dataContext.data = R"({"hostname":"test-host"})";
     dataContext.operation = Operation::MODIFY;
     expectedData.push_back(dataContext);
@@ -4545,7 +4545,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_MultipleIndices)
     PersistedData pkgItem;
     pkgItem.seq = 1;
     pkgItem.id = "pkg_hash_1";
-    pkgItem.index = "wazuh-states-inventory-packages";
+    pkgItem.index = "assetguard-states-inventory-packages";
     pkgItem.data = R"({"name":"vim","version":"8.2"})";
     pkgItem.operation = Operation::CREATE;
     expectedData.push_back(pkgItem);
@@ -4553,7 +4553,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_MultipleIndices)
     PersistedData sysItem;
     sysItem.seq = 2;
     sysItem.id = "sys_hash_1";
-    sysItem.index = "wazuh-states-inventory-system";
+    sysItem.index = "assetguard-states-inventory-system";
     sysItem.data = R"({"os_name":"Ubuntu","os_version":"22.04"})";
     sysItem.operation = Operation::MODIFY;
     expectedData.push_back(sysItem);
@@ -4561,7 +4561,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_MultipleIndices)
     PersistedData hfItem;
     hfItem.seq = 3;
     hfItem.id = "hf_hash_1";
-    hfItem.index = "wazuh-states-inventory-hotfixes";
+    hfItem.index = "assetguard-states-inventory-hotfixes";
     hfItem.data = R"({"hotfix":"KB123456"})";
     hfItem.operation = Operation::CREATE;
     expectedData.push_back(hfItem);
@@ -4576,9 +4576,9 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_MultipleIndices)
 
     // Verify all items are returned
     ASSERT_EQ(result.size(), 3);
-    EXPECT_EQ(result[0].index, "wazuh-states-inventory-packages");
-    EXPECT_EQ(result[1].index, "wazuh-states-inventory-system");
-    EXPECT_EQ(result[2].index, "wazuh-states-inventory-hotfixes");
+    EXPECT_EQ(result[0].index, "assetguard-states-inventory-packages");
+    EXPECT_EQ(result[1].index, "assetguard-states-inventory-system");
+    EXPECT_EQ(result[2].index, "assetguard-states-inventory-hotfixes");
 }
 
 TEST_F(AgentSyncProtocolTest, fetchPendingItems_DifferentOperations)
@@ -4619,7 +4619,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_DifferentOperations)
     PersistedData createItem;
     createItem.seq = 1;
     createItem.id = "create_hash";
-    createItem.index = "wazuh-states-inventory-packages";
+    createItem.index = "assetguard-states-inventory-packages";
     createItem.data = R"({"name":"new-package"})";
     createItem.operation = Operation::CREATE;
     expectedData.push_back(createItem);
@@ -4627,7 +4627,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_DifferentOperations)
     PersistedData modifyItem;
     modifyItem.seq = 2;
     modifyItem.id = "modify_hash";
-    modifyItem.index = "wazuh-states-inventory-packages";
+    modifyItem.index = "assetguard-states-inventory-packages";
     modifyItem.data = R"({"name":"updated-package"})";
     modifyItem.operation = Operation::MODIFY;
     expectedData.push_back(modifyItem);
@@ -4635,7 +4635,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_DifferentOperations)
     PersistedData deleteItem;
     deleteItem.seq = 3;
     deleteItem.id = "delete_hash";
-    deleteItem.index = "wazuh-states-inventory-packages";
+    deleteItem.index = "assetguard-states-inventory-packages";
     deleteItem.data = R"({"name":"removed-package"})";
     deleteItem.operation = Operation::DELETE_;
     expectedData.push_back(deleteItem);
@@ -4747,7 +4747,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_LargeDataSet)
         PersistedData item;
         item.seq = i + 1;
         item.id = "hash_id_" + std::to_string(i);
-        item.index = "wazuh-states-inventory-packages";
+        item.index = "assetguard-states-inventory-packages";
         item.data = R"({"name":"package)" + std::to_string(i) + R"("})";
         item.operation = Operation::CREATE;
         expectedData.push_back(item);
@@ -4807,7 +4807,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_SequenceNumberOrdering)
     PersistedData item1;
     item1.seq = 100;
     item1.id = "hash_100";
-    item1.index = "wazuh-states-inventory-packages";
+    item1.index = "assetguard-states-inventory-packages";
     item1.data = R"({})";
     item1.operation = Operation::CREATE;
     expectedData.push_back(item1);
@@ -4815,7 +4815,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_SequenceNumberOrdering)
     PersistedData item2;
     item2.seq = 101;
     item2.id = "hash_101";
-    item2.index = "wazuh-states-inventory-packages";
+    item2.index = "assetguard-states-inventory-packages";
     item2.data = R"({})";
     item2.operation = Operation::CREATE;
     expectedData.push_back(item2);
@@ -4823,7 +4823,7 @@ TEST_F(AgentSyncProtocolTest, fetchPendingItems_SequenceNumberOrdering)
     PersistedData item3;
     item3.seq = 102;
     item3.id = "hash_102";
-    item3.index = "wazuh-states-inventory-packages";
+    item3.index = "assetguard-states-inventory-packages";
     item3.data = R"({})";
     item3.operation = Operation::CREATE;
     expectedData.push_back(item3);
@@ -5030,9 +5030,9 @@ TEST_F(AgentSyncProtocolTest, notifyDataClean_WithSyncOption_MultipleIndices)
 
     std::vector<std::string> indices =
     {
-        "wazuh-states-inventory-hardware",
-        "wazuh-states-inventory-ports",
-        "wazuh-states-inventory-networks"
+        "assetguard-states-inventory-hardware",
+        "assetguard-states-inventory-ports",
+        "assetguard-states-inventory-networks"
     };
 
     // Should handle multiple indices
@@ -5069,7 +5069,7 @@ TEST_F(AgentSyncProtocolTest, notifyDataClean_DefaultOption)
                    mockQueue
                );
 
-    std::vector<std::string> indices = {"wazuh-states-inventory-hardware"};
+    std::vector<std::string> indices = {"assetguard-states-inventory-hardware"};
 
     // Should use default SYNC option
     EXPECT_NO_THROW(protocol->notifyDataClean(indices));
@@ -5104,7 +5104,7 @@ TEST_F(AgentSyncProtocolTest, notifyDataClean_WithNullQueue)
                    nullptr
                );
 
-    std::vector<std::string> indices = {"wazuh-states-inventory-hardware"};
+    std::vector<std::string> indices = {"assetguard-states-inventory-hardware"};
 
     // Should handle null queue gracefully
     EXPECT_NO_THROW(protocol->notifyDataClean(indices, Option::SYNC));
@@ -5187,7 +5187,7 @@ TEST_F(AgentSyncProtocolTest, VDWorkflow_ClearDataContextBeforeSync)
     PersistedData item1;
     item1.seq = 0;
     item1.id = "pkg1";
-    item1.index = "wazuh-states-inventory-packages";
+    item1.index = "assetguard-states-inventory-packages";
     item1.data = R"({"name":"test-pkg"})";
     item1.operation = Operation::CREATE;
     item1.is_data_context = false;
@@ -5239,7 +5239,7 @@ TEST_F(AgentSyncProtocolTest, VDWorkflow_FetchOnlyDataValues)
     PersistedData dataValue;
     dataValue.seq = 0;
     dataValue.id = "os1";
-    dataValue.index = "wazuh-states-inventory-system";
+    dataValue.index = "assetguard-states-inventory-system";
     dataValue.data = R"({"os_name":"Linux"})";
     dataValue.operation = Operation::MODIFY;
     dataValue.is_data_context = false;
@@ -5248,7 +5248,7 @@ TEST_F(AgentSyncProtocolTest, VDWorkflow_FetchOnlyDataValues)
     PersistedData dataContext;
     dataContext.seq = 1;
     dataContext.id = "ctx1";
-    dataContext.index = "wazuh-states-inventory-packages";
+    dataContext.index = "assetguard-states-inventory-packages";
     dataContext.data = R"({"context":"data"})";
     dataContext.operation = Operation::MODIFY;
     dataContext.is_data_context = true;
@@ -5264,7 +5264,7 @@ TEST_F(AgentSyncProtocolTest, VDWorkflow_FetchOnlyDataValues)
     auto result = protocol->fetchPendingItems(true);
     ASSERT_EQ(result.size(), 1);
     EXPECT_FALSE(result[0].is_data_context);
-    EXPECT_EQ(result[0].index, "wazuh-states-inventory-system");
+    EXPECT_EQ(result[0].index, "assetguard-states-inventory-system");
 }
 
 // ========================================
@@ -5305,11 +5305,11 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckProcessing)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-        startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+        startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         startAckBuilder.add_session(session);
         auto offset = startAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::StartAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::StartAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5317,11 +5317,11 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckProcessing)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Processing);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Processing);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         bool response = protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
         EXPECT_TRUE(response);
     }
@@ -5330,11 +5330,11 @@ TEST_F(AgentSyncProtocolTest, ParseResponseBufferWithEndAckProcessing)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5377,11 +5377,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckThenEndAckSuccess)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-        startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+        startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         startAckBuilder.add_session(session);
         auto offset = startAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::StartAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::StartAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5389,11 +5389,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckThenEndAckSuccess)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Processing);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Processing);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5401,11 +5401,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckThenEndAckSuccess)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5455,11 +5455,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckDoesNotConsumeRetry)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-        startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+        startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         startAckBuilder.add_session(session);
         auto offset = startAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::StartAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::StartAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5467,11 +5467,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckDoesNotConsumeRetry)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Processing);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Processing);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5481,11 +5481,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckDoesNotConsumeRetry)
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5525,11 +5525,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckThenEndAckError)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::StartAckBuilder startAckBuilder(builder);
-        startAckBuilder.add_status(Wazuh::SyncSchema::Status::Ok);
+        AssetGuard::SyncSchema::StartAckBuilder startAckBuilder(builder);
+        startAckBuilder.add_status(AssetGuard::SyncSchema::Status::Ok);
         startAckBuilder.add_session(session);
         auto offset = startAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::StartAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::StartAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5537,11 +5537,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckThenEndAckError)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Processing);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Processing);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 
@@ -5549,11 +5549,11 @@ TEST_F(AgentSyncProtocolTest, SynchronizeModuleProcessingAckThenEndAckError)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndAckBuilder endAckBuilder(builder);
-        endAckBuilder.add_status(Wazuh::SyncSchema::Status::Error);
+        AssetGuard::SyncSchema::EndAckBuilder endAckBuilder(builder);
+        endAckBuilder.add_status(AssetGuard::SyncSchema::Status::Error);
         endAckBuilder.add_session(session);
         auto offset = endAckBuilder.Finish();
-        builder.Finish(Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::EndAck, offset.Union()));
+        builder.Finish(AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::EndAck, offset.Union()));
         protocol->parseResponseBuffer(builder.GetBufferPointer(), builder.GetSize());
     }
 

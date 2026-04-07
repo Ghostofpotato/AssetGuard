@@ -1,5 +1,5 @@
 Feature: Query Geolocation Databases
-    As a user of the Wazuh geo manager API
+    As a user of the AssetGuard geo manager API
     I want to be able to list databases and query IP addresses
     So that I can retrieve geolocation information
 

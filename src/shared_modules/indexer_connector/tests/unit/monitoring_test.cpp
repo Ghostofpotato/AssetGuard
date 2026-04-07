@@ -1,6 +1,6 @@
 /*
- * Wazuh Indexer Connector - Monitoring tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Indexer Connector - Monitoring tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * September 08, 2023.
  *
  * This program is free software; you can redistribute it

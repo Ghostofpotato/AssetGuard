@@ -1,6 +1,6 @@
 /*
- * Wazuh router
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router
+ * Copyright (C) 2015, AssetGuard Inc.
  * May 5, 2025.
  *
  * This program is free software; you can redistribute it
@@ -9,7 +9,7 @@
  * Foundation.
  */
 
-#include "shared_modules/router/src/wazuh-db/endpointGetV1AgentsParamGroups.hpp"
+#include "shared_modules/router/src/assetguard-db/endpointGetV1AgentsParamGroups.hpp"
 #include "shared_modules/utils/mocks/sqlite3WrapperMock.hpp"
 #include <gtest/gtest.h>
 #include <memory>

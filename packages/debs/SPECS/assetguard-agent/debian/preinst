@@ -1,14 +1,14 @@
 #!/bin/sh
-# preinst script for wazuh-agent
+# preinst script for assetguard-agent
 
 set -e
 
 # configuration variables
 DIR="/var/ossec"
-WAZUH_TMP_DIR="${DIR}/packages_files/agent_config_files"
+ASSETGUARD_TMP_DIR="${DIR}/packages_files/agent_config_files"
 
 # environment configuration
-mkdir -p ${WAZUH_TMP_DIR}
+mkdir -p ${ASSETGUARD_TMP_DIR}
 
 case "$1" in
     install|upgrade)
@@ -21,8 +21,8 @@ case "$1" in
             fi
 
             # Get version information
-            if [ -f "${DIR}/bin/wazuh-control" ]; then
-                OLD_VERSION=`${DIR}/bin/wazuh-control info -v 2>/dev/null`
+            if [ -f "${DIR}/bin/assetguard-control" ]; then
+                OLD_VERSION=`${DIR}/bin/assetguard-control info -v 2>/dev/null`
                 MAJOR=$(echo $OLD_VERSION | cut -dv -f2 | cut -d. -f1)
                 MINOR=$(echo $OLD_VERSION | cut -dv -f2 | cut -d. -f2)
             elif [ -f ${DIR}/VERSION.json ]; then
@@ -38,14 +38,14 @@ case "$1" in
             if [ -z "$MAJOR" ] || [ -z "$MINOR" ]; then
                 ERROR_TYPE="no_version"
                 ERROR_TITLE="Cannot detect current version"
-                ERROR_MESSAGE="Unable to detect the currently installed Wazuh version."
+                ERROR_MESSAGE="Unable to detect the currently installed AssetGuard version."
             elif [ "$MAJOR" -lt 4 ] || ([ "$MAJOR" -eq 4 ] && [ "$MINOR" -lt 14 ]); then
                 ERROR_TYPE="unsupported"
                 ERROR_TITLE="Incompatible version detected"
                 ERROR_MESSAGE="Current version: $OLD_VERSION
 Target version:  5.0.0
 
-Upgrade to Wazuh 5.0.0 is only supported from version 4.14.0 or later."
+Upgrade to AssetGuard 5.0.0 is only supported from version 4.14.0 or later."
             fi
 
             # If any error was detected, show message and block
@@ -62,25 +62,25 @@ Required action:
   2. Then upgrade to 5.0.0
 
 For more information, visit:
-  https://documentation.wazuh.com/current/upgrade-guide/
+  https://documentation.assetguard.com/current/upgrade-guide/
 ═════════════════════════════════════════════════════════════════
 EOF
                 echo -n "1" > ${DIR}/var/upgrade/upgrade_result
                 exit 1
             fi
 
-            if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-agent > /dev/null 2>&1; then
-                systemctl stop wazuh-agent.service > /dev/null 2>&1
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
-            elif command -v service > /dev/null 2>&1 && service wazuh-agent status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                service wazuh-agent stop > /dev/null 2>&1
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
-            elif ${DIR}/bin/wazuh-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
+            if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet assetguard-agent > /dev/null 2>&1; then
+                systemctl stop assetguard-agent.service > /dev/null 2>&1
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
+            elif command -v service > /dev/null 2>&1 && service assetguard-agent status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+                service assetguard-agent stop > /dev/null 2>&1
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
+            elif ${DIR}/bin/assetguard-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
             elif ${DIR}/bin/ossec-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
             fi
-            ${DIR}/bin/ossec-control stop > /dev/null 2>&1 || ${DIR}/bin/wazuh-control stop > /dev/null 2>&1
+            ${DIR}/bin/ossec-control stop > /dev/null 2>&1 || ${DIR}/bin/assetguard-control stop > /dev/null 2>&1
 
             # Remove old databases if upgrading from pre 5.X to 5.X
             if [ $MAJOR -lt 5 ]; then
@@ -93,7 +93,7 @@ EOF
             fi
 
             if [ -d ${DIR}/logs/ossec ]; then
-                mv ${DIR}/logs/ossec ${DIR}/logs/wazuh
+                mv ${DIR}/logs/ossec ${DIR}/logs/assetguard
             fi
 
             if [ -d ${DIR}/queue/ossec ]; then
@@ -102,7 +102,7 @@ EOF
         fi
 
         if [ ! -z "$2" ] && [ ! -f ${DIR}/etc/ossec.conf ] ; then
-            touch ${WAZUH_TMP_DIR}/create_conf
+            touch ${ASSETGUARD_TMP_DIR}/create_conf
         fi
 
         # Delete old service
@@ -111,13 +111,13 @@ EOF
         fi
         # back up the current user rules
         if [ -f ${DIR}/etc/client.keys ]; then
-            cp ${DIR}/etc/client.keys ${WAZUH_TMP_DIR}/client.keys
+            cp ${DIR}/etc/client.keys ${ASSETGUARD_TMP_DIR}/client.keys
         fi
         if [ -f ${DIR}/etc/local_internal_options.conf ]; then
-            cp -p ${DIR}/etc/local_internal_options.conf ${WAZUH_TMP_DIR}/local_internal_options.conf
+            cp -p ${DIR}/etc/local_internal_options.conf ${ASSETGUARD_TMP_DIR}/local_internal_options.conf
         fi
         if [ -f ${DIR}/etc/ossec.conf ]; then
-            cp -p ${DIR}/etc/ossec.conf ${WAZUH_TMP_DIR}/ossec.conf
+            cp -p ${DIR}/etc/ossec.conf ${ASSETGUARD_TMP_DIR}/ossec.conf
         fi
 
         if [ -d "${DIR}/etc/shared" ]; then
@@ -127,8 +127,8 @@ EOF
         fi
 
         if [ ! -z "$files" ]; then
-            mkdir -p ${WAZUH_TMP_DIR}/group
-            cp -rp ${DIR}/etc/shared/* ${WAZUH_TMP_DIR}/group/
+            mkdir -p ${ASSETGUARD_TMP_DIR}/group
+            cp -rp ${DIR}/etc/shared/* ${ASSETGUARD_TMP_DIR}/group/
         fi
     ;;
 

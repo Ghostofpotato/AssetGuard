@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for wazuh-agent
-# Wazuh, Inc 2015
+# postinst script for assetguard-agent
+# AssetGuard, Inc 2015
 
 set -e
 
@@ -10,17 +10,17 @@ case "$1" in
     OS=$(lsb_release -si)
     VER=$(lsb_release -sr)
     DIR="/var/ossec"
-    USER="wazuh"
-    GROUP="wazuh"
-    WAZUH_GLOBAL_TMP_DIR="${DIR}/packages_files"
-    WAZUH_TMP_DIR="${WAZUH_GLOBAL_TMP_DIR}/agent_config_files"
-    SCRIPTS_DIR="${WAZUH_GLOBAL_TMP_DIR}/agent_installation_scripts"
+    USER="assetguard"
+    GROUP="assetguard"
+    ASSETGUARD_GLOBAL_TMP_DIR="${DIR}/packages_files"
+    ASSETGUARD_TMP_DIR="${ASSETGUARD_GLOBAL_TMP_DIR}/agent_config_files"
+    SCRIPTS_DIR="${ASSETGUARD_GLOBAL_TMP_DIR}/agent_installation_scripts"
     SCA_BASE_DIR="${SCRIPTS_DIR}/sca"
 
     OSMYSHELL="/sbin/nologin"
 
     if [ -d /run/systemd/system ]; then
-        rm -f /etc/init.d/wazuh-agent
+        rm -f /etc/init.d/assetguard-agent
     fi
 
     if [ ! -f ${OSMYSHELL} ]; then
@@ -36,7 +36,7 @@ case "$1" in
         adduser --system --home ${DIR} --shell ${OSMYSHELL} --ingroup ${GROUP} ${USER} > /dev/null 2>&1
     fi
 
-    if [ -z "$2" ] || [ -f ${WAZUH_TMP_DIR}/create_conf ] ; then
+    if [ -z "$2" ] || [ -f ${ASSETGUARD_TMP_DIR}/create_conf ] ; then
 
         ${SCRIPTS_DIR}/src/init/gen_ossec.sh conf agent ${OS} ${VER} ${DIR} > ${DIR}/etc/ossec.conf
         ${SCRIPTS_DIR}/src/init/add_localfiles.sh ${DIR} >> ${DIR}/etc/ossec.conf
@@ -59,17 +59,17 @@ case "$1" in
     fi
 
     # Restore the local rules, client.keys and local_decoder
-    if [ -f ${WAZUH_TMP_DIR}/client.keys ]; then
-        cp ${WAZUH_TMP_DIR}/client.keys ${DIR}/etc/client.keys
+    if [ -f ${ASSETGUARD_TMP_DIR}/client.keys ]; then
+        cp ${ASSETGUARD_TMP_DIR}/client.keys ${DIR}/etc/client.keys
     fi
     # Restore ossec.conf configuration
-    if [ -f ${WAZUH_TMP_DIR}/ossec.conf ]; then
-        mv ${WAZUH_TMP_DIR}/ossec.conf ${DIR}/etc/ossec.conf
+    if [ -f ${ASSETGUARD_TMP_DIR}/ossec.conf ]; then
+        mv ${ASSETGUARD_TMP_DIR}/ossec.conf ${DIR}/etc/ossec.conf
         chmod 640 ${DIR}/etc/ossec.conf
     fi
     # Restore internal options configuration
-    if [ -f ${WAZUH_TMP_DIR}/local_internal_options.conf ]; then
-        mv ${WAZUH_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
+    if [ -f ${ASSETGUARD_TMP_DIR}/local_internal_options.conf ]; then
+        mv ${ASSETGUARD_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
     fi
 
     # Install the SCA files
@@ -113,24 +113,24 @@ case "$1" in
     fi
 
     # Restore group files
-    if [ -d ${WAZUH_TMP_DIR}/group ]; then
-        cp -rfp ${WAZUH_TMP_DIR}/group/* ${DIR}/etc/shared
-        rm -rf ${WAZUH_TMP_DIR}/group
+    if [ -d ${ASSETGUARD_TMP_DIR}/group ]; then
+        cp -rfp ${ASSETGUARD_TMP_DIR}/group/* ${DIR}/etc/shared
+        rm -rf ${ASSETGUARD_TMP_DIR}/group
     fi
 
     touch ${DIR}/logs/active-responses.log
-    chown wazuh:wazuh ${DIR}/logs/active-responses.log
+    chown assetguard:assetguard ${DIR}/logs/active-responses.log
     chmod 0660 ${DIR}/logs/active-responses.log
 
     # Check if SELinux is installed and enabled
     if command -v getenforce > /dev/null 2>&1 && command -v semodule > /dev/null 2>&1; then
         if [ $(getenforce) !=  "Disabled" ]; then
-            semodule -i ${DIR}/var/selinux/wazuh.pp
-            semodule -e wazuh
+            semodule -i ${DIR}/var/selinux/assetguard.pp
+            semodule -e assetguard
         fi
     fi
 
-    # Register and configure agent if Wazuh environment variables are defined
+    # Register and configure agent if AssetGuard environment variables are defined
     if [ -z "$2" ] ; then
         ${SCRIPTS_DIR}/src/init/register_configure_agent.sh ${DIR} > /dev/null || :
     fi
@@ -138,8 +138,8 @@ case "$1" in
     # Restoring file permissions
     ${SCRIPTS_DIR}/restore-permissions.sh > /dev/null 2>&1 || :
 
-    if [ -f /etc/systemd/system/wazuh-agent.service ]; then
-        rm -f /etc/systemd/system/wazuh-agent.service
+    if [ -f /etc/systemd/system/assetguard-agent.service ]; then
+        rm -f /etc/systemd/system/assetguard-agent.service
         if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1; then
             systemctl daemon-reload > /dev/null 2>&1
         fi
@@ -147,17 +147,17 @@ case "$1" in
 
     # Remove old ossec user and group if exists and change ownwership of files
     if getent group ossec > /dev/null 2>&1; then
-        find ${DIR}/ -group ossec -user root -exec chown root:wazuh {} \; > /dev/null 2>&1 || true
+        find ${DIR}/ -group ossec -user root -exec chown root:assetguard {} \; > /dev/null 2>&1 || true
         if getent passwd ossec > /dev/null 2>&1; then
-            find ${DIR}/ -group ossec -user ossec -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+            find ${DIR}/ -group ossec -user ossec -exec chown assetguard:assetguard {} \; > /dev/null 2>&1 || true
             deluser ossec > /dev/null 2>&1
         fi
         if getent passwd ossecm > /dev/null 2>&1; then
-            find ${DIR}/ -group ossec -user ossecm -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+            find ${DIR}/ -group ossec -user ossecm -exec chown assetguard:assetguard {} \; > /dev/null 2>&1 || true
             deluser ossecm > /dev/null 2>&1
         fi
         if getent passwd ossecr > /dev/null 2>&1; then
-            find ${DIR}/ -group ossec -user ossecr -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+            find ${DIR}/ -group ossec -user ossecr -exec chown assetguard:assetguard {} \; > /dev/null 2>&1 || true
             deluser ossecr > /dev/null 2>&1
         fi
         if getent group ossec > /dev/null 2>&1; then
@@ -169,14 +169,14 @@ case "$1" in
     find ${DIR} -nouser -exec chown ${USER} {} \; > /dev/null 2>&1
 
     if [ ! -z "$2" ]; then
-        if [ -f ${WAZUH_TMP_DIR}/wazuh.restart ] ; then
+        if [ -f ${ASSETGUARD_TMP_DIR}/assetguard.restart ] ; then
             if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1; then
                 systemctl daemon-reload > /dev/null 2>&1
-                systemctl restart wazuh-agent.service > /dev/null 2>&1
+                systemctl restart assetguard-agent.service > /dev/null 2>&1
             elif command -v service > /dev/null 2>&1 ; then
-                service wazuh-agent restart > /dev/null 2>&1
+                service assetguard-agent restart > /dev/null 2>&1
             else
-                ${DIR}/bin/wazuh-control restart > /dev/null 2>&1
+                ${DIR}/bin/assetguard-control restart > /dev/null 2>&1
             fi
         fi
     fi
@@ -187,13 +187,13 @@ case "$1" in
     fi
 
     # Delete tmp directory
-    if [ -d ${WAZUH_TMP_DIR} ]; then
-        rm -rf ${WAZUH_TMP_DIR}
+    if [ -d ${ASSETGUARD_TMP_DIR} ]; then
+        rm -rf ${ASSETGUARD_TMP_DIR}
     fi
 
     # If the parent directory is empty, delete it
-    if [ -z "$(ls -A ${WAZUH_GLOBAL_TMP_DIR})" ]; then
-        rm -rf ${WAZUH_GLOBAL_TMP_DIR}
+    if [ -z "$(ls -A ${ASSETGUARD_GLOBAL_TMP_DIR})" ]; then
+        rm -rf ${ASSETGUARD_GLOBAL_TMP_DIR}
     fi
 
     ;;

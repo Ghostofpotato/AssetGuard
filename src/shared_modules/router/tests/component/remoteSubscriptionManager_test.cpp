@@ -1,6 +1,6 @@
 /*
- * Wazuh router - RemoteSubscriptionManager tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router - RemoteSubscriptionManager tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * December 19, 2023.
  *
  * This program is free software; you can redistribute it

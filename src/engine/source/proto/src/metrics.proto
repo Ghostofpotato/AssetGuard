@@ -3,7 +3,7 @@ syntax = "proto3";
 import "engine.proto";
 import "google/protobuf/struct.proto"; // For Value
 
-package com.assetguard.api.engine.metrics;
+package com.wazuh.api.engine.metrics;
 
 /*
  * This API is used to manage the metrics of the AssetGuard manager

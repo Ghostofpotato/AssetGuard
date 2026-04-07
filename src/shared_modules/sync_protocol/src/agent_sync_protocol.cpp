@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -532,7 +532,7 @@ bool AgentSyncProtocol::sendStartAndWaitAck(Mode mode,
 
         auto indices = builder.CreateVector(index_vec);
 
-        Wazuh::SyncSchema::StartBuilder startBuilder(builder);
+        AssetGuard::SyncSchema::StartBuilder startBuilder(builder);
         startBuilder.add_module_(module);
         startBuilder.add_mode(protocolMode);
         startBuilder.add_size(static_cast<uint64_t>(dataSize));
@@ -562,7 +562,7 @@ bool AgentSyncProtocol::sendStartAndWaitAck(Mode mode,
 
         auto startOffset = startBuilder.Finish();
 
-        auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::Start, startOffset.Union());
+        auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::Start, startOffset.Union());
         builder.Finish(message);
 
         const uint8_t* buffer_ptr = builder.GetBufferPointer();
@@ -665,7 +665,7 @@ bool AgentSyncProtocol::sendDataMessages(uint64_t session,
             auto idxStr = builder.CreateString(item.index);
             auto dataVec = builder.CreateVector(reinterpret_cast<const int8_t*>(item.data.data()), item.data.size());
 
-            Wazuh::SyncSchema::DataValueBuilder dataValueBuilder(builder);
+            AssetGuard::SyncSchema::DataValueBuilder dataValueBuilder(builder);
             dataValueBuilder.add_seq(item.seq);
             dataValueBuilder.add_session(session);
             dataValueBuilder.add_id(idStr);
@@ -674,14 +674,14 @@ bool AgentSyncProtocol::sendDataMessages(uint64_t session,
 
             // Translate DB operation to Schema operation
             const auto protocolOperation = (item.operation == Operation::DELETE_)
-                                           ? Wazuh::SyncSchema::Operation::Delete
-                                           : Wazuh::SyncSchema::Operation::Upsert;
+                                           ? AssetGuard::SyncSchema::Operation::Delete
+                                           : AssetGuard::SyncSchema::Operation::Upsert;
 
             dataValueBuilder.add_operation(protocolOperation);
             dataValueBuilder.add_data(dataVec);
             auto dataValueOffset = dataValueBuilder.Finish();
 
-            auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::DataValue, dataValueOffset.Union());
+            auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::DataValue, dataValueOffset.Union());
             builder.Finish(message);
 
             const uint8_t* buffer_ptr = builder.GetBufferPointer();
@@ -724,7 +724,7 @@ bool AgentSyncProtocol::sendDataContextMessages(uint64_t session,
             auto idxStr = builder.CreateString(item.index);
             auto dataVec = builder.CreateVector(reinterpret_cast<const int8_t*>(item.data.data()), item.data.size());
 
-            Wazuh::SyncSchema::DataContextBuilder dataContextBuilder(builder);
+            AssetGuard::SyncSchema::DataContextBuilder dataContextBuilder(builder);
             dataContextBuilder.add_seq(item.seq);
             dataContextBuilder.add_session(session);
             dataContextBuilder.add_id(idStr);
@@ -732,7 +732,7 @@ bool AgentSyncProtocol::sendDataContextMessages(uint64_t session,
             dataContextBuilder.add_data(dataVec);
             auto dataContextOffset = dataContextBuilder.Finish();
 
-            auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::DataContext, dataContextOffset.Union());
+            auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::DataContext, dataContextOffset.Union());
             builder.Finish(message);
 
             const uint8_t* buffer_ptr = builder.GetBufferPointer();
@@ -766,13 +766,13 @@ bool AgentSyncProtocol::sendChecksumMessage(uint64_t session,
         auto indexStr = builder.CreateString(index);
         auto checksumStr = builder.CreateString(checksum);
 
-        Wazuh::SyncSchema::ChecksumModuleBuilder checksumBuilder(builder);
+        AssetGuard::SyncSchema::ChecksumModuleBuilder checksumBuilder(builder);
         checksumBuilder.add_session(session);
         checksumBuilder.add_index(indexStr);
         checksumBuilder.add_checksum(checksumStr);
         auto checksumOffset = checksumBuilder.Finish();
 
-        auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::ChecksumModule, checksumOffset.Union());
+        auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::ChecksumModule, checksumOffset.Union());
         builder.Finish(message);
 
         const uint8_t* buffer_ptr = builder.GetBufferPointer();
@@ -805,13 +805,13 @@ bool AgentSyncProtocol::sendDataCleanMessages(uint64_t session,
             flatbuffers::FlatBufferBuilder builder;
             auto indexStr = builder.CreateString(item.index);
 
-            Wazuh::SyncSchema::DataCleanBuilder dataCleanBuilder(builder);
+            AssetGuard::SyncSchema::DataCleanBuilder dataCleanBuilder(builder);
             dataCleanBuilder.add_seq(item.seq);
             dataCleanBuilder.add_session(session);
             dataCleanBuilder.add_index(indexStr);
             auto dataCleanOffset = dataCleanBuilder.Finish();
 
-            auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::DataClean, dataCleanOffset.Union());
+            auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::DataClean, dataCleanOffset.Union());
             builder.Finish(message);
 
             const uint8_t* buffer_ptr = builder.GetBufferPointer();
@@ -841,11 +841,11 @@ bool AgentSyncProtocol::sendEndAndWaitAck(uint64_t session,
     try
     {
         flatbuffers::FlatBufferBuilder builder;
-        Wazuh::SyncSchema::EndBuilder endBuilder(builder);
+        AssetGuard::SyncSchema::EndBuilder endBuilder(builder);
         endBuilder.add_session(session);
         auto endOffset = endBuilder.Finish();
 
-        auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType::End, endOffset.Union());
+        auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType::End, endOffset.Union());
         builder.Finish(message);
 
         const uint8_t* buffer_ptr = builder.GetBufferPointer();
@@ -987,27 +987,27 @@ bool AgentSyncProtocol::parseResponseBuffer(const uint8_t* data, size_t length)
     {
         flatbuffers::Verifier verifier(data, length);
 
-        if (!Wazuh::SyncSchema::VerifyMessageBuffer(verifier))
+        if (!AssetGuard::SyncSchema::VerifyMessageBuffer(verifier))
         {
             m_logger(LOG_ERROR, "Invalid FlatBuffer message");
             return false;
         }
 
-        const auto* message = Wazuh::SyncSchema::GetMessage(data);
+        const auto* message = AssetGuard::SyncSchema::GetMessage(data);
         const auto messageType = message->content_type();
 
         std::unique_lock<std::mutex> lock(m_syncState.mtx);
 
         switch (messageType)
         {
-            case Wazuh::SyncSchema::MessageType::StartAck:
+            case AssetGuard::SyncSchema::MessageType::StartAck:
                 {
                     if (m_syncState.phase == SyncPhase::WaitingStartAck)
                     {
                         const auto* startAck = message->content_as_StartAck();
 
-                        if (startAck->status() == Wazuh::SyncSchema::Status::Error ||
-                                startAck->status() == Wazuh::SyncSchema::Status::Offline)
+                        if (startAck->status() == AssetGuard::SyncSchema::Status::Error ||
+                                startAck->status() == AssetGuard::SyncSchema::Status::Offline)
                         {
                             m_logger(LOG_ERROR, "Received StartAck with error status. Aborting synchronization.");
                             m_syncState.syncFailed = true;
@@ -1030,7 +1030,7 @@ bool AgentSyncProtocol::parseResponseBuffer(const uint8_t* data, size_t length)
                     break;
                 }
 
-            case Wazuh::SyncSchema::MessageType::EndAck:
+            case AssetGuard::SyncSchema::MessageType::EndAck:
                 {
                     const auto* endAck = message->content_as_EndAck();
                     const uint64_t incomingSession = endAck->session();
@@ -1041,22 +1041,22 @@ bool AgentSyncProtocol::parseResponseBuffer(const uint8_t* data, size_t length)
                         break;
                     }
 
-                    if (endAck->status() == Wazuh::SyncSchema::Status::Error ||
-                            endAck->status() == Wazuh::SyncSchema::Status::Offline ||
-                            endAck->status() == Wazuh::SyncSchema::Status::ChecksumMismatch)
+                    if (endAck->status() == AssetGuard::SyncSchema::Status::Error ||
+                            endAck->status() == AssetGuard::SyncSchema::Status::Offline ||
+                            endAck->status() == AssetGuard::SyncSchema::Status::ChecksumMismatch)
                     {
                         // Store the specific error type for detailed reporting
-                        if (endAck->status() == Wazuh::SyncSchema::Status::Offline)
+                        if (endAck->status() == AssetGuard::SyncSchema::Status::Offline)
                         {
                             m_syncState.lastSyncResult = SyncResult::COMMUNICATION_ERROR;
                             m_logger(LOG_ERROR, "Received EndAck with Offline status. Aborting synchronization.");
                         }
-                        else if (endAck->status() == Wazuh::SyncSchema::Status::ChecksumMismatch)
+                        else if (endAck->status() == AssetGuard::SyncSchema::Status::ChecksumMismatch)
                         {
                             m_syncState.lastSyncResult = SyncResult::CHECKSUM_ERROR;
                             m_logger(LOG_DEBUG, "Checksum mismatch detected by manager, full resync will be triggered.");
                         }
-                        else if (endAck->status() == Wazuh::SyncSchema::Status::Error)
+                        else if (endAck->status() == AssetGuard::SyncSchema::Status::Error)
                         {
                             m_syncState.lastSyncResult = SyncResult::GENERIC_ERROR;
                             m_logger(LOG_ERROR, "Received EndAck with Error status. Aborting synchronization.");
@@ -1067,7 +1067,7 @@ bool AgentSyncProtocol::parseResponseBuffer(const uint8_t* data, size_t length)
                         break;
                     }
 
-                    if (endAck->status() == Wazuh::SyncSchema::Status::Processing)
+                    if (endAck->status() == AssetGuard::SyncSchema::Status::Processing)
                     {
                         m_logger(LOG_DEBUG, "Manager is processing session '" + std::to_string(incomingSession) + "'. Waiting...");
                         m_syncState.processingAckReceived = true;
@@ -1083,7 +1083,7 @@ bool AgentSyncProtocol::parseResponseBuffer(const uint8_t* data, size_t length)
                     break;
                 }
 
-            case Wazuh::SyncSchema::MessageType::ReqRet:
+            case AssetGuard::SyncSchema::MessageType::ReqRet:
                 {
                     const auto* reqRet = message->content_as_ReqRet();
                     const uint64_t incomingSession = reqRet->session();
@@ -1184,17 +1184,17 @@ std::vector<PersistedData> AgentSyncProtocol::filterDataByRanges(
     return result;
 }
 
-Wazuh::SyncSchema::Mode AgentSyncProtocol::toProtocolMode(Mode mode) const
+AssetGuard::SyncSchema::Mode AgentSyncProtocol::toProtocolMode(Mode mode) const
 {
-    static const std::unordered_map<Mode, Wazuh::SyncSchema::Mode> modeMap =
+    static const std::unordered_map<Mode, AssetGuard::SyncSchema::Mode> modeMap =
     {
-        {Mode::FULL, Wazuh::SyncSchema::Mode::ModuleFull},
-        {Mode::DELTA, Wazuh::SyncSchema::Mode::ModuleDelta},
-        {Mode::CHECK, Wazuh::SyncSchema::Mode::ModuleCheck},
-        {Mode::METADATA_DELTA, Wazuh::SyncSchema::Mode::MetadataDelta},
-        {Mode::METADATA_CHECK, Wazuh::SyncSchema::Mode::MetadataCheck},
-        {Mode::GROUP_DELTA, Wazuh::SyncSchema::Mode::GroupDelta},
-        {Mode::GROUP_CHECK, Wazuh::SyncSchema::Mode::GroupCheck}
+        {Mode::FULL, AssetGuard::SyncSchema::Mode::ModuleFull},
+        {Mode::DELTA, AssetGuard::SyncSchema::Mode::ModuleDelta},
+        {Mode::CHECK, AssetGuard::SyncSchema::Mode::ModuleCheck},
+        {Mode::METADATA_DELTA, AssetGuard::SyncSchema::Mode::MetadataDelta},
+        {Mode::METADATA_CHECK, AssetGuard::SyncSchema::Mode::MetadataCheck},
+        {Mode::GROUP_DELTA, AssetGuard::SyncSchema::Mode::GroupDelta},
+        {Mode::GROUP_CHECK, AssetGuard::SyncSchema::Mode::GroupCheck}
     };
 
     if (const auto it = modeMap.find(mode); it != modeMap.end())
@@ -1205,13 +1205,13 @@ Wazuh::SyncSchema::Mode AgentSyncProtocol::toProtocolMode(Mode mode) const
     throw std::invalid_argument("Unknown Mode value: " + std::to_string(static_cast<int>(mode)));
 }
 
-Wazuh::SyncSchema::Option AgentSyncProtocol::toProtocolOption(Option option) const
+AssetGuard::SyncSchema::Option AgentSyncProtocol::toProtocolOption(Option option) const
 {
-    static const std::unordered_map<Option, Wazuh::SyncSchema::Option> optionMap =
+    static const std::unordered_map<Option, AssetGuard::SyncSchema::Option> optionMap =
     {
-        {Option::SYNC, Wazuh::SyncSchema::Option::Sync},
-        {Option::VDFIRST, Wazuh::SyncSchema::Option::VDFirst},
-        {Option::VDSYNC, Wazuh::SyncSchema::Option::VDSync},
+        {Option::SYNC, AssetGuard::SyncSchema::Option::Sync},
+        {Option::VDFIRST, AssetGuard::SyncSchema::Option::VDFirst},
+        {Option::VDSYNC, AssetGuard::SyncSchema::Option::VDSync},
     };
 
     if (const auto it = optionMap.find(option); it != optionMap.end())

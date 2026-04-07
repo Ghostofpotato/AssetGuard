@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     tar \
  && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://packages.wazuh.com/4.14/wazuh-certs-tool.sh \
-    && chmod +x wazuh-certs-tool.sh
+RUN wget https://packages.assetguard.com/4.14/assetguard-certs-tool.sh \
+    && chmod +x assetguard-certs-tool.sh
 
 COPY config.yml /tmp/config.yml
 COPY generate_certs.sh /tmp/generate_certs.sh

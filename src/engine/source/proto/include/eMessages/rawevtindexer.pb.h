@@ -47,7 +47,7 @@ struct TableStruct_rawevtindexer_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_rawevtindexer_2eproto;
 namespace com {
-namespace assetguard {
+namespace wazuh {
 namespace api {
 namespace engine {
 namespace rawevtindexer {
@@ -66,16 +66,16 @@ extern RawEvtIndexerStatus_ResponseDefaultTypeInternal _RawEvtIndexerStatus_Resp
 }  // namespace rawevtindexer
 }  // namespace engine
 }  // namespace api
-}  // namespace assetguard
+}  // namespace wazuh
 }  // namespace com
 PROTOBUF_NAMESPACE_OPEN
-template<> ::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerDisable_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerDisable_Request>(Arena*);
-template<> ::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerEnable_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerEnable_Request>(Arena*);
-template<> ::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerStatus_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerStatus_Request>(Arena*);
-template<> ::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerStatus_Response* Arena::CreateMaybeMessage<::com::assetguard::api::engine::rawevtindexer::RawEvtIndexerStatus_Response>(Arena*);
+template<> ::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerDisable_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerDisable_Request>(Arena*);
+template<> ::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerEnable_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerEnable_Request>(Arena*);
+template<> ::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerStatus_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerStatus_Request>(Arena*);
+template<> ::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerStatus_Response* Arena::CreateMaybeMessage<::com::wazuh::api::engine::rawevtindexer::RawEvtIndexerStatus_Response>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
-namespace assetguard {
+namespace wazuh {
 namespace api {
 namespace engine {
 namespace rawevtindexer {
@@ -83,7 +83,7 @@ namespace rawevtindexer {
 // ===================================================================
 
 class RawEvtIndexerEnable_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerEnable_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerEnable_Request) */ {
  public:
   inline RawEvtIndexerEnable_Request() : RawEvtIndexerEnable_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR RawEvtIndexerEnable_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -171,7 +171,7 @@ class RawEvtIndexerEnable_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.rawevtindexer.RawEvtIndexerEnable_Request";
+    return "com.wazuh.api.engine.rawevtindexer.RawEvtIndexerEnable_Request";
   }
   protected:
   explicit RawEvtIndexerEnable_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -187,7 +187,7 @@ class RawEvtIndexerEnable_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerEnable_Request)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerEnable_Request)
  private:
   class _Internal;
 
@@ -201,7 +201,7 @@ class RawEvtIndexerEnable_Request final :
 // -------------------------------------------------------------------
 
 class RawEvtIndexerDisable_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerDisable_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerDisable_Request) */ {
  public:
   inline RawEvtIndexerDisable_Request() : RawEvtIndexerDisable_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR RawEvtIndexerDisable_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -289,7 +289,7 @@ class RawEvtIndexerDisable_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.rawevtindexer.RawEvtIndexerDisable_Request";
+    return "com.wazuh.api.engine.rawevtindexer.RawEvtIndexerDisable_Request";
   }
   protected:
   explicit RawEvtIndexerDisable_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -305,7 +305,7 @@ class RawEvtIndexerDisable_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerDisable_Request)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerDisable_Request)
  private:
   class _Internal;
 
@@ -319,7 +319,7 @@ class RawEvtIndexerDisable_Request final :
 // -------------------------------------------------------------------
 
 class RawEvtIndexerStatus_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Request) */ {
  public:
   inline RawEvtIndexerStatus_Request() : RawEvtIndexerStatus_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR RawEvtIndexerStatus_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -407,7 +407,7 @@ class RawEvtIndexerStatus_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Request";
+    return "com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Request";
   }
   protected:
   explicit RawEvtIndexerStatus_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -423,7 +423,7 @@ class RawEvtIndexerStatus_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Request)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Request)
  private:
   class _Internal;
 
@@ -437,7 +437,7 @@ class RawEvtIndexerStatus_Request final :
 // -------------------------------------------------------------------
 
 class RawEvtIndexerStatus_Response final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response) */ {
  public:
   inline RawEvtIndexerStatus_Response() : RawEvtIndexerStatus_Response(nullptr) {}
   ~RawEvtIndexerStatus_Response() override;
@@ -540,7 +540,7 @@ class RawEvtIndexerStatus_Response final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response";
+    return "com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response";
   }
   protected:
   explicit RawEvtIndexerStatus_Response(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -579,13 +579,13 @@ class RawEvtIndexerStatus_Response final :
   std::string* _internal_mutable_error();
   public:
 
-  // .com.assetguard.api.engine.ReturnStatus status = 1;
+  // .com.wazuh.api.engine.ReturnStatus status = 1;
   void clear_status();
-  ::com::assetguard::api::engine::ReturnStatus status() const;
-  void set_status(::com::assetguard::api::engine::ReturnStatus value);
+  ::com::wazuh::api::engine::ReturnStatus status() const;
+  void set_status(::com::wazuh::api::engine::ReturnStatus value);
   private:
-  ::com::assetguard::api::engine::ReturnStatus _internal_status() const;
-  void _internal_set_status(::com::assetguard::api::engine::ReturnStatus value);
+  ::com::wazuh::api::engine::ReturnStatus _internal_status() const;
+  void _internal_set_status(::com::wazuh::api::engine::ReturnStatus value);
   public:
 
   // bool enabled = 3;
@@ -597,7 +597,7 @@ class RawEvtIndexerStatus_Response final :
   void _internal_set_enabled(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response)
  private:
   class _Internal;
 
@@ -637,24 +637,24 @@ class RawEvtIndexerStatus_Response final :
 
 // RawEvtIndexerStatus_Response
 
-// .com.assetguard.api.engine.ReturnStatus status = 1;
+// .com.wazuh.api.engine.ReturnStatus status = 1;
 inline void RawEvtIndexerStatus_Response::clear_status() {
   _impl_.status_ = 0;
 }
-inline ::com::assetguard::api::engine::ReturnStatus RawEvtIndexerStatus_Response::_internal_status() const {
-  return static_cast< ::com::assetguard::api::engine::ReturnStatus >(_impl_.status_);
+inline ::com::wazuh::api::engine::ReturnStatus RawEvtIndexerStatus_Response::_internal_status() const {
+  return static_cast< ::com::wazuh::api::engine::ReturnStatus >(_impl_.status_);
 }
-inline ::com::assetguard::api::engine::ReturnStatus RawEvtIndexerStatus_Response::status() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.status)
+inline ::com::wazuh::api::engine::ReturnStatus RawEvtIndexerStatus_Response::status() const {
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.status)
   return _internal_status();
 }
-inline void RawEvtIndexerStatus_Response::_internal_set_status(::com::assetguard::api::engine::ReturnStatus value) {
+inline void RawEvtIndexerStatus_Response::_internal_set_status(::com::wazuh::api::engine::ReturnStatus value) {
   
   _impl_.status_ = value;
 }
-inline void RawEvtIndexerStatus_Response::set_status(::com::assetguard::api::engine::ReturnStatus value) {
+inline void RawEvtIndexerStatus_Response::set_status(::com::wazuh::api::engine::ReturnStatus value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.status)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.status)
 }
 
 // optional string error = 2;
@@ -670,7 +670,7 @@ inline void RawEvtIndexerStatus_Response::clear_error() {
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& RawEvtIndexerStatus_Response::error() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
   return _internal_error();
 }
 template <typename ArgT0, typename... ArgT>
@@ -678,11 +678,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void RawEvtIndexerStatus_Response::set_error(ArgT0&& arg0, ArgT... args) {
  _impl_._has_bits_[0] |= 0x00000001u;
  _impl_.error_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
 }
 inline std::string* RawEvtIndexerStatus_Response::mutable_error() {
   std::string* _s = _internal_mutable_error();
-  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
+  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
   return _s;
 }
 inline const std::string& RawEvtIndexerStatus_Response::_internal_error() const {
@@ -697,7 +697,7 @@ inline std::string* RawEvtIndexerStatus_Response::_internal_mutable_error() {
   return _impl_.error_.Mutable(GetArenaForAllocation());
 }
 inline std::string* RawEvtIndexerStatus_Response::release_error() {
-  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
+  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
   if (!_internal_has_error()) {
     return nullptr;
   }
@@ -722,7 +722,7 @@ inline void RawEvtIndexerStatus_Response::set_allocated_error(std::string* error
     _impl_.error_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
+  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.error)
 }
 
 // bool enabled = 3;
@@ -733,7 +733,7 @@ inline bool RawEvtIndexerStatus_Response::_internal_enabled() const {
   return _impl_.enabled_;
 }
 inline bool RawEvtIndexerStatus_Response::enabled() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.enabled)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.enabled)
   return _internal_enabled();
 }
 inline void RawEvtIndexerStatus_Response::_internal_set_enabled(bool value) {
@@ -742,7 +742,7 @@ inline void RawEvtIndexerStatus_Response::_internal_set_enabled(bool value) {
 }
 inline void RawEvtIndexerStatus_Response::set_enabled(bool value) {
   _internal_set_enabled(value);
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.enabled)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.rawevtindexer.RawEvtIndexerStatus_Response.enabled)
 }
 
 #ifdef __GNUC__
@@ -760,7 +760,7 @@ inline void RawEvtIndexerStatus_Response::set_enabled(bool value) {
 }  // namespace rawevtindexer
 }  // namespace engine
 }  // namespace api
-}  // namespace assetguard
+}  // namespace wazuh
 }  // namespace com
 
 // @@protoc_insertion_point(global_scope)

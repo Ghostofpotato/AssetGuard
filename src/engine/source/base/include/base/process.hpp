@@ -15,7 +15,7 @@
 
 namespace base::process
 {
-constexpr auto ENV_ENGINE_STANDALONE = "WAZUH_ENGINE_STANDALONE"; ///< Env var to indicate standalone mode
+constexpr auto ENV_ENGINE_STANDALONE = "ASSETGUARD_ENGINE_STANDALONE"; ///< Env var to indicate standalone mode
 
 /**
  * @brief Transforms the current process into a daemon (double fork + detach).
@@ -99,17 +99,17 @@ gid_t privSepGetGroup(const std::string& groupname);
 void privSepSetGroup(gid_t gid);
 
 /**
- * @brief Gets the Wazuh installation home directory path.
+ * @brief Gets the AssetGuard installation home directory path.
  *
- * This function determines the Wazuh home directory by reading the current
+ * This function determines the AssetGuard home directory by reading the current
  * executable's path from /proc/self/exe and deriving the installation root.
  * It assumes the executable is located in the "bin" subdirectory of the
- * Wazuh installation (e.g., /var/wazuh-manager/bin/executable).
+ * AssetGuard installation (e.g., /var/assetguard-manager/bin/executable).
  *
- * @return std::filesystem::path The path to the Wazuh home directory ("/var/wazuh-manager").
+ * @return std::filesystem::path The path to the AssetGuard home directory ("/var/assetguard-manager").
  *
  */
-std::filesystem::path getWazuhHome();
+std::filesystem::path getAssetGuardHome();
 
 /**
  * @brief Sets the name of the current thread.
@@ -123,7 +123,7 @@ std::filesystem::path getWazuhHome();
 void setThreadName(const std::string& name);
 
 /**
- * @brief Checks whether standalone mode is enabled for the Wazuh engine.
+ * @brief Checks whether standalone mode is enabled for the AssetGuard engine.
  *
  * @return true  If standalone mode is enabled.
  * @return false Otherwise.

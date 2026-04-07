@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 05, 2025.
  *
  * This program is free software; you can redistribute it
@@ -33,7 +33,7 @@ TEST_F(CtiDownloaderOAuthTest, BackwardCompatibility_NoProviders)
                 {
                     const auto& params = std::get<TRequestParameters<std::string>>(requestParams);
                     EXPECT_EQ(params.url.url(),
-                              "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0");
+                              "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0");
                 }
 
                 // Return metadata
@@ -78,7 +78,7 @@ TEST_F(CtiDownloaderOAuthTest, OAuth_URLTransformation)
     auto downloader = std::make_shared<CtiOffsetDownloader>(
         *m_mockUrlRequest, m_credentialsProvider, m_productsProvider, m_signedUrlProvider);
 
-    const std::string originalUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string originalUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl = originalUrl + "?verify=hmac_signature_12345";
 
     // Setup mock expectations
@@ -116,7 +116,7 @@ TEST_F(CtiDownloaderOAuthTest, OAuth_URLTransformation)
                 if (std::holds_alternative<TRequestParameters<std::string>>(requestParams))
                 {
                     const auto& params = std::get<TRequestParameters<std::string>>(requestParams);
-                    EXPECT_EQ(params.url.url(), "https://console.wazuh.com/api/v1/instances/me");
+                    EXPECT_EQ(params.url.url(), "https://console.assetguard.com/api/v1/instances/me");
                 }
 
                 // Return subscription with product
@@ -184,7 +184,7 @@ TEST_F(CtiDownloaderOAuthTest, OAuth_URLTransformation)
                 if (std::holds_alternative<TRequestParameters<std::string>>(requestParams))
                 {
                     const auto& params = std::get<TRequestParameters<std::string>>(requestParams);
-                    EXPECT_EQ(params.url.url(), "https://console.wazuh.com/api/v1/instances/token/exchange");
+                    EXPECT_EQ(params.url.url(), "https://console.assetguard.com/api/v1/instances/token/exchange");
 
                     // Verify request body contains the resource URL
                     auto body = nlohmann::json::parse(params.data);
@@ -254,7 +254,7 @@ TEST_F(CtiDownloaderOAuthTest, OAuth_SignedUrlCaching)
     auto downloader = std::make_shared<CtiOffsetDownloader>(
         *m_mockUrlRequest, m_credentialsProvider, m_productsProvider, m_signedUrlProvider);
 
-    const std::string originalUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string originalUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
     const std::string signedUrl = originalUrl + "?verify=hmac_signature_cached";
 
     // Setup mock expectations
@@ -349,8 +349,8 @@ TEST_F(CtiDownloaderOAuthTest, OAuth_SnapshotDownloader)
     auto downloader = std::make_shared<CtiSnapshotDownloader>(
         *m_mockUrlRequest, m_credentialsProvider, m_productsProvider, m_signedUrlProvider);
 
-    const std::string originalUrl = "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
-    const std::string snapshotUrl = "https://cti.wazuh.com/snapshots/latest.tar.gz";
+    const std::string originalUrl = "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0";
+    const std::string snapshotUrl = "https://cti.assetguard.com/snapshots/latest.tar.gz";
     const std::string signedSnapshotUrl = snapshotUrl + "?verify=hmac_snapshot_signature";
 
     // Setup mock expectations

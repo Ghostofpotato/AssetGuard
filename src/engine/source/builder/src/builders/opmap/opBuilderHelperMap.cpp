@@ -2171,7 +2171,7 @@ TransformOp opBuilderHelperSanitizeFields(const Reference& targetField,
     };
 }
 
-// wazuh.space.event_discarded: +discard_events
+// assetguard.space.event_discarded: +discard_events
 TransformOp opBuilderHelperDiscardEvents(const Reference& targetField,
                                          const std::vector<OpArg>& opArgs,
                                          const std::shared_ptr<const IBuildCtx>& buildCtx)

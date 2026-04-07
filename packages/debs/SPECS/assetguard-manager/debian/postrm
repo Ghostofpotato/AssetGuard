@@ -1,21 +1,21 @@
 #!/bin/sh
-# postrm script for Wazuh
-# Wazuh, Inc 2015
+# postrm script for AssetGuard
+# AssetGuard, Inc 2015
 set -e
-DPKG_LIST_FILE="/var/lib/dpkg/info/wazuh-manager.list"
+DPKG_LIST_FILE="/var/lib/dpkg/info/assetguard-manager.list"
 
-DIR="/var/wazuh-manager"
+DIR="/var/assetguard-manager"
 if [ "$1" = "abort-upgrade" ] || [ "$1" = "failed-upgrade" ]; then
-    DIR=$(grep -m 1 -E '/bin/(wazuh-manager-control|wazuh-control)$' "${DPKG_LIST_FILE}" 2>/dev/null \
-        | sed -E 's#/bin/(wazuh-manager-control|wazuh-control)$##')
+    DIR=$(grep -m 1 -E '/bin/(assetguard-manager-control|assetguard-control)$' "${DPKG_LIST_FILE}" 2>/dev/null \
+        | sed -E 's#/bin/(assetguard-manager-control|assetguard-control)$##')
 
     if [ -z "${DIR}" ] || [ ! -d "${DIR}" ]; then
         exit 0
     fi
 fi
 
-WAZUH_TMP_DIR="${DIR}/packages_files/manager_config_files"
-ROLLBACK_MARKER="${WAZUH_TMP_DIR}/rollback_prepared"
+ASSETGUARD_TMP_DIR="${DIR}/packages_files/manager_config_files"
+ROLLBACK_MARKER="${ASSETGUARD_TMP_DIR}/rollback_prepared"
 
 # If preinst did not prepare rollback state, abort safely.
 if [ "$1" = "abort-upgrade" ] || [ "$1" = "failed-upgrade" ]; then
@@ -27,8 +27,8 @@ fi
 case "$1" in
     remove|failed-upgrade|abort-install|abort-upgrade|disappear)
 
-        if [ -d ${WAZUH_TMP_DIR} ]; then
-            rm -rf ${WAZUH_TMP_DIR}
+        if [ -d ${ASSETGUARD_TMP_DIR} ]; then
+            rm -rf ${ASSETGUARD_TMP_DIR}
         fi
 
         # Back up the old configuration files as .save
@@ -60,12 +60,12 @@ case "$1" in
             rm -rf ${DIR}/engine
         fi
 
-        # Delete audisp wazuh plugin if exists
-        if [ -e /etc/audit/plugins.d/af_wazuh.conf ]; then
-            rm -f -- /etc/audit/plugins.d/af_wazuh.conf
+        # Delete audisp assetguard plugin if exists
+        if [ -e /etc/audit/plugins.d/af_assetguard.conf ]; then
+            rm -f -- /etc/audit/plugins.d/af_assetguard.conf
         fi
-        if [ -e /etc/audisp/plugins.d/af_wazuh.conf ]; then
-            rm -f -- /etc/audisp/plugins.d/af_wazuh.conf
+        if [ -e /etc/audisp/plugins.d/af_assetguard.conf ]; then
+            rm -f -- /etc/audisp/plugins.d/af_assetguard.conf
         fi
 
         # Delete old .save
@@ -82,11 +82,11 @@ case "$1" in
     ;;
 
     purge)
-        if getent passwd wazuh-manager > /dev/null 2>&1 ; then
-            deluser wazuh-manager  > /dev/null 2>&1
+        if getent passwd assetguard-manager > /dev/null 2>&1 ; then
+            deluser assetguard-manager  > /dev/null 2>&1
         fi
-        if getent group wazuh-manager > /dev/null 2>&1; then
-            delgroup wazuh-manager  > /dev/null 2>&1
+        if getent group assetguard-manager > /dev/null 2>&1; then
+            delgroup assetguard-manager  > /dev/null 2>&1
         fi
         rm -rf ${DIR}
     ;;

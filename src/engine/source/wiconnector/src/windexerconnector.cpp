@@ -32,7 +32,7 @@ constexpr std::string_view IOC_HASHES_DOC_ID {"__ioc_type_hashes__"}; ///< IOC h
 constexpr std::size_t SINGLE_RESULT_SIZE {1};                         ///< Size for single result queries
 constexpr std::size_t HASH_QUERY_SIZE {1};                            ///< Size for hash query (expecting single result)
 constexpr std::size_t SAFE_STREAM_PAGE_SIZE {1000};                   ///< Hard cap for streaming page size
-constexpr std::string_view REMOTE_CONF_INDEX {".wazuh-settings"};     ///< remote conf index name
+constexpr std::string_view REMOTE_CONF_INDEX {".assetguard-settings"};     ///< remote conf index name
 const std::array<std::string_view, 12> IOC_SOURCE_FILTER_INCLUDES = {"document.name",
                                                                      "document.type",
                                                                      "document.id",
@@ -211,8 +211,8 @@ std::string buildIocSourceFilter()
  *   ],
  *   "ssl": {
  *     "certificate_authorities": [
- *       "/var/wazuh-manager/",
- *       "/var/wazuh-manager_cert/"
+ *       "/var/assetguard-manager/",
+ *       "/var/assetguard-manager_cert/"
  *     ],
  *     "certificate": "cert",
  *     "key": "key_example"

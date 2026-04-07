@@ -315,20 +315,20 @@ TransformOp opBuilderHelperSanitizeFields(const Reference& targetField,
                                           const std::shared_ptr<const IBuildCtx>& buildCtx);
 
 /**
- * @brief Discard events helper - sets wazuh.space.event_discarded and optionally clears fields
+ * @brief Discard events helper - sets assetguard.space.event_discarded and optionally clears fields
  *
  * This helper immediately stops event processing pipeline after execution.
  * Behavior depends on policy's index_discarded_events configuration:
  * - If true: keeps all fields intact
  * - If false: removes all fields except preserved ones (integration metadata)
  *
- * Usage: wazuh.space.event_discarded: +discard_events
+ * Usage: assetguard.space.event_discarded: +discard_events
  *
- * @param targetField target field (must be "wazuh.space.event_discarded")
+ * @param targetField target field (must be "assetguard.space.event_discarded")
  * @param opArgs Vector of operation arguments (must be empty)
  * @param buildCtx Shared pointer to the build context (provides policy config)
  * @return TransformOp that sets discard flag and conditionally clears fields
- * @throw std::runtime_error if target field is not wazuh.space.event_discarded or if parameters are provided
+ * @throw std::runtime_error if target field is not assetguard.space.event_discarded or if parameters are provided
  */
 TransformOp opBuilderHelperDiscardEvents(const Reference& targetField,
                                           const std::vector<OpArg>& opArgs,

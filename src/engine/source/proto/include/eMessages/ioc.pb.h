@@ -47,7 +47,7 @@ struct TableStruct_ioc_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_ioc_2eproto;
 namespace com {
-namespace assetguard {
+namespace wazuh {
 namespace api {
 namespace engine {
 namespace ioc {
@@ -63,15 +63,15 @@ extern UpdateIoc_RequestDefaultTypeInternal _UpdateIoc_Request_default_instance_
 }  // namespace ioc
 }  // namespace engine
 }  // namespace api
-}  // namespace assetguard
+}  // namespace wazuh
 }  // namespace com
 PROTOBUF_NAMESPACE_OPEN
-template<> ::com::assetguard::api::engine::ioc::GetIocState_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::ioc::GetIocState_Request>(Arena*);
-template<> ::com::assetguard::api::engine::ioc::GetIocState_Response* Arena::CreateMaybeMessage<::com::assetguard::api::engine::ioc::GetIocState_Response>(Arena*);
-template<> ::com::assetguard::api::engine::ioc::UpdateIoc_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::ioc::UpdateIoc_Request>(Arena*);
+template<> ::com::wazuh::api::engine::ioc::GetIocState_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::ioc::GetIocState_Request>(Arena*);
+template<> ::com::wazuh::api::engine::ioc::GetIocState_Response* Arena::CreateMaybeMessage<::com::wazuh::api::engine::ioc::GetIocState_Response>(Arena*);
+template<> ::com::wazuh::api::engine::ioc::UpdateIoc_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::ioc::UpdateIoc_Request>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
-namespace assetguard {
+namespace wazuh {
 namespace api {
 namespace engine {
 namespace ioc {
@@ -79,7 +79,7 @@ namespace ioc {
 // ===================================================================
 
 class UpdateIoc_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.ioc.UpdateIoc_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.ioc.UpdateIoc_Request) */ {
  public:
   inline UpdateIoc_Request() : UpdateIoc_Request(nullptr) {}
   ~UpdateIoc_Request() override;
@@ -182,7 +182,7 @@ class UpdateIoc_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.ioc.UpdateIoc_Request";
+    return "com.wazuh.api.engine.ioc.UpdateIoc_Request";
   }
   protected:
   explicit UpdateIoc_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -230,7 +230,7 @@ class UpdateIoc_Request final :
   std::string* _internal_mutable_hash();
   public:
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.ioc.UpdateIoc_Request)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.ioc.UpdateIoc_Request)
  private:
   class _Internal;
 
@@ -248,7 +248,7 @@ class UpdateIoc_Request final :
 // -------------------------------------------------------------------
 
 class GetIocState_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.ioc.GetIocState_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.ioc.GetIocState_Request) */ {
  public:
   inline GetIocState_Request() : GetIocState_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR GetIocState_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -336,7 +336,7 @@ class GetIocState_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.ioc.GetIocState_Request";
+    return "com.wazuh.api.engine.ioc.GetIocState_Request";
   }
   protected:
   explicit GetIocState_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -352,7 +352,7 @@ class GetIocState_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.ioc.GetIocState_Request)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.ioc.GetIocState_Request)
  private:
   class _Internal;
 
@@ -366,7 +366,7 @@ class GetIocState_Request final :
 // -------------------------------------------------------------------
 
 class GetIocState_Response final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.ioc.GetIocState_Response) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.ioc.GetIocState_Response) */ {
  public:
   inline GetIocState_Response() : GetIocState_Response(nullptr) {}
   ~GetIocState_Response() override;
@@ -469,7 +469,7 @@ class GetIocState_Response final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.assetguard.api.engine.ioc.GetIocState_Response";
+    return "com.wazuh.api.engine.ioc.GetIocState_Response";
   }
   protected:
   explicit GetIocState_Response(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -519,13 +519,13 @@ class GetIocState_Response final :
   std::string* _internal_mutable_lasterror();
   public:
 
-  // .com.assetguard.api.engine.ReturnStatus status = 1;
+  // .com.wazuh.api.engine.ReturnStatus status = 1;
   void clear_status();
-  ::com::assetguard::api::engine::ReturnStatus status() const;
-  void set_status(::com::assetguard::api::engine::ReturnStatus value);
+  ::com::wazuh::api::engine::ReturnStatus status() const;
+  void set_status(::com::wazuh::api::engine::ReturnStatus value);
   private:
-  ::com::assetguard::api::engine::ReturnStatus _internal_status() const;
-  void _internal_set_status(::com::assetguard::api::engine::ReturnStatus value);
+  ::com::wazuh::api::engine::ReturnStatus _internal_status() const;
+  void _internal_set_status(::com::wazuh::api::engine::ReturnStatus value);
   public:
 
   // bool updating = 3;
@@ -537,7 +537,7 @@ class GetIocState_Response final :
   void _internal_set_updating(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.ioc.GetIocState_Response)
+  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.ioc.GetIocState_Response)
  private:
   class _Internal;
 
@@ -570,7 +570,7 @@ inline void UpdateIoc_Request::clear_path() {
   _impl_.path_.ClearToEmpty();
 }
 inline const std::string& UpdateIoc_Request::path() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.ioc.UpdateIoc_Request.path)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.ioc.UpdateIoc_Request.path)
   return _internal_path();
 }
 template <typename ArgT0, typename... ArgT>
@@ -578,11 +578,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void UpdateIoc_Request::set_path(ArgT0&& arg0, ArgT... args) {
  
  _impl_.path_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.ioc.UpdateIoc_Request.path)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.ioc.UpdateIoc_Request.path)
 }
 inline std::string* UpdateIoc_Request::mutable_path() {
   std::string* _s = _internal_mutable_path();
-  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.ioc.UpdateIoc_Request.path)
+  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.ioc.UpdateIoc_Request.path)
   return _s;
 }
 inline const std::string& UpdateIoc_Request::_internal_path() const {
@@ -597,7 +597,7 @@ inline std::string* UpdateIoc_Request::_internal_mutable_path() {
   return _impl_.path_.Mutable(GetArenaForAllocation());
 }
 inline std::string* UpdateIoc_Request::release_path() {
-  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.ioc.UpdateIoc_Request.path)
+  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.ioc.UpdateIoc_Request.path)
   return _impl_.path_.Release();
 }
 inline void UpdateIoc_Request::set_allocated_path(std::string* path) {
@@ -612,7 +612,7 @@ inline void UpdateIoc_Request::set_allocated_path(std::string* path) {
     _impl_.path_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.ioc.UpdateIoc_Request.path)
+  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.ioc.UpdateIoc_Request.path)
 }
 
 // string hash = 2;
@@ -620,7 +620,7 @@ inline void UpdateIoc_Request::clear_hash() {
   _impl_.hash_.ClearToEmpty();
 }
 inline const std::string& UpdateIoc_Request::hash() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.ioc.UpdateIoc_Request.hash)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.ioc.UpdateIoc_Request.hash)
   return _internal_hash();
 }
 template <typename ArgT0, typename... ArgT>
@@ -628,11 +628,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void UpdateIoc_Request::set_hash(ArgT0&& arg0, ArgT... args) {
  
  _impl_.hash_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.ioc.UpdateIoc_Request.hash)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.ioc.UpdateIoc_Request.hash)
 }
 inline std::string* UpdateIoc_Request::mutable_hash() {
   std::string* _s = _internal_mutable_hash();
-  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.ioc.UpdateIoc_Request.hash)
+  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.ioc.UpdateIoc_Request.hash)
   return _s;
 }
 inline const std::string& UpdateIoc_Request::_internal_hash() const {
@@ -647,7 +647,7 @@ inline std::string* UpdateIoc_Request::_internal_mutable_hash() {
   return _impl_.hash_.Mutable(GetArenaForAllocation());
 }
 inline std::string* UpdateIoc_Request::release_hash() {
-  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.ioc.UpdateIoc_Request.hash)
+  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.ioc.UpdateIoc_Request.hash)
   return _impl_.hash_.Release();
 }
 inline void UpdateIoc_Request::set_allocated_hash(std::string* hash) {
@@ -662,7 +662,7 @@ inline void UpdateIoc_Request::set_allocated_hash(std::string* hash) {
     _impl_.hash_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.ioc.UpdateIoc_Request.hash)
+  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.ioc.UpdateIoc_Request.hash)
 }
 
 // -------------------------------------------------------------------
@@ -673,24 +673,24 @@ inline void UpdateIoc_Request::set_allocated_hash(std::string* hash) {
 
 // GetIocState_Response
 
-// .com.assetguard.api.engine.ReturnStatus status = 1;
+// .com.wazuh.api.engine.ReturnStatus status = 1;
 inline void GetIocState_Response::clear_status() {
   _impl_.status_ = 0;
 }
-inline ::com::assetguard::api::engine::ReturnStatus GetIocState_Response::_internal_status() const {
-  return static_cast< ::com::assetguard::api::engine::ReturnStatus >(_impl_.status_);
+inline ::com::wazuh::api::engine::ReturnStatus GetIocState_Response::_internal_status() const {
+  return static_cast< ::com::wazuh::api::engine::ReturnStatus >(_impl_.status_);
 }
-inline ::com::assetguard::api::engine::ReturnStatus GetIocState_Response::status() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.ioc.GetIocState_Response.status)
+inline ::com::wazuh::api::engine::ReturnStatus GetIocState_Response::status() const {
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.ioc.GetIocState_Response.status)
   return _internal_status();
 }
-inline void GetIocState_Response::_internal_set_status(::com::assetguard::api::engine::ReturnStatus value) {
+inline void GetIocState_Response::_internal_set_status(::com::wazuh::api::engine::ReturnStatus value) {
   
   _impl_.status_ = value;
 }
-inline void GetIocState_Response::set_status(::com::assetguard::api::engine::ReturnStatus value) {
+inline void GetIocState_Response::set_status(::com::wazuh::api::engine::ReturnStatus value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.ioc.GetIocState_Response.status)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.ioc.GetIocState_Response.status)
 }
 
 // string hash = 2;
@@ -698,7 +698,7 @@ inline void GetIocState_Response::clear_hash() {
   _impl_.hash_.ClearToEmpty();
 }
 inline const std::string& GetIocState_Response::hash() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.ioc.GetIocState_Response.hash)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.ioc.GetIocState_Response.hash)
   return _internal_hash();
 }
 template <typename ArgT0, typename... ArgT>
@@ -706,11 +706,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void GetIocState_Response::set_hash(ArgT0&& arg0, ArgT... args) {
  
  _impl_.hash_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.ioc.GetIocState_Response.hash)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.ioc.GetIocState_Response.hash)
 }
 inline std::string* GetIocState_Response::mutable_hash() {
   std::string* _s = _internal_mutable_hash();
-  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.ioc.GetIocState_Response.hash)
+  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.ioc.GetIocState_Response.hash)
   return _s;
 }
 inline const std::string& GetIocState_Response::_internal_hash() const {
@@ -725,7 +725,7 @@ inline std::string* GetIocState_Response::_internal_mutable_hash() {
   return _impl_.hash_.Mutable(GetArenaForAllocation());
 }
 inline std::string* GetIocState_Response::release_hash() {
-  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.ioc.GetIocState_Response.hash)
+  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.ioc.GetIocState_Response.hash)
   return _impl_.hash_.Release();
 }
 inline void GetIocState_Response::set_allocated_hash(std::string* hash) {
@@ -740,7 +740,7 @@ inline void GetIocState_Response::set_allocated_hash(std::string* hash) {
     _impl_.hash_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.ioc.GetIocState_Response.hash)
+  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.ioc.GetIocState_Response.hash)
 }
 
 // bool updating = 3;
@@ -751,7 +751,7 @@ inline bool GetIocState_Response::_internal_updating() const {
   return _impl_.updating_;
 }
 inline bool GetIocState_Response::updating() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.ioc.GetIocState_Response.updating)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.ioc.GetIocState_Response.updating)
   return _internal_updating();
 }
 inline void GetIocState_Response::_internal_set_updating(bool value) {
@@ -760,7 +760,7 @@ inline void GetIocState_Response::_internal_set_updating(bool value) {
 }
 inline void GetIocState_Response::set_updating(bool value) {
   _internal_set_updating(value);
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.ioc.GetIocState_Response.updating)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.ioc.GetIocState_Response.updating)
 }
 
 // string lastError = 4;
@@ -768,7 +768,7 @@ inline void GetIocState_Response::clear_lasterror() {
   _impl_.lasterror_.ClearToEmpty();
 }
 inline const std::string& GetIocState_Response::lasterror() const {
-  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.ioc.GetIocState_Response.lastError)
+  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.ioc.GetIocState_Response.lastError)
   return _internal_lasterror();
 }
 template <typename ArgT0, typename... ArgT>
@@ -776,11 +776,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void GetIocState_Response::set_lasterror(ArgT0&& arg0, ArgT... args) {
  
  _impl_.lasterror_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.ioc.GetIocState_Response.lastError)
+  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.ioc.GetIocState_Response.lastError)
 }
 inline std::string* GetIocState_Response::mutable_lasterror() {
   std::string* _s = _internal_mutable_lasterror();
-  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.ioc.GetIocState_Response.lastError)
+  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.ioc.GetIocState_Response.lastError)
   return _s;
 }
 inline const std::string& GetIocState_Response::_internal_lasterror() const {
@@ -795,7 +795,7 @@ inline std::string* GetIocState_Response::_internal_mutable_lasterror() {
   return _impl_.lasterror_.Mutable(GetArenaForAllocation());
 }
 inline std::string* GetIocState_Response::release_lasterror() {
-  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.ioc.GetIocState_Response.lastError)
+  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.ioc.GetIocState_Response.lastError)
   return _impl_.lasterror_.Release();
 }
 inline void GetIocState_Response::set_allocated_lasterror(std::string* lasterror) {
@@ -810,7 +810,7 @@ inline void GetIocState_Response::set_allocated_lasterror(std::string* lasterror
     _impl_.lasterror_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.ioc.GetIocState_Response.lastError)
+  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.ioc.GetIocState_Response.lastError)
 }
 
 #ifdef __GNUC__
@@ -826,7 +826,7 @@ inline void GetIocState_Response::set_allocated_lasterror(std::string* lasterror
 }  // namespace ioc
 }  // namespace engine
 }  // namespace api
-}  // namespace assetguard
+}  // namespace wazuh
 }  // namespace com
 
 // @@protoc_insertion_point(global_scope)

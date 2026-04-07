@@ -1,4 +1,4 @@
-namespace Wazuh.SyncSchema;
+namespace AssetGuard.SyncSchema;
 
 enum Mode: byte {
     ModuleFull,

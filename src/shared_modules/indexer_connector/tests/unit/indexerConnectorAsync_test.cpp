@@ -1445,7 +1445,7 @@ TEST_F(IndexerConnectorAsyncTest, ErrorProcessingWithCreateOperation)
                     "items": [
                         {
                             "create": {
-                                "_index": ".ds-wazuh-events-v5-security-000001",
+                                "_index": ".ds-assetguard-events-v5-security-000001",
                                 "_id": "test_id",
                                 "status": 400,
                                 "error": {

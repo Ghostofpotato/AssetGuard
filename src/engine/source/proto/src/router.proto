@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "engine.proto";
 
-package com.assetguard.api.engine.router;
+package com.wazuh.api.engine.router;
 
 enum State
 {

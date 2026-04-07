@@ -66,7 +66,7 @@ constexpr std::string_view DEFAULT_ORIGIN_SPACE = "UNDEFINED"; ///< Default orig
 }
 
 /**
- * @brief Policy class representing a policy in wazuh-engine
+ * @brief Policy class representing a policy in assetguard-engine
  *
  * This defines the pipeline of processing for events, including integrations,
  */

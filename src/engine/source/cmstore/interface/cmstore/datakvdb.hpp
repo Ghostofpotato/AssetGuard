@@ -16,7 +16,7 @@
  *   "id": "82e215c4-988a-4f64-8d15-b98b2fc03a4f",
  *   "date": "2025-10-06T13:32:19Z",
  *   "title": "windows_kerberos_status_code_to_code_name",
- *   "author": "Wazuh Inc.",
+ *   "author": "AssetGuard Inc.",
  *   "content": {
  *     "0x0": "KDC_ERR_NONE",
  *     "0x1": "KDC_ERR_NAME_EXP",

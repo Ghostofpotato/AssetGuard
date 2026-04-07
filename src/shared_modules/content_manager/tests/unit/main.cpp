@@ -1,6 +1,6 @@
 /*
- * Wazuh - Content Merge Tool
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Content Merge Tool
+ * Copyright (C) 2015, AssetGuard Inc.
  * January 10, 2023.
  *
  */

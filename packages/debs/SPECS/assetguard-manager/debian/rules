@@ -15,12 +15,12 @@ export DH_VERBOSE=1
 
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
-export PKG_DIR=debian/wazuh-manager
+export PKG_DIR=debian/assetguard-manager
 
 export TARGET_DIR=${CURDIR}/${PKG_DIR}
 
 # Package build options
-export INSTALLATION_DIR="/var/wazuh-manager"
+export INSTALLATION_DIR="/var/assetguard-manager"
 export INSTALLATION_SCRIPTS_DIR="${INSTALLATION_DIR}/packages_files/manager_installation_scripts"
 export JOBS="5"
 export DEBUG_ENABLED="no"
@@ -59,13 +59,13 @@ override_dh_install:
 
 	# Copying init.d script
 	mkdir -p ${TARGET_DIR}/etc/init.d/
-	sed -i "s:WAZUH_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/ossec-hids-debian.init
-	cp src/init/templates/ossec-hids-debian.init ${TARGET_DIR}/etc/init.d/wazuh-manager
+	sed -i "s:ASSETGUARD_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/ossec-hids-debian.init
+	cp src/init/templates/ossec-hids-debian.init ${TARGET_DIR}/etc/init.d/assetguard-manager
 
 	# Copying systemd file
 	mkdir -p ${TARGET_DIR}/usr/lib/systemd/system/
-	sed -i "s:WAZUH_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/wazuh-manager.service
-	install -m 0644 src/init/templates/wazuh-manager.service ${TARGET_DIR}/usr/lib/systemd/system/
+	sed -i "s:ASSETGUARD_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/assetguard-manager.service
+	install -m 0644 src/init/templates/assetguard-manager.service ${TARGET_DIR}/usr/lib/systemd/system/
 
 	# Generating permission restoration file for postinstall
 	mkdir -p ${TARGET_DIR}$(INSTALLATION_SCRIPTS_DIR)/
@@ -111,6 +111,6 @@ override_dh_auto_clean:
 	$(MAKE) -C src clean
 
 override_dh_strip:
-	dh_strip --dbg-package=wazuh-manager-dbg --exclude=${PKG_DIR}${INSTALLATION_DIR}/framework/python
+	dh_strip --dbg-package=assetguard-manager-dbg --exclude=${PKG_DIR}${INSTALLATION_DIR}/framework/python
 
 .PHONY: override_dh_install override_dh_strip override_dh_auto_clean override_dh_auto_build override_dh_auto_configure override_dh_fixperms

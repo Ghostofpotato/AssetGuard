@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 07, 2025.
  *
  * This program is free software; you can redistribute it
@@ -63,7 +63,7 @@ TEST_F(CTIProductsProviderTest, FetchSubscriptionSuccess)
     const auto& support = subscription.plans[0].products[3];
     EXPECT_EQ(support.identifier, "support-assistance");
     EXPECT_EQ(support.type, "cloud:assistance");
-    EXPECT_EQ(support.email, "support@wazuh.com");
+    EXPECT_EQ(support.email, "support@assetguard.com");
     EXPECT_EQ(support.phone, "+1-555-0100");
 }
 

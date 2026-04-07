@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * Sep 18, 2024.
  *
  * This program is free software; you can redistribute it

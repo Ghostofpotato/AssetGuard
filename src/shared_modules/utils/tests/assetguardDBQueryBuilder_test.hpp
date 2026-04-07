@@ -1,6 +1,6 @@
 /*
- * Wazuh shared modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard shared modules utils
+ * Copyright (C) 2015, AssetGuard Inc.
  * Nov 1, 2023.
  *
  * This program is free software; you can redistribute it
@@ -9,19 +9,19 @@
  * Foundation.
  */
 
-#ifndef _WAZUH_DB_QUERY_BUILDER_TEST_HPP
-#define _WAZUH_DB_QUERY_BUILDER_TEST_HPP
+#ifndef _ASSETGUARD_DB_QUERY_BUILDER_TEST_HPP
+#define _ASSETGUARD_DB_QUERY_BUILDER_TEST_HPP
 
 #include "gtest/gtest.h"
 
-class WazuhDBQueryBuilderTest : public ::testing::Test
+class AssetGuardDBQueryBuilderTest : public ::testing::Test
 {
 protected:
-    WazuhDBQueryBuilderTest() = default;
-    virtual ~WazuhDBQueryBuilderTest() = default;
+    AssetGuardDBQueryBuilderTest() = default;
+    virtual ~AssetGuardDBQueryBuilderTest() = default;
 
     void SetUp() override {};
     void TearDown() override {};
 };
 
-#endif // _WAZUH_DB_QUERY_BUILDER_TEST_HPP
+#endif // _ASSETGUARD_DB_QUERY_BUILDER_TEST_HPP

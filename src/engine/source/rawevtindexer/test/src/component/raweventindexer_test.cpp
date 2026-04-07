@@ -39,12 +39,12 @@ TEST(RawEventIndexerComponentTest, EndToEndWorkflowWithDefaultIndex)
 TEST(RawEventIndexerComponentTest, ConnectorFailuresAreHandledAndFlowContinues)
 {
     auto connector = std::make_shared<StrictMock<wiconnector::mocks::MockWIndexerConnector>>();
-    raweventindexer::RawEventIndexer indexer(connector, "wazuh-events-raw-v5-app", true);
+    raweventindexer::RawEventIndexer indexer(connector, "assetguard-events-raw-v5-app", true);
 
-    EXPECT_CALL(*connector, index(Eq(std::string_view {"wazuh-events-raw-v5-app"}), Eq(std::string_view {"will-fail"})))
+    EXPECT_CALL(*connector, index(Eq(std::string_view {"assetguard-events-raw-v5-app"}), Eq(std::string_view {"will-fail"})))
         .WillOnce(::testing::Throw(std::runtime_error("forced index failure")));
 
-    EXPECT_CALL(*connector, index(Eq(std::string_view {"wazuh-events-raw-v5-app"}), Eq(std::string_view {"will-pass"})));
+    EXPECT_CALL(*connector, index(Eq(std::string_view {"assetguard-events-raw-v5-app"}), Eq(std::string_view {"will-pass"})));
 
     EXPECT_NO_THROW(indexer.index(std::string {"will-fail"}));
     EXPECT_NO_THROW(indexer.index(std::string {"will-pass"}));
@@ -53,12 +53,12 @@ TEST(RawEventIndexerComponentTest, ConnectorFailuresAreHandledAndFlowContinues)
 TEST(RawEventIndexerComponentTest, SupportsConcurrentIndexingWhenEnabled)
 {
     auto connector = std::make_shared<StrictMock<wiconnector::mocks::MockWIndexerConnector>>();
-    raweventindexer::RawEventIndexer indexer(connector, "wazuh-events-raw-v5-concurrent", true);
+    raweventindexer::RawEventIndexer indexer(connector, "assetguard-events-raw-v5-concurrent", true);
 
     constexpr int kThreads = 8;
     constexpr int kEventsPerThread = 50;
 
-    EXPECT_CALL(*connector, index(Eq(std::string_view {"wazuh-events-raw-v5-concurrent"}), ::testing::_))
+    EXPECT_CALL(*connector, index(Eq(std::string_view {"assetguard-events-raw-v5-concurrent"}), ::testing::_))
         .Times(kThreads * kEventsPerThread);
 
     std::vector<std::thread> workers;
@@ -85,7 +85,7 @@ TEST(RawEventIndexerComponentTest, SupportsConcurrentIndexingWhenEnabled)
 TEST(RawEventIndexerComponentTest, NoThrowWhenConnectorExpiresAtRuntime)
 {
     auto connector = std::make_shared<StrictMock<wiconnector::mocks::MockWIndexerConnector>>();
-    raweventindexer::RawEventIndexer indexer(connector, "wazuh-events-raw-v5", true);
+    raweventindexer::RawEventIndexer indexer(connector, "assetguard-events-raw-v5", true);
 
     connector.reset();
     EXPECT_NO_THROW(indexer.index(std::string {"payload"}));

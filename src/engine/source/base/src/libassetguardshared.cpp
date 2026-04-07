@@ -1,4 +1,4 @@
-#include <base/libwazuhshared.hpp>
+#include <base/libassetguardshared.hpp>
 
 #include <dlfcn.h>
 #include <stdexcept>
@@ -11,16 +11,16 @@ namespace
     void* g_libPtr = nullptr;
 }
 
-namespace base::libwazuhshared
+namespace base::libassetguardshared
 {
 void init()
 {
     if (!g_libPtr)
     {
-        g_libPtr = dlopen("libwazuhshared.so", RTLD_NOW | RTLD_GLOBAL);
+        g_libPtr = dlopen("libassetguardshared.so", RTLD_NOW | RTLD_GLOBAL);
         if (!g_libPtr)
         {
-            throw std::runtime_error(std::string("dlopen libwazuhshared.so failed: ") + dlerror());
+            throw std::runtime_error(std::string("dlopen libassetguardshared.so failed: ") + dlerror());
         }
     }
 }
@@ -58,7 +58,7 @@ std::string getJsonIndexerCnf()
     const auto readEngineCnfFn = getFunction<ReadEngineCnfFnType>("get_indexer_cnf");
 
     char errBuf[1024] = {0};
-    char* result = readEngineCnfFn("etc/wazuh-manager.conf", errBuf, sizeof(errBuf));
+    char* result = readEngineCnfFn("etc/assetguard-manager.conf", errBuf, sizeof(errBuf));
     if (!result)
     {
         throw std::runtime_error(fmt::format("get_indexer_cnf failed: {}", errBuf));

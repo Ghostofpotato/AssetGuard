@@ -1,6 +1,6 @@
 /*
- * Wazuh router
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router
+ * Copyright (C) 2015, AssetGuard Inc.
  * December 19, 2023.
  *
  * This program is free software; you can redistribute it

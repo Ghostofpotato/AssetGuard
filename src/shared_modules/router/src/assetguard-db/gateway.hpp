@@ -1,6 +1,6 @@
 /*
- * Wazuh router
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router
+ * Copyright (C) 2015, AssetGuard Inc.
  * May 30, 2025.
  *
  * This program is free software; you can redistribute it
@@ -35,7 +35,7 @@ class WDB final
 public:
     // LCOV_EXCL_START
     /**
-     * @brief Redirects the request to the appropriate endpoint in the Wazuh DB module.
+     * @brief Redirects the request to the appropriate endpoint in the AssetGuard DB module.
      *
      * @param callbackPre The pre callback function, this function is called before the endpoint
      * @param callbackPost The post callback function, this function is called after the endpoint

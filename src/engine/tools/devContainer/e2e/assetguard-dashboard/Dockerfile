@@ -6,21 +6,21 @@ RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* 
 ENV LANG=en_US.utf8
 
 # Copy all files to a temporary location for installation
-WORKDIR /tmp/wazuh-install
+WORKDIR /tmp/assetguard-install
 COPY . .
 
-# Install wazuh-dashboard
+# Install assetguard-dashboard
 RUN apt update && apt install -y adduser curl libcap2-bin bash sudo
-RUN apt install -y /tmp/wazuh-install/wazuh-dashboard_5.0.0-latest_amd64.deb
+RUN apt install -y /tmp/assetguard-install/assetguard-dashboard_5.0.0-latest_amd64.deb
 
-# Replace default indexer host `opensearch.hosts: https://localhost:9200` with `opensearch.hosts: https://wazuh-indexer:9200`
-RUN sed -i 's|^opensearch.hosts: .*|opensearch.hosts: ["https://wazuh-indexer:9200"]|' /etc/wazuh-dashboard/opensearch_dashboards.yml
+# Replace default indexer host `opensearch.hosts: https://localhost:9200` with `opensearch.hosts: https://assetguard-indexer:9200`
+RUN sed -i 's|^opensearch.hosts: .*|opensearch.hosts: ["https://assetguard-indexer:9200"]|' /etc/assetguard-dashboard/opensearch_dashboards.yml
 
 # Replace `url: https://localhost` with `url: https://host.docker.internal`
-RUN sed -i 's| url: .*| url: "https://host.docker.internal"|' /etc/wazuh-dashboard/opensearch_dashboards.yml
+RUN sed -i 's| url: .*| url: "https://host.docker.internal"|' /etc/assetguard-dashboard/opensearch_dashboards.yml
 
 # Clean up installation files
-RUN rm -rf /tmp/wazuh-install
+RUN rm -rf /tmp/assetguard-install
 
 # Set working directory
 WORKDIR /root

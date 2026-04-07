@@ -1,6 +1,6 @@
 /*
- * Wazuh - Indexer connector implementation.
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Indexer connector implementation.
+ * Copyright (C) 2015, AssetGuard Inc.
  * July 2, 2025.
  *
  * This program is free software; you can redistribute it
@@ -435,7 +435,7 @@ class IndexerConnectorSyncImpl final
         {
             throw IndexerConnectorException(
                 "Cannot split bulk data with less than two operations. Consider increasing http.max_content_length in "
-                "Wazuh-Indexer settings.");
+                "AssetGuard-Indexer settings.");
         }
         logDebug2(IC_NAME, "Splitting %zu operations into two halves", totalOperations);
 
@@ -697,7 +697,7 @@ public:
     void deleteByQuery(const std::string& index, const std::string& agentId)
     {
         auto [it, success] = m_deleteByQuery.try_emplace(index, nlohmann::json::object());
-        it->second["query"]["bool"]["filter"]["terms"]["wazuh.agent.id"].push_back(agentId);
+        it->second["query"]["bool"]["filter"]["terms"]["assetguard.agent.id"].push_back(agentId);
     }
 
     void executeUpdateByQuery(const std::vector<std::string>& indices, const nlohmann::json& updateQuery)

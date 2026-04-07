@@ -36,7 +36,7 @@ enabled: true
 title: "Development 0.0.1"
 hash: "cmcrud-component-test-hash"
 default_parent: "decoder/integration/0"
-root_decoder: "decoder/wazuh-core-message/0"
+root_decoder: "decoder/assetguard-core-message/0"
 integrations:
   - "42e28392-4f5e-473d-89e8-c9030e6fedc2"
   - "a7fe64a2-0a03-414f-8692-8441bdfe6f69"
@@ -67,7 +67,7 @@ static constexpr const char* kKVDBYAML = R"(
 id: "82e215c4-988a-4f64-8d15-b98b2fc03a4f"
 date: "2025-10-06T13:32:19Z"
 title: "windows_kerberos_status_code_to_code_name"
-author: "Wazuh Inc."
+author: "AssetGuard Inc."
 content:
   "0x0": "KDC_ERR_NONE"
   "0x1": "KDC_ERR_NAME_EXP"

@@ -64,12 +64,12 @@ INSTANTIATE_TEST_SUITE_P(
         // Empty object in 'then' array
         StageT(R"([{"check": [], "then": [{}]}])", firstOfBuilder, FAILURE()),
         // Multiple keys in 'then' array item (should only have one output type per item)
-        StageT(R"([{"check": [], "then": [{"file": [], "wazuh-indexer": []}]}])", firstOfBuilder, FAILURE()),
+        StageT(R"([{"check": [], "then": [{"file": [], "assetguard-indexer": []}]}])", firstOfBuilder, FAILURE()),
         // Extra keys in item (should fail - only check and then are allowed)
         StageT(R"([{"check": [], "then": [{"file": []}], "extra": "key"}])", firstOfBuilder, FAILURE()),
         // Invalid item in middle of array
         StageT(
-            R"([{"check": [], "then": [{"file": []}]}, {"invalid": "item"}, {"check": [], "then": [{"wazuh-indexer": []}]}])",
+            R"([{"check": [], "then": [{"file": []}]}, {"invalid": "item"}, {"check": [], "then": [{"assetguard-indexer": []}]}])",
             firstOfBuilder,
             FAILURE()),
         // Incorrect order
@@ -113,8 +113,8 @@ INSTANTIATE_TEST_SUITE_P(
                                                                           base::Broadcast::create("first_of.item-0.then",
                                                                           {base::And::create("dummy-output", {})}))});
                    })),
-        // Single valid item with wazuh-indexer
-        StageT(R"([{"check": [], "then": [{"wazuh-indexer": []}]}])",
+        // Single valid item with assetguard-indexer
+        StageT(R"([{"check": [], "then": [{"assetguard-indexer": []}]}])",
                firstOfBuilder,
                SUCCESS(
                    [](const auto& mocks)
@@ -122,7 +122,7 @@ INSTANTIATE_TEST_SUITE_P(
                        const auto& stageRegistry = mocks.registry->template getRegistry<StageBuilder>();
                        EXPECT_CALL(*mocks.ctx, registry()).WillRepeatedly(testing::ReturnRef(*mocks.registry));
                        EXPECT_CALL(stageRegistry, get("check")).WillOnce(testing::Return(dummyCheckBuilder()));
-                       EXPECT_CALL(stageRegistry, get("wazuh-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
+                       EXPECT_CALL(stageRegistry, get("assetguard-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
                        return base::Or::create("first_of",
                                                {base::Implication::create(
                                                    "first_of.item-0",
@@ -131,7 +131,7 @@ INSTANTIATE_TEST_SUITE_P(
                                                                            {base::And::create("dummy-output", {})}))});
                    })),
         // Single item with multiple outputs in 'then' array (should use Broadcast)
-        StageT(R"([{"check": [], "then": [{"file": []}, {"wazuh-indexer": []}]}])",
+        StageT(R"([{"check": [], "then": [{"file": []}, {"assetguard-indexer": []}]}])",
                firstOfBuilder,
                SUCCESS(
                    [](const auto& mocks)
@@ -140,7 +140,7 @@ INSTANTIATE_TEST_SUITE_P(
                        EXPECT_CALL(*mocks.ctx, registry()).WillRepeatedly(testing::ReturnRef(*mocks.registry));
                        EXPECT_CALL(stageRegistry, get("check")).WillOnce(testing::Return(dummyCheckBuilder()));
                        EXPECT_CALL(stageRegistry, get("file")).WillOnce(testing::Return(dummyOutputBuilder()));
-                       EXPECT_CALL(stageRegistry, get("wazuh-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
+                       EXPECT_CALL(stageRegistry, get("assetguard-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
                        return base::Or::create("first_of",
                                                {base::Implication::create(
                                                    "first_of.item-0",
@@ -150,7 +150,7 @@ INSTANTIATE_TEST_SUITE_P(
                                                                             base::And::create("dummy-output", {})}))});
                    })),
         // Multiple valid items
-        StageT(R"([{"check": [], "then": [{"file": []}]}, {"check": [], "then": [{"wazuh-indexer": []}]}])",
+        StageT(R"([{"check": [], "then": [{"file": []}]}, {"check": [], "then": [{"assetguard-indexer": []}]}])",
                firstOfBuilder,
                SUCCESS(
                    [](const auto& mocks)
@@ -161,7 +161,7 @@ INSTANTIATE_TEST_SUITE_P(
                            .Times(2)
                            .WillRepeatedly(testing::Return(dummyCheckBuilder()));
                        EXPECT_CALL(stageRegistry, get("file")).WillOnce(testing::Return(dummyOutputBuilder()));
-                       EXPECT_CALL(stageRegistry, get("wazuh-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
+                       EXPECT_CALL(stageRegistry, get("assetguard-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
                        return base::Or::create(
                            "first_of",
                            {base::Implication::create("first_of.item-0",
@@ -176,7 +176,7 @@ INSTANTIATE_TEST_SUITE_P(
                    })),
         // Three valid items
         StageT(
-            R"([{"check": [], "then": [{"file": []}]}, {"check": [], "then": [{"wazuh-indexer": []}]}, {"check": [], "then": [{"file": []}]}])",
+            R"([{"check": [], "then": [{"file": []}]}, {"check": [], "then": [{"assetguard-indexer": []}]}, {"check": [], "then": [{"file": []}]}])",
             firstOfBuilder,
             SUCCESS(
                 [](const auto& mocks)
@@ -189,7 +189,7 @@ INSTANTIATE_TEST_SUITE_P(
                     EXPECT_CALL(stageRegistry, get("file"))
                         .Times(2)
                         .WillRepeatedly(testing::Return(dummyOutputBuilder()));
-                    EXPECT_CALL(stageRegistry, get("wazuh-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
+                    EXPECT_CALL(stageRegistry, get("assetguard-indexer")).WillOnce(testing::Return(dummyOutputBuilder()));
                     return base::Or::create(
                         "first_of",
                         {base::Implication::create(

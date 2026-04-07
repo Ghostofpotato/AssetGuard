@@ -34,7 +34,7 @@ private:
     std::vector<SyncedNamespace> m_namespacesState; ///< State of the namespaces being synchronized
 
     /**
-     * @brief Check if a space exists in the wazuh-indexer
+     * @brief Check if a space exists in the assetguard-indexer
      *
      * @param space Space name to check
      * @return true if the space exists, false otherwise
@@ -70,7 +70,7 @@ private:
      * The method generates a unique temporary namespace ID to avoid conflicts and performs
      * automatic rollback on failure, ensuring the local store remains consistent.
      *
-     * @param originSpace The source space name in the wazuh-indexer to download from
+     * @param originSpace The source space name in the assetguard-indexer to download from
      * @return cm::store::NamespaceId The newly created namespace ID in the local store,
      * @throws std::runtime_error if any step of the process fails
      * @warning There is no ganrantee that the returned namespace is valid, should be verified by the router.

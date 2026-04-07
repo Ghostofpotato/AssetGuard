@@ -1,5 +1,5 @@
-#ifndef _BASE_LIBWAZUHSHARED_HPP
-#define _BASE_LIBWAZUHSHARED_HPP
+#ifndef _BASE_LIBASSETGUARDSHARED_HPP
+#define _BASE_LIBASSETGUARDSHARED_HPP
 
 #include <stdexcept>
 #include <string>
@@ -10,20 +10,20 @@
 #include <fmt/format.h>
 
 /**
- * @brief Namespace for managing the libwazuhshared dynamic library and its functions.
+ * @brief Namespace for managing the libassetguardshared dynamic library and its functions.
  *
  * This namespace provides utilities to initialize, manage, and access functions from
- * the libwazuhshared dynamic library. It includes functionality for library lifecycle
+ * the libassetguardshared dynamic library. It includes functionality for library lifecycle
  * management, dynamic function loading, and wrapper functions for common operations.
  */
-namespace base::libwazuhshared
+namespace base::libassetguardshared
 {
 
 /**
  * @brief Initialize the shared library.
  *
  * This function must be called before using any other functions in this namespace.
- * It loads the libwazuhshared dynamic library and prepares it for use.
+ * It loads the libassetguardshared dynamic library and prepares it for use.
  */
 void init();
 
@@ -69,7 +69,7 @@ FuncType getFunction(std::string_view name)
 {
     if (!getLibPtr())
     {
-        throw std::runtime_error("libwazuhshared is not initialized.");
+        throw std::runtime_error("libassetguardshared is not initialized.");
     }
 
     // The name should be a null-terminated string
@@ -105,6 +105,6 @@ void setLoggerTag(std::string_view tag);
  */
 std::string getJsonIndexerCnf();
 
-} // namespace base::libwazuhshared
+} // namespace base::libassetguardshared
 
-#endif // _BASE_LIBWAZUHSHARED_HPP
+#endif // _BASE_LIBASSETGUARDSHARED_HPP

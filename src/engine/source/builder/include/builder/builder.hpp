@@ -33,7 +33,7 @@ struct BuilderDeps
     std::shared_ptr<ioc::kvdb::IKVDBManager> kvdbIocManager;           ///< KVDB IOC manager.
     std::shared_ptr<geo::IManager> geoManager;                       ///< Geo-location manager.
     std::shared_ptr<streamlog::ILogManager> logManager;              ///< Stream log manager.
-    std::weak_ptr<wiconnector::IWIndexerConnector> iConnector;       ///< Wazuh-Indexer connector.
+    std::weak_ptr<wiconnector::IWIndexerConnector> iConnector;       ///< AssetGuard-Indexer connector.
 };
 
 /**

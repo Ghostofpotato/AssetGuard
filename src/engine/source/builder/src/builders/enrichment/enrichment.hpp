@@ -42,7 +42,7 @@ std::pair<base::Expression, std::string> getSpaceEnrichment(const cm::store::dat
 /**
  * @brief Get the filter expression to handle unclassified events according to policy configuration.
  *
- * This filter checks if wazuh.integration.category is "unclassified" and drops the event
+ * This filter checks if assetguard.integration.category is "unclassified" and drops the event
  * if the policy's index_unclassified_events flag is false.
  *
  * @param policy Policy data.

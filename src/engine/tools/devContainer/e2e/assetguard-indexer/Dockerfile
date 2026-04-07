@@ -6,26 +6,26 @@ RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* 
 ENV LANG=en_US.utf8
 
 # Copy all files to a temporary location for installation
-WORKDIR /tmp/wazuh-install
+WORKDIR /tmp/assetguard-install
 COPY . .
 
-# Install wazuh-indexer
-RUN apt install -y /tmp/wazuh-install/wazuh-indexer_5.0.0-latest_amd64.deb
+# Install assetguard-indexer
+RUN apt install -y /tmp/assetguard-install/assetguard-indexer_5.0.0-latest_amd64.deb
 
 # Configure knn memory circuit breaker limit
-RUN echo "knn.memory.circuit_breaker.limit: 4096mb" >> /etc/wazuh-indexer/opensearch.yml
+RUN echo "knn.memory.circuit_breaker.limit: 4096mb" >> /etc/assetguard-indexer/opensearch.yml
 
 # Add Java security policy permissions for cgroup access
-RUN cat <<'EOF' >> /etc/wazuh-indexer/jvm.options
+RUN cat <<'EOF' >> /etc/assetguard-indexer/jvm.options
 -Djava.security.policy=all.policy
 -Dpermission.java.io.FilePermission=/sys/fs/cgroup/-,read
 EOF
 
 # Create certs directory (will be populated by volume mount at runtime)
-RUN mkdir -p /etc/wazuh-indexer/certs/
+RUN mkdir -p /etc/assetguard-indexer/certs/
 
 # Clean up installation files
-RUN rm -rf /tmp/wazuh-install
+RUN rm -rf /tmp/assetguard-install
 
 # Set working directory
 WORKDIR /root

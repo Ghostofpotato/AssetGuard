@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 04, 2025.
  *
  * This program is free software; you can redistribute it
@@ -93,7 +93,7 @@ protected:
         // Default configuration
         m_config = R"({
             "console": {
-                "url": "https://console.wazuh.com"
+                "url": "https://console.assetguard.com"
             },
             "tokenExchange": {
                 "enabled": true,
@@ -118,7 +118,7 @@ protected:
     {
         nlohmann::json response;
         response["access_token"] = signedUrl;
-        response["issued_token_type"] = "urn:wazuh:params:oauth:token-type:signed_url";
+        response["issued_token_type"] = "urn:assetguard:params:oauth:token-type:signed_url";
         response["expires_in"] = expiresIn;
         return response.dump();
     }

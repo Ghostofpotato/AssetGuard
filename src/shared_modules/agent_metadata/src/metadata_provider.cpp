@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -27,9 +27,9 @@
 #define MAX_GROUP_NAME_LEN 256  // 255 + 1 for null terminator
 
 #ifdef _WIN32
-#define SHM_PATH "Global\\WazuhAgentMetadata"
+#define SHM_PATH "Global\\AssetGuardAgentMetadata"
 #else
-#define SHM_PATH "var/run/.wazuh_agent_metadata"
+#define SHM_PATH "var/run/.assetguard_agent_metadata"
 #endif
 
 namespace

@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 04, 2025.
  *
  * This program is free software; you can redistribute it

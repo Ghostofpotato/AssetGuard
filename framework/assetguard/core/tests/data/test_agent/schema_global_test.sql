@@ -1,6 +1,6 @@
 /*
  * SQL Schema agent tests
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * February 13, 2019.
  * This program is a free software, you can redistribute it
  * and/or modify it under the terms of GPLv2.
@@ -61,7 +61,7 @@ INSERT INTO agent (id, name, ip, register_ip, internal_key, os_name, os_version,
                    'b3650e11eba2f27er4d160c69de533ee7eed601636a85ba2455d53a90927747f', 'Ubuntu','18.04.1 LTS','18','04',
                    'Bionic Beaver','ubuntu',
                    'Linux |agent-1 |4.15.0-43-generic |#46-Ubuntu SMP Thu Dec 6 14:45:28 UTC 2018 |x86_64','x86_64',
-                   'Wazuh v4.2.0','ab73af41699f13fdd81903b5f23d8d00','f8d49771911ed9d5c45b03a40babd065','master',
+                   'AssetGuard v4.2.0','ab73af41699f13fdd81903b5f23d8d00','f8d49771911ed9d5c45b03a40babd065','master',
                    'node01',strftime('%s','now','-4 days'),
                     strftime('%s','now','-5 seconds'),'updated', 'active', 'group-2', 'synced');
 
@@ -72,7 +72,7 @@ INSERT INTO agent (id, name, register_ip, internal_key, os_name, os_version, os_
                    'b3650e11eba2f27er4d160c69de533ee7eed6016fga85ba2455d53a90927747f', 'Ubuntu','16.04.1 LTS','16','04',
                    'Xenial','ubuntu',
                    'Linux |agent-1 |4.15.0-43-generic |#46-Ubuntu SMP Thu Dec 6 14:45:28 UTC 2018 |x86_64','x86_64',
-                   'Wazuh v3.6.2','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
+                   'AssetGuard v3.6.2','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
                    'node01',strftime('%s','now','-3 days'),
                     strftime('%s','now','-10 minutes'),'updated','active', 'synced');
 
@@ -94,7 +94,7 @@ INSERT INTO agent (id, name, ip, register_ip, internal_key, os_name, os_version,
                    'b3650e11eba2f27er4d160c69de533ee7eed601636a42ba2455d53a90927747f', 'Ubuntu','18.04.1 LTS','18','04',
                    'Bionic Beaver','ubuntu',
                    'Linux |agent-1 |4.15.0-43-generic |#46-Ubuntu SMP Thu Dec 6 14:45:28 UTC 2018 |x86_64','x86_64',
-                   'Wazuh v3.8.2','ab73af41699f13fdd81903b5f23d8d00','f8d49771911ed9d5c45b03a40babd065','master',
+                   'AssetGuard v3.8.2','ab73af41699f13fdd81903b5f23d8d00','f8d49771911ed9d5c45b03a40babd065','master',
                    'node01',strftime('%s','now','-5 days'),
                     strftime('%s','now','-2 hour'),'updated','disconnected', strftime('%s','now','-2 hour'), 'not synced');
 
@@ -104,7 +104,7 @@ INSERT INTO agent (id, name, register_ip, internal_key, os_name, os_version, os_
                    last_keepalive, status, connection_status, group_config_status) VALUES (6,'agent-6','172.19.0.157',
                    'b3650e11eba2f27er4d160c69de533ee7eed6016fga85ba2455d53a90927747f', 'Windows','5.2','5','2',
                    'XP','windows','x86_64',
-                   'Wazuh v3.6.2','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
+                   'AssetGuard v3.6.2','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
                    'node01',strftime('%s','now','-3 days'),
                     strftime('%s','now','-15 minutes'),'updated','active', 'synced');
 
@@ -113,7 +113,7 @@ INSERT INTO agent (id, name, register_ip, internal_key, os_name, os_version, os_
                    last_keepalive, status, connection_status, group_config_status) VALUES (7,'agent-7','172.19.0.157',
                    'b3650e11eba2f27er4d160c69de533ee7eed6016fga85ba2455d53a90927747f', 'Windows','5.2','5','2',
                    'XP','windows','x86_64',
-                   'Wazuh v2.0.0','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
+                   'AssetGuard v2.0.0','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
                    'node01',strftime('%s','now','-3 days'),
                     strftime('%s','now','-15 minutes'),'updated','active', 'synced');
 
@@ -122,7 +122,7 @@ INSERT INTO agent (id, name, register_ip, internal_key, os_name, os_version, os_
                    last_keepalive, status, connection_status, group_config_status) VALUES (8,'agent-8','172.19.0.157',
                    'b3650e11eba2f27er4d160c69de533ee7eed6016fga85ba2455d53a90927747f', 'Windows','7.2','7','2',
                    'XP','windows','x86_64',
-                   'Wazuh v3.8.2','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
+                   'AssetGuard v3.8.2','ab73af41699f13fgt81903b5f23d8d00','f8d49771911ed9d5c45bdfa40babd065','master',
                    'node01',strftime('%s','now','-3 days'),
                     strftime('%s','now','-15 minutes'),'updated','active', 'synced');
 

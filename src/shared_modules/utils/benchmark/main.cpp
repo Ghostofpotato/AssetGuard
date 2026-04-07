@@ -1,6 +1,6 @@
 /*
- * Wazuh - Content Migration tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Content Migration tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * March 03, 2023.
  *
  */

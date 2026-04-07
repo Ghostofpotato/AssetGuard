@@ -533,7 +533,7 @@ TEST_F(SchemaValidatorTest, FactoryGetValidator)
 
     // This test depends on embedded schemas being available
     // In a real deployment, the schemas would be embedded at build time
-    auto validator = factory.getValidator("wazuh-states-fim-file");
+    auto validator = factory.getValidator("assetguard-states-fim-file");
     // May be nullptr if schemas weren't embedded during build
     // Just verify the API works without crashing
     if (validator)

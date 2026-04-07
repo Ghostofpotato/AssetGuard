@@ -1,23 +1,23 @@
 #!/bin/sh
 
-# Copyright (C) 2015, Wazuh Inc.
-# OSSEC         Controls Wazuh
+# Copyright (C) 2015, AssetGuard Inc.
+# OSSEC         Controls AssetGuard
 # Author:       Daniel B. Cid <dcid@ossec.net>
 # Modified for slackware by Jack S. Lai
 
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+ASSETGUARD_HOME=ASSETGUARD_HOME_TMP
+ASSETGUARD_CONTROL="$ASSETGUARD_HOME/bin/assetguard-control"
 
 start() {
-    ${WAZUH_CONTROL} start
+    ${ASSETGUARD_CONTROL} start
 }
 
 stop() {
-    ${WAZUH_CONTROL} stop
+    ${ASSETGUARD_CONTROL} stop
 }
 
 status() {
-    ${WAZUH_CONTROL} status
+    ${ASSETGUARD_CONTROL} status
 }
 
 case "$1" in

@@ -17,7 +17,7 @@ venv.bak/
 *.swo
 
 # Test artifacts
-wazuh_agents.json
+assetguard_agents.json
 *.log
 
 # FlatBuffers generated files (optional - can be regenerated)

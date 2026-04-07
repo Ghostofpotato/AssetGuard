@@ -35,8 +35,8 @@
  *   E.g.
  *   ```cpp
  *   RotationConfig cfg {
- *     "/var/wazuh-manager/logs",         // basePath
- *     "${YYYY}/${MMM}/wazuh-${name}-${DD}.json",
+ *     "/var/assetguard-manager/logs",         // basePath
+ *     "${YYYY}/${MMM}/assetguard-${name}-${DD}.json",
  *     10*1024*1024,              // rotate after 10 MiB
  *     1<<20,                     // 1 MiB write buffer
  *     true,                      // compress rotated files
@@ -63,9 +63,9 @@
  *   The log files are named according to the `pattern` provided in the `RotationConfig`.
  *   Placeholders like `${YYYY}`, `${MMM}`, `${DD}`, and `${name}` are
  *   replaced with the current date and the log channel name.
- *   For example, if the pattern is `"${YYYY}/${MMM}/wazuh-${name}-${DD}.json"`,
+ *   For example, if the pattern is `"${YYYY}/${MMM}/assetguard-${name}-${DD}.json"`,
  *   and the channel name is `"alerts"`, the log file might be named
- *   `"2025/Jul/wazuh-alerts-01.json"` for logs written on July 1, 2025.
+ *   `"2025/Jul/assetguard-alerts-01.json"` for logs written on July 1, 2025.
  *
  * - **Suported Patterns**
  *  The following placeholders are supported in the `pattern`:

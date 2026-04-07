@@ -1,6 +1,6 @@
 /*
- * Wazuh Vulnerability scanner - InventorySync Integration Test Tool
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Vulnerability scanner - InventorySync Integration Test Tool
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -81,16 +81,16 @@ struct AgentTestData
      *
      *     // Optional; if omitted, indices and size are computed automatically
      *     "indices": [
-     *       "wazuh-states-inventory-packages",
-     *       "wazuh-states-inventory-system",
-     *       "wazuh-states-inventory-hotfixes"
+     *       "assetguard-states-inventory-packages",
+     *       "assetguard-states-inventory-system",
+     *       "assetguard-states-inventory-hotfixes"
      *     ],
      *     "size": 5
      *   },
      *   "data_values": [
      *     {
      *       "operation": "upsert|delete",
-     *       "index": "wazuh-states-inventory-packages", // optional, auto-detected if omitted
+     *       "index": "assetguard-states-inventory-packages", // optional, auto-detected if omitted
      *       "id": "document-id-1",                       // optional
      *       "payload": {
      *         "checksum": { ... },
@@ -101,7 +101,7 @@ struct AgentTestData
      *   ],
      *   "data_context": [
      *     {
-     *       "index": "wazuh-states-inventory-system",    // optional, auto-detected if omitted
+     *       "index": "assetguard-states-inventory-system",    // optional, auto-detected if omitted
      *       "id": "document-id-2",                       // optional
      *       "payload": {
      *         "checksum": { ... },
@@ -156,7 +156,7 @@ struct AgentTestData
 /**
  * @brief Lightweight fake report server for capturing VD alerts during integration tests.
  *
- * This test component simulates the Wazuh manager's alert-receiver socket.
+ * This test component simulates the AssetGuard manager's alert-receiver socket.
  * It binds to a UNIX datagram socket and prints every alert message received.
  */
 class FakeReportServer
@@ -433,25 +433,25 @@ private:
     void handleFlatBufferMessage(const char* data, size_t size)
     {
         flatbuffers::Verifier verifier(reinterpret_cast<const uint8_t*>(data), size);
-        if (!Wazuh::SyncSchema::VerifyMessageBuffer(verifier))
+        if (!AssetGuard::SyncSchema::VerifyMessageBuffer(verifier))
         {
             std::cerr << "[ERROR] Invalid FlatBuffer message" << std::endl;
             return;
         }
 
-        auto message = Wazuh::SyncSchema::GetMessage(data);
+        auto message = AssetGuard::SyncSchema::GetMessage(data);
 
         switch (message->content_type())
         {
-            case Wazuh::SyncSchema::MessageType_StartAck: handleStartAck(message->content_as_StartAck()); break;
-            case Wazuh::SyncSchema::MessageType_EndAck: handleEndAck(message->content_as_EndAck()); break;
-            case Wazuh::SyncSchema::MessageType_ReqRet: handleReqRet(message->content_as_ReqRet()); break;
+            case AssetGuard::SyncSchema::MessageType_StartAck: handleStartAck(message->content_as_StartAck()); break;
+            case AssetGuard::SyncSchema::MessageType_EndAck: handleEndAck(message->content_as_EndAck()); break;
+            case AssetGuard::SyncSchema::MessageType_ReqRet: handleReqRet(message->content_as_ReqRet()); break;
             default:
                 std::cout << "[WARN] Unknown message type: " << static_cast<int>(message->content_type()) << std::endl;
         }
     }
 
-    void handleStartAck(const Wazuh::SyncSchema::StartAck* startAck)
+    void handleStartAck(const AssetGuard::SyncSchema::StartAck* startAck)
     {
         m_sessionId = startAck->session();
 
@@ -471,7 +471,7 @@ private:
         }
     }
 
-    void handleEndAck(const Wazuh::SyncSchema::EndAck* endAck)
+    void handleEndAck(const AssetGuard::SyncSchema::EndAck* endAck)
     {
         std::cout << "[INFO] ✓ EndAck received" << std::endl;
         std::cout << "       Session: " << endAck->session() << std::endl;
@@ -489,7 +489,7 @@ private:
         }
     }
 
-    void handleReqRet(const Wazuh::SyncSchema::ReqRet* reqRet)
+    void handleReqRet(const AssetGuard::SyncSchema::ReqRet* reqRet)
     {
         std::cout << "[INFO] ✓ ReqRet received - Session: " << reqRet->session();
         if (reqRet->seq())
@@ -501,34 +501,34 @@ private:
 };
 
 /**
- * @brief Helper to map string mode -> Wazuh::SyncSchema::Mode
+ * @brief Helper to map string mode -> AssetGuard::SyncSchema::Mode
  */
-inline Wazuh::SyncSchema::Mode parseMode(const std::string& modeStr)
+inline AssetGuard::SyncSchema::Mode parseMode(const std::string& modeStr)
 {
     if (modeStr == "full" || modeStr == "ModuleFull")
     {
-        return Wazuh::SyncSchema::Mode_ModuleFull;
+        return AssetGuard::SyncSchema::Mode_ModuleFull;
     }
     if (modeStr == "delta" || modeStr == "ModuleDelta")
     {
-        return Wazuh::SyncSchema::Mode_ModuleDelta;
+        return AssetGuard::SyncSchema::Mode_ModuleDelta;
     }
     // Default to delta
-    return Wazuh::SyncSchema::Mode_ModuleDelta;
+    return AssetGuard::SyncSchema::Mode_ModuleDelta;
 }
 
 /**
- * @brief Helper to map string option -> Wazuh::SyncSchema::Option
+ * @brief Helper to map string option -> AssetGuard::SyncSchema::Option
  */
-inline Wazuh::SyncSchema::Option parseOption(const std::string& opt)
+inline AssetGuard::SyncSchema::Option parseOption(const std::string& opt)
 {
     if (opt == "VDFirst")
-        return Wazuh::SyncSchema::Option_VDFirst;
+        return AssetGuard::SyncSchema::Option_VDFirst;
     if (opt == "VDSync")
-        return Wazuh::SyncSchema::Option_VDSync;
+        return AssetGuard::SyncSchema::Option_VDSync;
     if (opt == "Sync")
-        return Wazuh::SyncSchema::Option_Sync;
-    return Wazuh::SyncSchema::Option_VDSync;
+        return AssetGuard::SyncSchema::Option_Sync;
+    return AssetGuard::SyncSchema::Option_VDSync;
 }
 
 /**
@@ -668,7 +668,7 @@ public:
         auto groups = builder.CreateVector(groupsVec);
 
         // Build Start
-        Wazuh::SyncSchema::StartBuilder startBuilder(builder);
+        AssetGuard::SyncSchema::StartBuilder startBuilder(builder);
         startBuilder.add_module_(module);
         startBuilder.add_mode(mode);
         startBuilder.add_size(size);
@@ -687,7 +687,7 @@ public:
 
         auto startOffset = startBuilder.Finish();
         auto message =
-            Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType_Start, startOffset.Union());
+            AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType_Start, startOffset.Union());
 
         builder.Finish(message);
 
@@ -700,7 +700,7 @@ public:
      * @param session   Session ID from StartAck
      * @param seq       Sequence number
      * @param payload   Complete JSON payload (checksum/package/host/state...)
-     * @param index     Index name (wazuh-states-inventory-packages/system/hotfixes)
+     * @param index     Index name (assetguard-states-inventory-packages/system/hotfixes)
      * @param id        Document ID (may be empty)
      * @param operation Upsert or Delete
      */
@@ -709,7 +709,7 @@ public:
                                                const nlohmann::json& payload,
                                                const std::string& index,
                                                const std::string& id,
-                                               Wazuh::SyncSchema::Operation operation)
+                                               AssetGuard::SyncSchema::Operation operation)
     {
         flatbuffers::FlatBufferBuilder builder;
 
@@ -719,7 +719,7 @@ public:
         auto idStr = builder.CreateString(id);
         auto dataVec = builder.CreateVector(reinterpret_cast<const int8_t*>(sourceJson.data()), sourceJson.size());
 
-        Wazuh::SyncSchema::DataValueBuilder dataBuilder(builder);
+        AssetGuard::SyncSchema::DataValueBuilder dataBuilder(builder);
         dataBuilder.add_session(session);
         dataBuilder.add_seq(seq);
         dataBuilder.add_operation(operation);
@@ -729,7 +729,7 @@ public:
 
         auto dataOffset = dataBuilder.Finish();
         auto message =
-            Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType_DataValue, dataOffset.Union());
+            AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType_DataValue, dataOffset.Union());
         builder.Finish(message);
 
         return {builder.GetBufferPointer(), builder.GetBufferPointer() + builder.GetSize()};
@@ -755,7 +755,7 @@ public:
         auto idStr = builder.CreateString(id);
         auto dataVec = builder.CreateVector(reinterpret_cast<const int8_t*>(sourceJson.data()), sourceJson.size());
 
-        Wazuh::SyncSchema::DataContextBuilder dataBuilder(builder);
+        AssetGuard::SyncSchema::DataContextBuilder dataBuilder(builder);
         dataBuilder.add_session(session);
         dataBuilder.add_seq(seq);
         dataBuilder.add_index(indexStr);
@@ -764,7 +764,7 @@ public:
 
         auto dataOffset = dataBuilder.Finish();
         auto message =
-            Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType_DataContext, dataOffset.Union());
+            AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType_DataContext, dataOffset.Union());
         builder.Finish(message);
 
         return {builder.GetBufferPointer(), builder.GetBufferPointer() + builder.GetSize()};
@@ -777,11 +777,11 @@ public:
     {
         flatbuffers::FlatBufferBuilder builder;
 
-        Wazuh::SyncSchema::EndBuilder endBuilder(builder);
+        AssetGuard::SyncSchema::EndBuilder endBuilder(builder);
         endBuilder.add_session(session);
         auto endOffset = endBuilder.Finish();
 
-        auto message = Wazuh::SyncSchema::CreateMessage(builder, Wazuh::SyncSchema::MessageType_End, endOffset.Union());
+        auto message = AssetGuard::SyncSchema::CreateMessage(builder, AssetGuard::SyncSchema::MessageType_End, endOffset.Union());
         builder.Finish(message);
 
         return {builder.GetBufferPointer(), builder.GetBufferPointer() + builder.GetSize()};
@@ -899,7 +899,7 @@ void sendEvent(bool verbose,
     for (const auto& dataValue : testData.dataValues)
     {
         std::string operation = dataValue.value("operation", "upsert");
-        auto op = (operation == "delete") ? Wazuh::SyncSchema::Operation_Delete : Wazuh::SyncSchema::Operation_Upsert;
+        auto op = (operation == "delete") ? AssetGuard::SyncSchema::Operation_Delete : AssetGuard::SyncSchema::Operation_Upsert;
 
         auto payload = dataValue.value("payload", nlohmann::json::object());
         std::string index = inferIndex(dataValue);

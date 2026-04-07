@@ -71,7 +71,7 @@ public:
                     {
                         return json::Json {TESTER_JSON};
                     }
-                    if (name == "policy/wazuh/0")
+                    if (name == "policy/assetguard/0")
                     {
                         return json::Json {POLICY_JSON};
                     }
@@ -79,7 +79,7 @@ public:
                     {
                         return json::Json {EPS_JSON};
                     }
-                    if (name == "integration/wazuh-core-fake/0")
+                    if (name == "integration/assetguard-core-fake/0")
                     {
                         return json::Json {INTEGRATION_JSON};
                     }
@@ -116,7 +116,7 @@ void expectBuildPolicyOk(std::shared_ptr<builder::mocks::MockBuilder> mockbuilde
 } // namespace
 TEST_F(OrchestratorRouterTest, AddRoute)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
+    auto entry = makeProdEntry("route", "assetguard", 10);
 
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);
 
@@ -128,8 +128,8 @@ TEST_F(OrchestratorRouterTest, AddRoute)
 
 TEST_F(OrchestratorRouterTest, AddMultipleRoutes)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
-    auto entryTwo = makeProdEntry("routeTwo", "wazuh", 11);
+    auto entry = makeProdEntry("route", "assetguard", 10);
+    auto entryTwo = makeProdEntry("routeTwo", "assetguard", 11);
 
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
@@ -145,7 +145,7 @@ TEST_F(OrchestratorRouterTest, AddMultipleRoutes)
 
 TEST_F(OrchestratorRouterTest, AddEqualRoute)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
+    auto entry = makeProdEntry("route", "assetguard", 10);
 
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
@@ -169,7 +169,7 @@ TEST_F(OrchestratorRouterTest, DeleteRouteWithoutName)
 
 TEST_F(OrchestratorRouterTest, DeleteRoute)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
+    auto entry = makeProdEntry("route", "assetguard", 10);
 
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
@@ -184,7 +184,7 @@ TEST_F(OrchestratorRouterTest, DeleteRoute)
 
 TEST_F(OrchestratorRouterTest, DeleteTheEqualRouteTwoTimes)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
+    auto entry = makeProdEntry("route", "assetguard", 10);
 
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
@@ -208,8 +208,8 @@ TEST_F(OrchestratorRouterTest, GetEntryWithoutName)
 
 TEST_F(OrchestratorRouterTest, GetEntry)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
-    auto entryTwo = makeProdEntry("routeTwo", "wazuh", 11);
+    auto entry = makeProdEntry("route", "assetguard", 10);
+    auto entryTwo = makeProdEntry("routeTwo", "assetguard", 11);
 
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
 
@@ -236,7 +236,7 @@ TEST_F(OrchestratorRouterTest, ReloadEntryWithoutName)
 
 TEST_F(OrchestratorRouterTest, ReloadEntry)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
+    auto entry = makeProdEntry("route", "assetguard", 10);
 
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
 
@@ -253,7 +253,7 @@ TEST_F(OrchestratorRouterTest, ReloadEntry)
 
 TEST_F(OrchestratorRouterTest, ChangePriority)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
+    auto entry = makeProdEntry("route", "assetguard", 10);
 
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
@@ -269,8 +269,8 @@ TEST_F(OrchestratorRouterTest, ChangePriority)
 
 TEST_F(OrchestratorRouterTest, ChangePriorityBusy)
 {
-    auto entry = makeProdEntry("route", "wazuh", 10);
-    auto entryTwo = makeProdEntry("routeTwo", "wazuh", 11);
+    auto entry = makeProdEntry("route", "assetguard", 10);
+    auto entryTwo = makeProdEntry("routeTwo", "assetguard", 11);
 
     EXPECT_CALL(*m_mockStore, upsertDoc(testing::_, testing::_)).WillRepeatedly(testing::Return(std::nullopt));
     expectBuildPolicyOk(m_mockbuilder, m_mockPolicy);

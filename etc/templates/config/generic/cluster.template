@@ -1,5 +1,5 @@
   <cluster>
-    <name>wazuh</name>
+    <name>assetguard</name>
     <node_name>node01</node_name>
     <node_type>master</node_type>
     <key>fd3350b86d239654e34866ab3c4988a8</key>

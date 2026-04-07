@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -97,7 +97,7 @@ TEST_F(SyscollectorVDTest, VDIndexMapping_SystemToOSInfo)
      */
 
     // Verify the index name (defined in syscollector.h)
-    EXPECT_STREQ("wazuh-states-inventory-system", SYSCOLLECTOR_SYNC_INDEX_SYSTEM);
+    EXPECT_STREQ("assetguard-states-inventory-system", SYSCOLLECTOR_SYNC_INDEX_SYSTEM);
 
     // Verify the expected table mapping
     std::string expectedTable = "dbsync_osinfo";
@@ -110,7 +110,7 @@ TEST_F(SyscollectorVDTest, VDIndexMapping_PackagesToPackages)
      * Test: Verify that "packages" index maps to "dbsync_packages" table
      */
 
-    EXPECT_STREQ("wazuh-states-inventory-packages", SYSCOLLECTOR_SYNC_INDEX_PACKAGES);
+    EXPECT_STREQ("assetguard-states-inventory-packages", SYSCOLLECTOR_SYNC_INDEX_PACKAGES);
 
     std::string expectedTable = "dbsync_packages";
     EXPECT_EQ("dbsync_packages", expectedTable);
@@ -122,7 +122,7 @@ TEST_F(SyscollectorVDTest, VDIndexMapping_HotfixesToHotfixes)
      * Test: Verify that "hotfixes" index maps to "dbsync_hotfixes" table
      */
 
-    EXPECT_STREQ("wazuh-states-inventory-hotfixes", SYSCOLLECTOR_SYNC_INDEX_HOTFIXES);
+    EXPECT_STREQ("assetguard-states-inventory-hotfixes", SYSCOLLECTOR_SYNC_INDEX_HOTFIXES);
 
     std::string expectedTable = "dbsync_hotfixes";
     EXPECT_EQ("dbsync_hotfixes", expectedTable);

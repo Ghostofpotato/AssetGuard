@@ -1,6 +1,6 @@
 /*
- * Wazuh router
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router
+ * Copyright (C) 2015, AssetGuard Inc.
  * March 25, 2023.
  *
  * This program is free software; you can redistribute it
@@ -289,15 +289,15 @@ extern "C"
 
             // Verify flatbuffer structure
             flatbuffers::Verifier verifier(reinterpret_cast<const uint8_t*>(message), message_size);
-            if (!Wazuh::SyncSchema::VerifyMessageBuffer(verifier))
+            if (!AssetGuard::SyncSchema::VerifyMessageBuffer(verifier))
             {
                 throw std::runtime_error("Invalid flatbuffer message structure");
             }
 
-            auto syncMessage = Wazuh::SyncSchema::GetMessage(message);
+            auto syncMessage = AssetGuard::SyncSchema::GetMessage(message);
 
             // Anti-spoofing validation: only validate Start messages (which contain agent ID)
-            if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_Start)
+            if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_Start)
             {
                 const auto startMsg = syncMessage->content_as_Start();
                 if (!startMsg)

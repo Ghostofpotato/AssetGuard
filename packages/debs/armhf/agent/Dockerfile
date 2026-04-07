@@ -18,7 +18,7 @@ RUN apt-get build-dep python3.5 -y --allow-change-held-packages
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install -y --allow-change-held-packages nodejs
 
-RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
+RUN curl -OL http://packages.assetguard.com/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz  && cd gcc-9.4.0/ && \
     linux32 ./contrib/download_prerequisites && \
     linux32 ./configure --prefix=/usr/local/gcc-9.4.0 --with-arch=armv7-a \
@@ -34,7 +34,7 @@ ENV PATH "/usr/local/gcc-9.4.0/bin:${PATH}"
 ENV CC="/usr/local/gcc-9.4.0/bin/gcc"
 ENV CXX="/usr/local/gcc-9.4.0/bin/g++"
 
-RUN curl -OL http://packages.wazuh.com/utils/cmake/cmake-3.18.3.tar.gz && \
+RUN curl -OL http://packages.assetguard.com/utils/cmake/cmake-3.18.3.tar.gz && \
     tar -zxvf cmake-3.18.3.tar.gz && cd cmake-3.18.3 && \
     linux32 ./bootstrap --no-system-curl && \
     linux32 make -j$(nproc) && linux32 make install && \

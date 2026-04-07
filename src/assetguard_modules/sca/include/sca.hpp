@@ -22,7 +22,7 @@
 
 /// @brief Security Configuration Assessment (SCA) module wrapper class.
 ///
-/// This class provides a C++ interface for the Wazuh SCA module. It wraps
+/// This class provides a C++ interface for the AssetGuard SCA module. It wraps
 /// the SecurityConfigurationAssessment C++ implementation and provides lifecycle
 /// management methods for initialization, configuration, execution, and cleanup.
 ///

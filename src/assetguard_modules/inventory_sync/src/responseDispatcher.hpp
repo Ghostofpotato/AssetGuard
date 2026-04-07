@@ -1,6 +1,6 @@
 /*
- * Wazuh inventory sync
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard inventory sync
+ * Copyright (C) 2015, AssetGuard Inc.
  * January 20, 2025.
  *
  * This program is free software; you can redistribute it
@@ -110,7 +110,7 @@ public:
     {
     }
 
-    void sendStartAck(const Wazuh::SyncSchema::Status status,
+    void sendStartAck(const AssetGuard::SyncSchema::Status status,
                       std::string_view agentId,
                       const uint64_t sessionId,
                       std::string_view moduleName) const
@@ -119,16 +119,16 @@ public:
         responseMessage.builder.Clear();
         responseMessage.agentId = agentId;
         responseMessage.moduleName = moduleName;
-        auto startAckOffset = Wazuh::SyncSchema::CreateStartAck(responseMessage.builder, status, sessionId);
+        auto startAckOffset = AssetGuard::SyncSchema::CreateStartAck(responseMessage.builder, status, sessionId);
 
-        auto messageOffset = Wazuh::SyncSchema::CreateMessage(
-            responseMessage.builder, Wazuh::SyncSchema::MessageType_StartAck, startAckOffset.Union());
+        auto messageOffset = AssetGuard::SyncSchema::CreateMessage(
+            responseMessage.builder, AssetGuard::SyncSchema::MessageType_StartAck, startAckOffset.Union());
         responseMessage.builder.Finish(messageOffset); // Print complete message buffer in hex with spaces
 
         m_responseDispatcher->push(std::move(responseMessage));
     }
 
-    void sendEndAck(const Wazuh::SyncSchema::Status status,
+    void sendEndAck(const AssetGuard::SyncSchema::Status status,
                     std::string_view agentId,
                     const uint64_t sessionId,
                     std::string_view moduleName) const
@@ -137,10 +137,10 @@ public:
         responseMessage.builder.Clear();
         responseMessage.agentId = agentId;
         responseMessage.moduleName = moduleName;
-        auto startAckOffset = Wazuh::SyncSchema::CreateEndAck(responseMessage.builder, status, sessionId);
+        auto startAckOffset = AssetGuard::SyncSchema::CreateEndAck(responseMessage.builder, status, sessionId);
 
-        auto messageOffset = Wazuh::SyncSchema::CreateMessage(
-            responseMessage.builder, Wazuh::SyncSchema::MessageType_EndAck, startAckOffset.Union());
+        auto messageOffset = AssetGuard::SyncSchema::CreateMessage(
+            responseMessage.builder, AssetGuard::SyncSchema::MessageType_EndAck, startAckOffset.Union());
         responseMessage.builder.Finish(messageOffset);
 
         m_responseDispatcher->push(std::move(responseMessage));
@@ -155,17 +155,17 @@ public:
         responseMessage.builder.Clear();
         responseMessage.agentId = agentId;
         responseMessage.moduleName = moduleName;
-        std::vector<flatbuffers::Offset<Wazuh::SyncSchema::Pair>> convertedRanges;
+        std::vector<flatbuffers::Offset<AssetGuard::SyncSchema::Pair>> convertedRanges;
 
         for (const auto& [first, second] : ranges)
         {
-            auto offset = Wazuh::SyncSchema::CreatePair(responseMessage.builder, first, second);
+            auto offset = AssetGuard::SyncSchema::CreatePair(responseMessage.builder, first, second);
             convertedRanges.push_back(offset);
         }
 
-        auto endOffset = Wazuh::SyncSchema::CreateReqRetDirect(responseMessage.builder, &convertedRanges, sessionId);
-        auto messageOffset = Wazuh::SyncSchema::CreateMessage(
-            responseMessage.builder, Wazuh::SyncSchema::MessageType_ReqRet, endOffset.Union());
+        auto endOffset = AssetGuard::SyncSchema::CreateReqRetDirect(responseMessage.builder, &convertedRanges, sessionId);
+        auto messageOffset = AssetGuard::SyncSchema::CreateMessage(
+            responseMessage.builder, AssetGuard::SyncSchema::MessageType_ReqRet, endOffset.Union());
         responseMessage.builder.Finish(messageOffset);
 
         m_responseDispatcher->push(std::move(responseMessage));

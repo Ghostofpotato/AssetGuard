@@ -26,7 +26,7 @@ json::Json getConfig()
 {
     json::Json config {};
     config.setObject();
-    config.setString("schema/wazuh-logpar-overrides/0", "/name");
+    config.setString("schema/assetguard-logpar-overrides/0", "/name");
     config.setObject("/fields");
     config.setString(hlp::parserTypeToStr(hlp::ParserType::P_LONG), LONG_FIELD_OVERRIDE_PATH);
     config.setString(hlp::parserTypeToStr(hlp::ParserType::P_TEXT), TEXT_FIELD_OVERRIDE_PATH);

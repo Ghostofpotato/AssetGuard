@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 07, 2025.
  *
  * This program is free software; you can redistribute it
@@ -97,7 +97,7 @@ struct CTISubscription
  *   // Configure for engine module decoders
  *   nlohmann::json config = {
  *       {"console", {
- *           {"url", "https://console.wazuh.com"},
+ *           {"url", "https://console.assetguard.com"},
  *           {"productType", "catalog:consumer:decoders"}  // Filter specific type
  *       }}
  *   };
@@ -251,7 +251,7 @@ public:
      * @code
      * {
      *   "console": {
-     *     "url": "https://console.wazuh.com",           // required
+     *     "url": "https://console.assetguard.com",           // required
      *     "instancesEndpoint": "/api/v1/instances/me",  // optional, default shown
      *     "timeout": 5000,                              // optional, milliseconds, default 5000
      *     "productType": "catalog:consumer:decoders"    // optional, product type filter
@@ -343,7 +343,7 @@ public:
      *             "type": "catalog:consumer:decoders",
      *             "name": "Vulnerabilities Pro",
      *             "description": "...",
-     *             "resource": "https://cti.wazuh.com/api/v1/..."
+     *             "resource": "https://cti.assetguard.com/api/v1/..."
      *           }
      *         ]
      *       }

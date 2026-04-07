@@ -1,6 +1,6 @@
 
 ' Script for configuration Windows agent.
-' Copyright (C) 2015, Wazuh Inc. <support@wazuh.com>
+' Copyright (C) 2015, AssetGuard Inc. <support@assetguard.com>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -41,19 +41,19 @@ public function config()
 
     home_dir = Replace(args(0), Chr(34), "")
     OS_VERSION = Replace(args(1), Chr(34), "")
-    WAZUH_MANAGER = Replace(args(2), Chr(34), "")
-    WAZUH_MANAGER_PORT = Replace(args(3), Chr(34), "")
+    ASSETGUARD_MANAGER = Replace(args(2), Chr(34), "")
+    ASSETGUARD_MANAGER_PORT = Replace(args(3), Chr(34), "")
     NOTIFY_TIME = Replace(args(4), Chr(34), "")
-    WAZUH_REGISTRATION_SERVER = Replace(args(5), Chr(34), "")
-    WAZUH_REGISTRATION_PORT = Replace(args(6), Chr(34), "")
-    WAZUH_REGISTRATION_PASSWORD = Replace(args(7), Chr(34), "")
-    WAZUH_KEEP_ALIVE_INTERVAL = Replace(args(8), Chr(34), "")
-    WAZUH_TIME_RECONNECT = Replace(args(9), Chr(34), "")
-    WAZUH_REGISTRATION_CA = Replace(args(10), Chr(34), "")
-    WAZUH_REGISTRATION_CERTIFICATE = Replace(args(11), Chr(34), "")
-    WAZUH_REGISTRATION_KEY = Replace(args(12), Chr(34), "")
-    WAZUH_AGENT_NAME = Replace(args(13), Chr(34), "")
-    WAZUH_AGENT_GROUP = Replace(args(14), Chr(34), "")
+    ASSETGUARD_REGISTRATION_SERVER = Replace(args(5), Chr(34), "")
+    ASSETGUARD_REGISTRATION_PORT = Replace(args(6), Chr(34), "")
+    ASSETGUARD_REGISTRATION_PASSWORD = Replace(args(7), Chr(34), "")
+    ASSETGUARD_KEEP_ALIVE_INTERVAL = Replace(args(8), Chr(34), "")
+    ASSETGUARD_TIME_RECONNECT = Replace(args(9), Chr(34), "")
+    ASSETGUARD_REGISTRATION_CA = Replace(args(10), Chr(34), "")
+    ASSETGUARD_REGISTRATION_CERTIFICATE = Replace(args(11), Chr(34), "")
+    ASSETGUARD_REGISTRATION_KEY = Replace(args(12), Chr(34), "")
+    ASSETGUARD_AGENT_NAME = Replace(args(13), Chr(34), "")
+    ASSETGUARD_AGENT_GROUP = Replace(args(14), Chr(34), "")
     ENROLLMENT_DELAY = Replace(args(15), Chr(34), "")
 
     ' Only try to set the configuration if variables are setted
@@ -72,14 +72,14 @@ public function config()
         strText = objFile.ReadAll
         objFile.Close
 
-        If WAZUH_MANAGER <> "" or WAZUH_MANAGER_PORT <> "" or WAZUH_KEEP_ALIVE_INTERVAL <> "" or WAZUH_TIME_RECONNECT <> "" Then
-            If WAZUH_MANAGER <> "" Then
+        If ASSETGUARD_MANAGER <> "" or ASSETGUARD_MANAGER_PORT <> "" or ASSETGUARD_KEEP_ALIVE_INTERVAL <> "" or ASSETGUARD_TIME_RECONNECT <> "" Then
+            If ASSETGUARD_MANAGER <> "" Then
                 Set re = new regexp
                 re.Pattern = "\s+<(server|manager)>(.|\n)+?</\1>"
-                If InStr(WAZUH_MANAGER,",") Then
-                    ip_list=Split(WAZUH_MANAGER,",")
+                If InStr(ASSETGUARD_MANAGER,",") Then
+                    ip_list=Split(ASSETGUARD_MANAGER,",")
                 Else
-                    ip_list=Array(WAZUH_MANAGER)
+                    ip_list=Array(ASSETGUARD_MANAGER)
                 End If
 
                 not_replaced = True
@@ -99,33 +99,33 @@ public function config()
                 strText = re.Replace(strText, formatted_list)
             End If
 
-            If WAZUH_MANAGER_PORT <> "" Then ' manager server_port
+            If ASSETGUARD_MANAGER_PORT <> "" Then ' manager server_port
                 If InStr(strText, "<port>") > 0 Then
-                    strText = Replace(strText, "<port>1514</port>", "<port>" & WAZUH_MANAGER_PORT & "</port>")
+                    strText = Replace(strText, "<port>1514</port>", "<port>" & ASSETGUARD_MANAGER_PORT & "</port>")
                 End If
 
             End If
 
-            If WAZUH_KEEP_ALIVE_INTERVAL <> "" Then
+            If ASSETGUARD_KEEP_ALIVE_INTERVAL <> "" Then
                 If InStr(strText, "<notify_time>") > 0 Then
                     Set re = new regexp
                     re.Pattern = "<notify_time>.*</notify_time>"
                     re.Global = True
-                    strText = re.Replace(strText, "<notify_time>" & WAZUH_KEEP_ALIVE_INTERVAL & "</notify_time>")
+                    strText = re.Replace(strText, "<notify_time>" & ASSETGUARD_KEEP_ALIVE_INTERVAL & "</notify_time>")
                 End If
             End If
 
-            If WAZUH_TIME_RECONNECT <> "" Then 'TODO fix the - and use _
+            If ASSETGUARD_TIME_RECONNECT <> "" Then 'TODO fix the - and use _
                 If InStr(strText, "<time-reconnect>") > 0 Then
                     Set re = new regexp
                     re.Pattern = "<time-reconnect>.*</time-reconnect>"
                     re.Global = True
-                    strText = re.Replace(strText, "<time-reconnect>" & WAZUH_TIME_RECONNECT & "</time-reconnect>")
+                    strText = re.Replace(strText, "<time-reconnect>" & ASSETGUARD_TIME_RECONNECT & "</time-reconnect>")
                 End If
             End If
         End If
 
-        If WAZUH_REGISTRATION_SERVER <> "" or WAZUH_REGISTRATION_PORT <> "" or WAZUH_REGISTRATION_PASSWORD <> "" or WAZUH_REGISTRATION_CA <> "" or WAZUH_REGISTRATION_CERTIFICATE <> "" or WAZUH_REGISTRATION_KEY <> "" or WAZUH_AGENT_NAME <> "" or WAZUH_AGENT_GROUP <> "" or ENROLLMENT_DELAY <> "" or WAZUH_MANAGER <> "" Then
+        If ASSETGUARD_REGISTRATION_SERVER <> "" or ASSETGUARD_REGISTRATION_PORT <> "" or ASSETGUARD_REGISTRATION_PASSWORD <> "" or ASSETGUARD_REGISTRATION_CA <> "" or ASSETGUARD_REGISTRATION_CERTIFICATE <> "" or ASSETGUARD_REGISTRATION_KEY <> "" or ASSETGUARD_AGENT_NAME <> "" or ASSETGUARD_AGENT_GROUP <> "" or ENROLLMENT_DELAY <> "" or ASSETGUARD_MANAGER <> "" Then
             enrollment_list = "    <enrollment>" & vbCrLf
             enrollment_list = enrollment_list & "      <enabled>yes</enabled>" & vbCrLf
             enrollment_list = enrollment_list & "    </enrollment>" & vbCrLf
@@ -133,39 +133,39 @@ public function config()
 
             strText = Replace(strText, "  </client>", enrollment_list)
 
-            If WAZUH_REGISTRATION_SERVER <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <manager_address>" & WAZUH_REGISTRATION_SERVER & "</manager_address>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_REGISTRATION_SERVER <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <manager_address>" & ASSETGUARD_REGISTRATION_SERVER & "</manager_address>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_REGISTRATION_PORT <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <port>" & WAZUH_REGISTRATION_PORT & "</port>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_REGISTRATION_PORT <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <port>" & ASSETGUARD_REGISTRATION_PORT & "</port>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_REGISTRATION_PASSWORD <> "" Then
+            If ASSETGUARD_REGISTRATION_PASSWORD <> "" Then
                 Set objFile = objFSO.CreateTextFile(home_dir & "authd.pass", ForWriting)
-                objFile.WriteLine WAZUH_REGISTRATION_PASSWORD
+                objFile.WriteLine ASSETGUARD_REGISTRATION_PASSWORD
                 objFile.Close
                 strText = Replace(strText, "    </enrollment>", "      <authorization_pass_path>authd.pass</authorization_pass_path>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_REGISTRATION_CA <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <server_ca_path>" & WAZUH_REGISTRATION_CA & "</server_ca_path>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_REGISTRATION_CA <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <server_ca_path>" & ASSETGUARD_REGISTRATION_CA & "</server_ca_path>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_REGISTRATION_CERTIFICATE <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <agent_certificate_path>" & WAZUH_REGISTRATION_CERTIFICATE & "</agent_certificate_path>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_REGISTRATION_CERTIFICATE <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <agent_certificate_path>" & ASSETGUARD_REGISTRATION_CERTIFICATE & "</agent_certificate_path>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_REGISTRATION_KEY <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <agent_key_path>" & WAZUH_REGISTRATION_KEY & "</agent_key_path>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_REGISTRATION_KEY <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <agent_key_path>" & ASSETGUARD_REGISTRATION_KEY & "</agent_key_path>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_AGENT_NAME <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <agent_name>" & WAZUH_AGENT_NAME & "</agent_name>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_AGENT_NAME <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <agent_name>" & ASSETGUARD_AGENT_NAME & "</agent_name>"& vbCrLf &"    </enrollment>")
             End If
 
-            If WAZUH_AGENT_GROUP <> "" Then
-                strText = Replace(strText, "    </enrollment>", "      <groups>" & WAZUH_AGENT_GROUP & "</groups>"& vbCrLf &"    </enrollment>")
+            If ASSETGUARD_AGENT_GROUP <> "" Then
+                strText = Replace(strText, "    </enrollment>", "      <groups>" & ASSETGUARD_AGENT_GROUP & "</groups>"& vbCrLf &"    </enrollment>")
             End If
 
             If ENROLLMENT_DELAY <> "" Then
@@ -312,7 +312,7 @@ public function config()
     objFile.WriteLine strNewText
     objFile.Close
 
-    SetWazuhPermissions()
+    SetAssetGuardPermissions()
 
     config = 0
 
@@ -337,9 +337,9 @@ Public Function CheckSvcRunning()
         Session.Property("OSSECRUNNING") = "Running"
     End If
 
-    Set objExec = WshShell.Exec(scPath & " query WazuhSvc")
+    Set objExec = WshShell.Exec(scPath & " query AssetGuardSvc")
     If IsStateRunning(objExec.StdOut.ReadAll()) Then
-        Session.Property("WAZUHRUNNING") = "Running"
+        Session.Property("ASSETGUARDRUNNING") = "Running"
     End If
 
     CheckSvcRunning = 0
@@ -363,13 +363,13 @@ Public Function KillGUITask()
 
 End Function
 
-Public Function StartWazuhSvc()
+Public Function StartAssetGuardSvc()
 	Set WshShell = CreateObject("WScript.Shell")
-    StartSvc = "NET START WazuhSvc"
+    StartSvc = "NET START AssetGuardSvc"
     WshShell.run StartSvc, 0, True
 End Function
 
-Public Function SetWazuhPermissions()
+Public Function SetAssetGuardPermissions()
     strArgs = Session.Property("CustomActionData")
     args = Split(strArgs, "/+/")
 
@@ -434,10 +434,10 @@ Public Function CreateDumpRegistryKey()
     Set objServices = objLocator.ConnectServer(".", "root\default", "", "", , , , objCtx)
     Set oReg = objServices.Get("StdRegProv")
 
-    strKeyPath = "SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\wazuh-agent.exe"
+    strKeyPath = "SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\assetguard-agent.exe"
 
     oReg.CreateKey HKEY_LOCAL_MACHINE, strKeyPath
-    oReg.SetExpandedStringValue HKEY_LOCAL_MACHINE, strKeyPath, "DumpFolder",  "%LOCALAPPDATA%\WazuhCrashDumps"
+    oReg.SetExpandedStringValue HKEY_LOCAL_MACHINE, strKeyPath, "DumpFolder",  "%LOCALAPPDATA%\AssetGuardCrashDumps"
     oReg.SetDWORDValue HKEY_LOCAL_MACHINE, strKeyPath, "DumpType", 2
 
     Set objCtx = Nothing

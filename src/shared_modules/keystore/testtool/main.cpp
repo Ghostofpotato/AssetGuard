@@ -1,6 +1,6 @@
 /*
- * Wazuh keystore
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard keystore
+ * Copyright (C) 2015, AssetGuard Inc.
  * July 1, 2024.
  *
  * This program is free software; you can redistribute it

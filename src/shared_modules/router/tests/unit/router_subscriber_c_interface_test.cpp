@@ -1,6 +1,6 @@
 /*
- * Wazuh router - Router Subscriber C Interface tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router - Router Subscriber C Interface tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * September 11, 2025.
  *
  * This program is free software; you can redistribute it

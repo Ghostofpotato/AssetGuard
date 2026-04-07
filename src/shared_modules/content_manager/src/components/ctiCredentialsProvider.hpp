@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 04, 2025.
  *
  * This program is free software; you can redistribute it
@@ -23,7 +23,7 @@
 #include <thread>
 
 /**
- * @brief Credential structure returned by Wazuh Indexer
+ * @brief Credential structure returned by AssetGuard Indexer
  *
  * Contains OAuth 2.0 credentials from Device Authorization Grant flow.
  * Stored in memory only, never persisted to disk.
@@ -45,7 +45,7 @@ struct ProtectedCredentials
 /**
  * @class CTICredentialsProvider
  *
- * @brief Provides OAuth 2.0 credentials from Wazuh Indexer
+ * @brief Provides OAuth 2.0 credentials from AssetGuard Indexer
  *
  * This class handles:
  * - Fetching credentials from Indexer REST API (GET /_plugins/content-manager/subscription)
@@ -54,7 +54,7 @@ struct ProtectedCredentials
  * - Thread-safe credential access
  * - Background refresh thread monitoring
  *
- * The credentials are obtained from the Wazuh Indexer which performs the
+ * The credentials are obtained from the AssetGuard Indexer which performs the
  * OAuth 2.0 Device Authorization Grant flow with the CTI Console.
  */
 class CTICredentialsProvider final

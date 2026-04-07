@@ -1,6 +1,6 @@
 /*
- * Wazuh - Shared Modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Shared Modules utils
+ * Copyright (C) 2015, AssetGuard Inc.
  * June 23, 2023.
  *
  * This program is free software; you can redistribute it

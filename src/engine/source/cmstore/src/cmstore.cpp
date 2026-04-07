@@ -52,7 +52,7 @@ CMStore::CMStore(std::string_view path, std::string_view outputsPath)
     // Check if the base path is writable, avoiding check mode_t
     {
         // File test
-        auto testPath = m_baseStoragePath / ".wazuh_test_write_permission";
+        auto testPath = m_baseStoragePath / ".assetguard_test_write_permission";
         std::ofstream testFile(testPath);
         if (!testFile)
         {
@@ -63,7 +63,7 @@ CMStore::CMStore(std::string_view path, std::string_view outputsPath)
         std::filesystem::remove(testPath);
 
         // Dir test
-        auto testDirPath = m_baseStoragePath / ".wazuh_test_dir_permission";
+        auto testDirPath = m_baseStoragePath / ".assetguard_test_dir_permission";
         std::error_code ec;
         std::filesystem::create_directory(testDirPath, ec);
         if (ec)

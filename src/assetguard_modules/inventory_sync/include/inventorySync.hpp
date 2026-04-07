@@ -1,6 +1,6 @@
 /*
- * Wazuh Inventory sync
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Inventory sync
+ * Copyright (C) 2015, AssetGuard Inc.
  * May 14, 2025.
  *
  * This program is free software; you can redistribute it

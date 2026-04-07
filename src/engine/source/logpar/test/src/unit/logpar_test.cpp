@@ -475,7 +475,7 @@ protected:
     {
         json::Json config {};
         config.setObject();
-        config.setString("schema/wazuh-logpar-test/0", "/name");
+        config.setString("schema/assetguard-logpar-test/0", "/name");
         config.setObject("/fields");
 
         schema = std::make_shared<MockSchema>();
@@ -600,7 +600,7 @@ TEST_F(LogparIncompatibleTypeTest, IncompatibleTypesMapToErrorType)
 {
     json::Json config {};
     config.setObject();
-    config.setString("schema/wazuh-logpar-test/0", "/name");
+    config.setString("schema/assetguard-logpar-test/0", "/name");
     config.setObject("/fields");
 
     // These types should all map to ERROR_TYPE in logpar

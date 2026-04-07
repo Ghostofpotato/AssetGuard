@@ -1,7 +1,7 @@
-FROM dev-wazuh-base
+FROM dev-assetguard-base
 
-COPY preloaded-vars.conf /wazuh/etc/preloaded-vars.conf
-RUN THREADS=$(nproc) /wazuh/install.sh
+COPY preloaded-vars.conf /assetguard/etc/preloaded-vars.conf
+RUN THREADS=$(nproc) /assetguard/install.sh
 
 ADD entrypoint.sh /scripts/entrypoint.sh
 

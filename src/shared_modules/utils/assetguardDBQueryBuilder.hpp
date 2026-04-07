@@ -1,6 +1,6 @@
 /*
- * Wazuh DB Query Builder
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard DB Query Builder
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 31, 2023.
  *
  * This program is free software; you can redistribute it
@@ -9,28 +9,28 @@
  * Foundation.
  */
 
-#ifndef _WAZUH_DB_QUERY_BUILDER_HPP
-#define _WAZUH_DB_QUERY_BUILDER_HPP
+#ifndef _ASSETGUARD_DB_QUERY_BUILDER_HPP
+#define _ASSETGUARD_DB_QUERY_BUILDER_HPP
 
 #include "builder.hpp"
 #include "stringHelper.h"
 #include <string>
 
-constexpr auto WAZUH_DB_ALLOWED_CHARS {"-_ "};
+constexpr auto ASSETGUARD_DB_ALLOWED_CHARS {"-_ "};
 
-class WazuhDBQueryBuilder final : public Utils::Builder<WazuhDBQueryBuilder>
+class AssetGuardDBQueryBuilder final : public Utils::Builder<AssetGuardDBQueryBuilder>
 {
 private:
     std::string m_query;
 
 public:
-    WazuhDBQueryBuilder& global()
+    AssetGuardDBQueryBuilder& global()
     {
         m_query += "global sql ";
         return *this;
     }
 
-    WazuhDBQueryBuilder& agent(const std::string& id)
+    AssetGuardDBQueryBuilder& agent(const std::string& id)
     {
         if (!Utils::isNumber(id))
         {
@@ -41,15 +41,15 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& selectAll()
+    AssetGuardDBQueryBuilder& selectAll()
     {
         m_query += "SELECT * ";
         return *this;
     }
 
-    WazuhDBQueryBuilder& fromTable(const std::string& table)
+    AssetGuardDBQueryBuilder& fromTable(const std::string& table)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(table, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(table, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid table name");
         }
@@ -57,9 +57,9 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& whereColumn(const std::string& column)
+    AssetGuardDBQueryBuilder& whereColumn(const std::string& column)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(column, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(column, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid column name");
         }
@@ -67,21 +67,21 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& isNull()
+    AssetGuardDBQueryBuilder& isNull()
     {
         m_query += "IS NULL ";
         return *this;
     }
 
-    WazuhDBQueryBuilder& isNotNull()
+    AssetGuardDBQueryBuilder& isNotNull()
     {
         m_query += "IS NOT NULL ";
         return *this;
     }
 
-    WazuhDBQueryBuilder& equalsTo(const std::string& value)
+    AssetGuardDBQueryBuilder& equalsTo(const std::string& value)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(value, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(value, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid value");
         }
@@ -89,9 +89,9 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& andColumn(const std::string& column)
+    AssetGuardDBQueryBuilder& andColumn(const std::string& column)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(column, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(column, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid column name");
         }
@@ -99,9 +99,9 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& orColumn(const std::string& column)
+    AssetGuardDBQueryBuilder& orColumn(const std::string& column)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(column, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(column, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid column name");
         }
@@ -109,9 +109,9 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& globalGetCommand(const std::string& command)
+    AssetGuardDBQueryBuilder& globalGetCommand(const std::string& command)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(command, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(command, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid command");
         }
@@ -119,9 +119,9 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& globalFindCommand(const std::string& command)
+    AssetGuardDBQueryBuilder& globalFindCommand(const std::string& command)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(command, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(command, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid command");
         }
@@ -129,9 +129,9 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& globalSelectCommand(const std::string& command)
+    AssetGuardDBQueryBuilder& globalSelectCommand(const std::string& command)
     {
-        if (!Utils::isAlphaNumericWithSpecialCharacters(command, WAZUH_DB_ALLOWED_CHARS))
+        if (!Utils::isAlphaNumericWithSpecialCharacters(command, ASSETGUARD_DB_ALLOWED_CHARS))
         {
             throw std::runtime_error("Invalid command");
         }
@@ -139,7 +139,7 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& agentGetOsInfoCommand(const std::string& id)
+    AssetGuardDBQueryBuilder& agentGetOsInfoCommand(const std::string& id)
     {
         if (!Utils::isNumber(id))
         {
@@ -149,7 +149,7 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& agentGetHotfixesCommand(const std::string& id)
+    AssetGuardDBQueryBuilder& agentGetHotfixesCommand(const std::string& id)
     {
         if (!Utils::isNumber(id))
         {
@@ -159,7 +159,7 @@ public:
         return *this;
     }
 
-    WazuhDBQueryBuilder& agentGetPackagesCommand(const std::string& id)
+    AssetGuardDBQueryBuilder& agentGetPackagesCommand(const std::string& id)
     {
         if (!Utils::isNumber(id))
         {
@@ -175,4 +175,4 @@ public:
     }
 };
 
-#endif /* _WAZUH_DB_QUERY_BUILDER_HPP */
+#endif /* _ASSETGUARD_DB_QUERY_BUILDER_HPP */

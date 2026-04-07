@@ -9,9 +9,9 @@
         <key>InstallProcessName</key>
         <string>installer</string>
         <key>PackageFileName</key>
-        <string>wazuh-agent_4.10.1-0_intel64_36ce5ed34f.pkg</string>
+        <string>assetguard-agent_4.10.1-0_intel64_36ce5ed34f.pkg</string>
         <key>PackageIdentifier</key>
-        <string>com.wazuh.pkg.wazuh-agent</string>
+        <string>com.assetguard.pkg.assetguard-agent</string>
         <key>PackageVersion</key>
         <string>4.10.1</string>
 </dict>

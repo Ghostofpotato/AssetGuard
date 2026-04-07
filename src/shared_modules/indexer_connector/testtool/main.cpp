@@ -176,7 +176,7 @@ int main(const int argc, const char* argv[])
         }
 
         // Get index name from configuration
-        std::string indexName = "wazuh-test";
+        std::string indexName = "assetguard-test";
         if (configuration.contains("index") && configuration["index"].is_string())
         {
             indexName = configuration["index"].get<std::string>();

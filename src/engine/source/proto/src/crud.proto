@@ -3,7 +3,7 @@ syntax = "proto3";
 import "engine.proto";
 import "google/protobuf/struct.proto";
 
-package com.assetguard.api.engine.content;
+package com.wazuh.api.engine.content;
 
 /* Small summary of a catalog item */
 message ResourceSummary

@@ -34,7 +34,7 @@ private:
     std::vector<SyncedIOCDatabase> m_databasesState; ///< State of the IOC databases being synchronized
 
     /**
-     * @brief Check if IOC data index exists in wazuh-indexer
+     * @brief Check if IOC data index exists in assetguard-indexer
      *
      * @return true if the IOC index exists, false otherwise
      * @throws std::runtime_error on errors.

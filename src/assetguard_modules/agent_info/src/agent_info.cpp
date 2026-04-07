@@ -17,7 +17,7 @@ extern "C" {
 }
 
 /* Agent Info db directory */
-#ifndef WAZUH_UNIT_TESTING
+#ifndef ASSETGUARD_UNIT_TESTING
 #define AGENT_INFO_DB_DISK_PATH "queue/agent_info/db/agent_info.db"
 #else
 #ifndef WIN32
@@ -25,7 +25,7 @@ extern "C" {
 #else
 #define AGENT_INFO_DB_DISK_PATH    ".\\agent_info.db"
 #endif // WIN32
-#endif // WAZUH_UNIT_TESTING
+#endif // ASSETGUARD_UNIT_TESTING
 
 #ifdef __cplusplus
 extern "C"
@@ -262,7 +262,7 @@ void agent_info_start(const struct wm_agent_info_t* agent_info_config)
             // Clean up partial initialization
             g_agent_info_impl.reset();
 
-            // Module fails gracefully without crashing wazuh-modulesd
+            // Module fails gracefully without crashing assetguard-modulesd
             return;
         }
     }

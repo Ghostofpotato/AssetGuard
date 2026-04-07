@@ -23,102 +23,102 @@ Conf::Conf(std::shared_ptr<IFileLoader> fileLoader)
     }
 
     // fs path
-    const std::filesystem::path wazuhRoot = base::process::getWazuhHome();
+    const std::filesystem::path assetguardRoot = base::process::getAssetGuardHome();
 
     // Register available configuration units with Default Settings
 
     // Logging module
-    addUnit<int>(key::LOGGING_LEVEL, "WAZUH_LOG_LEVEL", 0);
+    addUnit<int>(key::LOGGING_LEVEL, "ASSETGUARD_LOG_LEVEL", 0);
 
     // Standalone Logging module
-    addUnit<std::string>(key::STANDALONE_LOGGING_LEVEL, "WAZUH_STANDALONE_LOG_LEVEL", "info");
+    addUnit<std::string>(key::STANDALONE_LOGGING_LEVEL, "ASSETGUARD_STANDALONE_LOG_LEVEL", "info");
 
     // Store module
-    addUnit<std::string>(key::STORE_PATH, "WAZUH_STORE_PATH", (wazuhRoot / "engine/store").c_str());
+    addUnit<std::string>(key::STORE_PATH, "ASSETGUARD_STORE_PATH", (assetguardRoot / "engine/store").c_str());
 
     // Default outputs
-    addUnit<std::string>(key::OUTPUTS_PATH, "WAZUH_OUTPUTS_PATH", (wazuhRoot / "engine/outputs/").c_str());
+    addUnit<std::string>(key::OUTPUTS_PATH, "ASSETGUARD_OUTPUTS_PATH", (assetguardRoot / "engine/outputs/").c_str());
 
     // Default kvdb ioc
-    addUnit<std::string>(key::KVDB_IOC_PATH, "WAZUH_KVDB_IOC_PATH", (wazuhRoot / "engine/kvdb-ioc").c_str());
+    addUnit<std::string>(key::KVDB_IOC_PATH, "ASSETGUARD_KVDB_IOC_PATH", (assetguardRoot / "engine/kvdb-ioc").c_str());
 
     // Content Manager
-    addUnit<std::string>(key::CM_RULESET_PATH, "WAZUH_CM_RULESET_PATH", (wazuhRoot / "etc/ruleset").c_str());
-    addUnit<size_t>(key::CM_SYNC_INTERVAL, "WAZUH_CM_SYNC_INTERVAL", 120);
-    addUnit<size_t>(key::IOC_SYNC_INTERVAL, "WAZUH_IOC_SYNC_INTERVAL", 360);
+    addUnit<std::string>(key::CM_RULESET_PATH, "ASSETGUARD_CM_RULESET_PATH", (assetguardRoot / "etc/ruleset").c_str());
+    addUnit<size_t>(key::CM_SYNC_INTERVAL, "ASSETGUARD_CM_SYNC_INTERVAL", 120);
+    addUnit<size_t>(key::IOC_SYNC_INTERVAL, "ASSETGUARD_IOC_SYNC_INTERVAL", 360);
 
     // Geo module
-    addUnit<size_t>(key::GEO_SYNC_INTERVAL, "WAZUH_GEO_SYNC_INTERVAL", 360);
-    addUnit<std::string>(key::GEO_DB_PATH, "WAZUH_GEO_DB_PATH", (wazuhRoot / "engine/mmdb").c_str());
+    addUnit<size_t>(key::GEO_SYNC_INTERVAL, "ASSETGUARD_GEO_SYNC_INTERVAL", 360);
+    addUnit<std::string>(key::GEO_DB_PATH, "ASSETGUARD_GEO_DB_PATH", (assetguardRoot / "engine/mmdb").c_str());
     addUnit<std::string>(key::GEO_MANIFEST_URL,
-                         "WAZUH_GEO_MANIFEST_URL",
-                         "https://wazuh-cloud-cti-web-components-dev.s3.us-east-2.amazonaws.com/maxmind_geoip/manifest.json");
+                         "ASSETGUARD_GEO_MANIFEST_URL",
+                         "https://assetguard-cloud-cti-web-components-dev.s3.us-east-2.amazonaws.com/maxmind_geoip/manifest.json");
 
     // Indexer connector
-    addUnit<std::vector<std::string>>(key::INDEXER_HOST, "WAZUH_INDEXER_HOSTS", {"http://localhost:9200"});
-    addUnit<std::string>(key::INDEXER_USER, "WAZUH_INDEXER_USER", "admin");
-    addUnit<std::string>(key::INDEXER_PASSWORD, "WAZUH_INDEXER_PASSWORD", "admin");
-    addUnit<std::vector<std::string>>(key::INDEXER_SSL_CA_BUNDLE, "WAZUH_INDEXER_SSL_CA_BUNDLE", {});
-    addUnit<std::string>(key::INDEXER_SSL_CERTIFICATE, "WAZUH_INDEXER_SSL_CERTIFICATE", "");
-    addUnit<std::string>(key::INDEXER_SSL_KEY, "WAZUH_INDEXER_SSL_KEY", "");
+    addUnit<std::vector<std::string>>(key::INDEXER_HOST, "ASSETGUARD_INDEXER_HOSTS", {"http://localhost:9200"});
+    addUnit<std::string>(key::INDEXER_USER, "ASSETGUARD_INDEXER_USER", "admin");
+    addUnit<std::string>(key::INDEXER_PASSWORD, "ASSETGUARD_INDEXER_PASSWORD", "admin");
+    addUnit<std::vector<std::string>>(key::INDEXER_SSL_CA_BUNDLE, "ASSETGUARD_INDEXER_SSL_CA_BUNDLE", {});
+    addUnit<std::string>(key::INDEXER_SSL_CERTIFICATE, "ASSETGUARD_INDEXER_SSL_CERTIFICATE", "");
+    addUnit<std::string>(key::INDEXER_SSL_KEY, "ASSETGUARD_INDEXER_SSL_KEY", "");
 
     // Raw Event Indexer
-    addUnit<bool>(key::RAW_EVENT_INDEXER_ENABLED, "WAZUH_RAW_EVENT_INDEXER_ENABLED", false);
+    addUnit<bool>(key::RAW_EVENT_INDEXER_ENABLED, "ASSETGUARD_RAW_EVENT_INDEXER_ENABLED", false);
 
     // RemoteConfig Indexer
-    addUnit<size_t>(key::REMOTE_CONF_SYNC_INTERVAL, "WAZUH_REMOTE_CONF_SYNC_INTERVAL", 300);
+    addUnit<size_t>(key::REMOTE_CONF_SYNC_INTERVAL, "ASSETGUARD_REMOTE_CONF_SYNC_INTERVAL", 300);
 
     // Queue event module
-    addUnit<size_t>(key::EVENT_QUEUE_SIZE, "WAZUH_EVENT_QUEUE_SIZE", 0x1 << 17);
-    addUnit<size_t>(key::EVENT_QUEUE_EPS, "WAZUH_EVENT_QUEUE_EPS", 0);
+    addUnit<size_t>(key::EVENT_QUEUE_SIZE, "ASSETGUARD_EVENT_QUEUE_SIZE", 0x1 << 17);
+    addUnit<size_t>(key::EVENT_QUEUE_EPS, "ASSETGUARD_EVENT_QUEUE_EPS", 0);
 
     // Orchestrator module
-    addUnit<int>(key::ORCHESTRATOR_THREADS, "WAZUH_ORCHESTRATOR_THREADS", 0);
+    addUnit<int>(key::ORCHESTRATOR_THREADS, "ASSETGUARD_ORCHESTRATOR_THREADS", 0);
 
     // Http server module
     addUnit<std::string>(
-        key::SERVER_API_SOCKET, "WAZUH_SERVER_API_SOCKET", (wazuhRoot / "queue/sockets/analysis").c_str());
-    addUnit<int>(key::SERVER_API_TIMEOUT, "WAZUH_SERVER_API_TIMEOUT", 5000);
-    addUnit<int64_t>(key::SERVER_API_PAYLOAD_MAX_BYTES, "WAZUH_SERVER_API_PAYLOAD_MAX_BYTES", 0);
+        key::SERVER_API_SOCKET, "ASSETGUARD_SERVER_API_SOCKET", (assetguardRoot / "queue/sockets/analysis").c_str());
+    addUnit<int>(key::SERVER_API_TIMEOUT, "ASSETGUARD_SERVER_API_TIMEOUT", 5000);
+    addUnit<int64_t>(key::SERVER_API_PAYLOAD_MAX_BYTES, "ASSETGUARD_SERVER_API_PAYLOAD_MAX_BYTES", 0);
 
     // Event server - enriched (http)
     addUnit<std::string>(key::SERVER_ENRICHED_EVENTS_SOCKET,
-                         "WAZUH_SERVER_ENRICHED_EVENTS_SOCKET",
-                         (wazuhRoot / "queue/sockets/queue-http.sock").c_str());
+                         "ASSETGUARD_SERVER_ENRICHED_EVENTS_SOCKET",
+                         (assetguardRoot / "queue/sockets/queue-http.sock").c_str());
 
     // Enable or disable server event processing
-    addUnit<bool>(key::SERVER_ENABLE_EVENT_PROCESSING, "WAZUH_SERVER_ENABLE_EVENT_PROCESSING", true);
+    addUnit<bool>(key::SERVER_ENABLE_EVENT_PROCESSING, "ASSETGUARD_SERVER_ENABLE_EVENT_PROCESSING", true);
 
     // TZDB module
-    addUnit<std::string>(key::TZDB_PATH, "WAZUH_TZDB_PATH", (wazuhRoot / "queue/tzdb").c_str());
-    addUnit<bool>(key::TZDB_AUTO_UPDATE, "WAZUH_TZDB_AUTO_UPDATE", false);
-    addUnit<std::string>(key::TZDB_FORCE_VERSION_UPDATE, "WAZUH_TZDB_FORCE_VERSION_UPDATE", "");
+    addUnit<std::string>(key::TZDB_PATH, "ASSETGUARD_TZDB_PATH", (assetguardRoot / "queue/tzdb").c_str());
+    addUnit<bool>(key::TZDB_AUTO_UPDATE, "ASSETGUARD_TZDB_AUTO_UPDATE", false);
+    addUnit<std::string>(key::TZDB_FORCE_VERSION_UPDATE, "ASSETGUARD_TZDB_FORCE_VERSION_UPDATE", "");
 
     // Streamlog module
-    addUnit<std::string>(key::STREAMLOG_BASE_PATH, "WAZUH_STREAMLOG_BASE_PATH", (wazuhRoot / "logs/").c_str());
-    addUnit<bool>(key::STREAMLOG_SHOULD_COMPRESS, "WAZUH_STREAMLOG_SHOULD_COMPRESS", true);
-    addUnit<size_t>(key::STREAMLOG_COMPRESSION_LEVEL, "WAZUH_STREAMLOG_COMPRESSION_LEVEL", 5);
+    addUnit<std::string>(key::STREAMLOG_BASE_PATH, "ASSETGUARD_STREAMLOG_BASE_PATH", (assetguardRoot / "logs/").c_str());
+    addUnit<bool>(key::STREAMLOG_SHOULD_COMPRESS, "ASSETGUARD_STREAMLOG_SHOULD_COMPRESS", true);
+    addUnit<size_t>(key::STREAMLOG_COMPRESSION_LEVEL, "ASSETGUARD_STREAMLOG_COMPRESSION_LEVEL", 5);
     addUnit<std::string>(
-        key::STREAMLOG_ALERTS_PATTERN, "WAZUH_STREAMLOG_ALERTS_PATTERN", "${YYYY}/${MMM}/ossec-${name}-${DD}.json");
-    addUnit<size_t>(key::STREAMLOG_ALERTS_MAX_SIZE, "WAZUH_STREAMLOG_ALERTS_MAX_SIZE", 0);
-    addUnit<size_t>(key::STREAMLOG_ALERTS_BUFFER_SIZE, "WAZUH_STREAMLOG_ALERTS_BUFFER_SIZE", 0x1 << 20);
+        key::STREAMLOG_ALERTS_PATTERN, "ASSETGUARD_STREAMLOG_ALERTS_PATTERN", "${YYYY}/${MMM}/ossec-${name}-${DD}.json");
+    addUnit<size_t>(key::STREAMLOG_ALERTS_MAX_SIZE, "ASSETGUARD_STREAMLOG_ALERTS_MAX_SIZE", 0);
+    addUnit<size_t>(key::STREAMLOG_ALERTS_BUFFER_SIZE, "ASSETGUARD_STREAMLOG_ALERTS_BUFFER_SIZE", 0x1 << 20);
     addUnit<std::string>(
-        key::STREAMLOG_ARCHIVES_PATTERN, "WAZUH_STREAMLOG_ARCHIVES_PATTERN", "${YYYY}/${MMM}/ossec-${name}-${DD}.json");
-    addUnit<size_t>(key::STREAMLOG_ARCHIVES_MAX_SIZE, "WAZUH_STREAMLOG_ARCHIVES_MAX_SIZE", 0);
-    addUnit<size_t>(key::STREAMLOG_ARCHIVES_BUFFER_SIZE, "WAZUH_STREAMLOG_ARCHIVES_BUFFER_SIZE", 0x1 << 20);
+        key::STREAMLOG_ARCHIVES_PATTERN, "ASSETGUARD_STREAMLOG_ARCHIVES_PATTERN", "${YYYY}/${MMM}/ossec-${name}-${DD}.json");
+    addUnit<size_t>(key::STREAMLOG_ARCHIVES_MAX_SIZE, "ASSETGUARD_STREAMLOG_ARCHIVES_MAX_SIZE", 0);
+    addUnit<size_t>(key::STREAMLOG_ARCHIVES_BUFFER_SIZE, "ASSETGUARD_STREAMLOG_ARCHIVES_BUFFER_SIZE", 0x1 << 20);
 
     // Archiver module
-    addUnit<bool>(key::ARCHIVER_ENABLED, "WAZUH_ARCHIVER_ENABLED", false);
+    addUnit<bool>(key::ARCHIVER_ENABLED, "ASSETGUARD_ARCHIVER_ENABLED", false);
 
     // Process module
-    addUnit<std::string>(key::PID_FILE_PATH, "WAZUH_ENGINE_PID_FILE_PATH", (wazuhRoot / "var/run/").c_str());
-    addUnit<std::string>(key::GROUP, "WAZUH_ENGINE_GROUP", "wazuh-manager");
-    addUnit<bool>(key::SKIP_GROUP_CHANGE, "WAZUH_SKIP_GROUP_CHANGE", false);
+    addUnit<std::string>(key::PID_FILE_PATH, "ASSETGUARD_ENGINE_PID_FILE_PATH", (assetguardRoot / "var/run/").c_str());
+    addUnit<std::string>(key::GROUP, "ASSETGUARD_ENGINE_GROUP", "assetguard-manager");
+    addUnit<bool>(key::SKIP_GROUP_CHANGE, "ASSETGUARD_SKIP_GROUP_CHANGE", false);
 
     // API modules
-    addUnit<int64_t>(key::API_RESOURCE_PAYLOAD_MAX_BYTES, "WAZUH_SERVER_API_MAX_RESOURCE_PAYLOAD_SIZE", 50'000);
+    addUnit<int64_t>(key::API_RESOURCE_PAYLOAD_MAX_BYTES, "ASSETGUARD_SERVER_API_MAX_RESOURCE_PAYLOAD_SIZE", 50'000);
     addUnit<int64_t>(
-        key::API_RESOURCE_KVDB_PAYLOAD_MAX_BYTES, "WAZUH_SERVER_API_MAX_RESOURCE_KVDB_PAYLOAD_SIZE", 100'000);
+        key::API_RESOURCE_KVDB_PAYLOAD_MAX_BYTES, "ASSETGUARD_SERVER_API_MAX_RESOURCE_KVDB_PAYLOAD_SIZE", 100'000);
 };
 
 void Conf::validate(const OptionMap& config) const

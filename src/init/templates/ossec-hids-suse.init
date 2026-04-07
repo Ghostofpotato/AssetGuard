@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 # Author: Scott Knauss scott@knauss.com
 #
 # /etc/init.d/ossec
@@ -44,24 +44,24 @@ rc_reset
 # with force-reload (in case signalling is not supported) are
 # considered a success.
 
-# Just to make sure wazuh is installed ...
-WAZUH_HOME=WAZUH_HOME_TMP
-WAZUH_CONTROL="$WAZUH_HOME/bin/wazuh-control"
+# Just to make sure assetguard is installed ...
+ASSETGUARD_HOME=ASSETGUARD_HOME_TMP
+ASSETGUARD_CONTROL="$ASSETGUARD_HOME/bin/assetguard-control"
 
-test -x $WAZUH_CONTROL || { echo "$WAZUH_CONTROL not installed";
+test -x $ASSETGUARD_CONTROL || { echo "$ASSETGUARD_CONTROL not installed";
     if [ "$1" = "stop" ]; then exit 0;
     else exit 5; fi; }
 
 start() {
-    ${WAZUH_CONTROL} start
+    ${ASSETGUARD_CONTROL} start
 }
 
 stop() {
-    ${WAZUH_CONTROL} stop
+    ${ASSETGUARD_CONTROL} stop
 }
 
 status() {
-    ${WAZUH_CONTROL} status
+    ${ASSETGUARD_CONTROL} status
 }
 
 case "$1" in

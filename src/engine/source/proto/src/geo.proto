@@ -3,7 +3,7 @@ syntax = "proto3";
 import "engine.proto";
 import "google/protobuf/struct.proto";
 
-package com.assetguard.api.engine.geo;
+package com.wazuh.api.engine.geo;
 
 /* Entry of a db in the geo manager */
 message DbEntry

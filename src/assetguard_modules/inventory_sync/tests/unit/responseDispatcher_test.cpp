@@ -1,6 +1,6 @@
 /**
- * Wazuh Inventory Sync - ResponseDispatcher Unit tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Inventory Sync - ResponseDispatcher Unit tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 26, 2023.
  *
  * This program is free software; you can redistribute it
@@ -42,17 +42,17 @@ TEST_F(ResponseDispatcherTest, SendStartAck)
         .WillOnce(Invoke(
             [&](ResponseMessage&& responseMsg)
             {
-                auto msg = flatbuffers::GetRoot<Wazuh::SyncSchema::Message>(responseMsg.builder.GetBufferPointer());
-                ASSERT_EQ(msg->content_type(), Wazuh::SyncSchema::MessageType_StartAck);
+                auto msg = flatbuffers::GetRoot<AssetGuard::SyncSchema::Message>(responseMsg.builder.GetBufferPointer());
+                ASSERT_EQ(msg->content_type(), AssetGuard::SyncSchema::MessageType_StartAck);
 
                 auto startAck = msg->content_as_StartAck();
                 ASSERT_NE(startAck, nullptr);
-                EXPECT_EQ(startAck->status(), Wazuh::SyncSchema::Status_Ok);
+                EXPECT_EQ(startAck->status(), AssetGuard::SyncSchema::Status_Ok);
                 EXPECT_EQ(startAck->session(), 12345);
                 // Note: StartAck schema doesn't include module field
             }));
 
-    dispatcher.sendStartAck(Wazuh::SyncSchema::Status_Ok, agentId, sessionId, moduleName);
+    dispatcher.sendStartAck(AssetGuard::SyncSchema::Status_Ok, agentId, sessionId, moduleName);
 }
 
 TEST_F(ResponseDispatcherTest, SendEndAck)
@@ -68,17 +68,17 @@ TEST_F(ResponseDispatcherTest, SendEndAck)
         .WillOnce(Invoke(
             [&](ResponseMessage&& responseMsg)
             {
-                auto msg = flatbuffers::GetRoot<Wazuh::SyncSchema::Message>(responseMsg.builder.GetBufferPointer());
-                ASSERT_EQ(msg->content_type(), Wazuh::SyncSchema::MessageType_EndAck);
+                auto msg = flatbuffers::GetRoot<AssetGuard::SyncSchema::Message>(responseMsg.builder.GetBufferPointer());
+                ASSERT_EQ(msg->content_type(), AssetGuard::SyncSchema::MessageType_EndAck);
 
                 auto endAck = msg->content_as_EndAck();
                 ASSERT_NE(endAck, nullptr);
-                EXPECT_EQ(endAck->status(), Wazuh::SyncSchema::Status_Error);
+                EXPECT_EQ(endAck->status(), AssetGuard::SyncSchema::Status_Error);
                 EXPECT_EQ(endAck->session(), 54321);
                 // Note: EndAck schema doesn't include module field
             }));
 
-    dispatcher.sendEndAck(Wazuh::SyncSchema::Status_Error, agentId, sessionId, moduleName);
+    dispatcher.sendEndAck(AssetGuard::SyncSchema::Status_Error, agentId, sessionId, moduleName);
 }
 
 TEST_F(ResponseDispatcherTest, SendEndMissingSeq)
@@ -93,8 +93,8 @@ TEST_F(ResponseDispatcherTest, SendEndMissingSeq)
         .WillOnce(Invoke(
             [&](ResponseMessage&& responseMsg)
             {
-                auto msg = flatbuffers::GetRoot<Wazuh::SyncSchema::Message>(responseMsg.builder.GetBufferPointer());
-                ASSERT_EQ(msg->content_type(), Wazuh::SyncSchema::MessageType_ReqRet);
+                auto msg = flatbuffers::GetRoot<AssetGuard::SyncSchema::Message>(responseMsg.builder.GetBufferPointer());
+                ASSERT_EQ(msg->content_type(), AssetGuard::SyncSchema::MessageType_ReqRet);
 
                 auto reqRet = msg->content_as_ReqRet();
                 ASSERT_NE(reqRet, nullptr);

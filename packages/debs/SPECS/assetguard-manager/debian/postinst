@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for Wazuh
-# Wazuh, Inc 2015
+# postinst script for AssetGuard
+# AssetGuard, Inc 2015
 set -e
 case "$1" in
     configure)
@@ -16,16 +16,16 @@ case "$1" in
         OS="linux"
         VER="0"
     fi
-    DIR="/var/wazuh-manager"
-    USER="wazuh-manager"
-    GROUP="wazuh-manager"
-    WAZUH_GLOBAL_TMP_DIR="${DIR}/packages_files"
-    WAZUH_TMP_DIR="${WAZUH_GLOBAL_TMP_DIR}/manager_config_files"
+    DIR="/var/assetguard-manager"
+    USER="assetguard-manager"
+    GROUP="assetguard-manager"
+    ASSETGUARD_GLOBAL_TMP_DIR="${DIR}/packages_files"
+    ASSETGUARD_TMP_DIR="${ASSETGUARD_GLOBAL_TMP_DIR}/manager_config_files"
     OSMYSHELL="/sbin/nologin"
-    SCRIPTS_DIR="${WAZUH_GLOBAL_TMP_DIR}/manager_installation_scripts"
+    SCRIPTS_DIR="${ASSETGUARD_GLOBAL_TMP_DIR}/manager_installation_scripts"
 
     if [ -d /run/systemd/system ]; then
-        rm -f /etc/init.d/wazuh-manager
+        rm -f /etc/init.d/assetguard-manager
     fi
 
     if [ ! -f ${OSMYSHELL} ]; then
@@ -41,9 +41,9 @@ case "$1" in
         adduser --system --home ${DIR} --shell ${OSMYSHELL} --ingroup ${GROUP} ${USER} > /dev/null 2>&1
     fi
 
-    if [ -z "$2" ] || [ -f ${WAZUH_TMP_DIR}/create_conf ] ; then
+    if [ -z "$2" ] || [ -f ${ASSETGUARD_TMP_DIR}/create_conf ] ; then
 
-        ${SCRIPTS_DIR}/src/init/gen_ossec.sh conf manager ${OS} ${VER} ${DIR} > ${DIR}/etc/wazuh-manager.conf
+        ${SCRIPTS_DIR}/src/init/gen_ossec.sh conf manager ${OS} ${VER} ${DIR} > ${DIR}/etc/assetguard-manager.conf
 
         passlist="${DIR}/agentless/.passlist"
 
@@ -58,9 +58,9 @@ case "$1" in
             fi
         fi
     else
-        ${SCRIPTS_DIR}/src/init/gen_ossec.sh conf manager ${OS} ${VER} ${DIR} > ${DIR}/etc/wazuh-manager.conf.new
-        chown root:${GROUP} ${DIR}/etc/wazuh-manager.conf.new
-        chmod 660 ${DIR}/etc/wazuh-manager.conf.new
+        ${SCRIPTS_DIR}/src/init/gen_ossec.sh conf manager ${OS} ${VER} ${DIR} > ${DIR}/etc/assetguard-manager.conf.new
+        chown root:${GROUP} ${DIR}/etc/assetguard-manager.conf.new
+        chmod 660 ${DIR}/etc/assetguard-manager.conf.new
     fi
 
     # Remove/relocate existing SQLite databases
@@ -102,7 +102,7 @@ case "$1" in
 
     # Generation auto-signed certificate if not exists
     if [ ! -f "${DIR}/etc/sslmanager.key" ] && [ ! -f "${DIR}/etc/sslmanager.cert" ]; then
-        ${DIR}/bin/wazuh-manager-authd -C 365 -B 2048 -S "/C=US/ST=California/CN=Wazuh/" -K ${DIR}/etc/sslmanager.key -X ${DIR}/etc/sslmanager.cert 2>/dev/null
+        ${DIR}/bin/assetguard-manager-authd -C 365 -B 2048 -S "/C=US/ST=California/CN=AssetGuard/" -K ${DIR}/etc/sslmanager.key -X ${DIR}/etc/sslmanager.cert 2>/dev/null
     fi
 
     chmod 640 ${DIR}/etc/sslmanager.cert ${DIR}/etc/sslmanager.key > /dev/null 2>&1 || true
@@ -121,27 +121,27 @@ case "$1" in
     fi
 
     # Restore client.keys configuration
-    if [ -f ${WAZUH_TMP_DIR}/client.keys ]; then
-        mv ${WAZUH_TMP_DIR}/client.keys ${DIR}/etc/client.keys
+    if [ -f ${ASSETGUARD_TMP_DIR}/client.keys ]; then
+        mv ${ASSETGUARD_TMP_DIR}/client.keys ${DIR}/etc/client.keys
     fi
     # Restore local insternal options configuration
-    if [ -f ${WAZUH_TMP_DIR}/local_internal_options.conf ]; then
-        mv ${WAZUH_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
+    if [ -f ${ASSETGUARD_TMP_DIR}/local_internal_options.conf ]; then
+        mv ${ASSETGUARD_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
     fi
 
-    # Restore wazuh-manager.conf configuration
-    if [ -f ${WAZUH_TMP_DIR}/wazuh-manager.conf ]; then
-        mv ${WAZUH_TMP_DIR}/wazuh-manager.conf ${DIR}/etc/wazuh-manager.conf
+    # Restore assetguard-manager.conf configuration
+    if [ -f ${ASSETGUARD_TMP_DIR}/assetguard-manager.conf ]; then
+        mv ${ASSETGUARD_TMP_DIR}/assetguard-manager.conf ${DIR}/etc/assetguard-manager.conf
     fi
 
     for BIN in agent_groups agent_upgrade cluster_control rbac_control \
-        wazuh-manager-analysisd wazuh-manager-apid wazuh-manager-authd \
-        wazuh-manager-clusterd wazuh-manager-control wazuh-manager-db \
-        wazuh-manager-keystore wazuh-manager-modulesd \
-        wazuh-manager-monitord wazuh-manager-remoted; do
+        assetguard-manager-analysisd assetguard-manager-apid assetguard-manager-authd \
+        assetguard-manager-clusterd assetguard-manager-control assetguard-manager-db \
+        assetguard-manager-keystore assetguard-manager-modulesd \
+        assetguard-manager-monitord assetguard-manager-remoted; do
         if [ -f "${DIR}/bin/${BIN}" ]; then
             case "${BIN}" in
-                agent_groups|agent_upgrade|cluster_control|rbac_control|wazuh-manager-apid|wazuh-manager-clusterd)
+                agent_groups|agent_upgrade|cluster_control|rbac_control|assetguard-manager-apid|assetguard-manager-clusterd)
                     chown root:${GROUP} "${DIR}/bin/${BIN}"
                     ;;
                 *)
@@ -155,44 +155,44 @@ case "$1" in
         chown root:${GROUP} "${DIR}/bin/verify-agent-conf"
     fi
 
-    chown root:${GROUP} ${DIR}/etc/wazuh-manager.conf > /dev/null 2>&1 || true
-    chmod 660 ${DIR}/etc/wazuh-manager.conf > /dev/null 2>&1 || true
+    chown root:${GROUP} ${DIR}/etc/assetguard-manager.conf > /dev/null 2>&1 || true
+    chmod 660 ${DIR}/etc/assetguard-manager.conf > /dev/null 2>&1 || true
     chown root:${GROUP} ${DIR}/etc/internal_options.conf \
         ${DIR}/etc/local_internal_options.conf > /dev/null 2>&1 || true
     chmod 640 ${DIR}/etc/internal_options.conf ${DIR}/etc/local_internal_options.conf > /dev/null 2>&1 || true
     # Restore group files
-    if [ -d ${WAZUH_TMP_DIR}/group ]; then
-        cp -rfp ${WAZUH_TMP_DIR}/group/* ${DIR}/etc/shared
-        rm -rf ${WAZUH_TMP_DIR}/group/
+    if [ -d ${ASSETGUARD_TMP_DIR}/group ]; then
+        cp -rfp ${ASSETGUARD_TMP_DIR}/group/* ${DIR}/etc/shared
+        rm -rf ${ASSETGUARD_TMP_DIR}/group/
     fi
 
     # Restore agent-groups files
-    if [ -d ${WAZUH_TMP_DIR}/agent-groups ]; then
-        mv ${WAZUH_TMP_DIR}/agent-groups ${DIR}/queue/
+    if [ -d ${ASSETGUARD_TMP_DIR}/agent-groups ]; then
+        mv ${ASSETGUARD_TMP_DIR}/agent-groups ${DIR}/queue/
     fi
 
     # Restore RBAC database
-    if [ -f ${WAZUH_TMP_DIR}/rbac.db ]; then
-        cp -fp ${WAZUH_TMP_DIR}/rbac.db ${DIR}/api/configuration/security/rbac.db
-        rm -rf ${WAZUH_TMP_DIR}/rbac.db
+    if [ -f ${ASSETGUARD_TMP_DIR}/rbac.db ]; then
+        cp -fp ${ASSETGUARD_TMP_DIR}/rbac.db ${DIR}/api/configuration/security/rbac.db
+        rm -rf ${ASSETGUARD_TMP_DIR}/rbac.db
     fi
 
     # Restore API configuration file
-    if [ -f ${WAZUH_TMP_DIR}/api.yaml ]; then
-        cp -fp ${WAZUH_TMP_DIR}/api.yaml ${DIR}/api/configuration/api.yaml
-        rm -rf ${WAZUH_TMP_DIR}/api.yaml
+    if [ -f ${ASSETGUARD_TMP_DIR}/api.yaml ]; then
+        cp -fp ${ASSETGUARD_TMP_DIR}/api.yaml ${DIR}/api/configuration/api.yaml
+        rm -rf ${ASSETGUARD_TMP_DIR}/api.yaml
     fi
 
     # More files
     touch ${DIR}/etc/client.keys
 
-    touch ${DIR}/logs/wazuh-manager.log
-    chown ${USER}:${GROUP} ${DIR}/logs/wazuh-manager.log
-    chmod 0660 ${DIR}/logs/wazuh-manager.log
+    touch ${DIR}/logs/assetguard-manager.log
+    chown ${USER}:${GROUP} ${DIR}/logs/assetguard-manager.log
+    chmod 0660 ${DIR}/logs/assetguard-manager.log
 
-    touch ${DIR}/logs/wazuh-manager.json
-    chown ${USER}:${GROUP} ${DIR}/logs/wazuh-manager.json
-    chmod 0660 ${DIR}/logs/wazuh-manager.json
+    touch ${DIR}/logs/assetguard-manager.json
+    chown ${USER}:${GROUP} ${DIR}/logs/assetguard-manager.json
+    chmod 0660 ${DIR}/logs/assetguard-manager.json
 
     # Set merged.mg permissions to new ones
     find ${DIR}/etc/shared/ -type f -name 'merged.mg' -exec chmod 644 {} \;
@@ -204,17 +204,17 @@ case "$1" in
     # Check if SELinux is installed and enabled
     if command -v getenforce > /dev/null 2>&1 && command -v semodule > /dev/null 2>&1; then
         if [ $(getenforce) !=  "Disabled" ]; then
-            semodule -i ${DIR}/var/selinux/wazuh.pp
-            semodule -e wazuh
+            semodule -i ${DIR}/var/selinux/assetguard.pp
+            semodule -e assetguard
         fi
     fi
 
     # Restoring file permissions
     ${SCRIPTS_DIR}/restore-permissions.sh > /dev/null 2>&1 || true
 
-    # Remove old service file /etc/systemd/system/wazuh-manager.service if present
-    if [ -f /etc/systemd/system/wazuh-manager.service ]; then
-        rm -f /etc/systemd/system/wazuh-manager.service
+    # Remove old service file /etc/systemd/system/assetguard-manager.service if present
+    if [ -f /etc/systemd/system/assetguard-manager.service ]; then
+        rm -f /etc/systemd/system/assetguard-manager.service
         if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1; then
             systemctl daemon-reload > /dev/null 2>&1
         fi
@@ -242,14 +242,14 @@ case "$1" in
     fi
 
     if [ ! -z "$2" ]; then
-        if [ -f ${WAZUH_TMP_DIR}/wazuh.restart ] ; then
+        if [ -f ${ASSETGUARD_TMP_DIR}/assetguard.restart ] ; then
             if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1; then
                 systemctl daemon-reload > /dev/null 2>&1
-                systemctl restart wazuh-manager.service > /dev/null 2>&1
+                systemctl restart assetguard-manager.service > /dev/null 2>&1
             elif command -v service > /dev/null 2>&1 ; then
-                service wazuh-manager restart > /dev/null 2>&1
+                service assetguard-manager restart > /dev/null 2>&1
             else
-                ${DIR}/bin/wazuh-manager-control restart > /dev/null 2>&1
+                ${DIR}/bin/assetguard-manager-control restart > /dev/null 2>&1
             fi
         fi
     fi
@@ -265,13 +265,13 @@ case "$1" in
     fi
 
     # Delete tmp directory
-    if [ -d ${WAZUH_TMP_DIR} ]; then
-        rm -r ${WAZUH_TMP_DIR}
+    if [ -d ${ASSETGUARD_TMP_DIR} ]; then
+        rm -r ${ASSETGUARD_TMP_DIR}
     fi
 
     # If the parent directory is empty, delete it
-    if [ -z "$(ls -A ${WAZUH_GLOBAL_TMP_DIR})" ]; then
-        rm -rf ${WAZUH_GLOBAL_TMP_DIR}
+    if [ -z "$(ls -A ${ASSETGUARD_GLOBAL_TMP_DIR})" ]; then
+        rm -rf ${ASSETGUARD_GLOBAL_TMP_DIR}
     fi
 
     ;;

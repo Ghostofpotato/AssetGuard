@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * March 25, 2023.
  *
  * This program is free software; you can redistribute it
@@ -17,7 +17,7 @@
 #include <functional>
 #include <string>
 
-#define WM_CONTENTUPDATER "wazuh-manager-modulesd:content-updater"
+#define WM_CONTENTUPDATER "assetguard-manager-modulesd:content-updater"
 
 #include "loggerHelper.h"
 

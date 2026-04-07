@@ -18,7 +18,7 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-WazuhAuthSimulator::WazuhAuthSimulator(const std::string& host_addr, int port_num,
+AssetGuardAuthSimulator::AssetGuardAuthSimulator(const std::string& host_addr, int port_num,
                                       const std::string& password)
     : host(host_addr), port(port_num), correct_password(password),
       progress_counter(0), gen(std::random_device{}()),
@@ -46,13 +46,13 @@ WazuhAuthSimulator::WazuhAuthSimulator(const std::string& host_addr, int port_nu
     }
 }
 
-WazuhAuthSimulator::~WazuhAuthSimulator() {
+AssetGuardAuthSimulator::~AssetGuardAuthSimulator() {
     if (ssl_ctx) {
         SSL_CTX_free(ssl_ctx);
     }
 }
 
-bool WazuhAuthSimulator::resolve_hostname() {
+bool AssetGuardAuthSimulator::resolve_hostname() {
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
@@ -89,7 +89,7 @@ bool WazuhAuthSimulator::resolve_hostname() {
     return true;
 }
 
-std::string WazuhAuthSimulator::generate_random_name(int length) {
+std::string AssetGuardAuthSimulator::generate_random_name(int length) {
     std::string name;
     const char charset[] = "abcdefghijklmnopqrstuvwxyz0123456789";
     for (int i = 0; i < length; ++i) {
@@ -98,7 +98,7 @@ std::string WazuhAuthSimulator::generate_random_name(int length) {
     return name;
 }
 
-std::string WazuhAuthSimulator::generate_agent_name(bool is_new) {
+std::string AssetGuardAuthSimulator::generate_agent_name(bool is_new) {
     std::lock_guard<std::mutex> lock(mutex);
 
     if (is_new || registered_agents.empty()) {
@@ -112,7 +112,7 @@ std::string WazuhAuthSimulator::generate_agent_name(bool is_new) {
     }
 }
 
-AgentConfig WazuhAuthSimulator::create_agent_config(double new_ratio, double incorrect_pass_ratio,
+AgentConfig AssetGuardAuthSimulator::create_agent_config(double new_ratio, double incorrect_pass_ratio,
                                                    double modern_version_ratio, double group_ratio) {
     AgentConfig config;
 
@@ -133,7 +133,7 @@ AgentConfig WazuhAuthSimulator::create_agent_config(double new_ratio, double inc
     return config;
 }
 
-std::string WazuhAuthSimulator::build_request(const AgentConfig& config) {
+std::string AssetGuardAuthSimulator::build_request(const AgentConfig& config) {
     std::stringstream ss;
 
     // Only include "OSSEC PASS: " if password is not empty
@@ -152,11 +152,11 @@ std::string WazuhAuthSimulator::build_request(const AgentConfig& config) {
     return ss.str();
 }
 
-bool WazuhAuthSimulator::parse_response(const std::string& response) {
+bool AssetGuardAuthSimulator::parse_response(const std::string& response) {
     return response.find("OSSEC K:") == 0;
 }
 
-RegistrationResult WazuhAuthSimulator::register_agent(const AgentConfig& config, const DelayRange& connect_delay,
+RegistrationResult AssetGuardAuthSimulator::register_agent(const AgentConfig& config, const DelayRange& connect_delay,
                                                      const DelayRange& send_delay) {
     auto start = std::chrono::high_resolution_clock::now();
     RegistrationResult result;
@@ -260,7 +260,7 @@ RegistrationResult WazuhAuthSimulator::register_agent(const AgentConfig& config,
     return result;
 }
 
-void WazuhAuthSimulator::worker(int num_registrations, double new_ratio, double incorrect_pass_ratio,
+void AssetGuardAuthSimulator::worker(int num_registrations, double new_ratio, double incorrect_pass_ratio,
                                double modern_version_ratio, double group_ratio,
                                const DelayRange& connect_delay, const DelayRange& send_delay) {
 
@@ -281,7 +281,7 @@ void WazuhAuthSimulator::worker(int num_registrations, double new_ratio, double 
     }
 }
 
-void WazuhAuthSimulator::run_simulation(int num_threads, int total_registrations, double new_ratio,
+void AssetGuardAuthSimulator::run_simulation(int num_threads, int total_registrations, double new_ratio,
                                        double incorrect_pass_ratio, double modern_version_ratio,
                                        double group_ratio, const DelayRange& connect_delay,
                                        const DelayRange& send_delay, const std::string& csv_file) {
@@ -306,7 +306,7 @@ void WazuhAuthSimulator::run_simulation(int num_threads, int total_registrations
     std::vector<std::thread> threads;
     for (int i = 0; i < num_threads; ++i) {
         int thread_registrations = per_thread + (i < remainder ? 1 : 0);
-        threads.emplace_back(&WazuhAuthSimulator::worker, this,
+        threads.emplace_back(&AssetGuardAuthSimulator::worker, this,
                            thread_registrations, new_ratio, incorrect_pass_ratio,
                            modern_version_ratio, group_ratio, connect_delay, send_delay);
     }

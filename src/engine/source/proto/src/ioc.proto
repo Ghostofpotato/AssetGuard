@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "engine.proto";
 
-package com.assetguard.api.engine.ioc;
+package com.wazuh.api.engine.ioc;
 
 /***************************************************
  * Query the IOC manager for a specific indicator

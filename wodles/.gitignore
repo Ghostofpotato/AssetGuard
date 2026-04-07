@@ -11,7 +11,7 @@ build/
 
 # Objects
 libsqlite3.so*
-wazuh-clusterd-internal
+assetguard-clusterd-internal
 
 # Projects
 .idea

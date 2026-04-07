@@ -1,6 +1,6 @@
 /*
- * Wazuh SCA
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SCA
+ * Copyright (C) 2015, AssetGuard Inc.
  * December 1, 2025.
  *
  * This program is free software; you can redistribute it

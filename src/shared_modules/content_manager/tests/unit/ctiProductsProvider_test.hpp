@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 07, 2025.
  *
  * This program is free software; you can redistribute it
@@ -130,28 +130,28 @@ protected:
                                 "type": "catalog:consumer",
                                 "name": "Vulnerabilities Pro",
                                 "description": "Real-time vulnerability intelligence",
-                                "resource": "https://cti.wazuh.com/api/v1/catalog/plans/pro/contexts/vulnerabilities/consumer/realtime"
+                                "resource": "https://cti.assetguard.com/api/v1/catalog/plans/pro/contexts/vulnerabilities/consumer/realtime"
                             },
                             {
                                 "identifier": "bad-guy-ips-pro",
                                 "type": "catalog:consumer",
                                 "name": "Bad Guy IPs Pro",
                                 "description": "Malicious IP addresses database",
-                                "resource": "https://cti.wazuh.com/api/v1/catalog/plans/pro/contexts/bad-guy-ips/consumer/realtime"
+                                "resource": "https://cti.assetguard.com/api/v1/catalog/plans/pro/contexts/bad-guy-ips/consumer/realtime"
                             },
                             {
                                 "identifier": "malware-signatures-pro",
                                 "type": "catalog:consumer",
                                 "name": "Malware Signatures Pro",
                                 "description": "Malware signatures and hashes",
-                                "resource": "https://cti.wazuh.com/api/v1/catalog/plans/pro/contexts/malware/consumer/realtime"
+                                "resource": "https://cti.assetguard.com/api/v1/catalog/plans/pro/contexts/malware/consumer/realtime"
                             },
                             {
                                 "identifier": "support-assistance",
                                 "type": "cloud:assistance",
                                 "name": "24/7 Support",
                                 "description": "Round-the-clock technical support",
-                                "email": "support@wazuh.com",
+                                "email": "support@assetguard.com",
                                 "phone": "+1-555-0100"
                             }
                         ]
@@ -258,21 +258,21 @@ protected:
                                 "type": "catalog:consumer:decoders",
                                 "name": "Vulnerabilities Pro",
                                 "description": "...",
-                                "resource": "https://cti.wazuh.com/api/v1/catalog/plans/pro/contexts/vulnerabilities/consumer/realtime"
+                                "resource": "https://cti.assetguard.com/api/v1/catalog/plans/pro/contexts/vulnerabilities/consumer/realtime"
                             },
                             {
                                 "identifier": "malware-sigs",
                                 "type": "catalog:consumer:rules",
                                 "name": "Malware Signatures",
                                 "description": "...",
-                                "resource": "https://cti.wazuh.com/api/v1/catalog/plans/pro/contexts/malware/consumer/realtime"
+                                "resource": "https://cti.assetguard.com/api/v1/catalog/plans/pro/contexts/malware/consumer/realtime"
                             },
                             {
                                 "identifier": "support-service",
                                 "type": "cloud:assistance",
                                 "name": "Support",
                                 "description": "...",
-                                "email": "support@wazuh.com"
+                                "email": "support@assetguard.com"
                             }
                         ]
                     }

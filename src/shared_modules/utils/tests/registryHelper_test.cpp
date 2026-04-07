@@ -1,6 +1,6 @@
 /*
- * Wazuh shared modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard shared modules utils
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 19, 2020.
  *
  * This program is free software; you can redistribute it
@@ -53,7 +53,7 @@ TEST_F(RegistryUtilsTest, RegistryDWORDNoThrow)
 TEST_F(RegistryUtilsTest, RegistryQWORD)
 {
     HKEY handler;
-    const LPCTSTR subkey {TEXT("WazuhTest")};
+    const LPCTSTR subkey {TEXT("AssetGuardTest")};
     LPCTSTR value {TEXT("Test")};
     ULONGLONG data {0xF00000000000000};
     ULONGLONG valueRead {0};
@@ -77,7 +77,7 @@ TEST_F(RegistryUtilsTest, RegistryQWORD)
 TEST_F(RegistryUtilsTest, RegistryQWORDNoThrow)
 {
     HKEY handler;
-    const LPCTSTR subkey {TEXT("WazuhTest")};
+    const LPCTSTR subkey {TEXT("AssetGuardTest")};
     LPCTSTR value {TEXT("Test")};
     DWORD data {1};
     ULONGLONG valueRead {0};

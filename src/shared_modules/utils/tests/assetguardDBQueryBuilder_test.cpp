@@ -1,6 +1,6 @@
 /*
- * Wazuh shared modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard shared modules utils
+ * Copyright (C) 2015, AssetGuard Inc.
  * Nov 1, 2023.
  *
  * This program is free software; you can redistribute it
@@ -9,25 +9,25 @@
  * Foundation.
  */
 
-#include "wazuhDBQueryBuilder_test.hpp"
-#include "wazuhDBQueryBuilder.hpp"
+#include "assetguardDBQueryBuilder_test.hpp"
+#include "assetguardDBQueryBuilder.hpp"
 #include <string>
 
-TEST_F(WazuhDBQueryBuilderTest, GlobalTest)
+TEST_F(AssetGuardDBQueryBuilderTest, GlobalTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder().global().selectAll().fromTable("agent").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().global().selectAll().fromTable("agent").build();
     EXPECT_EQ(message, "global sql SELECT * FROM agent ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, AgentTest)
+TEST_F(AssetGuardDBQueryBuilderTest, AgentTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder().agent("0").selectAll().fromTable("sys_programs").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().agent("0").selectAll().fromTable("sys_programs").build();
     EXPECT_EQ(message, "agent 0 sql SELECT * FROM sys_programs ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, WhereTest)
+TEST_F(AssetGuardDBQueryBuilderTest, WhereTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder()
+    std::string message = AssetGuardDBQueryBuilder::builder()
                               .agent("0")
                               .selectAll()
                               .fromTable("sys_programs")
@@ -37,9 +37,9 @@ TEST_F(WazuhDBQueryBuilderTest, WhereTest)
     EXPECT_EQ(message, "agent 0 sql SELECT * FROM sys_programs WHERE name = 'bash' ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, WhereAndTest)
+TEST_F(AssetGuardDBQueryBuilderTest, WhereAndTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder()
+    std::string message = AssetGuardDBQueryBuilder::builder()
                               .agent("0")
                               .selectAll()
                               .fromTable("sys_programs")
@@ -51,9 +51,9 @@ TEST_F(WazuhDBQueryBuilderTest, WhereAndTest)
     EXPECT_EQ(message, "agent 0 sql SELECT * FROM sys_programs WHERE name = 'bash' AND version = '1' ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, WhereOrTest)
+TEST_F(AssetGuardDBQueryBuilderTest, WhereOrTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder()
+    std::string message = AssetGuardDBQueryBuilder::builder()
                               .agent("0")
                               .selectAll()
                               .fromTable("sys_programs")
@@ -65,9 +65,9 @@ TEST_F(WazuhDBQueryBuilderTest, WhereOrTest)
     EXPECT_EQ(message, "agent 0 sql SELECT * FROM sys_programs WHERE name = 'bash' OR version = '1' ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, WhereIsNullTest)
+TEST_F(AssetGuardDBQueryBuilderTest, WhereIsNullTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder()
+    std::string message = AssetGuardDBQueryBuilder::builder()
                               .agent("0")
                               .selectAll()
                               .fromTable("sys_programs")
@@ -77,9 +77,9 @@ TEST_F(WazuhDBQueryBuilderTest, WhereIsNullTest)
     EXPECT_EQ(message, "agent 0 sql SELECT * FROM sys_programs WHERE name IS NULL ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, WhereIsNotNullTest)
+TEST_F(AssetGuardDBQueryBuilderTest, WhereIsNotNullTest)
 {
-    std::string message = WazuhDBQueryBuilder::builder()
+    std::string message = AssetGuardDBQueryBuilder::builder()
                               .agent("0")
                               .selectAll()
                               .fromTable("sys_programs")
@@ -89,9 +89,9 @@ TEST_F(WazuhDBQueryBuilderTest, WhereIsNotNullTest)
     EXPECT_EQ(message, "agent 0 sql SELECT * FROM sys_programs WHERE name IS NOT NULL ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, InvalidValue)
+TEST_F(AssetGuardDBQueryBuilderTest, InvalidValue)
 {
-    EXPECT_THROW(WazuhDBQueryBuilder::builder()
+    EXPECT_THROW(AssetGuardDBQueryBuilder::builder()
                      .agent("0")
                      .selectAll()
                      .fromTable("sys_programs")
@@ -101,9 +101,9 @@ TEST_F(WazuhDBQueryBuilderTest, InvalidValue)
                  std::runtime_error);
 }
 
-TEST_F(WazuhDBQueryBuilderTest, InvalidColumn)
+TEST_F(AssetGuardDBQueryBuilderTest, InvalidColumn)
 {
-    EXPECT_THROW(WazuhDBQueryBuilder::builder()
+    EXPECT_THROW(AssetGuardDBQueryBuilder::builder()
                      .agent("0")
                      .selectAll()
                      .fromTable("sys_programs")
@@ -113,9 +113,9 @@ TEST_F(WazuhDBQueryBuilderTest, InvalidColumn)
                  std::runtime_error);
 }
 
-TEST_F(WazuhDBQueryBuilderTest, InvalidTable)
+TEST_F(AssetGuardDBQueryBuilderTest, InvalidTable)
 {
-    EXPECT_THROW(WazuhDBQueryBuilder::builder()
+    EXPECT_THROW(AssetGuardDBQueryBuilder::builder()
                      .agent("0")
                      .selectAll()
                      .fromTable("sys_programs'")
@@ -125,38 +125,38 @@ TEST_F(WazuhDBQueryBuilderTest, InvalidTable)
                  std::runtime_error);
 }
 
-TEST_F(WazuhDBQueryBuilderTest, GlobalGetCommand)
+TEST_F(AssetGuardDBQueryBuilderTest, GlobalGetCommand)
 {
-    std::string message = WazuhDBQueryBuilder::builder().globalGetCommand("agent-info 1").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().globalGetCommand("agent-info 1").build();
     EXPECT_EQ(message, "global get-agent-info 1 ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, GlobalFindCommand)
+TEST_F(AssetGuardDBQueryBuilderTest, GlobalFindCommand)
 {
-    std::string message = WazuhDBQueryBuilder::builder().globalFindCommand("agent 1").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().globalFindCommand("agent 1").build();
     EXPECT_EQ(message, "global find-agent 1 ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, GlobalSelectCommand)
+TEST_F(AssetGuardDBQueryBuilderTest, GlobalSelectCommand)
 {
-    std::string message = WazuhDBQueryBuilder::builder().globalSelectCommand("agent-name 1").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().globalSelectCommand("agent-name 1").build();
     EXPECT_EQ(message, "global select-agent-name 1 ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, AgentGetOsInfoCommand)
+TEST_F(AssetGuardDBQueryBuilderTest, AgentGetOsInfoCommand)
 {
-    std::string message = WazuhDBQueryBuilder::builder().agentGetOsInfoCommand("1").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().agentGetOsInfoCommand("1").build();
     EXPECT_EQ(message, "agent 1 osinfo get ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, AgentGetHotfixesCommand)
+TEST_F(AssetGuardDBQueryBuilderTest, AgentGetHotfixesCommand)
 {
-    std::string message = WazuhDBQueryBuilder::builder().agentGetHotfixesCommand("1").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().agentGetHotfixesCommand("1").build();
     EXPECT_EQ(message, "agent 1 hotfix get ");
 }
 
-TEST_F(WazuhDBQueryBuilderTest, AgentGetPackagesCommand)
+TEST_F(AssetGuardDBQueryBuilderTest, AgentGetPackagesCommand)
 {
-    std::string message = WazuhDBQueryBuilder::builder().agentGetPackagesCommand("1").build();
+    std::string message = AssetGuardDBQueryBuilder::builder().agentGetPackagesCommand("1").build();
     EXPECT_EQ(message, "agent 1 package get ");
 }

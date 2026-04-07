@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 05, 2025.
  *
  * This program is free software; you can redistribute it
@@ -114,14 +114,14 @@ protected:
                 "retryAttempts": 3
             },
             "console": {
-                "url": "https://console.wazuh.com",
+                "url": "https://console.assetguard.com",
                 "instancesEndpoint": "/api/v1/instances/me",
                 "timeout": 5000,
                 "productType": "catalog:consumer"
             },
             "tokenExchange": {
                 "enabled": true,
-                "consoleUrl": "https://console.wazuh.com",
+                "consoleUrl": "https://console.assetguard.com",
                 "tokenEndpoint": "/api/v1/instances/token/exchange",
                 "cacheSignedUrls": true
             }
@@ -142,7 +142,7 @@ protected:
                 "compressionType": "raw",
                 "versionedContent": "false",
                 "deleteDownloadedContent": false,
-                "url": "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0",
+                "url": "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_5.0.0",
                 "outputFolder": "/tmp/cti-oauth-tests",
                 "contentFileName": "sample.json"
             }
@@ -227,7 +227,7 @@ protected:
     {
         nlohmann::json response;
         response["access_token"] = signedUrl;
-        response["issued_token_type"] = "urn:wazuh:params:oauth:token-type:signed_url";
+        response["issued_token_type"] = "urn:assetguard:params:oauth:token-type:signed_url";
         response["expires_in"] = expiresIn;
         return response.dump();
     }
@@ -239,7 +239,7 @@ protected:
     {
         nlohmann::json response;
         response["data"]["last_offset"] = lastOffset;
-        response["data"]["last_snapshot_link"] = "https://cti.wazuh.com/snapshots/latest.tar.gz";
+        response["data"]["last_snapshot_link"] = "https://cti.assetguard.com/snapshots/latest.tar.gz";
         response["data"]["last_snapshot_offset"] = lastOffset;
         return response.dump();
     }

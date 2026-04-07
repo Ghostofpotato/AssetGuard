@@ -1727,8 +1727,20 @@
             "string"
           ]
         },
+        "enrichments.indicator.feed.name": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nName of the feed that supplied the indicator.",
+          "type": [
+            "string"
+          ]
+        },
         "enrichments.indicator.first_seen": {
           "description": "Module: ecs\nIndexerType: date\n\nDate/time indicator was first reported.",
+          "type": [
+            "string"
+          ]
+        },
+        "enrichments.indicator.id": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nUnique identifier for the enrichment data, such as a hash of the indicator data or a unique ID from the provider.",
           "type": [
             "string"
           ]
@@ -1753,6 +1765,41 @@
         },
         "enrichments.indicator.reference": {
           "description": "Module: ecs\nIndexerType: keyword\n\nIndicator reference URL.",
+          "type": [
+            "string"
+          ]
+        },
+        "enrichments.indicator.software": {
+          "additionalProperties": false,
+          "description": "Module: ecs\nIndexerType: object\n\nName of the software associated with the indicator, such as malware or attack framework.",
+          "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
+          "properties": {
+            "alias": {
+              "description": "Module: ecs\nIndexerType: keyword\n\nAlias or alternative names for the software associated with the indicator.",
+              "type": [
+                "string"
+              ]
+            },
+            "name": {
+              "description": "Module: ecs\nIndexerType: keyword\n\nName of the software associated with the indicator.",
+              "type": [
+                "string"
+              ]
+            },
+            "type": {
+              "description": "Module: ecs\nIndexerType: keyword\n\nType of software associated with the indicator, such as malware, attack framework, or tool.",
+              "type": [
+                "string"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "string"
+          ]
+        },
+        "enrichments.indicator.tags": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nList of tags associated with the indicator.",
           "type": [
             "string"
           ]
@@ -7325,6 +7372,66 @@
             "string"
           ]
         },
+        "rule.compliance.cmmc": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nCMMC requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.fedramp": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nFedRAMP requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.gdpr": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nGDPR requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.hipaa": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nHIPAA requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.iso_27001": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nISO 27001 requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.nis2": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nNIS2 requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.nist_800_171": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nNIST 800-171 requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.nist_800_53": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nNIST 800-53 requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.pci_dss": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nPCI DSS requirements.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.compliance.tsc": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nTSC requirements.",
+          "type": [
+            "string"
+          ]
+        },
         "rule.description": {
           "description": "Module: ecs\nIndexerType: keyword\n\nThe description of the rule generating the event.",
           "type": [
@@ -7339,6 +7446,24 @@
         },
         "rule.license": {
           "description": "Module: ecs\nIndexerType: keyword\n\nName of the license under which the rule used to generate this event is made available.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.mitre.subtechnique": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nMITRE ATT&CK subtechniques.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.mitre.tactic": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nMITRE ATT&CK tactics.",
+          "type": [
+            "string"
+          ]
+        },
+        "rule.mitre.technique": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nMITRE ATT&CK techniques.",
           "type": [
             "string"
           ]
@@ -8061,6 +8186,12 @@
                 },
                 "email.address": {
                   "description": "Module: ecs\nIndexerType: keyword\n\nIdentifies a threat indicator as an email address (irrespective of direction).",
+                  "type": [
+                    "string"
+                  ]
+                },
+                "feed.name": {
+                  "description": "Module: ecs\nIndexerType: keyword\n\nName of the feed that supplied the indicator.",
                   "type": [
                     "string"
                   ]
@@ -8984,6 +9115,12 @@
                     "string"
                   ]
                 },
+                "id": {
+                  "description": "Module: ecs\nIndexerType: keyword\n\nUnique identifier for the enrichment data, such as a hash of the indicator data or a unique ID from the provider.",
+                  "type": [
+                    "string"
+                  ]
+                },
                 "ip": {
                   "description": "Module: ecs\nIndexerType: ip\n\nIdentifies a threat indicator as an IP address (irrespective of direction).",
                   "type": [
@@ -9095,6 +9232,41 @@
                   "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
                   "type": [
                     "number",
+                    "string"
+                  ]
+                },
+                "software": {
+                  "additionalProperties": false,
+                  "description": "Module: ecs\nIndexerType: object\n\nName of the software associated with the indicator, such as malware or attack framework.",
+                  "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
+                  "properties": {
+                    "alias": {
+                      "description": "Module: ecs\nIndexerType: keyword\n\nAlias or alternative names for the software associated with the indicator.",
+                      "type": [
+                        "string"
+                      ]
+                    },
+                    "name": {
+                      "description": "Module: ecs\nIndexerType: keyword\n\nName of the software associated with the indicator.",
+                      "type": [
+                        "string"
+                      ]
+                    },
+                    "type": {
+                      "description": "Module: ecs\nIndexerType: keyword\n\nType of software associated with the indicator, such as malware, attack framework, or tool.",
+                      "type": [
+                        "string"
+                      ]
+                    }
+                  },
+                  "type": [
+                    "object",
+                    "string"
+                  ]
+                },
+                "tags": {
+                  "description": "Module: ecs\nIndexerType: keyword\n\nList of tags associated with the indicator.",
+                  "type": [
                     "string"
                   ]
                 },
@@ -11883,6 +12055,12 @@
             "string"
           ]
         },
+        "vulnerability.detected_at": {
+          "description": "Module: ecs\nIndexerType: date\n\nVulnerability's detection date.",
+          "type": [
+            "string"
+          ]
+        },
         "vulnerability.enumeration": {
           "description": "Module: ecs\nIndexerType: keyword\n\nThe type of identifier used for this vulnerability. For example (https://cve.mitre.org/about/)",
           "type": [
@@ -11891,6 +12069,12 @@
         },
         "vulnerability.id": {
           "description": "Module: ecs\nIndexerType: keyword\n\nThe identification (ID) is the number portion of a vulnerability entry. It includes a unique identification number for the vulnerability. For example (https://cve.mitre.org/about/faqs.html#what_is_cve_id)",
+          "type": [
+            "string"
+          ]
+        },
+        "vulnerability.published_at": {
+          "description": "Module: ecs\nIndexerType: date\n\nVulnerability's publication date.",
           "type": [
             "string"
           ]
@@ -11907,8 +12091,20 @@
             "string"
           ]
         },
+        "vulnerability.scanner.condition": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nThe condition matched by the package that led the scanner to consider it vulnerable.",
+          "type": [
+            "string"
+          ]
+        },
         "vulnerability.scanner.reference": {
           "description": "Module: ecs\nIndexerType: keyword\n\nScanner's resource that provides additional information, context, and mitigations for the identified vulnerability.",
+          "type": [
+            "string"
+          ]
+        },
+        "vulnerability.scanner.source": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nThe origin of the decision of the scanner (AKA feed used to detect the vulnerability).",
           "type": [
             "string"
           ]
@@ -11955,37 +12151,45 @@
             "string"
           ]
         },
-        "assetguard.agent.build.original": {
+        "vulnerability.under_evaluation": {
+          "description": "Module: ecs\nIndexerType: boolean\n\nIndicates if the vulnerability is awaiting analysis by the NVD.",
+          "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
+          "type": [
+            "boolean",
+            "string"
+          ]
+        },
+        "wazuh.agent.build.original": {
           "description": "Module: ecs\nIndexerType: keyword\n\nExtended build information for the agent.\nThis field is intended to contain any build information that a data source may provide, no specific formatting is required.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.ephemeral_id": {
+        "wazuh.agent.ephemeral_id": {
           "description": "Module: ecs\nIndexerType: keyword\n\nEphemeral identifier of this agent (if one exists).\nThis id normally changes across restarts, but `agent.id` does not.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.groups": {
+        "wazuh.agent.groups": {
           "description": "Module: ecs\nIndexerType: keyword\n\nList of groups the agent belongs to.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.architecture": {
+        "wazuh.agent.host.architecture": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOperating system architecture.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.boot.id": {
+        "wazuh.agent.host.boot.id": {
           "description": "Module: ecs\nIndexerType: keyword\n\nLinux boot uuid taken from /proc/sys/kernel/random/boot_id. Note the boot_id value from /proc may or may not be the same in containers as on the host. Some container runtimes will bind mount a new boot_id value onto the proc file in each container.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.cpu": {
+        "wazuh.agent.host.cpu": {
           "additionalProperties": false,
           "description": "Module: ecs\nIndexerType: object\n\nCPU-related data.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
@@ -12026,7 +12230,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.disk.read.bytes": {
+        "wazuh.agent.host.disk.read.bytes": {
           "description": "Module: ecs\nIndexerType: long\n\nThe total number of bytes (gauge) read successfully (aggregated from all disks) since the last metric collection.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12034,7 +12238,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.disk.write.bytes": {
+        "wazuh.agent.host.disk.write.bytes": {
           "description": "Module: ecs\nIndexerType: long\n\nThe total number of bytes (gauge) written successfully (aggregated from all disks) since the last metric collection.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12042,103 +12246,103 @@
             "string"
           ]
         },
-        "assetguard.agent.host.domain": {
+        "wazuh.agent.host.domain": {
           "description": "Module: ecs\nIndexerType: keyword\n\nName of the domain of which the host is a member.\nFor example, on Windows this could be the host's Active Directory domain or NetBIOS domain name. For Linux this could be the domain of the host's LDAP provider.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.city_name": {
+        "wazuh.agent.host.geo.city_name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nCity name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.continent_code": {
+        "wazuh.agent.host.geo.continent_code": {
           "description": "Module: ecs\nIndexerType: keyword\n\nTwo-letter code representing continent's name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.continent_name": {
+        "wazuh.agent.host.geo.continent_name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nName of the continent.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.country_iso_code": {
+        "wazuh.agent.host.geo.country_iso_code": {
           "description": "Module: ecs\nIndexerType: keyword\n\nCountry ISO code.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.country_name": {
+        "wazuh.agent.host.geo.country_name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nCountry name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.location": {
+        "wazuh.agent.host.geo.location": {
           "description": "Module: ecs\nIndexerType: geo_point\n\nLongitude and latitude.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.name": {
+        "wazuh.agent.host.geo.name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nUser-defined description of a location, at the level of granularity they care about.\nCould be the name of their data centers, the floor number, if this describes a local physical entity, city names.\nNot typically used in automated geolocation.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.postal_code": {
+        "wazuh.agent.host.geo.postal_code": {
           "description": "Module: ecs\nIndexerType: keyword\n\nPostal code associated with the location.\nValues appropriate for this field may also be known as a postcode or ZIP code and will vary widely from country to country.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.region_iso_code": {
+        "wazuh.agent.host.geo.region_iso_code": {
           "description": "Module: ecs\nIndexerType: keyword\n\nRegion ISO code.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.region_name": {
+        "wazuh.agent.host.geo.region_name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nRegion name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.geo.timezone": {
+        "wazuh.agent.host.geo.timezone": {
           "description": "Module: ecs\nIndexerType: keyword\n\nThe time zone of the location, such as IANA time zone name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.hostname": {
+        "wazuh.agent.host.hostname": {
           "description": "Module: ecs\nIndexerType: keyword\n\nHostname of the host.\nIt normally contains what the `hostname` command returns on the host machine.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.id": {
+        "wazuh.agent.host.id": {
           "description": "Module: ecs\nIndexerType: keyword\n\nUnique host id.\nAs hostname is not always unique, use values that are meaningful in your environment.\nExample: The current usage of `beat.name`.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.ip": {
+        "wazuh.agent.host.ip": {
           "description": "Module: ecs\nIndexerType: ip\n\nHost ip addresses.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.mac": {
+        "wazuh.agent.host.mac": {
           "description": "Module: ecs\nIndexerType: keyword\n\nHost MAC addresses.\nThe notation format from RFC 7042 is suggested: Each octet (that is, 8-bit byte) is represented by two [uppercase] hexadecimal digits giving the value of the octet as an unsigned integer. Successive octets are separated by a hyphen.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.memory": {
+        "wazuh.agent.host.memory": {
           "additionalProperties": false,
           "description": "Module: ecs\nIndexerType: object\n\nMemory-related data.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
@@ -12184,13 +12388,13 @@
             "string"
           ]
         },
-        "assetguard.agent.host.name": {
+        "wazuh.agent.host.name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nName of the host.\nIt can contain what hostname returns on Unix systems, the fully qualified domain name (FQDN), or a name specified by the user. The recommended value is the lowercase FQDN of the host.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.network.egress.bytes": {
+        "wazuh.agent.host.network.egress.bytes": {
           "description": "Module: ecs\nIndexerType: long\n\nThe number of bytes (gauge) sent out on all network interfaces by the host since the last metric collection.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12198,7 +12402,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.egress.drops": {
+        "wazuh.agent.host.network.egress.drops": {
           "description": "Module: ecs\nIndexerType: long\n\nNumber of dropped transmitted packets.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12206,7 +12410,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.egress.errors": {
+        "wazuh.agent.host.network.egress.errors": {
           "description": "Module: ecs\nIndexerType: long\n\nNumber of transmission errors.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12214,7 +12418,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.egress.packets": {
+        "wazuh.agent.host.network.egress.packets": {
           "description": "Module: ecs\nIndexerType: long\n\nThe number of packets (gauge) sent out on all network interfaces by the host since the last metric collection.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12222,7 +12426,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.egress.queue": {
+        "wazuh.agent.host.network.egress.queue": {
           "description": "Module: ecs\nIndexerType: long\n\nTransmit queue length.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12230,7 +12434,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.ingress.bytes": {
+        "wazuh.agent.host.network.ingress.bytes": {
           "description": "Module: ecs\nIndexerType: long\n\nThe number of bytes received (gauge) on all network interfaces by the host since the last metric collection.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12238,7 +12442,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.ingress.drops": {
+        "wazuh.agent.host.network.ingress.drops": {
           "description": "Module: ecs\nIndexerType: long\n\nNumber of dropped received packets.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12246,7 +12450,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.ingress.errors": {
+        "wazuh.agent.host.network.ingress.errors": {
           "description": "Module: ecs\nIndexerType: long\n\nNumber of reception errors.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12254,7 +12458,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.ingress.packets": {
+        "wazuh.agent.host.network.ingress.packets": {
           "description": "Module: ecs\nIndexerType: long\n\nThe number of packets (gauge) received on all network interfaces by the host since the last metric collection.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12262,7 +12466,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.network.ingress.queue": {
+        "wazuh.agent.host.network.ingress.queue": {
           "description": "Module: ecs\nIndexerType: long\n\nReceive queue length.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12270,61 +12474,61 @@
             "string"
           ]
         },
-        "assetguard.agent.host.os.family": {
+        "wazuh.agent.host.os.family": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOS family (such as redhat, debian, freebsd, windows).",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.os.full": {
+        "wazuh.agent.host.os.full": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOperating system name, including the version or code name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.os.kernel": {
+        "wazuh.agent.host.os.kernel": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOperating system kernel version as a raw string.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.os.name": {
+        "wazuh.agent.host.os.name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOperating system name, without the version.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.os.platform": {
+        "wazuh.agent.host.os.platform": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOperating system platform (such centos, ubuntu, windows).",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.os.type": {
+        "wazuh.agent.host.os.type": {
           "description": "Module: ecs\nIndexerType: keyword\n\nUse the `os.type` field to categorize the operating system into one of the broad commercial families.\nIf the OS you're dealing with is not listed as an expected value, the field should not be populated. Please let us know by opening an issue with ECS, to propose its addition.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.os.version": {
+        "wazuh.agent.host.os.version": {
           "description": "Module: ecs\nIndexerType: keyword\n\nOperating system version as a raw string.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.pid_ns_ino": {
+        "wazuh.agent.host.pid_ns_ino": {
           "description": "Module: ecs\nIndexerType: keyword\n\nThis is the inode number of the namespace in the namespace file system (nsfs). Unsigned int inum in include/linux/ns_common.h.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.risk.calculated_level": {
+        "wazuh.agent.host.risk.calculated_level": {
           "description": "Module: ecs\nIndexerType: keyword\n\nA risk classification level calculated by an internal system as part of entity analytics and entity risk scoring.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.risk.calculated_score": {
+        "wazuh.agent.host.risk.calculated_score": {
           "description": "Module: ecs\nIndexerType: float\n\nA risk classification score calculated by an internal system as part of entity analytics and entity risk scoring.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12332,7 +12536,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.risk.calculated_score_norm": {
+        "wazuh.agent.host.risk.calculated_score_norm": {
           "description": "Module: ecs\nIndexerType: float\n\nA risk classification score calculated by an internal system as part of entity analytics and entity risk scoring, and normalized to a range of 0 to 100.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12340,13 +12544,13 @@
             "string"
           ]
         },
-        "assetguard.agent.host.risk.static_level": {
+        "wazuh.agent.host.risk.static_level": {
           "description": "Module: ecs\nIndexerType: keyword\n\nA risk classification level obtained from outside the system, such as from some external Threat Intelligence Platform.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.risk.static_score": {
+        "wazuh.agent.host.risk.static_score": {
           "description": "Module: ecs\nIndexerType: float\n\nA risk classification score obtained from outside the system, such as from some external Threat Intelligence Platform.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12354,7 +12558,7 @@
             "string"
           ]
         },
-        "assetguard.agent.host.risk.static_score_norm": {
+        "wazuh.agent.host.risk.static_score_norm": {
           "description": "Module: ecs\nIndexerType: float\n\nA risk classification score obtained from outside the system, such as from some external Threat Intelligence Platform, and normalized to a range of 0 to 100.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12362,13 +12566,13 @@
             "string"
           ]
         },
-        "assetguard.agent.host.type": {
+        "wazuh.agent.host.type": {
           "description": "Module: ecs\nIndexerType: keyword\n\nType of host.\nFor Cloud providers this can be the machine type like `t2.medium`. If vm, this could be the container, for example, or other information meaningful in your environment.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.host.uptime": {
+        "wazuh.agent.host.uptime": {
           "description": "Module: ecs\nIndexerType: long\n\nSeconds the host has been up.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12376,73 +12580,73 @@
             "string"
           ]
         },
-        "assetguard.agent.id": {
+        "wazuh.agent.id": {
           "description": "Module: ecs\nIndexerType: keyword\n\nUnique identifier of this agent (if one exists).\nExample: For Beats this would be beat.id.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.name": {
+        "wazuh.agent.name": {
           "description": "Module: ecs\nIndexerType: keyword\n\nCustom name of the agent.\nThis is a name that can be given to an agent. This can be helpful if for example two Filebeat instances are running on the same host but a human readable separation is needed on which Filebeat instance data is coming from.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.type": {
+        "wazuh.agent.type": {
           "description": "Module: ecs\nIndexerType: keyword\n\nType of the agent.\nThe agent type always stays the same and should be given by the agent used. In case of Filebeat the agent would always be Filebeat also if two Filebeat instances are run on the same machine.",
           "type": [
             "string"
           ]
         },
-        "assetguard.agent.version": {
+        "wazuh.agent.version": {
           "description": "Module: ecs\nIndexerType: keyword\n\nVersion of the agent.",
           "type": [
             "string"
           ]
         },
-        "assetguard.cluster.name": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nAssetGuard cluster name.",
+        "wazuh.cluster.name": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nWazuh cluster name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.cluster.node": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nAssetGuard cluster node name.",
+        "wazuh.cluster.node": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nWazuh cluster node name.",
           "type": [
             "string"
           ]
         },
-        "assetguard.integration.category": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nAssetGuard integration category.",
+        "wazuh.integration.category": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nWazuh integration category.",
           "type": [
             "string"
           ]
         },
-        "assetguard.integration.decoders": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nList of AssetGuard decoders applied to the event.",
+        "wazuh.integration.decoders": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nList of Wazuh decoders applied to the event.",
           "type": [
             "string"
           ]
         },
-        "assetguard.integration.name": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nName of the AssetGuard integration.",
+        "wazuh.integration.name": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nName of the Wazuh integration.",
           "type": [
             "string"
           ]
         },
-        "assetguard.integration.rules": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nList of AssetGuard rules applied to the event.",
+        "wazuh.integration.rules": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nList of Wazuh rules applied to the event.",
           "type": [
             "string"
           ]
         },
-        "assetguard.protocol.location": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nSource of the log as retrieved by the AssetGuard Agent.",
+        "wazuh.protocol.location": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nSource of the log as retrieved by the Wazuh Agent.",
           "type": [
             "string"
           ]
         },
-        "assetguard.protocol.queue": {
+        "wazuh.protocol.queue": {
           "description": "Module: ecs\nIndexerType: byte\n\nIngestion queue for the log.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
@@ -12450,22 +12654,22 @@
             "string"
           ]
         },
-        "assetguard.schema.version": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nAssetGuard schema version.",
+        "wazuh.schema.version": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nWazuh schema version.",
           "type": [
             "string"
           ]
         },
-        "assetguard.space.event_discarded": {
-          "description": "Module: ecs\nIndexerType: boolean\n\nIndicates whether the event would have been discarded by the AssetGuard Engine during the filtering phase when the active policy has `index_discarded_events` set to `true`.",
+        "wazuh.space.event_discarded": {
+          "description": "Module: ecs\nIndexerType: boolean\n\nIndicates whether the event would have been discarded by the Wazuh Engine during the filtering phase when the active policy has `index_discarded_events` set to `true`.",
           "pattern": "^\\$[\\w\\.]+$|^[\\w]+\\(.*\\)$",
           "type": [
             "boolean",
             "string"
           ]
         },
-        "assetguard.space.name": {
-          "description": "Module: ecs\nIndexerType: keyword\n\nAssetGuard space name.",
+        "wazuh.space.name": {
+          "description": "Module: ecs\nIndexerType: keyword\n\nWazuh space name.",
           "type": [
             "string"
           ]

@@ -12,10 +12,10 @@
 #include <base/json.hpp>
 
 /**
- * @brief Interface for connecting to and indexing data in a wazuh-indexer.
+ * @brief Interface for connecting to and indexing data in a assetguard-indexer.
  *
  * The IWIndexerConnector interface provides a contract for implementing
- * indexer connector classes that can send/recive data to wazuh-indexer.
+ * indexer connector classes that can send/recive data to assetguard-indexer.
  */
 namespace wiconnector
 {
@@ -125,9 +125,9 @@ public:
     streamIocsByType(std::string_view iocType, std::size_t batchSize, const IocRecordCallback& onIoc) = 0;
 
     /**
-     * @brief Retrieves remote engine runtime configuration from wazuh-indexer.
+     * @brief Retrieves remote engine runtime configuration from assetguard-indexer.
      *
-     * Queries `.wazuh-settings` with `size=1`, requests only the `engine` section,
+     * Queries `.assetguard-settings` with `size=1`, requests only the `engine` section,
      * and returns the normalized engine settings object, for example:
      * { "index_raw_events": false }
      *

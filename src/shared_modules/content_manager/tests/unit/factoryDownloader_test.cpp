@@ -1,6 +1,6 @@
 /*
- * Wazuh content manager - Unit Tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard content manager - Unit Tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * Jun 09, 2023.
  *
  * This program is free software; you can redistribute it
@@ -108,12 +108,12 @@ TEST_F(FactoryDownloaderTest, CreateOAuthProvidersComplete)
         "contentSource": "cti-offset",
         "oauth": {
             "indexer": {
-                "url": "https://indexer.wazuh.com",
+                "url": "https://indexer.assetguard.com",
                 "credentialsEndpoint": "/_plugins/content-manager/subscription",
                 "timeout": 5000
             },
             "console": {
-                "url": "https://console.wazuh.com",
+                "url": "https://console.assetguard.com",
                 "instancesEndpoint": "/api/v1/instances/me",
                 "tokenExchangeEndpoint": "/api/v1/instances/token/exchange",
                 "timeout": 5000,
@@ -144,7 +144,7 @@ TEST_F(FactoryDownloaderTest, CreateOAuthProvidersIndexerOnly)
         "contentSource": "cti-snapshot",
         "oauth": {
             "indexer": {
-                "url": "https://indexer.wazuh.com",
+                "url": "https://indexer.assetguard.com",
                 "credentialsEndpoint": "/_plugins/content-manager/subscription"
             }
         }
@@ -171,10 +171,10 @@ TEST_F(FactoryDownloaderTest, CreateOAuthProvidersDisabled)
         "contentSource": "cti-offset",
         "oauth": {
             "indexer": {
-                "url": "https://indexer.wazuh.com"
+                "url": "https://indexer.assetguard.com"
             },
             "console": {
-                "url": "https://console.wazuh.com",
+                "url": "https://console.assetguard.com",
                 "productType": "catalog:consumer:decoders"
             },
             "enableProductsProvider": false

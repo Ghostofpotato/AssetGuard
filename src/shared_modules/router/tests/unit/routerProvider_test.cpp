@@ -1,6 +1,6 @@
 /*
- * Wazuh router - RouterProvider tests
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard router - RouterProvider tests
+ * Copyright (C) 2015, AssetGuard Inc.
  * June 25, 2025.
  *
  * This program is free software; you can redistribute it

@@ -19,10 +19,10 @@ using namespace defs::mocks;
 namespace builder::test
 {
 
-auto constexpr WAZUH_LOGPAR_TYPES_JSON = R"({
+auto constexpr ASSETGUARD_LOGPAR_TYPES_JSON = R"({
     "name": "name",
     "fields": {
-        "wazuh.message": "text",
+        "assetguard.message": "text",
         "event.code": "text",
         "source.ip": "ip"
     }
@@ -49,19 +49,19 @@ auto constexpr FILTER_JSON = R"({
     "enabled": true,
     "type": "pre-filter",
     "metadata": {
-        "module": "wazuh",
+        "module": "assetguard",
         "title": "Test filter",
         "description": "Filter used for unit tests",
-        "compatibility": "Wazuh 5.*",
-        "versions": ["Wazuh 5.*"],
+        "compatibility": "AssetGuard 5.*",
+        "versions": ["AssetGuard 5.*"],
         "author": {
-            "name": "Wazuh, Inc.",
+            "name": "AssetGuard, Inc.",
             "date": "2026/01/29"
         },
-        "references": ["https://documentation.wazuh.com/"]
+        "references": ["https://documentation.assetguard.com/"]
     },
     "check": [{
-        "wazuh.protocol.queue": 49
+        "assetguard.protocol.queue": 49
     }
     ]
 })";
@@ -349,12 +349,12 @@ public:
         builder::BuilderDeps builderDeps;
         builderDeps.logparDebugLvl = 0;
 
-        ON_CALL(*m_spMocks->m_spSchemf, hasField(DotPath("wazuh.message"))).WillByDefault(testing::Return(true));
+        ON_CALL(*m_spMocks->m_spSchemf, hasField(DotPath("assetguard.message"))).WillByDefault(testing::Return(true));
         ON_CALL(*m_spMocks->m_spSchemf, hasField(DotPath("event.code"))).WillByDefault(testing::Return(true));
         ON_CALL(*m_spMocks->m_spSchemf, hasField(DotPath("source.ip"))).WillByDefault(testing::Return(true));
 
         builderDeps.logpar =
-            std::make_shared<hlp::logpar::Logpar>(json::Json {WAZUH_LOGPAR_TYPES_JSON}, m_spMocks->m_spSchemf);
+            std::make_shared<hlp::logpar::Logpar>(json::Json {ASSETGUARD_LOGPAR_TYPES_JSON}, m_spMocks->m_spSchemf);
         builderDeps.kvdbManager = nullptr;
 
         auto emptyAllowedFields = std::make_shared<builder::AllowedFields>();

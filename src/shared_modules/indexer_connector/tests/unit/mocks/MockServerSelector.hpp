@@ -1,6 +1,6 @@
 /*
- * Wazuh - Indexer connector.
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Indexer connector.
+ * Copyright (C) 2015, AssetGuard Inc.
  * July 7, 2025.
  *
  * This program is free software; you can redistribute it

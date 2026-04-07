@@ -1,6 +1,6 @@
 /*
- * Wazuh inventory sync
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard inventory sync
+ * Copyright (C) 2015, AssetGuard Inc.
  * January 20, 2025.
  *
  * This program is free software; you can redistribute it
@@ -41,7 +41,7 @@ constexpr int DEFAULT_TIME {60 * 10}; // 10 minutes
 constexpr auto INVENTORY_SYNC_PATH {"inventory_sync"};
 constexpr auto INVENTORY_SYNC_TOPIC {"inventory-states"};
 constexpr auto INVENTORY_SYNC_SUBSCRIBER_ID {"inventory-sync-module"};
-constexpr auto WAZUH_STATES_INDEX_PATTERN {"wazuh-states-*"};
+constexpr auto ASSETGUARD_STATES_INDEX_PATTERN {"assetguard-states-*"};
 constexpr auto SOCKET_KEYSTORE_PATH {"queue/sockets/keystore"};
 
 using WorkersQueue = Utils::AsyncValueDispatcher<std::vector<char>, std::function<void(const std::vector<char>&)>>;
@@ -119,11 +119,11 @@ class InventorySyncFacadeImpl final
             }
         }
 
-        auto syncMessage = Wazuh::SyncSchema::GetMessage(dataRaw.data());
+        auto syncMessage = AssetGuard::SyncSchema::GetMessage(dataRaw.data());
 
-        if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_DataValue)
+        if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_DataValue)
         {
-            const auto data = syncMessage->content_as<Wazuh::SyncSchema::DataValue>();
+            const auto data = syncMessage->content_as<AssetGuard::SyncSchema::DataValue>();
             if (!data)
             {
                 throw InventorySyncException("Invalid data message");
@@ -145,9 +145,9 @@ class InventorySyncFacadeImpl final
                     LOGGER_DEFAULT_TAG, "InventorySyncFacade::start: Data handled for session %llu", data->session());
             }
         }
-        else if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_DataClean)
+        else if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_DataClean)
         {
-            const auto dataClean = syncMessage->content_as<Wazuh::SyncSchema::DataClean>();
+            const auto dataClean = syncMessage->content_as<AssetGuard::SyncSchema::DataClean>();
             if (!dataClean)
             {
                 throw InventorySyncException("Invalid data clean message");
@@ -170,9 +170,9 @@ class InventorySyncFacadeImpl final
                           dataClean->session());
             }
         }
-        else if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_DataContext)
+        else if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_DataContext)
         {
-            const auto dataContext = syncMessage->content_as<Wazuh::SyncSchema::DataContext>();
+            const auto dataContext = syncMessage->content_as<AssetGuard::SyncSchema::DataContext>();
             if (!dataContext)
             {
                 throw InventorySyncException("Invalid data context message");
@@ -196,9 +196,9 @@ class InventorySyncFacadeImpl final
                           dataContext->session());
             }
         }
-        else if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_Start)
+        else if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_Start)
         {
-            const auto startMsg = syncMessage->content_as<Wazuh::SyncSchema::Start>();
+            const auto startMsg = syncMessage->content_as<AssetGuard::SyncSchema::Start>();
             if (!startMsg)
             {
                 throw InventorySyncException("Invalid start message");
@@ -215,12 +215,12 @@ class InventorySyncFacadeImpl final
                 logDebug2(LOGGER_DEFAULT_TAG,
                           "InventorySyncFacade::start: Agent %s is locked, rejecting new session",
                           agentIdStr.c_str());
-                m_responseDispatcher->sendStartAck(Wazuh::SyncSchema::Status_Error, agentId, -1, moduleName);
+                m_responseDispatcher->sendStartAck(AssetGuard::SyncSchema::Status_Error, agentId, -1, moduleName);
             }
             else if (!m_indexerConnector->isAvailable())
             {
                 logDebug2(LOGGER_DEFAULT_TAG, "InventorySyncFacade::start: No available server");
-                m_responseDispatcher->sendStartAck(Wazuh::SyncSchema::Status_Offline, agentId, -1, moduleName);
+                m_responseDispatcher->sendStartAck(AssetGuard::SyncSchema::Status_Offline, agentId, -1, moduleName);
             }
             else
             {
@@ -234,7 +234,7 @@ class InventorySyncFacadeImpl final
                             m_agentSessions.size(),
                             m_maxSessions,
                             std::string(agentId).c_str());
-                    m_responseDispatcher->sendStartAck(Wazuh::SyncSchema::Status_Offline, agentId, -1, moduleName);
+                    m_responseDispatcher->sendStartAck(AssetGuard::SyncSchema::Status_Offline, agentId, -1, moduleName);
                 }
                 else
                 {
@@ -257,9 +257,9 @@ class InventorySyncFacadeImpl final
                 }
             }
         }
-        else if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_ChecksumModule)
+        else if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_ChecksumModule)
         {
-            const auto checksumModule = syncMessage->content_as<Wazuh::SyncSchema::ChecksumModule>();
+            const auto checksumModule = syncMessage->content_as<AssetGuard::SyncSchema::ChecksumModule>();
             if (!checksumModule)
             {
                 throw InventorySyncException("Invalid checksum module message");
@@ -282,9 +282,9 @@ class InventorySyncFacadeImpl final
                           checksumModule->session());
             }
         }
-        else if (syncMessage->content_type() == Wazuh::SyncSchema::MessageType_End)
+        else if (syncMessage->content_type() == AssetGuard::SyncSchema::MessageType_End)
         {
-            const auto end = syncMessage->content_as<Wazuh::SyncSchema::End>();
+            const auto end = syncMessage->content_as<AssetGuard::SyncSchema::End>();
             if (!end)
             {
                 throw InventorySyncException("Invalid end message");
@@ -325,7 +325,7 @@ class InventorySyncFacadeImpl final
         while (true)
         {
             nlohmann::json searchQuery;
-            searchQuery["query"]["term"]["wazuh.agent.id"] = agentId;
+            searchQuery["query"]["term"]["assetguard.agent.id"] = agentId;
             searchQuery["_source"] = nlohmann::json::array({"checksum.hash.sha1"});
             searchQuery["sort"] = nlohmann::json::array({nlohmann::json::object({{"checksum.hash.sha1", "asc"}})});
             searchQuery["size"] = BATCH_SIZE;
@@ -513,7 +513,7 @@ public:
                         // FlatBuffer message - verify before processing
                         flatbuffers::Verifier verifier(reinterpret_cast<const uint8_t*>(dataRaw.data()),
                                                        dataRaw.size());
-                        if (Wazuh::SyncSchema::VerifyMessageBuffer(verifier))
+                        if (AssetGuard::SyncSchema::VerifyMessageBuffer(verifier))
                         {
                             logDebug2(LOGGER_DEFAULT_TAG,
                                       "InventorySyncFacade::start: Processing FlatBuffer message...");
@@ -560,10 +560,10 @@ public:
                 {
                     // CRITICAL: For metadata/groups operations, lock agent and wait for active sessions
                     // to prevent race conditions with concurrent inventory data
-                    if (res.context->mode == Wazuh::SyncSchema::Mode_MetadataDelta ||
-                        res.context->mode == Wazuh::SyncSchema::Mode_MetadataCheck ||
-                        res.context->mode == Wazuh::SyncSchema::Mode_GroupDelta ||
-                        res.context->mode == Wazuh::SyncSchema::Mode_GroupCheck)
+                    if (res.context->mode == AssetGuard::SyncSchema::Mode_MetadataDelta ||
+                        res.context->mode == AssetGuard::SyncSchema::Mode_MetadataCheck ||
+                        res.context->mode == AssetGuard::SyncSchema::Mode_GroupDelta ||
+                        res.context->mode == AssetGuard::SyncSchema::Mode_GroupCheck)
                     {
                         // Lock the agent to reject new sessions during metadata/groups updates
                         lockAgent(res.context->agentId, "Metadata/groups update in progress");
@@ -607,7 +607,7 @@ public:
                     // Lock indexer connector to avoid process with the timeout mechanism.
                     auto lock = m_indexerConnector->scopeLock();
 
-                    if (res.context->mode == Wazuh::SyncSchema::Mode_MetadataDelta)
+                    if (res.context->mode == AssetGuard::SyncSchema::Mode_MetadataDelta)
                     {
                         logDebug2(LOGGER_DEFAULT_TAG,
                                   "InventorySyncFacade::start: Updating agent metadata for agent %s...",
@@ -623,7 +623,7 @@ public:
 
                                 // Send ACK to agent.
                                 m_responseDispatcher->sendEndAck(
-                                    Wazuh::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
+                                    AssetGuard::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
                                 // Delete Session.
                                 if (m_agentSessions.erase(ctx->sessionId) == 0)
                                 {
@@ -649,7 +649,7 @@ public:
                         // Execute the update using generic infrastructure method
                         m_indexerConnector->executeUpdateByQuery(res.context->indices, metadataQuery);
                     }
-                    else if (res.context->mode == Wazuh::SyncSchema::Mode_GroupDelta)
+                    else if (res.context->mode == AssetGuard::SyncSchema::Mode_GroupDelta)
                     {
                         logDebug2(LOGGER_DEFAULT_TAG,
                                   "InventorySyncFacade::start: Updating agent groups for agent %s...",
@@ -665,7 +665,7 @@ public:
 
                                 // Send ACK to agent.
                                 m_responseDispatcher->sendEndAck(
-                                    Wazuh::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
+                                    AssetGuard::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
                                 // Delete Session.
                                 if (m_agentSessions.erase(ctx->sessionId) == 0)
                                 {
@@ -682,7 +682,7 @@ public:
                         // Execute the update using generic infrastructure method
                         m_indexerConnector->executeUpdateByQuery(res.context->indices, groupsQuery);
                     }
-                    else if (res.context->mode == Wazuh::SyncSchema::Mode_MetadataCheck)
+                    else if (res.context->mode == AssetGuard::SyncSchema::Mode_MetadataCheck)
                     {
                         logDebug2(LOGGER_DEFAULT_TAG,
                                   "InventorySyncFacade::start: Disaster recovery - checking metadata for agent %s...",
@@ -698,7 +698,7 @@ public:
 
                                 // Send ACK to agent.
                                 m_responseDispatcher->sendEndAck(
-                                    Wazuh::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
+                                    AssetGuard::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
                                 // Delete Session.
                                 if (m_agentSessions.erase(ctx->sessionId) == 0)
                                 {
@@ -729,7 +729,7 @@ public:
                         // Execute the metadata check update
                         m_indexerConnector->executeUpdateByQuery(res.context->indices, metadataCheckQuery);
                     }
-                    else if (res.context->mode == Wazuh::SyncSchema::Mode_GroupCheck)
+                    else if (res.context->mode == AssetGuard::SyncSchema::Mode_GroupCheck)
                     {
                         logDebug2(LOGGER_DEFAULT_TAG,
                                   "InventorySyncFacade::start: Disaster recovery - checking groups for agent %s...",
@@ -745,7 +745,7 @@ public:
 
                                 // Send ACK to agent.
                                 m_responseDispatcher->sendEndAck(
-                                    Wazuh::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
+                                    AssetGuard::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
                                 // Delete Session.
                                 if (m_agentSessions.erase(ctx->sessionId) == 0)
                                 {
@@ -768,7 +768,7 @@ public:
                         // Execute the groups check update
                         m_indexerConnector->executeUpdateByQuery(res.context->indices, groupsCheckQuery);
                     }
-                    else if (res.context->mode == Wazuh::SyncSchema::Mode_ModuleCheck)
+                    else if (res.context->mode == AssetGuard::SyncSchema::Mode_ModuleCheck)
                     {
                         logDebug2(LOGGER_DEFAULT_TAG,
                                   "InventorySyncFacade::start: Processing ModuleCheck for agent %s, module %s",
@@ -782,7 +782,7 @@ public:
                                 logError(LOGGER_DEFAULT_TAG,
                                          "ModuleCheck: No index specified for agent %s",
                                          res.context->agentId.c_str());
-                                m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Error,
+                                m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Error,
                                                                  res.context->agentId,
                                                                  res.context->sessionId,
                                                                  res.context->moduleName);
@@ -834,7 +834,7 @@ public:
                                     logInfo(LOGGER_DEFAULT_TAG,
                                             "ModuleCheck: Checksums match for agent %s - no full resync needed",
                                             res.context->agentId.c_str());
-                                    m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Ok,
+                                    m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Ok,
                                                                      res.context->agentId,
                                                                      res.context->sessionId,
                                                                      res.context->moduleName);
@@ -846,7 +846,7 @@ public:
                                             "full resync required",
                                             res.context->agentId.c_str(),
                                             MAX_RETRIES);
-                                    m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_ChecksumMismatch,
+                                    m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_ChecksumMismatch,
                                                                      res.context->agentId,
                                                                      res.context->sessionId,
                                                                      res.context->moduleName);
@@ -859,7 +859,7 @@ public:
                                      "ModuleCheck failed for agent %s: %s",
                                      res.context->agentId.c_str(),
                                      e.what());
-                            m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Error,
+                            m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Error,
                                                              res.context->agentId,
                                                              res.context->sessionId,
                                                              res.context->moduleName);
@@ -892,7 +892,7 @@ public:
                         }
 
                         // Send delete by query to indexer if mode is full.
-                        if (res.context->mode == Wazuh::SyncSchema::Mode_ModuleFull)
+                        if (res.context->mode == AssetGuard::SyncSchema::Mode_ModuleFull)
                         {
                             logDebug2(LOGGER_DEFAULT_TAG,
                                       "InventorySyncFacade::start: Deleting by query for %zu indices...",
@@ -925,9 +925,9 @@ public:
                             logDebug2(LOGGER_DEFAULT_TAG, "InventorySyncFacade::start: Processing data...");
                             flatbuffers::Verifier verifier(reinterpret_cast<const uint8_t*>(value.data()),
                                                            value.size());
-                            if (Wazuh::SyncSchema::VerifyMessageBuffer(verifier))
+                            if (AssetGuard::SyncSchema::VerifyMessageBuffer(verifier))
                             {
-                                auto message = Wazuh::SyncSchema::GetMessage(value.data());
+                                auto message = AssetGuard::SyncSchema::GetMessage(value.data());
                                 auto data = message->content_as_DataValue();
                                 if (!data)
                                 {
@@ -944,23 +944,23 @@ public:
                                 elementId.append("_");
                                 elementId.append(data->id()->string_view());
 
-                                if (data->operation() == Wazuh::SyncSchema::Operation_Upsert)
+                                if (data->operation() == AssetGuard::SyncSchema::Operation_Upsert)
                                 {
                                     logDebug2(LOGGER_DEFAULT_TAG, "InventorySyncFacade::start: Upserting data...");
 
                                     // Build metadata using nlohmann::json for automatic escaping
                                     nlohmann::json metadata;
-                                    metadata["wazuh"]["agent"]["id"] = res.context->agentId;
-                                    metadata["wazuh"]["agent"]["name"] = res.context->agentName;
-                                    metadata["wazuh"]["agent"]["version"] = res.context->agentVersion;
-                                    metadata["wazuh"]["agent"]["groups"] = res.context->groups;
-                                    metadata["wazuh"]["agent"]["host"]["architecture"] = res.context->architecture;
-                                    metadata["wazuh"]["agent"]["host"]["hostname"] = res.context->hostname;
-                                    metadata["wazuh"]["agent"]["host"]["os"]["name"] = res.context->osname;
-                                    metadata["wazuh"]["agent"]["host"]["os"]["platform"] = res.context->osplatform;
-                                    metadata["wazuh"]["agent"]["host"]["os"]["type"] = res.context->ostype;
-                                    metadata["wazuh"]["agent"]["host"]["os"]["version"] = res.context->osversion;
-                                    metadata["wazuh"]["cluster"]["name"] =
+                                    metadata["assetguard"]["agent"]["id"] = res.context->agentId;
+                                    metadata["assetguard"]["agent"]["name"] = res.context->agentName;
+                                    metadata["assetguard"]["agent"]["version"] = res.context->agentVersion;
+                                    metadata["assetguard"]["agent"]["groups"] = res.context->groups;
+                                    metadata["assetguard"]["agent"]["host"]["architecture"] = res.context->architecture;
+                                    metadata["assetguard"]["agent"]["host"]["hostname"] = res.context->hostname;
+                                    metadata["assetguard"]["agent"]["host"]["os"]["name"] = res.context->osname;
+                                    metadata["assetguard"]["agent"]["host"]["os"]["platform"] = res.context->osplatform;
+                                    metadata["assetguard"]["agent"]["host"]["os"]["type"] = res.context->ostype;
+                                    metadata["assetguard"]["agent"]["host"]["os"]["version"] = res.context->osversion;
+                                    metadata["assetguard"]["cluster"]["name"] =
                                         !res.context->clusterName.empty() ? res.context->clusterName : m_clusterName;
 
                                     // Serialize metadata to string and append FlatBuffer inventory data
@@ -984,7 +984,7 @@ public:
                                         m_indexerConnector->bulkIndex(elementId, indexName, dataString);
                                     }
                                 }
-                                else if (data->operation() == Wazuh::SyncSchema::Operation_Delete)
+                                else if (data->operation() == AssetGuard::SyncSchema::Operation_Delete)
                                 {
                                     logDebug2(LOGGER_DEFAULT_TAG, "InventorySyncFacade::start: Deleting data...");
                                     m_indexerConnector->bulkDelete(elementId, data->index()->string_view());
@@ -1000,8 +1000,8 @@ public:
                             }
                         }
 
-                        if (res.context->option == Wazuh::SyncSchema::Option_VDFirst ||
-                            res.context->option == Wazuh::SyncSchema::Option_VDSync)
+                        if (res.context->option == AssetGuard::SyncSchema::Option_VDFirst ||
+                            res.context->option == AssetGuard::SyncSchema::Option_VDSync)
                         {
                             // Check if vulnerability scanner is initialized before attempting to run scan
                             if (VulnerabilityScannerFacade::instance().isInitialized())
@@ -1021,7 +1021,7 @@ public:
                                              "InventorySyncFacade: Vulnerability scanner exception for agent %s: %s",
                                              res.context->agentId.c_str(),
                                              e.what());
-                                    m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Error,
+                                    m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Error,
                                                                      res.context->agentId,
                                                                      res.context->sessionId,
                                                                      res.context->moduleName);
@@ -1043,7 +1043,7 @@ public:
 
                         // Only register notify callback if there's bulk data or deleteByQuery operations
                         if (hasBulkData || !res.context->dataCleanIndices.empty() ||
-                            res.context->mode == Wazuh::SyncSchema::Mode_ModuleFull)
+                            res.context->mode == AssetGuard::SyncSchema::Mode_ModuleFull)
                         {
                             // Register notify callback for bulk operations (after accumulating all data)
                             m_indexerConnector->registerNotify(
@@ -1051,7 +1051,7 @@ public:
                                 {
                                     // Send ACK to agent.
                                     m_responseDispatcher->sendEndAck(
-                                        Wazuh::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
+                                        AssetGuard::SyncSchema::Status_Ok, ctx->agentId, ctx->sessionId, ctx->moduleName);
                                     // Delete data from database.
                                     m_dataStore->deleteByPrefix(std::to_string(ctx->sessionId));
                                     // Delete Session.
@@ -1071,7 +1071,7 @@ public:
                                       "InventorySyncFacade::start: No bulk data or deleteByQuery, sending immediate "
                                       "response for session %llu",
                                       res.context->sessionId);
-                            m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Ok,
+                            m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Ok,
                                                              res.context->agentId,
                                                              res.context->sessionId,
                                                              res.context->moduleName);
@@ -1097,7 +1097,7 @@ public:
                     }
 
                     // Send ACK to agent.
-                    m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Error,
+                    m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Error,
                                                      res.context->agentId,
                                                      res.context->sessionId,
                                                      res.context->moduleName);
@@ -1123,7 +1123,7 @@ public:
                     }
 
                     // Send ACK to agent.
-                    m_responseDispatcher->sendEndAck(Wazuh::SyncSchema::Status_Error,
+                    m_responseDispatcher->sendEndAck(AssetGuard::SyncSchema::Status_Error,
                                                      res.context->agentId,
                                                      res.context->sessionId,
                                                      res.context->moduleName);
@@ -1474,13 +1474,13 @@ private:
         logInfo(LOGGER_DEFAULT_TAG,
                 "InventorySyncFacade::deleteAgent: Deleting data for agent '%s' from %s indexes",
                 agentId.c_str(),
-                WAZUH_STATES_INDEX_PATTERN);
+                ASSETGUARD_STATES_INDEX_PATTERN);
 
         try
         {
-            // Delete all agent data from wazuh-states-* indexes using wildcard pattern
+            // Delete all agent data from assetguard-states-* indexes using wildcard pattern
             auto lock = m_indexerConnector->scopeLock();
-            m_indexerConnector->deleteByQuery(WAZUH_STATES_INDEX_PATTERN, agentId);
+            m_indexerConnector->deleteByQuery(ASSETGUARD_STATES_INDEX_PATTERN, agentId);
 
             logInfo(LOGGER_DEFAULT_TAG,
                     "InventorySyncFacade::deleteAgent: Successfully deleted data for agent '%s'",

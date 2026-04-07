@@ -50,7 +50,7 @@ my $tree = MaxMind::DB::Writer::Tree->new(
 
 my %address_for_test = (
     '1.2.3.4/32' => {
-        test_map  => { test_str1 => 'Wazuh', test_str2 => 'Wazuh2' },
+        test_map  => { test_str1 => 'AssetGuard', test_str2 => 'AssetGuard2' },
         test_uint32 => 94043,
         test_double => 37.386,
         test_float => 122.0838,

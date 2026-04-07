@@ -1,6 +1,6 @@
 /*
- * Wazuh - Shared Modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard - Shared Modules utils
+ * Copyright (C) 2015, AssetGuard Inc.
  * April 19, 2023.
  *
  */

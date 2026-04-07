@@ -1,6 +1,6 @@
 /*
- * Wazuh SyscollectorImp
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SyscollectorImp
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 9, 2020.
  *
  * This program is free software; you can redistribute it
@@ -114,7 +114,7 @@ void populateTestDb()
 #define EXPECT_CALL_PROCESSES_JSON R"({"name":"kworker/u256:2-","pid":"431625","parent_pid":2,"start":9302261,"state":"I","stime":3,"utime":0})"
 #define EXPECT_CALL_GROUPS_JSON R"([{"group_description": null, "group_id": 1, "group_id_signed": 1, "group_is_hidden": 0, "group_name": "daemon", "group_users": "daemon:pollinate:vboxadd", "group_uuid": null }])"
 #define EXPECT_CALL_USERS_JSON R"([{"host_ip":"192.168.0.84","login_status":0,"login_tty":"pts/0","login_type":"user","process_pid":"129870","user_auth_failed_count":0,"user_auth_failed_timestamp":0,"user_created":0,"user_full_name":"root","user_group_id":0,"user_group_id_signed":0,"user_groups":0,"user_home":"/root","user_id":0,"user_is_hidden":0,"user_is_remote":1,"user_last_login":"1749605216","user_name":"root","user_password_expiration_date":-1,"user_password_hash_algorithm":"y","user_password_inactive_days":-1,"user_password_last_change":1745971200.0,"user_password_max_days_between_changes":99999,"user_password_min_days_between_changes":0,"user_password_status":"active","user_password_warning_days_before_expiration":7,"user_roles":"sudo","user_shell":"/bin/bash","user_type":null,"user_uid_signed":0,"user_uuid":null}])"
-#define EXPECT_CALL_SERVICES_JSON R"([{"service_id":"wazuh-agent","service_name":"Wazuh Agent","service_description":"Monitors system activity","service_state":"running","service_sub_state":"subState","service_start_type":"auto","service_type":"type","process_pid":1234,"service_exit_code":0,"service_win32_exit_code":0,"process_executable":"/usr/bin/wazuh-agent","service_address":"/lib/systemd/system/wazuh-agent.service","user_name":"root","service_enabled":"enabled","service_following":"following","service_object_path":"objectPath","service_target_ephemeral_id":0,"service_target_type":"jobType","service_target_address":"jobPath","file_path":"sourcePath"}])"
+#define EXPECT_CALL_SERVICES_JSON R"([{"service_id":"assetguard-agent","service_name":"AssetGuard Agent","service_description":"Monitors system activity","service_state":"running","service_sub_state":"subState","service_start_type":"auto","service_type":"type","process_pid":1234,"service_exit_code":0,"service_win32_exit_code":0,"process_executable":"/usr/bin/assetguard-agent","service_address":"/lib/systemd/system/assetguard-agent.service","user_name":"root","service_enabled":"enabled","service_following":"following","service_object_path":"objectPath","service_target_ephemeral_id":0,"service_target_type":"jobType","service_target_address":"jobPath","file_path":"sourcePath"}])"
 #define EXPECT_CALL_BROWSER_EXTENSIONS_JSON R"([{"browser_name":"chrome","user_id":"S-1-5-21-1234567890-987654321-1122334455-1001","package_name":"uBlock Origin","package_id":"cjpalhdlnbpafiamejdnhcphjbkeiagm","package_version_":"1.52.2","package_description":"Finally, an efficient wide-spectrum content blocker. Easy on CPU and memory.","package_vendor":"Raymond Hill","package_build_version":"","package_path":"C:\\Users\\john.doe\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\cjpalhdlnbpafiamejdnhcphjbkeiagm\\1.52.2_0","browser_profile_name":"Default","browser_profile_path":"C:\\Users\\john.doe\\AppData\\Local\\Google\\Chrome\\User Data\\Default","package_reference":"https://clients2.google.com/service/update2/crx","package_permissions":"[\\\"activeTab\\\",\\\"storage\\\",\\\"tabs\\\",\\\"webNavigation\\\"]","package_type":"extension","package_enabled":1,"package_visible":0,"package_autoupdate":1,"package_persistent":0,"package_from_webstore":1,"browser_profile_referenced":1,"package_installed":"1710489821000","file_hash_sha256":"a1b2c3d4e5f6789012345678901234567890abcdef123456789012345678901234","scan_time":"2020/12/28 21:49:50"}])"
 
 const auto expected_dbsync_hwinfo
@@ -175,7 +175,7 @@ const auto expected_dbsync_users
 };
 const auto expected_dbsync_services
 {
-    R"({"collector":"dbsync_services","data":{"error":{"log":{"file":{"path":null}}},"event":{"changed_fields":[],"type":"created"},"file":{"path":"sourcePath"},"log":{"file":{"path":null}},"process":{"args":null,"executable":"/usr/bin/wazuh-agent","group":{"name":null},"pid":1234,"root_directory":null,"user":{"name":null},"working_directory":null},"service":{"address":"/lib/systemd/system/wazuh-agent.service","description":"Monitors system activity","enabled":"enabled","exit_code":0,"following":"following","frequency":null,"id":"wazuh-agent","inetd_compatibility":null,"name":"Wazuh Agent","object_path":"objectPath","restart":null,"start_type":"auto","starts":{"on_mount":null,"on_not_empty_directory":null,"on_path_modified":null},"state":"running","sub_state":"subState","target":{"address":"jobPath","ephemeral_id":"0","type":"jobType"},"type":"type","win32_exit_code":0}},"module":"inventory"})"
+    R"({"collector":"dbsync_services","data":{"error":{"log":{"file":{"path":null}}},"event":{"changed_fields":[],"type":"created"},"file":{"path":"sourcePath"},"log":{"file":{"path":null}},"process":{"args":null,"executable":"/usr/bin/assetguard-agent","group":{"name":null},"pid":1234,"root_directory":null,"user":{"name":null},"working_directory":null},"service":{"address":"/lib/systemd/system/assetguard-agent.service","description":"Monitors system activity","enabled":"enabled","exit_code":0,"following":"following","frequency":null,"id":"assetguard-agent","inetd_compatibility":null,"name":"AssetGuard Agent","object_path":"objectPath","restart":null,"start_type":"auto","starts":{"on_mount":null,"on_not_empty_directory":null,"on_path_modified":null},"state":"running","sub_state":"subState","target":{"address":"jobPath","ephemeral_id":"0","type":"jobType"},"type":"type","win32_exit_code":0}},"module":"inventory"})"
 };
 const auto expected_dbsync_browser_extensions
 {
@@ -201,18 +201,18 @@ void SyscollectorImpTest::SetUp()
 
     // Inject mock validators for all indices
     std::map<std::string, std::shared_ptr<SchemaValidator::ISchemaValidatorEngine>> mockValidators;
-    mockValidators["wazuh-states-inventory-hardware"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-system"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-interfaces"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-networks"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-ports"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-packages"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-processes"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-hotfixes"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-groups"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-users"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-services"] = m_mockValidator;
-    mockValidators["wazuh-states-inventory-browser-extensions"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-hardware"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-system"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-interfaces"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-networks"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-ports"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-packages"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-processes"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-hotfixes"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-groups"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-users"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-services"] = m_mockValidator;
+    mockValidators["assetguard-states-inventory-browser-extensions"] = m_mockValidator;
 
     SchemaValidator::SchemaValidatorFactory::getInstance().reset();
     SchemaValidator::SchemaValidatorFactory::getInstance().initialize(mockValidators);
@@ -381,7 +381,7 @@ static const auto expectedPersistUser
 };
 static const auto expectedPersistService
 {
-    R"({"checksum":{"hash":{"sha1":"daa615e783788aec35ae17eeed912ace3910f209"}},"error":{"log":{"file":{"path":null}}},"file":{"path":"sourcePath"},"log":{"file":{"path":null}},"process":{"args":null,"executable":"/usr/bin/wazuh-agent","group":{"name":null},"pid":1234,"root_directory":null,"user":{"name":null},"working_directory":null},"service":{"address":"/lib/systemd/system/wazuh-agent.service","description":"Monitors system activity","enabled":"enabled","exit_code":0,"following":"following","frequency":null,"id":"wazuh-agent","inetd_compatibility":null,"name":"Wazuh Agent","object_path":"objectPath","restart":null,"start_type":"auto","starts":{"on_mount":null,"on_not_empty_directory":null,"on_path_modified":null},"state":"running","sub_state":"subState","target":{"address":"jobPath","ephemeral_id":"0","type":"jobType"},"type":"type","win32_exit_code":0}})"
+    R"({"checksum":{"hash":{"sha1":"daa615e783788aec35ae17eeed912ace3910f209"}},"error":{"log":{"file":{"path":null}}},"file":{"path":"sourcePath"},"log":{"file":{"path":null}},"process":{"args":null,"executable":"/usr/bin/assetguard-agent","group":{"name":null},"pid":1234,"root_directory":null,"user":{"name":null},"working_directory":null},"service":{"address":"/lib/systemd/system/assetguard-agent.service","description":"Monitors system activity","enabled":"enabled","exit_code":0,"following":"following","frequency":null,"id":"assetguard-agent","inetd_compatibility":null,"name":"AssetGuard Agent","object_path":"objectPath","restart":null,"start_type":"auto","starts":{"on_mount":null,"on_not_empty_directory":null,"on_path_modified":null},"state":"running","sub_state":"subState","target":{"address":"jobPath","ephemeral_id":"0","type":"jobType"},"type":"type","win32_exit_code":0}})"
 };
 static const auto expectedPersistBrowserExtension
 {
@@ -3994,7 +3994,7 @@ TEST_F(SyscollectorImpTest, schemaValidationAcceptsValidDataAfterCorrections)
     };
 
     // Expect persist callback for valid hardware data (will pass validation)
-    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("wazuh-states-inventory-hardware"), testing::_, testing::_)).Times(1);
+    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("assetguard-states-inventory-hardware"), testing::_, testing::_)).Times(1);
 
     std::thread t
     {
@@ -4082,13 +4082,13 @@ TEST_F(SyscollectorImpTest, schemaValidationWithCorrectedDataTypes)
             // Verify corrected data types in the actual data
             auto jsonData = nlohmann::json::parse(data);
 
-            if (index == "wazuh-states-inventory-hardware")
+            if (index == "assetguard-states-inventory-hardware")
             {
                 // cpu_speed should be integer now
                 EXPECT_TRUE(jsonData["host"]["cpu"]["speed"].is_number_integer());
                 EXPECT_EQ(jsonData["host"]["cpu"]["speed"].get<int>(), 2688);
             }
-            else if (index == "wazuh-states-inventory-ports")
+            else if (index == "assetguard-states-inventory-ports")
             {
                 // file.inode should be string now
                 EXPECT_TRUE(jsonData["file"]["inode"].is_string());
@@ -4100,8 +4100,8 @@ TEST_F(SyscollectorImpTest, schemaValidationWithCorrectedDataTypes)
     };
 
     // Expect persist callbacks for valid data after corrections
-    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("wazuh-states-inventory-hardware"), testing::_, testing::_)).Times(1);
-    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("wazuh-states-inventory-ports"), testing::_, testing::_)).Times(1);
+    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("assetguard-states-inventory-hardware"), testing::_, testing::_)).Times(1);
+    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("assetguard-states-inventory-ports"), testing::_, testing::_)).Times(1);
 
     std::thread t
     {
@@ -4189,7 +4189,7 @@ TEST_F(SyscollectorImpTest, schemaValidationRejectsInvalidDataWithMock)
     };
 
     // Expect NO persist callback for invalid hardware data (will be rejected by mock validator)
-    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("wazuh-states-inventory-hardware"), testing::_, testing::_)).Times(0);
+    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("assetguard-states-inventory-hardware"), testing::_, testing::_)).Times(0);
 
     // Capture log messages to verify validation errors
     std::vector<std::string> loggedMessages;
@@ -4209,11 +4209,11 @@ TEST_F(SyscollectorImpTest, schemaValidationRejectsInvalidDataWithMock)
     .WillRepeatedly(testing::Return(failureResult));
 
     EXPECT_CALL(*mockValidator, getSchemaName())
-    .WillRepeatedly(testing::Return("wazuh-states-inventory-hardware"));
+    .WillRepeatedly(testing::Return("assetguard-states-inventory-hardware"));
 
     // Inject mock validator into factory
     std::map<std::string, std::shared_ptr<SchemaValidator::ISchemaValidatorEngine>> mockValidators;
-    mockValidators["wazuh-states-inventory-hardware"] = mockValidator;
+    mockValidators["assetguard-states-inventory-hardware"] = mockValidator;
 
     std::thread t
     {
@@ -4334,7 +4334,7 @@ TEST_F(SyscollectorImpTest, schemaValidationQueuesWhenValidatorNotFound)
     };
 
     // Expect persist callback for hardware data (should be queued despite missing validator)
-    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("wazuh-states-inventory-hardware"), testing::_, testing::_)).Times(1);
+    EXPECT_CALL(wrapperPersist, callbackMock(testing::_, testing::_, testing::Eq("assetguard-states-inventory-hardware"), testing::_, testing::_)).Times(1);
 
     // Capture log messages to verify warning is logged
     // Use shared_ptr to prevent dangling references after test completes
@@ -4410,7 +4410,7 @@ TEST_F(SyscollectorImpTest, schemaValidationQueuesWhenValidatorNotFound)
 
     for (const auto& msg : *loggedMessages)
     {
-        if (msg.find("No schema validator found for index: wazuh-states-inventory-hardware") != std::string::npos)
+        if (msg.find("No schema validator found for index: assetguard-states-inventory-hardware") != std::string::npos)
         {
             foundMissingValidatorWarning = true;
             break;
@@ -4590,7 +4590,7 @@ TEST_F(SyscollectorImpTest, DocumentLimits_ValidInput_UnlimitedPackages)
     EXPECT_TRUE(logCapture->contains(LOG_INFO, "Document limits successfully configured from agentd"))
             << "Expected success message about document limits";
 
-    EXPECT_TRUE(logCapture->contains(LOG_DEBUG, "Document limit set to unlimited for index 'wazuh-states-inventory-packages'"))
+    EXPECT_TRUE(logCapture->contains(LOG_DEBUG, "Document limit set to unlimited for index 'assetguard-states-inventory-packages'"))
             << "Expected info log about unlimited packages";
 }
 
@@ -4952,7 +4952,7 @@ TEST_F(SyscollectorImpTest, DocumentLimits_EndToEnd_Summary)
     EXPECT_TRUE(logCapture->contains(LOG_DEBUG_VERBOSE, "Document limit increased from 0 to 50"))
             << "Expected packages limit to be set to 50";
 
-    EXPECT_TRUE(logCapture->contains(LOG_DEBUG, "Document limit set to unlimited for index 'wazuh-states-inventory-processes'"))
+    EXPECT_TRUE(logCapture->contains(LOG_DEBUG, "Document limit set to unlimited for index 'assetguard-states-inventory-processes'"))
             << "Expected processes to be unlimited (0)";
 
     EXPECT_TRUE(logCapture->contains(LOG_DEBUG_VERBOSE, "Document limit increased from 0 to 10"))

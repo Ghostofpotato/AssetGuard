@@ -1,18 +1,18 @@
 #!/bin/sh
-# preinst script for Wazuh
+# preinst script for AssetGuard
 set -e
 
 # configuration variables
-DIR="/var/wazuh-manager"
-WAZUH_TMP_DIR="${DIR}/packages_files/manager_config_files"
+DIR="/var/assetguard-manager"
+ASSETGUARD_TMP_DIR="${DIR}/packages_files/manager_config_files"
 VERSION="$2"
 MAJOR=$(echo "$VERSION" | cut -dv -f2 | cut -d. -f1)
 
 prepare_tmp_dir() {
-    if [ -d "${WAZUH_TMP_DIR}" ]; then
-        rm -rf "${WAZUH_TMP_DIR}"
+    if [ -d "${ASSETGUARD_TMP_DIR}" ]; then
+        rm -rf "${ASSETGUARD_TMP_DIR}"
     fi
-    mkdir -p "${WAZUH_TMP_DIR}"
+    mkdir -p "${ASSETGUARD_TMP_DIR}"
 }
 
 case "$1" in
@@ -27,7 +27,7 @@ case "$1" in
             if [ -n "$OLD_MAJOR" ] && [ "$OLD_MAJOR" -le 4 ] 2>/dev/null; then
                 cat <<EOF
 ==============================================================
-ERROR: Direct upgrade from Wazuh Manager 4.X to 5.X is not supported.
+ERROR: Direct upgrade from AssetGuard Manager 4.X to 5.X is not supported.
 
 Detected installed version: $OLD_VERSION
 ==============================================================
@@ -38,8 +38,8 @@ EOF
 
         if [ "$1" = "upgrade" ]; then
             # Get version information
-            if [ -f "${DIR}/bin/wazuh-manager-control" ]; then
-                OLD_VERSION=`${DIR}/bin/wazuh-manager-control info -v 2>/dev/null`
+            if [ -f "${DIR}/bin/assetguard-manager-control" ]; then
+                OLD_VERSION=`${DIR}/bin/assetguard-manager-control info -v 2>/dev/null`
                 MAJOR_VER=$(echo $OLD_VERSION | cut -dv -f2 | cut -d. -f1)
             elif [ -f ${DIR}/VERSION.json ]; then
                 OLD_VERSION=`grep -oP '(?<="version": ")[^"]*' ${DIR}/VERSION.json 2>/dev/null`
@@ -53,7 +53,7 @@ EOF
             if [ -z "$MAJOR_VER" ]; then
                 ERROR_TYPE="no_version"
                 ERROR_TITLE="Cannot detect current version"
-                ERROR_MESSAGE="Unable to detect the currently installed Wazuh version.
+                ERROR_MESSAGE="Unable to detect the currently installed AssetGuard version.
 This indicates a very old installation (pre-4.x)."
             elif [ "$MAJOR_VER" -lt 5 ]; then
                 ERROR_TYPE="old_version"
@@ -61,7 +61,7 @@ This indicates a very old installation (pre-4.x)."
                 ERROR_MESSAGE="Current version: $OLD_VERSION
 Target version:  5.0.0
 
-Direct upgrade from 4.x to 5.0.0 is NOT supported for Wazuh Manager
+Direct upgrade from 4.x to 5.0.0 is NOT supported for AssetGuard Manager
 due to breaking changes in database schema and architecture."
             fi
 
@@ -76,11 +76,11 @@ $ERROR_MESSAGE
 
 Required action:
   1. Backup your configuration and data
-  2. Perform a clean installation of Wazuh 5.0.0
+  2. Perform a clean installation of AssetGuard 5.0.0
   3. Restore configuration as needed
 
 For migration guide, visit:
-  https://documentation.wazuh.com/current/migration-guide/
+  https://documentation.assetguard.com/current/migration-guide/
 ═════════════════════════════════════════════════════════════════
 EOF
                 exit 1
@@ -88,25 +88,25 @@ EOF
 
             # environment configuration (original behavior, after hard-block checks)
             prepare_tmp_dir
-            touch "${WAZUH_TMP_DIR}/rollback_prepared"
+            touch "${ASSETGUARD_TMP_DIR}/rollback_prepared"
 
-            if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-manager > /dev/null 2>&1; then
-                systemctl stop wazuh-manager.service > /dev/null 2>&1
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
-            elif command -v service > /dev/null 2>&1 && service wazuh-manager status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                service wazuh-manager stop > /dev/null 2>&1
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
-            elif ${DIR}/bin/wazuh-manager-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
-            elif ${DIR}/bin/wazuh-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
+            if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet assetguard-manager > /dev/null 2>&1; then
+                systemctl stop assetguard-manager.service > /dev/null 2>&1
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
+            elif command -v service > /dev/null 2>&1 && service assetguard-manager status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+                service assetguard-manager stop > /dev/null 2>&1
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
+            elif ${DIR}/bin/assetguard-manager-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
+            elif ${DIR}/bin/assetguard-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
             elif ${DIR}/bin/ossec-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-                touch ${WAZUH_TMP_DIR}/wazuh.restart
+                touch ${ASSETGUARD_TMP_DIR}/assetguard.restart
             fi
-            if [ -x "${DIR}/bin/wazuh-manager-control" ]; then
-                ${DIR}/bin/wazuh-manager-control stop > /dev/null 2>&1
-            elif [ -x "${DIR}/bin/wazuh-control" ]; then
-                ${DIR}/bin/wazuh-control stop > /dev/null 2>&1
+            if [ -x "${DIR}/bin/assetguard-manager-control" ]; then
+                ${DIR}/bin/assetguard-manager-control stop > /dev/null 2>&1
+            elif [ -x "${DIR}/bin/assetguard-control" ]; then
+                ${DIR}/bin/assetguard-control stop > /dev/null 2>&1
             elif [ -x "${DIR}/bin/ossec-control" ]; then
                 ${DIR}/bin/ossec-control stop > /dev/null 2>&1
             fi
@@ -115,7 +115,7 @@ EOF
             fi
 
             if [ -d ${DIR}/logs/ossec ]; then
-                mv ${DIR}/logs/ossec ${DIR}/logs/wazuh
+                mv ${DIR}/logs/ossec ${DIR}/logs/assetguard
             fi
 
             if [ -d ${DIR}/queue/ossec ]; then
@@ -127,43 +127,43 @@ EOF
                 rm -rf ${DIR}/~api
             fi
 
-            # Delete 3.X Wazuh API service
+            # Delete 3.X AssetGuard API service
             if [ "$MAJOR_VER" = "3" ] && [ -d ${DIR}/api ]; then
                 if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && \
-                  systemctl list-unit-files --type service | grep wazuh-api; then
-                    systemctl stop wazuh-api.service > /dev/null 2>&1
-                    systemctl disable wazuh-api.service > /dev/null 2>&1
-                    rm -f /etc/systemd/system/wazuh-api.service || true
+                  systemctl list-unit-files --type service | grep assetguard-api; then
+                    systemctl stop assetguard-api.service > /dev/null 2>&1
+                    systemctl disable assetguard-api.service > /dev/null 2>&1
+                    rm -f /etc/systemd/system/assetguard-api.service || true
                 fi
 
-                if command -v service > /dev/null 2>&1 && service status wazuh-api > /dev/null 2>&1 ; then
-                    service wazuh-api stop > /dev/null 2>&1
-                    update-rc.d wazuh-api remove > /dev/null 2>&1
-                    rm -f /etc/rc.d/init.d/wazuh-api || true
+                if command -v service > /dev/null 2>&1 && service status assetguard-api > /dev/null 2>&1 ; then
+                    service assetguard-api stop > /dev/null 2>&1
+                    update-rc.d assetguard-api remove > /dev/null 2>&1
+                    rm -f /etc/rc.d/init.d/assetguard-api || true
                 fi
             fi
 
             # RBAC database
             if [ -f ${DIR}/api/configuration/security/rbac.db ]; then
-                cp -fp ${DIR}/api/configuration/security/rbac.db ${WAZUH_TMP_DIR}/rbac.db
+                cp -fp ${DIR}/api/configuration/security/rbac.db ${ASSETGUARD_TMP_DIR}/rbac.db
             fi
 
             # API configuration file
             if [ -f ${DIR}/api/configuration/api.yaml ]; then
-                cp -fp ${DIR}/api/configuration/api.yaml ${WAZUH_TMP_DIR}/api.yaml
+                cp -fp ${DIR}/api/configuration/api.yaml ${ASSETGUARD_TMP_DIR}/api.yaml
             fi
 
             # Agent-groups files
             if [ -d ${DIR}/queue/agent-groups ]; then
-                mv -f ${DIR}/queue/agent-groups ${WAZUH_TMP_DIR}/
+                mv -f ${DIR}/queue/agent-groups ${ASSETGUARD_TMP_DIR}/
             fi
         else
             # environment configuration (original behavior for install)
             prepare_tmp_dir
         fi
 
-        if [ ! -z "$2" ] && [ ! -f ${DIR}/etc/wazuh-manager.conf ] ; then
-            touch ${WAZUH_TMP_DIR}/create_conf
+        if [ ! -z "$2" ] && [ ! -f ${DIR}/etc/assetguard-manager.conf ] ; then
+            touch ${ASSETGUARD_TMP_DIR}/create_conf
         fi
 
         # Delete old service
@@ -173,19 +173,19 @@ EOF
 
 
         if [ -f ${DIR}/etc/client.keys ]; then
-            cp -p ${DIR}/etc/client.keys ${WAZUH_TMP_DIR}/client.keys
+            cp -p ${DIR}/etc/client.keys ${ASSETGUARD_TMP_DIR}/client.keys
         fi
 
         if [ -f ${DIR}/etc/local_internal_options.conf ]; then
-            cp -p ${DIR}/etc/local_internal_options.conf ${WAZUH_TMP_DIR}/local_internal_options.conf
+            cp -p ${DIR}/etc/local_internal_options.conf ${ASSETGUARD_TMP_DIR}/local_internal_options.conf
         fi
 
-        if [ -f ${DIR}/etc/wazuh-manager.conf ]; then
-            cp -p ${DIR}/etc/wazuh-manager.conf ${WAZUH_TMP_DIR}/wazuh-manager.conf
+        if [ -f ${DIR}/etc/assetguard-manager.conf ]; then
+            cp -p ${DIR}/etc/assetguard-manager.conf ${ASSETGUARD_TMP_DIR}/assetguard-manager.conf
         fi
 
         if [ -d ${DIR}/etc/shared ]; then
-            cp -rp ${DIR}/etc/shared ${WAZUH_TMP_DIR}/group
+            cp -rp ${DIR}/etc/shared ${ASSETGUARD_TMP_DIR}/group
         fi
 
         if [ -d ${DIR}/var/db/agents ]; then

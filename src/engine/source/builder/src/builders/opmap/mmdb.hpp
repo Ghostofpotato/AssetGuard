@@ -12,7 +12,7 @@ namespace builder::builders::mmdb
  *
  * This builder is used to create a Geo operation that uses the MaxMind DB file format, offered by MaxMind Inc.
  * http://www.maxmind.com for looking up IP addresses in MMDB databases. The extract the fields from the MMDB database
- * according to the Wazuh schema.
+ * according to the AssetGuard schema.
  *
  * @param geoManager The geo manager.
  * @return The builder for the MMDB Geo operation.
@@ -25,7 +25,7 @@ MapBuilder getMMDBGeoBuilder(const std::shared_ptr<geo::IManager>& geoManager);
  *
  * This builder is used to create an ASN operation that uses the MaxMind DB file format, offered by MaxMind Inc.
  * http://www.maxmind.com for looking up IP addresses in MMDB databases. The extract the fields from the MMDB database
- * according to the Wazuh schema:
+ * according to the AssetGuard schema:
  * - as.organization.name: The name of the organization that owns the ASN.
  * - as.number: The ASN number.
  *

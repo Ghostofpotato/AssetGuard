@@ -1,6 +1,6 @@
 /*
- * Wazuh SysCollector Test tool
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SysCollector Test tool
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 7, 2020.
  *
  * This program is free software; you can redistribute it

@@ -82,7 +82,7 @@ INSTANTIATE_TEST_SUITE_P(
                {NAME, TARGET, {""}, {"field_1", "field_2", "field_3", "field_4"}}),
 
         ParseT(FAILURE,
-               "hi,  \"wazuh\",,bye",
+               "hi,  \"assetguard\",,bye",
                {},
                2,
                getCSVParser,
@@ -209,8 +209,8 @@ INSTANTIATE_TEST_SUITE_P(
                {NAME, TARGET, {";"}, {"field_1", "field_2"}}),
 
         ParseT(SUCCESS,
-               R"(f1,"f2;wazuh";asd)",
-               j(fmt::format(R"({{"{}":{{"field_1":"f1","field_2":"f2;wazuh"}}}})", TARGET.substr(1))),
+               R"(f1,"f2;assetguard";asd)",
+               j(fmt::format(R"({{"{}":{{"field_1":"f1","field_2":"f2;assetguard"}}}})", TARGET.substr(1))),
                13,
                getCSVParser,
                {NAME, TARGET, {";asd"}, {"field_1", "field_2"}}),
@@ -416,7 +416,7 @@ INSTANTIATE_TEST_SUITE_P(
                {NAME, TARGET, {""}, {"|", "\"", "\"", "out1", "out2", "out3", "out4"}}),
 
         ParseT(FAILURE,
-               R"(hi|  "wazuh"||bye)",
+               R"(hi|  "assetguard"||bye)",
                {},
                2,
                getDSVParser,

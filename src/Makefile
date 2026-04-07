@@ -707,6 +707,7 @@ ifneq (,$(wildcard ${EXTERNAL_CPYTHON}))
 endif
 
 install_framework: install_python
+	ln -sf ${INSTALLDIR}/lib/libassetguardext.so ${INSTALLDIR}/lib/libwazuhext.so
 	cd ../framework && ${WPYTHON_DIR}/bin/python3 -m pip install . --use-pep517 --prefix=${WPYTHON_DIR} && rm -rf build/
 	chown -R root:${ASSETGUARD_GROUP} ${WPYTHON_DIR}
 	chmod -R o=- ${WPYTHON_DIR}

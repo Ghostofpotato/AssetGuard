@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SysInfo
+ * Copyright (C) 2015, AssetGuard Inc.
  * December 22, 2021.
  *
  * This program is free software; you can redistribute it
@@ -217,7 +217,7 @@ TEST(SysInfoPackageLinuxParserRPM_test, rpmFromBerkleyDB)
     CallbackMock wrapper;
 
     auto expectedPackage1 =
-        R"({"architecture":"amd64","description":"The Open Source Security Platform","type":"rpm","category":"test","installed":"1970-01-01T00:00:05.000Z","name":"Wazuh","size":321,"vendor":"The Wazuh Team","version_":"123:4.4-1","path":" ","priority":" ","source":" "})"_json;
+        R"({"architecture":"amd64","description":"The Open Source Security Platform","type":"rpm","category":"test","installed":"1970-01-01T00:00:05.000Z","name":"AssetGuard","size":321,"vendor":"The AssetGuard Team","version_":"123:4.4-1","path":" ","priority":" ","source":" "})"_json;
 
     auto utils_mock { std::make_unique<UtilsMock>() };
     auto libdb_mock { std::make_unique<LibDBMock>() };
@@ -243,14 +243,14 @@ TEST(SysInfoPackageLinuxParserRPM_test, rpmFromBerkleyDB)
 
     // Emulate data stored in database
 
-    std::string name { "Wazuh" };
+    std::string name { "AssetGuard" };
     std::string version { "4.4" };
     std::string release { "1" };
     int epoch { 123 };
     std::string summary { "The Open Source Security Platform" };
     int itime { 5 };
     int size { 321 };
-    std::string vendor { "The Wazuh Team" };
+    std::string vendor { "The AssetGuard Team" };
     std::string group { "test" };
     std::string source { "github" };
     std::string arch { "amd64" };

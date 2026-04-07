@@ -21,7 +21,7 @@
     "as_field": "source.as",
     "geo_field": "source.geo"
   },
-  "assetguard.agent.host.ip": {
-    "geo_field": "assetguard.agent.host.geo"
+  "wazuh.agent.host.ip": {
+    "geo_field": "wazuh.agent.host.geo"
   }
 }

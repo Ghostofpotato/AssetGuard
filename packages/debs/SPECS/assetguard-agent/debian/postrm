@@ -1,17 +1,17 @@
 #!/bin/sh
-# postrm script for wazuh-agent
-# Wazuh, Inc 2015
+# postrm script for assetguard-agent
+# AssetGuard, Inc 2015
 
 set -e
 
 DIR="/var/ossec"
-WAZUH_TMP_DIR="${DIR}/packages_files/agent_config_files"
+ASSETGUARD_TMP_DIR="${DIR}/packages_files/agent_config_files"
 
 case "$1" in
     remove|failed-upgrade|abort-install|abort-upgrade|disappear)
 
-        if [ -d ${WAZUH_TMP_DIR} ]; then
-            rm -rf ${WAZUH_TMP_DIR}
+        if [ -d ${ASSETGUARD_TMP_DIR} ]; then
+            rm -rf ${ASSETGUARD_TMP_DIR}
         fi
 
         # Back up the old configuration files as .save
@@ -32,12 +32,12 @@ case "$1" in
             rm -rf ${DIR}/etc/shared
         fi
 
-        # Delete audisp wazuh plugin if exists
-        if [ -e /etc/audit/plugins.d/af_wazuh.conf ]; then
-            rm -f -- /etc/audit/plugins.d/af_wazuh.conf
+        # Delete audisp assetguard plugin if exists
+        if [ -e /etc/audit/plugins.d/af_assetguard.conf ]; then
+            rm -f -- /etc/audit/plugins.d/af_assetguard.conf
         fi
-        if [ -e /etc/audisp/plugins.d/af_wazuh.conf ]; then
-            rm -f -- /etc/audisp/plugins.d/af_wazuh.conf
+        if [ -e /etc/audisp/plugins.d/af_assetguard.conf ]; then
+            rm -f -- /etc/audisp/plugins.d/af_assetguard.conf
         fi
 
         # Delete old .save
@@ -50,11 +50,11 @@ case "$1" in
 
         purge)
 
-        if getent passwd wazuh >/dev/null 2>&1; then
-            deluser wazuh > /dev/null 2>&1
+        if getent passwd assetguard >/dev/null 2>&1; then
+            deluser assetguard > /dev/null 2>&1
         fi
-        if getent group wazuh >/dev/null 2>&1; then
-            delgroup wazuh > /dev/null 2>&1
+        if getent group assetguard >/dev/null 2>&1; then
+            delgroup assetguard > /dev/null 2>&1
         fi
         rm -rf ${DIR}/*
 
@@ -66,8 +66,8 @@ case "$1" in
 
             OSMYSHELL="/sbin/nologin"
 
-            if [ -d ${DIR}/logs/wazuh ]; then
-                mv ${DIR}/logs/wazuh ${DIR}/logs/ossec
+            if [ -d ${DIR}/logs/assetguard ]; then
+                mv ${DIR}/logs/assetguard ${DIR}/logs/ossec
             fi
 
             if [ -d ${DIR}/queue/sockets ]; then
@@ -92,13 +92,13 @@ case "$1" in
             find ${DIR} ! -group root -exec chgrp ossec {} \; > /dev/null 2>&1
             find ${DIR} ! -user root -exec chown ossec {} \; > /dev/null 2>&1
 
-            # delete wazuh user and group
-            if getent passwd wazuh > /dev/null 2>&1; then
-                deluser wazuh
+            # delete assetguard user and group
+            if getent passwd assetguard > /dev/null 2>&1; then
+                deluser assetguard
             fi
 
-            if getent group wazuh > /dev/null 2>&1; then
-                delgroup wazuh
+            if getent group assetguard > /dev/null 2>&1; then
+                delgroup assetguard
             fi
         fi
 
