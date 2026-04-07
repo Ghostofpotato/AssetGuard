@@ -499,7 +499,7 @@ STATIC void multiline_ctxt_backup(char * buffer, int readed_lines, w_multiline_c
         os_realloc((*ctxt)->buffer, sizeof(char) * (current_bsize + 1), (*ctxt)->buffer);
     }
 
-    strcpy((*ctxt)->buffer, buffer);
+    snprintf((*ctxt)->buffer, current_bsize + 1, "%s", buffer);
     (*ctxt)->lines_count = readed_lines;
     (*ctxt)->timestamp = time(NULL);
 }
@@ -521,7 +521,7 @@ STATIC bool multiline_ctxt_restore(char * buffer, int * readed_lines, w_multilin
     if (ctxt == NULL) {
         return false;
     }
-    strcpy(buffer, ctxt->buffer);
+    snprintf(buffer, strlen(ctxt->buffer) + 1, "%s", ctxt->buffer);
     *readed_lines = ctxt->lines_count;
     return true;
 }

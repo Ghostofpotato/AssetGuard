@@ -417,6 +417,6 @@ void FormatID(char *id) {
         number = strtol(id, &end, 10);
 
         if (!*end)
-            sprintf(id, "%03d", number);
+            snprintf(id, 4, "%03d", number);
     }
 }

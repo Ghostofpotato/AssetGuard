@@ -381,7 +381,7 @@ STATIC char * wm_agent_upgrade_com_upgrade(const cJSON* json_object) {
         return wm_agent_upgrade_command_ack(ERROR_EXEC, error_messages[ERROR_EXEC]);
     } else {
         char status_str[5];
-        sprintf(status_str, "%d", status);
+        snprintf(status_str, sizeof(status_str), "%d", status);
         os_free(out);
         return wm_agent_upgrade_command_ack(ERROR_OK, status_str);
     }

@@ -183,7 +183,7 @@ w_err_t w_auth_parse_data(const char* buf,
     const char * client_source_ip_token = " IP:";
     if (strncmp(buf, client_source_ip_token, 4) == 0) {
         char format[15];
-        sprintf(format, " IP:\'%%%d[^\' ]\"", IPSIZE);
+        snprintf(format, sizeof(format), " IP:\'%%%d[^\' ]\"", IPSIZE);
         sscanf(buf, format, client_source_ip);
 
         if (buf[strlen(client_source_ip) + 5] != '\'') {
@@ -220,7 +220,7 @@ w_err_t w_auth_parse_data(const char* buf,
     if (strncmp(buf, key_hash_token, 3) == 0) {
         os_calloc(1, sizeof(os_sha1), *key_hash);
         char format[15] = {0};
-        sprintf(format, " K:\'%%%ld[^\']\"", sizeof(os_sha1) - 1);
+        snprintf(format, sizeof(format), " K:\'%%%ld[^\']\"", sizeof(os_sha1) - 1);
         sscanf(buf, format, *key_hash);
 
         if (buf[strlen(*key_hash) + 4] != '\'') {

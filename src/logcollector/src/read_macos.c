@@ -351,7 +351,7 @@ STATIC bool w_macos_log_ctxt_restore(char * buffer, w_macos_log_ctxt_t * ctxt) {
         return false;
     }
 
-    strcpy(buffer, ctxt->buffer);
+    snprintf(buffer, sizeof(ctxt->buffer), "%s", ctxt->buffer);
     return true;
 }
 

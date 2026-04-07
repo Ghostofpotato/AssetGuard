@@ -178,12 +178,12 @@ cJSON *getRemoteConfig(void) {
     }
 
     if (logr.port){
-        sprintf(port,"%d",logr.port);
+        snprintf(port, sizeof(port), "%d", logr.port);
         cJSON_AddStringToObject(conn,"port",port);
     }
 
     if (logr.queue_size) {
-        sprintf(queue_size,"%ld",logr.queue_size);
+        snprintf(queue_size, sizeof(queue_size), "%ld", logr.queue_size);
         cJSON_AddStringToObject(conn,"queue_size", queue_size);
 
         cJSON * agents = cJSON_CreateObject();

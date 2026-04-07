@@ -183,7 +183,7 @@ STATIC int* wm_agent_upgrade_parse_agents(const cJSON* agents, char** error_mess
             agent_ids[agent_index] = agent->valueint;
             agent_ids[agent_index + 1] = OS_INVALID;
         } else {
-            sprintf(output, "Agent id not recognized");
+            snprintf(output, OS_MAXSTR, "Agent id not recognized");
             error_flag = 1;
         }
         agent_index++;
@@ -218,7 +218,7 @@ STATIC wm_upgrade_task* wm_agent_upgrade_parse_upgrade_command(const cJSON* para
                 if (item->type == cJSON_String) {
                     os_strdup(item->valuestring, task->wpk_repository);
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, "version") == 0) {
@@ -226,7 +226,7 @@ STATIC wm_upgrade_task* wm_agent_upgrade_parse_upgrade_command(const cJSON* para
                 if (item->type == cJSON_String) {
                     os_strdup(item->valuestring, task->custom_version);
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, "use_http") == 0) {
@@ -236,7 +236,7 @@ STATIC wm_upgrade_task* wm_agent_upgrade_parse_upgrade_command(const cJSON* para
                 } else if(item->type == cJSON_False) {
                     task->use_http = false;
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be true or false", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be true or false", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, "force_upgrade") == 0) {
@@ -246,7 +246,7 @@ STATIC wm_upgrade_task* wm_agent_upgrade_parse_upgrade_command(const cJSON* para
                 } else if(item->type == cJSON_False) {
                     task->force_upgrade = false;
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be true or false", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be true or false", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, "package_type") == 0) {
@@ -255,16 +255,16 @@ STATIC wm_upgrade_task* wm_agent_upgrade_parse_upgrade_command(const cJSON* para
                     if (!strcmp(item->valuestring, "rpm") || !strcmp(item->valuestring, "deb")) {
                         os_strdup(item->valuestring, task->package_type);
                     } else {
-                        sprintf(output, "Invalid parameter \"%s\", value should be \"rpm\" or \"deb\"", item->string);
+                        snprintf(output, OS_MAXSTR, "Invalid parameter \"%s\", value should be \"rpm\" or \"deb\"", item->string);
                         error_flag = 1;
                     }
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             }
         } else {
-            sprintf(output, "Invalid JSON type");
+            snprintf(output, OS_MAXSTR, "Invalid JSON type");
             error_flag = 1;
         }
     }
@@ -300,7 +300,7 @@ STATIC wm_upgrade_custom_task* wm_agent_upgrade_parse_upgrade_custom_command(con
                 if (item->type == cJSON_String) {
                     os_strdup(item->valuestring, task->custom_file_path);
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, "installer") == 0) {
@@ -308,12 +308,12 @@ STATIC wm_upgrade_custom_task* wm_agent_upgrade_parse_upgrade_custom_command(con
                 if (item->type == cJSON_String) {
                     os_strdup(item->valuestring, task->custom_installer);
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             }
         } else {
-            sprintf(output, "Invalid JSON type");
+            snprintf(output, OS_MAXSTR, "Invalid JSON type");
             error_flag = 1;
         }
     }
@@ -348,26 +348,26 @@ STATIC wm_upgrade_agent_status_task* wm_agent_upgrade_parse_upgrade_agent_status
                 if (item->type == cJSON_Number) {
                     task->error_code = item->valueint;
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a number", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a number", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, task_manager_json_keys[WM_TASK_ERROR_MESSAGE]) == 0) {
                 if (item->type == cJSON_String) {
                     os_strdup(item->valuestring, task->message);
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             } else if(strcmp(item->string, task_manager_json_keys[WM_TASK_STATUS]) == 0) {
                 if (item->type == cJSON_String) {
                     os_strdup(item->valuestring, task->status);
                 } else {
-                    sprintf(output, "Parameter \"%s\" should be a string", item->string);
+                    snprintf(output, OS_MAXSTR, "Parameter \"%s\" should be a string", item->string);
                     error_flag = 1;
                 }
             }
         } else {
-            sprintf(output, "Invalid JSON type");
+            snprintf(output, OS_MAXSTR, "Invalid JSON type");
             error_flag = 1;
         }
     }

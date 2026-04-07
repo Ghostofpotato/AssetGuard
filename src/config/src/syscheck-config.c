@@ -1070,7 +1070,7 @@ static int read_attr(syscheck_config *syscheck, const char *dirs, char **g_attrs
                 char *value;
 
                 os_calloc(strlen(*values) + 1, sizeof(char), value);
-                strcpy(value, *values);
+                snprintf(value, strlen(*values) + 1, "%s", *values);
 
                 tmp_diff_size = read_data_unit(value);
 

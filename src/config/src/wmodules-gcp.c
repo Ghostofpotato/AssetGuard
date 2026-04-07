@@ -122,7 +122,7 @@ int wm_gcp_pubsub_read(xml_node **nodes, wmodule *module) {
             char realpath_buffer[PATH_MAX] = {0};
 
             if(nodes[i]->content[0] == '/') {
-                sprintf(realpath_buffer, "%s", nodes[i]->content);
+                snprintf(realpath_buffer, sizeof(realpath_buffer), "%s", nodes[i]->content);
             } else {
                 const char * const realpath_buffer_ref = realpath(nodes[i]->content, realpath_buffer);
                 if (!realpath_buffer_ref) {
@@ -366,7 +366,7 @@ int wm_gcp_bucket_read(const OS_XML *xml, xml_node **nodes, wmodule *module) {
                     char realpath_buffer[PATH_MAX] = {0};
 
                     if(children[j]->content[0] == '/') {
-                        sprintf(realpath_buffer, "%s", children[j]->content);
+                        snprintf(realpath_buffer, sizeof(realpath_buffer), "%s", children[j]->content);
                     } else {
                         const char * const realpath_buffer_ref = realpath(children[j]->content, realpath_buffer);
                         if (!realpath_buffer_ref) {

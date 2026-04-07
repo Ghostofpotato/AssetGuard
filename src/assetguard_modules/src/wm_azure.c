@@ -160,7 +160,7 @@ void wm_azure_log_analytics(wm_azure_api_t *log_analytics) {
         if (isDebug()) {
             char *int_to_string;
             os_malloc(OS_SIZE_1024, int_to_string);
-            sprintf(int_to_string, "%d", isDebug());
+            snprintf(int_to_string, OS_SIZE_1024, "%d", isDebug());
             wm_strcat(&command, "--debug", ' ');
             wm_strcat(&command, int_to_string, ' ');
             os_free(int_to_string);
@@ -244,7 +244,7 @@ void wm_azure_graphs(wm_azure_api_t *graph) {
         if (isDebug()) {
             char *int_to_string;
             os_malloc(OS_SIZE_1024, int_to_string);
-            sprintf(int_to_string, "%d", isDebug());
+            snprintf(int_to_string, OS_SIZE_1024, "%d", isDebug());
             wm_strcat(&command, "--debug", ' ');
             wm_strcat(&command, int_to_string, ' ');
             os_free(int_to_string);
@@ -346,7 +346,7 @@ void wm_azure_storage(wm_azure_storage_t *storage) {
         if (isDebug()) {
             char *int_to_string;
             os_malloc(OS_SIZE_1024, int_to_string);
-            sprintf(int_to_string, "%d", isDebug());
+            snprintf(int_to_string, OS_SIZE_1024, "%d", isDebug());
             wm_strcat(&command, "--debug", ' ');
             wm_strcat(&command, int_to_string, ' ');
             os_free(int_to_string);

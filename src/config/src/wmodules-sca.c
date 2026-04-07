@@ -175,9 +175,9 @@ int wm_sca_read(const OS_XML *xml,xml_node **nodes, wmodule *module)
 
     char ruleset_path[PATH_MAX] = {0};
     #ifdef WIN32
-    sprintf(ruleset_path, "%s\\", SECURITY_CONFIGURATION_ASSESSMENT_DIR_WIN);
+    snprintf(ruleset_path, sizeof(ruleset_path), "%s\\", SECURITY_CONFIGURATION_ASSESSMENT_DIR_WIN);
     #else
-    sprintf(ruleset_path, "%s/", SECURITY_CONFIGURATION_ASSESSMENT_DIR);
+    snprintf(ruleset_path, sizeof(ruleset_path), "%s/", SECURITY_CONFIGURATION_ASSESSMENT_DIR);
     #endif
 
     DIR *ruleset_dir = wopendir(ruleset_path);
@@ -196,7 +196,7 @@ int wm_sca_read(const OS_XML *xml,xml_node **nodes, wmodule *module)
 
             /* get the full path of the policy file */
             char relative_path[PATH_MAX] = {0};
-            const int ruleset_path_len = sprintf(relative_path, "%s", ruleset_path);
+            const int ruleset_path_len = snprintf(relative_path, sizeof(relative_path), "%s", ruleset_path);
             strncat(relative_path, dir_entry->d_name, PATH_MAX - ruleset_path_len);
 
             char realpath_buffer[PATH_MAX] = {0};

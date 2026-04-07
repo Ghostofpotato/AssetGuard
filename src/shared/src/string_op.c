@@ -1228,7 +1228,7 @@ int print_hex_string(const char *src_buf, unsigned int src_size, char *dst_buf, 
     if (src_buf && dst_buf) {
         unsigned int i = 0;
         for (; (i < (dst_size-1)/2) && (i < src_size); ++i) {
-            sprintf(dst_buf+2*i, "%.2x", src_buf[i]);
+            snprintf(dst_buf+2*i, dst_size - 2*i, "%.2x", src_buf[i]);
         }
         dst_buf[i * 2] = '\0';
         return OS_SUCCESS;
