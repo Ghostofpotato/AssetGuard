@@ -9,6 +9,7 @@ Foundation.
 """
 
 import os
+import shlex
 import subprocess
 from ci import utils
 
@@ -41,10 +42,9 @@ def cleanAll():
     Raises:
         - ValueError: Raises an exception.
     """
-    out = subprocess.run("make clean",
+    out = subprocess.run(["make", "clean"],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False,
                          text=False)
     if out.returncode == 0:
@@ -73,7 +73,7 @@ def cleanExternals():
     out = subprocess.run("rm -rf ./external/*",
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
+                         shell=True,  # nosec: requires shell for glob expansion in ./external/*
                          check=False)
     if out.returncode == 0 and not out.stderr:
         utils.printGreen("[CleanExternals: PASSED]")
@@ -107,10 +107,9 @@ def cleanFolder(moduleName, additionalFolder, folderName=""):
     cleanFolderCommand = "rm -rf {}".format(os.path.join(currentDir,
                                                          additionalFolder))
     if DELETE_FOLDER_DIC[moduleName].count(additionalFolder) > 0:
-        out = subprocess.run(cleanFolderCommand,
+        out = subprocess.run(shlex.split(cleanFolderCommand),
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
-                             shell=True,
                              check=False)
         if out.returncode == 0 and not out.stderr:
             utils.printGreen(msg="[Cleanfolder {}: PASSED]".format(folderName))
@@ -142,10 +141,9 @@ def cleanInternals():
         - ValueError: Raises an exception.
     """
     os.chdir(utils.rootPath())
-    out = subprocess.run("make clean-internals",
+    out = subprocess.run(["make", "clean-internals"],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False,
                          text=False)
     if out.returncode == 0:
@@ -171,10 +169,9 @@ def cleanWindows():
         - ValueError: Raises an exception.
     """
     os.chdir(utils.rootPath())
-    out = subprocess.run("make clean-windows",
+    out = subprocess.run(["make", "clean-windows"],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False,
                          text=False)
     if out.returncode == 0:
@@ -203,10 +200,9 @@ def cleanLib(moduleName):
         cleanFolder("data_provider")
     """
     currentDir = utils.moduleDirPathBuild(moduleName)
-    out = subprocess.run("make -C {} clean".format(currentDir),
+    out = subprocess.run(["make", "-C", str(currentDir), "clean"],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode == 0:
         utils.printGreen(msg="[CleanLib: PASSED]")
@@ -247,21 +243,19 @@ def configureCMake(moduleName, debugMode, testMode, withAsan):
     currentPathDir = utils.moduleDirPathBuild(moduleName=moduleName)
     if not os.path.exists(currentPathDir):
         os.mkdir(currentPathDir)
-    configureCMakeCommand = "cmake -S {} -B {}"\
-                            .format(".", currentPathDir)
+    configureCMakeCommand = ["cmake", "-S", ".", "-B", str(currentPathDir)]
     if debugMode:
-        configureCMakeCommand += " -DCMAKE_BUILD_TYPE=Debug"
+        configureCMakeCommand.append("-DCMAKE_BUILD_TYPE=Debug")
 
     if testMode:
-        configureCMakeCommand += " -DUNIT_TEST=1"
+        configureCMakeCommand.append("-DUNIT_TEST=1")
 
     if withAsan:
-        configureCMakeCommand += " -DFSANITIZE=1"
+        configureCMakeCommand.append("-DFSANITIZE=1")
 
     out = subprocess.run(configureCMakeCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     os.chdir(utils.rootPath())
     if out.returncode == 0 and not out.stderr:
@@ -311,13 +305,13 @@ def makeDeps(targetName, srcOnly):
     """
     utils.printSubHeader(moduleName=targetName,
                          headerKey="makeDeps")
-    makeDepsCommand = "make deps TARGET={} -j{}".format(targetName, utils.getCpuCores())
+    makeDepsCommand = ["make", "deps", "TARGET={}".format(targetName),
+                       "-j{}".format(utils.getCpuCores())]
     if srcOnly:
-        makeDepsCommand += " EXTERNAL_SRC_ONLY=yes"
+        makeDepsCommand.append("EXTERNAL_SRC_ONLY=yes")
     out = subprocess.run(makeDepsCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode == 0:
         utils.printGreen(msg="[MakeDeps: PASSED]")
@@ -345,14 +339,14 @@ def makeLib(moduleName):
     Example:
         makeLib("syscheckd")
     """
-    command = "make -C {} -j{}".format(utils.moduleDirPathBuild(moduleName), utils.getCpuCores())
+    command = ["make", "-C", str(utils.moduleDirPathBuild(moduleName)),
+               "-j{}".format(utils.getCpuCores())]
     utils.printSubHeader(moduleName=moduleName,
                          headerKey="make")
 
     out = subprocess.run(command,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode != 0:
         print(command)
@@ -386,20 +380,19 @@ def makeTarget(targetName, tests, debug, valgrind=False, fsanitize=False):
     """
     utils.printSubHeader(moduleName=targetName,
                          headerKey="makeAll")
-    makeTargetCommand = "make TARGET={}".format(targetName)
+    makeTargetCommand = ["make", "TARGET={}".format(targetName)]
     if tests:
-        makeTargetCommand += " TEST=1"
+        makeTargetCommand.append("TEST=1")
     if debug:
-        makeTargetCommand += " DEBUG=1"
+        makeTargetCommand.append("DEBUG=1")
     if valgrind:
-        makeTargetCommand += " VALGRIND=1"
+        makeTargetCommand.append("VALGRIND=1")
     if fsanitize:
-        makeTargetCommand += " FSANITIZE=1"
-    makeTargetCommand += " -j{}".format(utils.getCpuCores())
+        makeTargetCommand.append("FSANITIZE=1")
+    makeTargetCommand.append("-j{}".format(utils.getCpuCores()))
     out = subprocess.run(makeTargetCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode == 0:
         utils.printGreen(msg="[MakeTarget: PASSED]")

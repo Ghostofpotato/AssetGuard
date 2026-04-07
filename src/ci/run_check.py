@@ -10,6 +10,7 @@ Foundation.
 
 import os
 import re
+import shlex
 import shutil
 import subprocess
 from pathlib import Path
@@ -126,7 +127,7 @@ def runAStyleCheck(moduleName):
     out = subprocess.run(astyleCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
+                         shell=True,  # nosec: requires shell for glob expansion in foldersToScan
                          check=False)
     if out.returncode == 0 and not out.stderr:
         stdoutString = str(out.stdout)
@@ -171,7 +172,7 @@ def runAStyleFormat(moduleName):
     out = subprocess.run(astyleCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
+                         shell=True,  # nosec: requires shell for glob expansion in foldersToScan
                          check=False)
     if out.returncode == 0 and not out.stderr:
         utils.printGreen(msg="[AStyle Format: PASSED]")
@@ -248,7 +249,7 @@ def runCoverage(moduleName, target="agent"):
                                                                                includeDir)
     out = subprocess.run(coverageCommand,
                          stdout=subprocess.PIPE,
-                         shell=True,
+                         shell=True,  # nosec: requires shell for glob patterns in --include/--exclude
                          check=False)
     if out.returncode == 0:
         utils.printGreen(msg="[lcov info: GENERATED]")
@@ -257,12 +258,11 @@ def runCoverage(moduleName, target="agent"):
         utils.printFail(msg="[lcov: FAILED]")
         errorString = "Error Running lcov: {}".format(out.returncode)
         raise ValueError(errorString)
-    genhtmlCommand = "genhtml {0}/code_coverage.info --branch-coverage \
-                      --output-directory {0}".format(reportFolder)
+    genhtmlCommand = ["genhtml", "{}/code_coverage.info".format(reportFolder),
+                      "--branch-coverage", "--output-directory", str(reportFolder)]
     out = subprocess.run(genhtmlCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode == 0:
         utils.printGreen(msg="[genhtml info: GENERATED]")
@@ -301,13 +301,15 @@ def runCppCheck(moduleName):
     currentDir = utils.moduleDirPath(moduleName)
     # Exclude old per-module build directories to avoid scanning CMake artifacts
     # Exclude eBPF files (kernel-space code with special macros not understood by cppcheck)
-    cppcheckCommand = "cppcheck --force --std=c++17 --quiet -i{}/build -i{}/tests/build -i{}/src/ebpf {}".format(
-        currentDir, currentDir, currentDir, currentDir)
+    cppcheckCommand = ["cppcheck", "--force", "--std=c++17", "--quiet",
+                       "-i{}/build".format(currentDir),
+                       "-i{}/tests/build".format(currentDir),
+                       "-i{}/src/ebpf".format(currentDir),
+                       str(currentDir)]
 
     out = subprocess.run(cppcheckCommand,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode == 0 and not out.stderr:
         utils.printGreen(msg="[Cppcheck: PASSED]")
@@ -430,10 +432,9 @@ def runScanBuild(targetName):
                             --force-analyze-debug-code \
                             --exclude external/ make TARGET={} \
                             DEBUG=1 -j4".format(targetName)
-    out = subprocess.run(scanBuildCommand,
+    out = subprocess.run(shlex.split(scanBuildCommand),
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode != 0:
         utils.printFail(msg="[ScanBuild: FAILED]")
@@ -450,7 +451,7 @@ def runScanBuild(targetName):
                      module=targetName)
 
 
-def runTestTool(moduleName, testToolCommand, element):
+def runTestTool(moduleName, testToolCommand, element, env=None):
     """
     Execute test tool for a module with a configuration passed by parameters.
 
@@ -458,6 +459,7 @@ def runTestTool(moduleName, testToolCommand, element):
         - moduleName(str): Library to be built and analyzed.
         - testToolCommand(str): Literal command to be executed.
         - element(map): Test tool configuration.
+        - env(dict): Optional environment variables for subprocess.
 
     Returns:
         - None
@@ -487,10 +489,10 @@ def runTestTool(moduleName, testToolCommand, element):
             os.makedirs(outputFolder)
     else:
         os.chdir(currentmoduleNameDir)
-    out = subprocess.run(testToolCommand,
+    out = subprocess.run(shlex.split(testToolCommand),
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
+                         env=env,
                          check=False)
     os.chdir(cwd)
     if out.returncode != 0:
@@ -532,10 +534,14 @@ def runTestToolForWindows(moduleName, testToolConfig):
     for element in module:
         path = os.path.join(binDir, element['test_tool_name'])
         args = " ".join(element['args'])
-        testToolCommand = f'WINEPATH="{winepath_str}" WINEARCH=win64 /usr/bin/wine {path}.exe {args}'
+        wine_env = os.environ.copy()
+        wine_env["WINEPATH"] = winepath_str
+        wine_env["WINEARCH"] = "win64"
+        testToolCommand = f'/usr/bin/wine {path}.exe {args}'
         runTestTool(moduleName=moduleName,
                     testToolCommand=testToolCommand,
-                    element=element)
+                    element=element,
+                    env=wine_env)
 
     utils.printGreen(msg="[TEST TOOL for Windows: PASSED]")
 
@@ -685,15 +691,15 @@ def runTests(moduleName):
             env['WINEPATH'] = setup_winepath()
             env['WINEARCH'] = 'win64'
             # Disable Wine crash dialog popup
-            subprocess.run('wine reg add "HKCU\\Software\\Wine\\WineDbg" /v ShowCrashDialog /t REG_DWORD /d 0 /f',
-                          shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["wine", "reg", "add", "HKCU\\Software\\Wine\\WineDbg",
+                           "/v", "ShowCrashDialog", "/t", "REG_DWORD", "/d", "0", "/f"],
+                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     # Run ctest with the module label
-    command = f'ctest -L {moduleLabel} -V'
+    command = ["ctest", "-L", moduleLabel, "-V"]
     out = subprocess.run(command,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False,
                          env=env)
 
@@ -730,14 +736,14 @@ def runTestToolCheck(moduleName):
     if not os.path.exists(pathResult):
         os.makedirs(pathResult)
 
-    cmd = "pytest -svx {} --moduleName={} \
-           --html=ci/tests/results/results.html \
-           --capture=tee-sys"
+    cmd = ["pytest", "-svx", str(path),
+           "--moduleName={}".format(moduleName),
+           "--html=ci/tests/results/results.html",
+           "--capture=tee-sys"]
     try:
-        out = subprocess.run(cmd.format(path, moduleName),
+        out = subprocess.run(cmd,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
-                             shell=True,
                              check=False)
         if out.returncode == 0:
             utils.printGreen(msg="[TestTool check: PASSED]")
@@ -788,15 +794,14 @@ def runValgrind(moduleName):
             if not entry.name.startswith(moduleBaseName):
                 continue
             tests.append(entry.name)
-    valgrindCommand = "valgrind --leak-check=full --show-leak-kinds=all \
-                       -q --error-exitcode=1 {}".format("./")
     oldPath = os.getcwd()
     os.chdir(currentDir)
     for test in tests:
-        out = subprocess.run(os.path.join(valgrindCommand, test),
+        valgrindCommand = ["valgrind", "--leak-check=full", "--show-leak-kinds=all",
+                           "-q", "--error-exitcode=1", os.path.join("./", test)]
+        out = subprocess.run(valgrindCommand,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
-                             shell=True,
                              check=False)
         if out.returncode == 0:
             utils.printGreen(msg="[{} : PASSED]".format(test))

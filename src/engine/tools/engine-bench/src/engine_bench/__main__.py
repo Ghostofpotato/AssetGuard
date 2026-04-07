@@ -53,9 +53,9 @@ def main(environment, output):
 
         engine_pid = engine_handler.get_pid()
 
-        command = f"perf record -g -p {engine_pid} -o {perf_report.as_posix()} "
-        click.echo(f"Running: {command}")
-        result = subprocess.Popen(command, shell=True)
+        command = ["perf", "record", "-g", "-p", str(engine_pid), "-o", perf_report.as_posix()]
+        click.echo(f"Running: {' '.join(command)}")
+        result = subprocess.Popen(command)
 
         # Sleep for a while to allow perf to collect data
         click.echo("Sleeping for 10 seconds to allow data collection...")
@@ -74,11 +74,13 @@ def main(environment, output):
         flamegraph_script = files('engine_bench.scripts').joinpath('flamegraph.pl')
         command = f"perf script -i {perf_report.as_posix()} > {output}/perf.script"
 
-        subprocess.run(command, shell=True, check=True)
+        subprocess.run(command, shell=True, check=True)  # nosec: requires shell for redirect
         subprocess.run(
-            f"perl {stack_collapse_script} {output}/perf.script > {output}/perf.folded", shell=True, check=True)
+            f"perl {stack_collapse_script} {output}/perf.script > {output}/perf.folded",
+            shell=True, check=True)  # nosec: requires shell for redirect
         subprocess.run(
-            f"perl {flamegraph_script} {output}/perf.folded > {output}/flamegraph.svg", shell=True, check=True)
+            f"perl {flamegraph_script} {output}/perf.folded > {output}/flamegraph.svg",
+            shell=True, check=True)  # nosec: requires shell for redirect
         click.echo(f"Flamegraph generated at {output}/flamegraph.svg")
 
     except subprocess.CalledProcessError as e:

@@ -201,7 +201,7 @@ def scan_folder(folder_path):
 
 	log_message = "Custom scan folder: Checking if the custom task exists."
 	logger(log_message, "INFO", foreground = args.verbose)
-	check_task = os.system(get_query)
+	check_task = subprocess.run(shlex.split(get_query)).returncode
 
 	if check_task == 0:
 		add_path = '--add-path ' + folder_path

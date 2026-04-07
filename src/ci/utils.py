@@ -84,10 +84,9 @@ def deleteLogs(moduleName):
                                     folder)
     pytestResultsPath = os.path.join(CURRENT_DIR,
                                      "tests/results")
-    out = subprocess.run("rm -rf {}".format(pytestResultsPath),
+    out = subprocess.run(["rm", "-rf", str(pytestResultsPath)],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
-                         shell=True,
                          check=False)
     if out.returncode == 0:
         printGreen(msg="[{}{}: PASSED]".format("Cleanfolder ",

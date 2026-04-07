@@ -352,9 +352,9 @@ char* get_extra_args_from_json(const cJSON *input) {
                 break;
             }
             if (args[0] != '\0') {
-                strcat(args, " ");
+                strncat(args, " ", COMMANDSIZE_4096 - strlen(args) - 1);
             }
-            strcat(args, subitem->valuestring);
+            strncat(args, subitem->valuestring, COMMANDSIZE_4096 - strlen(args) - 1);
         }
     }
 
@@ -390,8 +390,8 @@ char* get_keys_from_json(const cJSON *input) {
             if (strlen(args) + strlen(subitem->valuestring) + 2 > COMMANDSIZE_4096) {
                 break;
             }
-            strcat(args, "-");
-            strcat(args, subitem->valuestring);
+            strncat(args, "-", COMMANDSIZE_4096 - strlen(args) - 1);
+            strncat(args, subitem->valuestring, COMMANDSIZE_4096 - strlen(args) - 1);
         }
     }
 

@@ -27,7 +27,7 @@ def get_executor(test_command: str, output: Path):
             # Execute command
             print(f'Running: {command}')
             result = subprocess.run(
-                command, shell=True, capture_output=True, text=True, check=True)
+                command, shell=True, capture_output=True, text=True, check=True)  # nosec: requires shell for pipe
 
             # For each line in the output, parse it as JSON and remove the TestSessionID
             expecteds = []

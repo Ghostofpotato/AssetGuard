@@ -83,10 +83,10 @@ int main (int argc, char **argv) {
     memset(hosts_deny_path, '\0', COMMANDSIZE_4096);
     if (!strcmp("FreeBSD", uname_buffer.sysname)) {
         snprintf(hosts_deny_rule, COMMANDSIZE_4096 -1, "ALL : %s : deny", srcip);
-        strcpy(hosts_deny_path, FREEBSD_HOSTS_DENY_PATH);
+        snprintf(hosts_deny_path, COMMANDSIZE_4096, "%s", FREEBSD_HOSTS_DENY_PATH);
     } else {
         snprintf(hosts_deny_rule, COMMANDSIZE_4096 -1, "ALL:%s", srcip);
-        strcpy(hosts_deny_path, DEFAULT_HOSTS_DENY_PATH);
+        snprintf(hosts_deny_path, COMMANDSIZE_4096, "%s", DEFAULT_HOSTS_DENY_PATH);
     }
 
     memset(lock_path, '\0', COMMANDSIZE_4096);

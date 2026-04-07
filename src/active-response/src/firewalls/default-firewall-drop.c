@@ -62,9 +62,9 @@ int main (int argc, char **argv) {
 
     int ip_version = get_ip_version(srcip);
     if (ip_version == 4) {
-        strcpy(iptables_tmp, IP4TABLES);
+        snprintf(iptables_tmp, sizeof(iptables_tmp), "%s", IP4TABLES);
     } else if (ip_version == 6) {
-        strcpy(iptables_tmp, IP6TABLES);
+        snprintf(iptables_tmp, sizeof(iptables_tmp), "%s", IP6TABLES);
     } else {
         memset(log_msg, '\0', OS_MAXSTR);
         snprintf(log_msg, OS_MAXSTR -1, "Unable to run active response (invalid IP: '%s').", srcip);
@@ -97,9 +97,9 @@ int main (int argc, char **argv) {
 
         char arg[3] = {0};
         if (action == ADD_COMMAND) {
-            strcpy(arg, "-I");
+            snprintf(arg, sizeof(arg), "%s", "-I");
         } else {
-            strcpy(arg, "-D");
+            snprintf(arg, sizeof(arg), "%s", "-D");
         }
 
         memset(lock_path, '\0', COMMANDSIZE_4096);

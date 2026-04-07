@@ -173,12 +173,11 @@ static int getAllProfilesStatus(const char *argv) {
     char *exec_args_show_profile[6] = { reg_path, "query", pathFirewallProfilesReg, "/v", "EnableFirewall", NULL };
     memset(aux_buf2, '\0', OS_MAXSTR);
     memset(log_msg, '\0', OS_MAXSTR);
-    strcpy(log_msg, "{\"message\":\"Active response may not have an effect\",\"firewall\":{");
+    snprintf(log_msg, OS_MAXSTR, "%s", "{\"message\":\"Active response may not have an effect\",\"firewall\":{");
 
     for (int i = 0; i < FIREWALL_PROFILES_MAX; i++) {
         memset(pathFirewallProfilesReg, 0, sizeof(pathFirewallProfilesReg));
-        strcpy(pathFirewallProfilesReg, PATH_FIREWALL_PROFILES_REG_DEFAULT);
-        strcat(pathFirewallProfilesReg, firewallProfilesReg[i]);
+        snprintf(pathFirewallProfilesReg, sizeof(pathFirewallProfilesReg), "%s%s", PATH_FIREWALL_PROFILES_REG_DEFAULT, firewallProfilesReg[i]);
 
         wfd = wpopenv(reg_path, exec_args_show_profile, W_BIND_STDOUT);
 
@@ -204,7 +203,7 @@ static int getAllProfilesStatus(const char *argv) {
                         firewallData.isEnabled == true ? "active" : "inactive"
                     );
                     msgLengths[i] = strlen(aux_buf);
-                    strcat(aux_buf2, aux_buf);
+                    strncat(aux_buf2, aux_buf, OS_MAXSTR - strlen(aux_buf2) - 1);
                     firewallData.isThereProfile = false;
                 }
             }
@@ -221,10 +220,10 @@ static int getAllProfilesStatus(const char *argv) {
     }
 
     if (false == globalfirewallStatus) {
-        strcat(log_msg, aux_buf2);
+        strncat(log_msg, aux_buf2, OS_MAXSTR - strlen(log_msg) - 1);
         memset(aux_buf, '\0', OS_MAXSTR);
         snprintf(aux_buf, OS_MAXSTR -1, "},\"status\":\"inactive\",\"script\":\"netsh\"}");
-        strcat(log_msg, aux_buf);
+        strncat(log_msg, aux_buf, OS_MAXSTR - strlen(log_msg) - 1);
         write_debug_file(argv, log_msg);
     }
     os_free(reg_path);

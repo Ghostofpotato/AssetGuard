@@ -85,9 +85,9 @@ int main (int argc, char **argv) {
         char *fw_cmd_path = NULL;
 
         if (action == ADD_COMMAND) {
-            strcpy(arg1, "--add-rich-rule");
+            snprintf(arg1, COMMANDSIZE_4096, "%s", "--add-rich-rule");
         } else {
-            strcpy(arg1, "--remove-rich-rule");
+            snprintf(arg1, COMMANDSIZE_4096, "%s", "--remove-rich-rule");
         }
 
         // Checking if firewall-cmd is present

@@ -56,7 +56,7 @@ int main (int argc, char **argv) {
     }
 
     char srcip_path[COMMANDSIZE_4096];
-    strcpy(srcip_path, IPBLOCK);
+    snprintf(srcip_path, COMMANDSIZE_4096, "%s", IPBLOCK);
     strncat(srcip_path, srcip, (COMMANDSIZE_4096 - strlen(IPBLOCK)) - 1);
 
     if (action == ADD_COMMAND) {
