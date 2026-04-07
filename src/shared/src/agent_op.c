@@ -146,8 +146,8 @@ char *os_read_agent_name()
  *  Description:
  *  Comma separated list of strings that used to identify what type
  *  of configuration is used for this agent.
- *  The profile name is set in the agent's etc/ossec.conf file
- *  It is matched with the ossec manager's agent.conf file to read
+ *  The profile name is set in the agent's etc/assetguard.conf file
+ *  It is matched with the assetguard manager's agent.conf file to read
  *  configuration only applicable to this profile name.
  */
 char *os_read_agent_profile()

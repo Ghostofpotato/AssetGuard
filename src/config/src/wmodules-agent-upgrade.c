@@ -254,16 +254,16 @@ static int wm_agent_upgrade_read_ca_verification(xml_node **nodes, unsigned int 
 
 static int wm_agent_upgrade_read_ca_verification_old(unsigned int *verification_flag) {
     // Read CA deprecated configuration
-    const char *(caverify[]) = {OSSECCONFIG, "active-response", "ca_verification", NULL};
-    const char *(castore[]) = {OSSECCONFIG, "active-response", "ca_store", NULL};
+    const char *(caverify[]) = {ASSETGUARDCONFIG, "active-response", "ca_verification", NULL};
+    const char *(castore[]) = {ASSETGUARDCONFIG, "active-response", "ca_store", NULL};
 
     char **ca_verification = NULL;
 
     OS_XML xml2;
 
     /* Read XML file */
-    if (OS_ReadXML(OSSECCONF, &xml2) < 0) {
-        merror_exit(XML_ERROR, OSSECCONF, xml2.err, xml2.err_line);
+    if (OS_ReadXML(ASSETGUARDCONF, &xml2) < 0) {
+        merror_exit(XML_ERROR, ASSETGUARDCONF, xml2.err, xml2.err_line);
     }
 
     if (ca_verification = OS_GetContents(&xml2, caverify), ca_verification) {

@@ -40,7 +40,7 @@ void Monitord()
     /* /var/assetguard-manager/logs/assetguard-manager.json */
     snprintf(path_json, PATH_MAX, "%s", LOGJSONFILE);
 
-    /* Log monitord startup message to ossec.log */
+    /* Log monitord startup message to assetguard.log */
     minfo(OS_MG_STARTED);
 
     // Start com request thread

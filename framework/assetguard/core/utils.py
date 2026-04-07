@@ -52,7 +52,7 @@ def clean_pid_files(daemon: str) -> None:
         Daemon's name.
     """
     regex = rf'{daemon}[\w_]*-(\d+).pid'
-    for pid_file in os.listdir(common.OSSEC_PIDFILE_PATH):
+    for pid_file in os.listdir(common.ASSETGUARD_PIDFILE_PATH):
         if match := re.match(regex, pid_file):
             try:
                 pid = int(match.group(1))
@@ -68,7 +68,7 @@ def clean_pid_files(daemon: str) -> None:
             except (OSError, psutil.NoSuchProcess):
                 print(f'{daemon}: Non existent process {pid}, removing from {common.ASSETGUARD_PATH}/var/run...')
             finally:
-                os.remove(path.join(common.OSSEC_PIDFILE_PATH, pid_file))
+                os.remove(path.join(common.ASSETGUARD_PIDFILE_PATH, pid_file))
 
 
 def find_nth(string: str, substring: str, n: int) -> int:
@@ -2107,7 +2107,7 @@ def validate_assetguard_xml(content: str):
 
         # Check xml format
         incoming_xml = load_assetguard_xml(xml_path='', data=final_xml)
-        current_xml = load_assetguard_xml(xml_path=common.OSSEC_CONF)
+        current_xml = load_assetguard_xml(xml_path=common.ASSETGUARD_CONF)
         # Check if remote commands are allowed
         check_remote_commands(incoming_xml, current_xml)
         check_agents_allow_higher_versions(incoming_xml, current_xml)
@@ -2170,7 +2170,7 @@ def upload_file(content: str, file_path: str, check_xml_formula_values: bool = T
         return xml_string
 
     # Path of temporary files for parsing xml input
-    handle, tmp_file_path = tempfile.mkstemp(prefix='api_tmp_file_', suffix='.tmp', dir=common.OSSEC_TMP_PATH)
+    handle, tmp_file_path = tempfile.mkstemp(prefix='api_tmp_file_', suffix='.tmp', dir=common.ASSETGUARD_TMP_PATH)
     try:
         with open(handle, 'w') as tmp_file:
             final_file = escape_formula_values(content) if check_xml_formula_values else content

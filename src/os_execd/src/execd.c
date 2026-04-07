@@ -560,7 +560,7 @@ void ExecdStart(int q)
 int WinExecdStart()
 {
     int c;
-    char *cfg = OSSECCONF;
+    char *cfg = ASSETGUARDCONF;
     winexec_queue = queue_init(OS_SIZE_128);
 
     /* Read config */

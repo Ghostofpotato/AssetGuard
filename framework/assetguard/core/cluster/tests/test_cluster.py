@@ -80,7 +80,7 @@ custom_incomplete_configuration = {
 ])
 def test_check_cluster_config_ko(read_config, message):
     """Check wrong configurations to check the proper exceptions are raised."""
-    with patch('assetguard.core.cluster.utils.get_ossec_conf', return_value=read_config) as m:
+    with patch('assetguard.core.cluster.utils.get_assetguard_conf', return_value=read_config) as m:
         with pytest.raises(AssetGuardException, match=rf'.* 3004 .* {message}'):
             configuration = assetguard.core.cluster.utils.read_config()
             for key in m.return_value["cluster"]:

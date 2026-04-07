@@ -18,7 +18,7 @@
 void OS_CompressLog(const char* logfile);
 
 /**
- * @brief Rotate internal log files (ossec.log / ossec.json)
+ * @brief Rotate internal log files (assetguard.log / assetguard.json)
  *
  * @param compress Whether to compress rotated logs (0 or 1)
  * @param keep_log_days Number of days to keep old logs (0 = forever)

@@ -97,7 +97,7 @@ class TestLargeScaleClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_sync_100_disconnected_agents(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -132,7 +132,7 @@ class TestLargeScaleClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_sync_agents_with_mixed_cluster_names(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -187,7 +187,7 @@ class TestErrorHandlingScenarios:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_recover_from_intermittent_db_errors(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -219,7 +219,7 @@ class TestErrorHandlingScenarios:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_handle_partial_max_version_failure(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -270,7 +270,7 @@ class TestEdgeCasesClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_agents_with_same_cluster_name(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -302,7 +302,7 @@ class TestEdgeCasesClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_empty_cluster_name_string(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -323,7 +323,7 @@ class TestEdgeCasesClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_long_cluster_name(self, mock_get_ossec_conf, mock_sleep, sync_task):
         """Test with very long cluster name."""
         task, indexer = sync_task
@@ -355,7 +355,7 @@ class TestEdgeCasesClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_agent_id_with_special_characters(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -387,7 +387,7 @@ class TestEdgeCasesClusterNameSync:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_version_consistency_across_updates(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -432,7 +432,7 @@ class TestConcurrencyAndTiming:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_initial_delay_respected(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -454,7 +454,7 @@ class TestConcurrencyAndTiming:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_run_only_once_per_lifecycle(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):
@@ -490,7 +490,7 @@ class TestInputSanitation:
     @patch(
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_handles_agents_with_missing_id(
         self, mock_get_ossec_conf, mock_sleep, sync_task
     ):

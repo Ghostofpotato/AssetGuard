@@ -19,8 +19,8 @@
     #define static
 
     // Redefine ossec_version
-    #undef __ossec_version
-    #define __ossec_version "v4.5.0"
+    #undef __assetguard_version
+    #define __assetguard_version "v4.5.0"
 
     /* Replace assert with mock_assert */
     extern void mock_assert(const int result, const char* const expression,
@@ -112,7 +112,7 @@ w_enrollment_ctx * w_enrollment_init(w_enrollment_target *target, w_enrollment_c
     cfg->ssl = NULL;
     cfg->delay_after_enrollment = 20;
     cfg->keys = keys;
-    os_strdup(__ossec_version, cfg->agent_version);
+    os_strdup(__assetguard_version, cfg->agent_version);
     return cfg;
 }
 

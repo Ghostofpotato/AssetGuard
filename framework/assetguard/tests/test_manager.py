@@ -219,7 +219,7 @@ def test_restart_ko_socket(mock_exists, mock_fcntl, mock_open):
         "'use_source_i'.\n2019/02/27 11:30:24 assetguard-manager-authd: ERROR: (1202): Configuration error at "
         "'/var/assetguard-manage/etc/assetguard-manager.conf'.")
 ])
-@patch('assetguard.manager.validate_ossec_conf')
+@patch('assetguard.manager.validate_assetguard_conf')
 def test_validation(mock_validate_ossec_conf, error_flag, error_msg):
     """Test validation() method works as expected
 
@@ -254,7 +254,7 @@ def test_validation(mock_validate_ossec_conf, error_flag, error_msg):
     AssetGuardError(1113),  # XML validation error
     AssetGuardError(1908)  # General validation error
 ])
-@patch('assetguard.manager.validate_ossec_conf')
+@patch('assetguard.manager.validate_assetguard_conf')
 def test_validation_ko(mock_validate, exception):
     mock_validate.side_effect = exception
 
@@ -322,8 +322,8 @@ def test_get_basic_info(mock_uid, mock_gid, mock_open_file, mock_exists, mock_ch
 @patch('assetguard.manager.exists', return_value=True)
 @patch('assetguard.manager.full_copy')
 @patch('assetguard.manager.validate_assetguard_xml')
-@patch('assetguard.manager.write_ossec_conf')
-@patch('assetguard.manager.validate_ossec_conf', return_value={'status': 'OK'})
+@patch('assetguard.manager.write_assetguard_conf')
+@patch('assetguard.manager.validate_assetguard_conf', return_value={'status': 'OK'})
 def test_update_ossec_conf(validate_conf_mock, write_mock, validate_xml_mock, full_copy_mock, exists_mock,
                            remove_mock, move_mock):
     """Test update_ossec_conf works as expected."""
@@ -344,13 +344,13 @@ def test_update_ossec_conf(validate_conf_mock, write_mock, validate_xml_mock, fu
 @patch('assetguard.manager.exists', return_value=True)
 @patch('assetguard.manager.full_copy')
 @patch('assetguard.manager.validate_assetguard_xml')
-@patch('assetguard.manager.write_ossec_conf')
-@patch('assetguard.manager.validate_ossec_conf')
+@patch('assetguard.manager.write_assetguard_conf')
+@patch('assetguard.manager.validate_assetguard_conf')
 def test_update_ossec_conf_ko(validate_conf_mock, write_mock, validate_xml_mock, full_copy_mock, exists_mock,
                               remove_mock, move_mock, new_conf):
     """Test update_ossec_conf() function return an error and restore the configuration if the provided configuration
     is not valid."""
-    # For invalid configuration case, make validate_ossec_conf return invalid status
+    # For invalid configuration case, make validate_assetguard_conf return invalid status
     if new_conf == "invalid configuration":
         validate_conf_mock.return_value = {'status': 'ERROR'}
 

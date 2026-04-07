@@ -14,7 +14,7 @@
 #include "../os_win.h"
 #include "dll_load_notify.h"
 
-ossec_config config_inst;
+assetguard_config config_inst;
 HWND hStatus;
 
 /* Dialog -- About ASSETGUARD */
@@ -155,7 +155,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam,
 
                         /* If auth key changed, set it */
                         if (strcmp(buf, config_inst.server) != 0) {
-                            if (set_ossec_server(buf, hwnd)) {
+                            if (set_assetguard_server(buf, hwnd)) {
                                 chd = 1;
                             }
                         }
@@ -230,7 +230,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam,
                                 ret = MessageBox(hwnd, mbox_msg,
                                                  "Confirm Importing Key", MB_OKCANCEL);
                                 if (ret == IDOK) {
-                                    if (set_ossec_key(decd_to_write, hwnd)) {
+                                    if (set_assetguard_key(decd_to_write, hwnd)) {
                                         chd += 2;
                                     }
                                 }
@@ -277,7 +277,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam,
                     break;
 
                 case UI_MENU_VIEW_LOGS:
-                    _spawnlp( _P_NOWAIT, "notepad", "notepad " OSSECLOGS, NULL );
+                    _spawnlp( _P_NOWAIT, "notepad", "notepad " ASSETGUARDLOGS, NULL );
                     break;
                 case UI_MENU_VIEW_CONFIG:
                     _spawnlp( _P_NOWAIT, "notepad", "notepad " CONFIG, NULL );

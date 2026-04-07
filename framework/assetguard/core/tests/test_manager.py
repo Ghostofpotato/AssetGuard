@@ -116,16 +116,16 @@ def test_get_ossec_log_fields_ko():
     LoggingFormat.plain, LoggingFormat.json
 ])
 def test_get_ossec_logs(log_format):
-    """Test get_ossec_logs() method returns result with expected information"""
+    """Test get_assetguard_logs() method returns result with expected information"""
     logs = get_logs(json_log=log_format == LoggingFormat.json).splitlines()
 
     with patch("assetguard.core.manager.get_assetguard_active_logging_format", return_value=log_format):
         with pytest.raises(AssetGuardInternalError, match=".*1020.*"):
-            get_ossec_logs()
+            get_assetguard_logs()
 
         with patch('assetguard.core.manager.exists', return_value=True):
             with patch('assetguard.core.manager.tail', return_value=logs):
-                result = get_ossec_logs()
+                result = get_assetguard_logs()
                 assert all(key in log for key in ('timestamp', 'tag', 'level', 'description') for log in result)
 
 
@@ -145,37 +145,37 @@ def test_get_logs_summary(mock_exists, mock_active_logging_format):
 @patch('assetguard.core.manager.exists', return_value=True)
 @patch('assetguard.core.manager.load_assetguard_xml')
 def test_validate_ossec_conf(mock_load_xml, mock_exists):
-    """Test that validate_ossec_conf validates XML configuration successfully."""
+    """Test that validate_assetguard_conf validates XML configuration successfully."""
     # Mock successful XML load
     mock_load_xml.return_value = None
 
-    result = validate_ossec_conf()
+    result = validate_assetguard_conf()
 
     assert result == {'status': 'OK'}
-    mock_exists.assert_called_with(common.OSSEC_CONF)
-    mock_load_xml.assert_called_once_with(xml_path=common.OSSEC_CONF)
+    mock_exists.assert_called_with(common.ASSETGUARD_CONF)
+    mock_load_xml.assert_called_once_with(xml_path=common.ASSETGUARD_CONF)
 
 
 @patch('assetguard.core.manager.load_assetguard_xml')
 @patch("assetguard.core.manager.exists")
 def test_validation_ko(mock_exists, mock_load_xml):
-    """Test that validate_ossec_conf handles errors correctly."""
+    """Test that validate_assetguard_conf handles errors correctly."""
 
     # Configuration file not exists
     mock_exists.return_value = False
     with pytest.raises(AssetGuardInternalError, match='.* 1020 .*'):
-        validate_ossec_conf()
+        validate_assetguard_conf()
 
     # XML validation error
     mock_exists.return_value = True
     mock_load_xml.side_effect = AssetGuardError(1113, 'Invalid XML syntax')
     with pytest.raises(AssetGuardError, match='.* 1113 .*'):
-        validate_ossec_conf()
+        validate_assetguard_conf()
 
     # Other exception wrapped as validation error
     mock_load_xml.side_effect = Exception('Unexpected error')
     with pytest.raises(AssetGuardError, match='.* 1908 .*'):
-        validate_ossec_conf()
+        validate_assetguard_conf()
 
 
 

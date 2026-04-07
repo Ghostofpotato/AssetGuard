@@ -326,7 +326,7 @@ async def get_configuration_node(node_id: str, pretty: bool = False, wait_for_co
                 'raw': raw}
 
     nodes = raise_if_exc(await get_system_nodes())
-    dapi = DistributedAPI(f=manager.read_ossec_conf,
+    dapi = DistributedAPI(f=manager.read_assetguard_conf,
                           f_kwargs=remove_nones_to_dict(f_kwargs),
                           request_type='distributed_master',
                           is_async=False,
@@ -885,7 +885,7 @@ async def update_configuration(node_id: str, body: bytes, pretty: bool = False,
                 'new_conf': parsed_body}
 
     nodes = raise_if_exc(await get_system_nodes())
-    dapi = DistributedAPI(f=manager.update_ossec_conf,
+    dapi = DistributedAPI(f=manager.update_assetguard_conf,
                           f_kwargs=remove_nones_to_dict(f_kwargs),
                           request_type='distributed_master',
                           is_async=False,

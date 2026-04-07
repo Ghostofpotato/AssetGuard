@@ -264,7 +264,7 @@ def test_get_script_arguments(argument_parser_mock):
     from assetguard.core import common
 
     assetguard_manager_clusterd.common = common
-    with patch.object(assetguard_manager_clusterd.common, 'OSSEC_CONF', 'testing/path'):
+    with patch.object(assetguard_manager_clusterd.common, 'ASSETGUARD_CONF', 'testing/path'):
         assetguard_manager_clusterd.get_script_arguments()
         argument_parser_mock.assert_called_once_with()
         argument_parser_mock.return_value.add_argument.assert_has_calls(
@@ -280,7 +280,7 @@ def test_get_script_arguments(argument_parser_mock):
              call('-r', help='Run as root', action='store_true', dest='root'),
              call('-t', help='Test configuration', action='store_true', dest='test_config'),
              call('-c', help='Configuration file to use', type=str, metavar='config', dest='config_file',
-                  default=common.OSSEC_CONF)])
+                  default=common.ASSETGUARD_CONF)])
 
 
 @patch('scripts.assetguard_manager_clusterd.sys.exit', side_effect=sys.exit)

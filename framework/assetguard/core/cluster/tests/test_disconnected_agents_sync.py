@@ -477,7 +477,7 @@ async def test_run_cluster_name_sync_no_agents(mock_get, task):
     DisconnectedAgentSyncTasks, "_get_disconnected_agents", return_value=[{"id": "001"}]
 )
 @patch(
-    "assetguard.core.indexer.disconnected_agents.get_ossec_conf",
+    "assetguard.core.indexer.disconnected_agents.get_assetguard_conf",
     return_value={"cluster": {}},
 )
 async def test_run_cluster_name_sync_no_cluster_name(mock_conf, mock_get, task):
@@ -503,7 +503,7 @@ async def test_run_cluster_name_sync_no_cluster_name(mock_conf, mock_get, task):
     return_value={"001": 5},
 )
 @patch(
-    "assetguard.core.indexer.disconnected_agents.get_ossec_conf",
+    "assetguard.core.indexer.disconnected_agents.get_assetguard_conf",
     return_value={"cluster": {"name": "clusterA"}},
 )
 async def test_run_cluster_name_sync_no_update_needed(
@@ -667,7 +667,7 @@ async def test_get_cluster_name_from_indexer_exception(manager, logger):
 
 @pytest.mark.asyncio
 @patch(
-    "assetguard.core.indexer.disconnected_agents.get_ossec_conf",
+    "assetguard.core.indexer.disconnected_agents.get_assetguard_conf",
     side_effect=Exception("Config error"),
 )
 async def test_init_ossec_conf_error(mock_conf, manager, logger):
@@ -685,7 +685,7 @@ def test_init_without_server_or_logger():
     Verify fallback logger initialization when dependencies are missing.
     """
     with patch(
-        "assetguard.core.indexer.disconnected_agents.get_ossec_conf", side_effect=Exception
+        "assetguard.core.indexer.disconnected_agents.get_assetguard_conf", side_effect=Exception
     ):
         task = DisconnectedAgentSyncTasks(server=None, logger=None, cluster_items={})
         assert task.logger.name == "disconnected_agent_sync_task"
@@ -734,7 +734,7 @@ async def test_get_max_versions_indexer_malformed_response(task):
 
 @pytest.mark.asyncio
 @patch("assetguard.core.indexer.disconnected_agents.get_indexer_client")
-@patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+@patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
 @patch.object(DisconnectedAgentSyncTasks, "_get_max_versions_batch_from_indexer")
 @patch.object(DisconnectedAgentSyncTasks, "_get_cluster_name_from_indexer")
 @patch.object(DisconnectedAgentSyncTasks, "_get_disconnected_agents")

@@ -15,8 +15,8 @@
 
 #ifdef ASSETGUARD_UNIT_TESTING
 // Redefine ossec_version
-#undef __ossec_version
-#define __ossec_version "v5.0.0"
+#undef __assetguard_version
+#define __assetguard_version "v5.0.0"
 #endif
 
 // Mutex needed to download a WPK file
@@ -160,7 +160,7 @@ int wm_agent_upgrade_validate_version(const char *assetguard_version, const char
             } else if (WM_UPGRADE_UPGRADE == command) {
                 wm_upgrade_task *upgrade_task = (wm_upgrade_task *)task;
 
-                if (manager_version = strchr(__ossec_version, 'v'), manager_version) {
+                if (manager_version = strchr(__assetguard_version, 'v'), manager_version) {
                     return_code = WM_UPGRADE_SUCCESS;
 
                     os_strdup(upgrade_task->custom_version ? upgrade_task->custom_version : manager_version, upgrade_task->wpk_version);

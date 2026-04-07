@@ -32,8 +32,8 @@
   #define STATIC
 
 // Redefine ossec_version
-#undef __ossec_version
-#define __ossec_version "v4.5.0"
+#undef __assetguard_version
+#define __assetguard_version "v4.5.0"
 #else
   #define STATIC static
 #endif
@@ -449,7 +449,7 @@ int validate_control_msg(const keyentry * key, char *r_msg, size_t msg_length, c
                     // Update agent data to keep context of events to forward
                     OSHash_Set_ex(agent_data_hash, key->id, strdup(version->valuestring));
                     if (!logr.allow_higher_versions &&
-                        compare_assetguard_versions(__ossec_version, version->valuestring, false) < 0) {
+                        compare_assetguard_versions(__assetguard_version, version->valuestring, false) < 0) {
 
                         // For version errors, we need database access, so queue the message
                         cJSON_Delete(agent_info);
@@ -475,7 +475,7 @@ int validate_control_msg(const keyentry * key, char *r_msg, size_t msg_length, c
             void *deleted = OSHash_Delete_ex(agent_data_hash, key->id);
             os_free(deleted);
 
-            /* Log agent shutdown event to ossec.log */
+            /* Log agent shutdown event to assetguard.log */
             minfo(OS_AG_STOPPED, atoi(key->id), key->name);
         }
     } else {
@@ -548,7 +548,7 @@ void save_controlmsg(const keyentry * key, char *r_msg, int *wdb_sock, bool *pos
                 cJSON *version = NULL;
                 if (version = cJSON_GetObjectItem(agent_info, "version"), cJSON_IsString(version)) {
                     if (!logr.allow_higher_versions &&
-                        compare_assetguard_versions(__ossec_version, version->valuestring, false) < 0) {
+                        compare_assetguard_versions(__assetguard_version, version->valuestring, false) < 0) {
 
                         send_wrong_version_response(key->id, HC_INVALID_VERSION,
                                                     INVALID_VERSION, version->valuestring,

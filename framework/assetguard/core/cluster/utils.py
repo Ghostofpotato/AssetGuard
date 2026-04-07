@@ -17,7 +17,7 @@ from glob import glob
 from operator import setitem
 
 from assetguard.core import common, pyDaemonModule
-from assetguard.core.configuration import get_ossec_conf
+from assetguard.core.configuration import get_assetguard_conf
 from assetguard.core.exception import AssetGuardError, AssetGuardException, AssetGuardInternalError, AssetGuardHAPHelperError
 from assetguard.core.results import AssetGuardResult
 from assetguard.core.utils import temporary_cache
@@ -173,7 +173,7 @@ def parse_haproxy_helper_config(helper_config: dict) -> dict:
     return helper_config
 
 
-def read_cluster_config(config_file=common.OSSEC_CONF, from_import=False) -> typing.Dict:
+def read_cluster_config(config_file=common.ASSETGUARD_CONF, from_import=False) -> typing.Dict:
     """Read cluster configuration from assetguard-manager.conf.
 
     If some fields are missing in the assetguard-manager.conf cluster configuration, they are replaced
@@ -204,7 +204,7 @@ def read_cluster_config(config_file=common.OSSEC_CONF, from_import=False) -> typ
     }
 
     try:
-        config_cluster = get_ossec_conf(section='cluster', conf_file=config_file, from_import=from_import)['cluster']
+        config_cluster = get_assetguard_conf(section='cluster', conf_file=config_file, from_import=from_import)['cluster']
     except AssetGuardException as e:
             if e.code == 1106:
                 # If no cluster configuration is present in assetguard configuration file, return the default configuration.
@@ -403,7 +403,7 @@ def safe_join(base_path: str, *paths: str) -> str:
 
 
 @lru_cache()
-def read_config(config_file=common.OSSEC_CONF):
+def read_config(config_file=common.ASSETGUARD_CONF):
     """Get the cluster configuration.
 
     Parameters

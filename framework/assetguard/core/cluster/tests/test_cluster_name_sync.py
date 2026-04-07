@@ -75,7 +75,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_success(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -114,7 +114,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_already_executed(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -131,7 +131,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_no_disconnected_agents(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -150,7 +150,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_missing_ossec_conf(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -169,7 +169,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_empty_cluster_name(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -190,7 +190,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_no_agents_need_update(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -223,7 +223,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_partial_update_failure(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):
@@ -260,7 +260,7 @@ class TestRunClusterNameSync:
 
     @pytest.mark.asyncio
     @patch("assetguard.core.cluster.master.asyncio.sleep", new_callable=AsyncMock)
-    @patch("assetguard.core.indexer.disconnected_agents.get_ossec_conf")
+    @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_cluster_name_sync_final_flag_set(
         self, mock_get_ossec_conf, mock_sleep, task_with_indexer
     ):

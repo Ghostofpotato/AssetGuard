@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 
 void wm_help()
 {
-    print_out("AssetGuard Module Manager - %s\nAssetGuard Inc.", __ossec_version);
+    print_out("AssetGuard Module Manager - %s\nAssetGuard Inc.", __assetguard_version);
     print_out(" ");
     print_out("Usage: %s -[d|f|h|t]", ARGV0);
     print_out(" ");

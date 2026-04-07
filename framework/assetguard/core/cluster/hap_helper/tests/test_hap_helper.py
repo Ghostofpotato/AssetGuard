@@ -77,9 +77,9 @@ class TestHAPHelper:
             yield read_cluster_config_mock
 
     @pytest.fixture
-    def get_ossec_conf(self):
-        with mock.patch('assetguard.core.cluster.hap_helper.hap_helper.get_ossec_conf') as get_ossec_conf:
-            yield get_ossec_conf
+    def get_assetguard_conf(self):
+        with mock.patch('assetguard.core.cluster.hap_helper.hap_helper.get_assetguard_conf') as get_assetguard_conf:
+            yield get_assetguard_conf
 
     async def test_initialize_proxy(self, helper: HAPHelper, proxy_mock: mock.MagicMock):
         """Check the correct function of `initialize_proxy` method."""
@@ -549,7 +549,7 @@ class TestHAPHelper:
     async def test_start(
         self,
         read_cluster_config_mock: mock.MagicMock,
-        get_ossec_conf: mock.MagicMock,
+        get_assetguard_conf: mock.MagicMock,
         proxy_api_mock: mock.MagicMock,
         proxy_mock: mock.MagicMock,
         dapi_mock: mock.MagicMock,
@@ -612,7 +612,7 @@ class TestHAPHelper:
         dapi_mock.return_value = dapi
 
         read_cluster_config_mock.return_value = {HAPROXY_HELPER: HELPER_CONFIG}
-        get_ossec_conf.return_value = {'remote': [{'port': ASSETGUARD_PORT}]}
+        get_assetguard_conf.return_value = {'remote': [{'port': ASSETGUARD_PORT}]}
 
         logger_mock = mock.MagicMock()
 

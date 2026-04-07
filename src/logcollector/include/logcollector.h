@@ -78,7 +78,7 @@ void* read_ucs2_be(logreader* lf, int* rc, int drop_it);
 /* Read snort full file */
 void* read_snortfull(logreader* lf, int* rc, int drop_it);
 
-/* Read ossec alert file */
+/* Read assetguard alert file */
 void* read_ossecalert(logreader* lf, int* rc, int drop_it);
 
 /* Read nmap grepable format */

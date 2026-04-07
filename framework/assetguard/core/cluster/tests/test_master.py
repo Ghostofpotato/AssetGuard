@@ -1780,7 +1780,7 @@ def test_master_get_node(get_running_loop_mock):
 
 
 @pytest.mark.asyncio
-@patch('assetguard.core.indexer.disconnected_agents.get_ossec_conf', return_value={})
+@patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
 async def test_disconnected_agent_group_sync_task_initialization(get_ossec_conf_mock):
     """Test DisconnectedAgentSyncTasks initialization."""
     
@@ -1803,7 +1803,7 @@ async def test_disconnected_agent_group_sync_task_initialization(get_ossec_conf_
 
 
 @pytest.mark.asyncio
-@patch('assetguard.core.indexer.disconnected_agents.get_ossec_conf', return_value={})
+@patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
 async def test_disconnected_agent_group_sync_task_batch_agents(get_ossec_conf_mock):
     """Test DisconnectedAgentSyncTasks batch_agents method."""
     
@@ -1835,7 +1835,7 @@ async def test_disconnected_agent_group_sync_task_batch_agents(get_ossec_conf_mo
 
 
 @pytest.mark.asyncio
-@patch('assetguard.core.indexer.disconnected_agents.get_ossec_conf', return_value={})
+@patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
 @patch('assetguard.core.cluster.master.AsyncAssetGuardDBConnection')
 @patch('assetguard.core.indexer.disconnected_agents.AssetGuardDBQueryAgents')
 async def test_disconnected_agent_group_sync_task_get_disconnected_agents_filter_by_time(
@@ -1882,7 +1882,7 @@ async def test_disconnected_agent_group_sync_task_get_disconnected_agents_filter
 
 
 @pytest.mark.asyncio
-@patch('assetguard.core.indexer.disconnected_agents.get_ossec_conf', return_value={})
+@patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
 @patch('assetguard.core.cluster.master.DisconnectedAgentSyncTasks._get_disconnected_agents_filter_by_time')
 @patch('assetguard.core.cluster.master.AsyncAssetGuardDBConnection')
 async def test_disconnected_agent_group_sync_task_run_with_disabled_task(mock_wdb_conn, mock_get_disconnected, get_ossec_conf_mock):

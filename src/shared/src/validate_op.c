@@ -16,11 +16,11 @@
 #ifdef ASSETGUARD_UNIT_TESTING
 #define static
 
-#undef OSSEC_DEFINES
-#define OSSEC_DEFINES   "./internal_options.conf"
+#undef ASSETGUARD_DEFINES
+#define ASSETGUARD_DEFINES   "./internal_options.conf"
 
-#undef OSSEC_LDEFINES
-#define OSSEC_LDEFINES   "./local_internal_options.conf"
+#undef ASSETGUARD_LDEFINES
+#define ASSETGUARD_LDEFINES   "./local_internal_options.conf"
 #endif
 
 #define DEFAULT_IPV6_PREFIX  128
@@ -99,7 +99,7 @@ static char *_read_file(const char *high_name, const char *low_name, const char 
 
     fp = wfopen(defines_file, "r");
     if (!fp) {
-        if (strcmp(defines_file, OSSEC_LDEFINES) != 0) {
+        if (strcmp(defines_file, ASSETGUARD_LDEFINES) != 0) {
             merror(FOPEN_ERROR, defines_file, errno, strerror(errno));
         }
         return (NULL);
@@ -263,9 +263,9 @@ int getDefine_Int(const char *high_name, const char *low_name, int min, int max)
     char *value;
 
     /* Try to read from the local define file */
-    value = _read_file(high_name, low_name, OSSEC_LDEFINES);
+    value = _read_file(high_name, low_name, ASSETGUARD_LDEFINES);
     if (!value) {
-        value = _read_file(high_name, low_name, OSSEC_DEFINES);
+        value = _read_file(high_name, low_name, ASSETGUARD_DEFINES);
         if (!value) {
             merror_exit(DEF_NOT_FOUND, high_name, low_name);
         }

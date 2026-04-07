@@ -19,10 +19,10 @@ from api import configuration
 from assetguard import AssetGuardError, AssetGuardException, AssetGuardInternalError
 from assetguard.core import common
 from assetguard.core.cluster.utils import get_manager_status
-from assetguard.core.configuration import get_active_configuration, get_cti_url, get_ossec_conf
+from assetguard.core.configuration import get_active_configuration, get_cti_url, get_assetguard_conf
 from assetguard.core.utils import get_utc_now, get_utc_strptime, tail, load_assetguard_xml
 
-OSSEC_LOG_FIELDS = ['timestamp', 'tag', 'level', 'description']
+ASSETGUARD_LOG_FIELDS = ['timestamp', 'tag', 'level', 'description']
 CTI_URL = get_cti_url()
 RELEASE_UPDATES_URL = os.path.join(CTI_URL, 'api', 'v1', 'ping')
 ONE_DAY_SLEEP = 60 * 60 * 24
@@ -41,7 +41,7 @@ def status() -> dict:
     return get_manager_status()
 
 
-def get_ossec_log_fields(log: str, log_format: LoggingFormat = LoggingFormat.plain) -> Union[tuple, None]:
+def get_assetguard_log_fields(log: str, log_format: LoggingFormat = LoggingFormat.plain) -> Union[tuple, None]:
     """Get assetguard-manager.log log fields.
 
     Parameters
@@ -99,10 +99,10 @@ def get_assetguard_active_logging_format() -> LoggingFormat:
     LoggingFormat
         AssetGuard active log format. Can either be `plain` or `json`. If it has both types, `plain` will be returned.
     """
-    logging_config = get_ossec_conf(section='logging')['logging']
+    logging_config = get_assetguard_conf(section='logging')['logging']
     return LoggingFormat.plain if 'plain' in logging_config.get('log_format') else LoggingFormat.json
 
-def get_ossec_logs(limit: int = 2000) -> list:
+def get_assetguard_logs(limit: int = 2000) -> list:
     """Return last <limit> lines of assetguard-manager.log file.
 
     Parameters
@@ -126,7 +126,7 @@ def get_ossec_logs(limit: int = 2000) -> list:
         raise AssetGuardInternalError(1020)
 
     for line in assetguard_log_content:
-        log_fields = get_ossec_log_fields(line, log_format=log_format)
+        log_fields = get_assetguard_log_fields(line, log_format=log_format)
         if log_fields:
             date, tag, level, description = log_fields
 
@@ -152,7 +152,7 @@ def get_logs_summary(limit: int = 2000) -> dict:
         Number of logs for every tag.
     """
     tags = dict()
-    logs = get_ossec_logs(limit)
+    logs = get_assetguard_logs(limit)
 
     for log in logs:
         if log['tag'] in tags:
@@ -164,7 +164,7 @@ def get_logs_summary(limit: int = 2000) -> dict:
     return tags
 
 
-def validate_ossec_conf() -> dict:
+def validate_assetguard_conf() -> dict:
     """Check if AssetGuard configuration is OK.
 
     Validates the ossec.conf file by reading and parsing the XML structure.
@@ -185,13 +185,13 @@ def validate_ossec_conf() -> dict:
         Status of the configuration with 'status' key set to 'OK' if valid.
     """
     # Check if configuration file exists
-    if not exists(common.OSSEC_CONF):
+    if not exists(common.ASSETGUARD_CONF):
         raise AssetGuardInternalError(1020)
 
     # Load and validate XML structure
     # This will raise AssetGuardError(1113) if there are syntax errors
     try:
-        load_assetguard_xml(xml_path=common.OSSEC_CONF)
+        load_assetguard_xml(xml_path=common.ASSETGUARD_CONF)
         return {'status': 'OK'}
 
     except AssetGuardError as e:

@@ -168,7 +168,7 @@ static int read_main_elements(const OS_XML *xml, int modules,
 #endif
         } else if (strcmp(node[i]->element, osindexer) == 0) {
 #if !defined(WIN32) && !defined(CLIENT)
-            if ((modules & CWMODULE) && (Read_Indexer(OSSECCONF) < 0)) {
+            if ((modules & CWMODULE) && (Read_Indexer(ASSETGUARDCONF) < 0)) {
                 goto fail;
             }
 #else
@@ -261,7 +261,7 @@ int ReadConfig(int modules, const char *cfgfile, void *d1, void *d2)
 
     /** XML definitions **/
     /* Global */
-    const char *xml_start_ossec = OSSECCONFIG;
+    const char *xml_start_ossec = ASSETGUARDCONFIG;
     const char *xml_start_agent = "agent_config";
 
     /* Attributes of the <agent_config> tag */

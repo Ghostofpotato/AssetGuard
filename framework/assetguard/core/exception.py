@@ -57,11 +57,11 @@ class AssetGuardException(Exception):
         1101: {'message': 'Requested component does not exist'},
         1102: {'message': 'Invalid section',
                'remediation': f'Please, visit the official documentation (https://documentation.assetguard.com/'
-                              f'{DOCU_VERSION}/user-manual/reference/ossec-conf/index.html) '
+                              f'{DOCU_VERSION}/user-manual/reference/assetguard-conf/index.html) '
                               'to get more information about configuration sections'},
         1103: {'message': 'Invalid field in section',
                'remediation': f'Please, visit the official documentation (https://documentation.assetguard.com/'
-                              f'{DOCU_VERSION}/user-manual/reference/ossec-conf/index.html) '
+                              f'{DOCU_VERSION}/user-manual/reference/assetguard-conf/index.html) '
                               'to get more information about configuration sections'},
         1104: {'message': 'Invalid type',
                'remediation': 'Insert a valid type'},
@@ -69,7 +69,7 @@ class AssetGuardException(Exception):
         1106: {'message': 'Requested section not present in configuration',
                'remediation': 'Please, check your configuration file. '
                               f'You can visit the official documentation (https://documentation.assetguard.com/'
-                              f'{DOCU_VERSION}/user-manual/reference/ossec-conf/index.html) '
+                              f'{DOCU_VERSION}/user-manual/reference/assetguard-conf/index.html) '
                               'to get more information about configuration sections'},
         1107: 'Internal options file not found',
         1108: 'Value not found in internal_options.conf',
@@ -103,10 +103,10 @@ class AssetGuardException(Exception):
                'remediation': f'To solve this issue, please enable the remote commands in the API settings or add an '
                               f'exception: https://documentation.assetguard.com/{DOCU_VERSION}/user-manual/api/'
                               f'configuration.html#remote-commands-localfile-and-wodle-command'},
-        1125: {'message': 'Invalid ossec configuration',
-               'remediation': 'Please, provide a valid ossec configuration'
+        1125: {'message': 'Invalid assetguard configuration',
+               'remediation': 'Please, provide a valid assetguard configuration'
                },
-        1126: {'message': 'Error updating ossec configuration',
+        1126: {'message': 'Error updating assetguard configuration',
                'remediation': 'Please, ensure `ASSETGUARD_PATH/etc/assetguard-manager.conf` has the proper permissions and ownership.'
                },
         1127: {'message': 'Protected section was modified',
@@ -345,21 +345,21 @@ class AssetGuardException(Exception):
         3025: {'message': "Could not decrypt message",
                'remediation': "Check the cluster key is correct in the worker's "
                               f"[assetguard-manager.conf](https://documentation.assetguard.com/{DOCU_VERSION}/user-manual/reference/"
-                              f"ossec-conf/cluster.html#key)"
+                              f"assetguard-conf/cluster.html#key)"
                               ", ensure it is the same that the master's."},
         3026: "Error sending request: Memory error. Request chunk size divided by 2.",
         3027: "Unknown received task name",
         3028: {'message': "Worker node ID already exists",
                'remediation': f"Check and fix [worker names](https://documentation.assetguard.com/{DOCU_VERSION}/"
-                              f"user-manual/reference/ossec-conf/cluster.html#node-name)"
+                              f"user-manual/reference/assetguard-conf/cluster.html#node-name)"
                               " and restart the `assetguard-manager` service."},
         3029: {"message": "Connected worker with same name as the master",
                "remediation": f"Check and fix the [worker name](https://documentation.assetguard.com/{DOCU_VERSION}/"
-                              f"user-manual/reference/ossec-conf/cluster.html#node-name)"
+                              f"user-manual/reference/assetguard-conf/cluster.html#node-name)"
                               " and restart the `assetguard-manager` service in the node"},
         3030: {'message': 'Worker does not belong to the same cluster',
                'remediation': f"Change the [cluster name](https://documentation.assetguard.com/{DOCU_VERSION}/"
-                              f"user-manual/reference/ossec-conf/cluster.html#name)"
+                              f"user-manual/reference/assetguard-conf/cluster.html#name)"
                               " in the worker configuration to match the master's and restart the `assetguard-manager` "
                               "service"},
         3031: {'message': "Worker and master versions are not the same",
@@ -491,7 +491,7 @@ class AssetGuardException(Exception):
         extra_remediation : str
             Adds an extra description to remediation.
         cmd_error : bool
-            If it is a custom error code (i.e. ossec commands), the error description will be the message.
+            If it is a custom error code (i.e. assetguard commands), the error description will be the message.
         dapi_errors : dict
             Dictionary with details about node and logfile. I.e.: {'master-node': {'error': 'AssetGuard Internal error',
             'logfile': ASSETGUARD_HOME/logs/api.log}}
@@ -631,7 +631,7 @@ class AssetGuardInternalError(AssetGuardException):
         extra_remediation : str
             Adds an extra description to remediation.
         cmd_error : bool
-            If it is a custom error code (i.e. ossec commands), the error description will be the message.
+            If it is a custom error code (i.e. assetguard commands), the error description will be the message.
         dapi_errors : dict
             Dictionary with details about node and logfile. I.e.: {'master-node': {'error': 'AssetGuard Internal error',
             'logfile': ASSETGUARD_HOME/logs/api.log}}
@@ -697,7 +697,7 @@ class AssetGuardError(AssetGuardException):
         extra_remediation : str
             Adds an extra description to remediation.
         cmd_error : bool
-            If it is a custom error code (i.e. ossec commands), the error description will be the message.
+            If it is a custom error code (i.e. assetguard commands), the error description will be the message.
         dapi_errors : dict
             Dictionary with details about node and logfile. I.e.: {'master-node': {'error': 'AssetGuard Internal error',
             'logfile': ASSETGUARD_HOME/logs/api.log}}

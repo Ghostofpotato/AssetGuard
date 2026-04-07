@@ -38,7 +38,7 @@ def test_read_cluster_config():
     config = utils.read_cluster_config()
     assert config == default_cluster_config
 
-    with patch('assetguard.core.cluster.utils.get_ossec_conf', side_effect=AssetGuardError(1001)):
+    with patch('assetguard.core.cluster.utils.get_assetguard_conf', side_effect=AssetGuardError(1001)):
         with pytest.raises(AssetGuardError, match='.* 3006 .*'):
             utils.read_cluster_config()
 
@@ -48,11 +48,11 @@ def test_read_cluster_config():
         assert pytest_wrapped_e.type == SystemExit
         assert pytest_wrapped_e.value.code == 0
 
-    with patch('assetguard.core.cluster.utils.get_ossec_conf', side_effect=KeyError(1)):
+    with patch('assetguard.core.cluster.utils.get_assetguard_conf', side_effect=KeyError(1)):
         with pytest.raises(AssetGuardError, match='.* 3006 .*'):
             utils.read_cluster_config()
 
-    with patch('assetguard.core.cluster.utils.get_ossec_conf', return_value={'cluster': default_cluster_config}):
+    with patch('assetguard.core.cluster.utils.get_assetguard_conf', return_value={'cluster': default_cluster_config}):
         utils.read_config.cache_clear()
         default_cluster_config.pop('hidden')
         config = utils.read_cluster_config()

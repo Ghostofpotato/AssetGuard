@@ -29,7 +29,7 @@ from assetguard.core.cluster.utils import (
     get_cluster_items,
     read_cluster_config,
 )
-from assetguard.core.configuration import get_ossec_conf
+from assetguard.core.configuration import get_assetguard_conf
 from assetguard.core.exception import AssetGuardException, AssetGuardHAPHelperError
 
 CONNECTION_PORT = 1514
@@ -480,7 +480,7 @@ class HAPHelper:
 
         try:
             helper_config = read_cluster_config()['haproxy_helper']
-            port_config = get_ossec_conf(section='remote')
+            port_config = get_assetguard_conf(section='remote')
             connection_port = int(port_config.get('remote')[0].get('port', CONNECTION_PORT))
 
             protocol = helper_config[HAPROXY_PROTOCOL]

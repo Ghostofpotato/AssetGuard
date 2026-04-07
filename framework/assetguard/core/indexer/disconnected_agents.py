@@ -8,7 +8,7 @@ from typing import Dict, Generator, List
 import assetguard.core.utils as core_utils
 from assetguard.core.agent import AssetGuardDBQueryAgents, get_agents_info
 from assetguard.core.cluster import master
-from assetguard.core.configuration import get_ossec_conf
+from assetguard.core.configuration import get_assetguard_conf
 from assetguard.core.exception import (
     AssetGuardError,
     AssetGuardException,
@@ -84,7 +84,7 @@ class DisconnectedAgentSyncTasks:
         # does not contain the indexer section. The config is only used for
         # informational purposes here.
         try:
-            assetguard_config = get_ossec_conf(section="indexer", from_import=True)
+            assetguard_config = get_assetguard_conf(section="indexer", from_import=True)
         except Exception:
             assetguard_config = {}
         self.logger.debug(f"AssetGuard config for indexer section: {assetguard_config}")
@@ -432,7 +432,7 @@ class DisconnectedAgentSyncTasks:
                 return
             # Read cluster name from ossec.conf
             try:
-                conf = get_ossec_conf(section="cluster")
+                conf = get_assetguard_conf(section="cluster")
                 cluster_name = conf.get("cluster", {}).get("name")
             except Exception as e:
                 self.logger.error(f"Failed reading cluster name from ossec.conf: {e}")

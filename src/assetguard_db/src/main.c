@@ -112,7 +112,7 @@ int main(int argc, char ** argv)
     modules |= CCLUSTER;
 
     // Read assetguard configuration file
-    if (ReadConfig(modules, OSSECCONF, &gconfig, NULL) < 0) {
+    if (ReadConfig(modules, ASSETGUARDCONF, &gconfig, NULL) < 0) {
         merror_exit("Invalid configuration block for AssetGuard-DB.");
     }
 

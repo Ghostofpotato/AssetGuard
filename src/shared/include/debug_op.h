@@ -29,15 +29,15 @@
 #ifndef LOGFILE
 #ifndef WIN32
 #ifdef CLIENT
-#define LOGFILE   "logs/ossec.log"
-#define LOGJSONFILE "logs/ossec.json"
+#define LOGFILE   "logs/assetguard.log"
+#define LOGJSONFILE "logs/assetguard.json"
 #else
 #define LOGFILE   "logs/assetguard-manager.log"
 #define LOGJSONFILE "logs/assetguard-manager.json"
 #endif
 #else
-#define LOGFILE "ossec.log"
-#define LOGJSONFILE "ossec.json"
+#define LOGFILE "assetguard.log"
+#define LOGJSONFILE "assetguard.json"
 #endif
 #endif
 

@@ -518,7 +518,7 @@ def _merged_mg2json(file_path: str) -> List[dict]:
 
 
 # Main functions
-def get_ossec_conf(section: str = None, field: str = None, conf_file: str = common.OSSEC_CONF,
+def get_assetguard_conf(section: str = None, field: str = None, conf_file: str = common.ASSETGUARD_CONF,
                    from_import: bool = False, distinct: bool = False) -> dict:
     """Return assetguard-manager.conf (manager) as dictionary.
 
@@ -529,7 +529,7 @@ def get_ossec_conf(section: str = None, field: str = None, conf_file: str = comm
     field : str
         Filters by field in section (i.e. included).
     conf_file : str
-        Path of the configuration file to read. Default: common.OSSEC_CONF
+        Path of the configuration file to read. Default: common.ASSETGUARD_CONF
     from_import : bool
         This flag indicates whether this function has been called from a module load (True) or from a function (False).
     distinct : bool
@@ -890,7 +890,7 @@ def upload_group_configuration(group_id: str, file_content: str) -> str:
     if not os_path.exists(os_path.join(common.SHARED_PATH, group_id)):
         raise AssetGuardResourceNotFound(1710, group_id)
     # path of temporary files for parsing xml input
-    handle, tmp_file_path = tempfile.mkstemp(prefix='api_tmp_file_', suffix='.xml', dir=common.OSSEC_TMP_PATH)
+    handle, tmp_file_path = tempfile.mkstemp(prefix='api_tmp_file_', suffix='.xml', dir=common.ASSETGUARD_TMP_PATH)
     # create temporary file for parsing xml input and validate XML format
     try:
         with open(handle, 'w') as tmp_file:
@@ -1169,7 +1169,7 @@ def get_active_configuration(component: str, configuration: str, agent_id: Optio
                          extra_message=f'{component}:{configuration}')
 
 
-def write_ossec_conf(new_conf: str):
+def write_assetguard_conf(new_conf: str):
     """Replace the current assetguard configuration (assetguard-manager.conf) with the provided configuration.
 
     Parameters
@@ -1183,7 +1183,7 @@ def write_ossec_conf(new_conf: str):
         Error updating ossec configuration.
     """
     try:
-        with open(common.OSSEC_CONF, 'w') as f:
+        with open(common.ASSETGUARD_CONF, 'w') as f:
             f.writelines(new_conf)
     except Exception as e:
         raise AssetGuardError(1126, extra_message=str(e))
@@ -1198,7 +1198,7 @@ def update_check_is_enabled() -> bool:
         True if UPDATE_CHECK_OSSEC_FIELD is 'yes' or isn't present, else False.
     """
     try:
-        global_configurations = get_ossec_conf(section=GLOBAL_KEY).get(GLOBAL_KEY, {})
+        global_configurations = get_assetguard_conf(section=GLOBAL_KEY).get(GLOBAL_KEY, {})
         return global_configurations.get(UPDATE_CHECK_OSSEC_FIELD, YES_VALUE) == YES_VALUE
     except AssetGuardError as e:
         if e.code != 1106:
@@ -1215,7 +1215,7 @@ def get_cti_url() -> str:
         CTI service URL. The default value is returned if CTI_URL_FIELD isn't present.
     """
     try:
-        return get_ossec_conf(section=GLOBAL_KEY).get(GLOBAL_KEY, {}).get(CTI_URL_FIELD, DEFAULT_CTI_URL)
+        return get_assetguard_conf(section=GLOBAL_KEY).get(GLOBAL_KEY, {}).get(CTI_URL_FIELD, DEFAULT_CTI_URL)
     except AssetGuardError as e:
         if e.code != 1106:
             raise e

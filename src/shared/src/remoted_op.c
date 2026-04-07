@@ -239,7 +239,7 @@ int parse_agent_update_msg (char *msg,
                     os_strdup(line, agent_data->version);
                     os_strdup(str_tmp, agent_data->config_sum);
                 }
-                else if (str_tmp = strstr(line, __ossec_name), str_tmp) {
+                else if (str_tmp = strstr(line, __assetguard_name), str_tmp) {
                     // If for some reason the separator between AssetGuard version and config sum is
                     // not found, we look for the AssetGuard version in the second part of the line.
                     os_strdup(str_tmp, agent_data->version);

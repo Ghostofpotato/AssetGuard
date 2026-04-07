@@ -18,13 +18,13 @@
 #include <commctrl.h>
 
 /* Default values */
-#define CONFIG          "ossec.conf"
-#define LASTCONFIG      "last-ossec.conf"
+#define CONFIG          "assetguard.conf"
+#define LASTCONFIG      "last-assetguard.conf"
 #define VERSION_FILE    "VERSION.json"
-#define OSSECLOGS       "ossec.log"
+#define ASSETGUARDLOGS       "assetguard.log"
 #define HELPTXT         "help.txt"
 #define SENDER_FILE     "rids\\sender_counter"
-#define DEFDIR          "C:\\Program Files\\ossec-agent"
+#define DEFDIR          "C:\\Program Files\\assetguard-agent"
 
 /* Status messages */
 #define ST_RUNNING          "Running"
@@ -46,8 +46,8 @@
 #define SERVER_IP_USED      1
 #define SERVER_HOST_USED    2
 
-/* Global ossec config structure */
-typedef struct _ossec_config {
+/* Global assetguard config structure */
+typedef struct _assetguard_config {
     unsigned short int server_type;
     unsigned short int admin_access;
     unsigned long int msg_sent;
@@ -63,13 +63,13 @@ typedef struct _ossec_config {
     char *version;
     char *revision;
     char *status;
-} ossec_config;
+} assetguard_config;
 
 
 /** Global variables **/
 
 /* Configuration */
-extern ossec_config config_inst;
+extern assetguard_config config_inst;
 
 /* Status bar */
 extern HWND hStatus;
@@ -114,7 +114,7 @@ char *cat_file(char *file, FILE *fp2);
 
 int is_file(char *file);
 
-/* Reads ossec config */
+/* Reads assetguard config */
 int config_read(HWND hwnd);
 
 /* Initializes the config */
@@ -124,13 +124,13 @@ void init_config();
 int run_cmd(char *cmd, HWND hwnd);
 
 /* Set OSSEC Server IP */
-int set_ossec_server(char *ip, HWND hwnd);
+int set_assetguard_server(char *ip, HWND hwnd);
 
 /* Set OSSEC Auth Key */
-int set_ossec_key(char *key, HWND hwnd);
+int set_assetguard_key(char *key, HWND hwnd);
 
 /* Get OSSEC Server IP */
-int get_ossec_server();
+int get_assetguard_server();
 
 
 #endif

@@ -19,7 +19,7 @@ void monitor_send_disconnection_msg(const char *agent_name, const char *agent_ip
     int ag_id;
 
     if (ag_id = wdb_find_agent(agent_name, agent_ip, NULL), ag_id > 0) {
-        /* Log agent disconnection event to ossec.log */
+        /* Log agent disconnection event to assetguard.log */
         minfo(OS_AG_DISCON, ag_id, agent_name);
     } else if (ag_id == -2) {
         // Agent no longer exists in database
@@ -145,7 +145,7 @@ void monitor_logs(bool check_logs_size, char path[PATH_MAX], char path_json[PATH
 
     if (check_logs_size == FALSE && mond.rotate_log) {
         sleep(mond.day_wait);
-        /* Daily rotation and compression of assetguard log file/ossec.json */
+        /* Daily rotation and compression of assetguard log file/assetguard.json */
         w_rotate_log(mond.compress, mond.keep_log_days, 1, 0, mond.daily_rotations);
 
     } else if (check_logs_size == TRUE && mond.rotate_log && mond.size_rotate > 0){
@@ -159,7 +159,7 @@ void monitor_logs(bool check_logs_size, char path[PATH_MAX], char path_json[PATH
 
         if (w_stat(path_json, &buf) == 0) {
             size = buf.st_size;
-            /* If log file reachs maximum size, rotate ossec.json */
+            /* If log file reachs maximum size, rotate assetguard.json */
             if ( (unsigned long) size >= mond.size_rotate) {
                 w_rotate_log(mond.compress, mond.keep_log_days, 0, 1, mond.daily_rotations);
             }

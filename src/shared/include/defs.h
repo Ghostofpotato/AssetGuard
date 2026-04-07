@@ -68,8 +68,8 @@
 #define OS_MAX_LOG_SIZE OS_MAXSTR - OS_LOG_HEADER /* Maximum log size with a header protection */
 
 /* Some global names */
-#define __ossec_name    "AssetGuard"
-#define __ossec_version "v5.0.0"
+#define __assetguard_name    "AssetGuard"
+#define __assetguard_version "v5.0.0"
 #define __author        "AssetGuard Inc."
 #define __contact       "info@assetguard.com"
 #define __site          "http://www.assetguard.com"
@@ -248,11 +248,11 @@ https://www.gnu.org/licenses/gpl.html\n"
 
 /* Internal definitions files */
 #ifndef WIN32
-#define OSSEC_DEFINES  "etc/internal_options.conf"
-#define OSSEC_LDEFINES "etc/local_internal_options.conf"
+#define ASSETGUARD_DEFINES  "etc/internal_options.conf"
+#define ASSETGUARD_LDEFINES "etc/local_internal_options.conf"
 #else
-#define OSSEC_DEFINES  "internal_options.conf"
-#define OSSEC_LDEFINES "local_internal_options.conf"
+#define ASSETGUARD_DEFINES  "internal_options.conf"
+#define ASSETGUARD_LDEFINES "local_internal_options.conf"
 #endif
 
 /* Log directories */
@@ -314,27 +314,27 @@ https://www.gnu.org/licenses/gpl.html\n"
 
 /* Built-in defines */
 
-#ifndef OSSECCONF
+#ifndef ASSETGUARDCONF
 #ifndef WIN32
 #ifdef CLIENT
-#define OSSECCONF "etc/ossec.conf"
+#define ASSETGUARDCONF "etc/assetguard.conf"
 #else
-#define OSSECCONF "etc/assetguard-manager.conf"
+#define ASSETGUARDCONF "etc/assetguard-manager.conf"
 #endif
 #else
-#define OSSECCONF "ossec.conf"
+#define ASSETGUARDCONF "assetguard.conf"
 #endif
 #endif
 
-#ifndef OSSECCONFIG
+#ifndef ASSETGUARDCONFIG
 #ifndef WIN32
 #ifdef CLIENT
-#define OSSECCONFIG       "ossec_config"
+#define ASSETGUARDCONFIG       "assetguard_config"
 #else
-#define OSSECCONFIG       "assetguard_config"
+#define ASSETGUARDCONFIG       "assetguard_config"
 #endif
 #else
-#define OSSECCONFIG       "ossec_config"
+#define ASSETGUARDCONFIG       "assetguard_config"
 #endif
 #endif
 

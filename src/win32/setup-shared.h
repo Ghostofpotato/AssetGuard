@@ -20,9 +20,9 @@
 #include <windows.h>
 #include <winsock2.h>
 
-#define OSSECCONF  "ossec.conf"
-#define OSSECDEF   "default-ossec.conf"
-#define OSSECLAST  "ossec.conf.bak"
+#define ASSETGUARDCONF  "assetguard.conf"
+#define ASSETGUARDDEF   "default-assetguard.conf"
+#define ASSETGUARDLAST  "assetguard.conf.bak"
 #define CLIENTKEYS "client.keys"
 #define OS_MAXSTR  1024
 

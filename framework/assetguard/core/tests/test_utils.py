@@ -11,7 +11,7 @@ from shutil import copyfile, Error
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 from unittest.mock import call, MagicMock, Mock, mock_open, patch, ANY, sentinel
 from xml.etree.ElementTree import Element
-from assetguard.core.common import OSSEC_TMP_PATH, ASSETGUARD_LOCALTIME_PATH
+from assetguard.core.common import ASSETGUARD_TMP_PATH, ASSETGUARD_LOCALTIME_PATH
 
 import pytest
 from defusedxml.ElementTree import parse
@@ -2276,7 +2276,7 @@ def test_check_indexer(new_conf, original_conf, indexer_changed, indexer_allowed
         (True, "<Test>'+Tes't</Test>")]
 )
 @patch('assetguard.core.utils.tempfile.mkstemp',
-        return_value=('handle', os.path.join(OSSEC_TMP_PATH, 'file.tmp')))
+        return_value=('handle', os.path.join(ASSETGUARD_TMP_PATH, 'file.tmp')))
 @patch('assetguard.core.utils.chmod')
 @patch('assetguard.core.common.assetguard_gid')
 @patch('assetguard.core.common.assetguard_uid')
@@ -2310,7 +2310,7 @@ def test_upload_file(mock_uid, mock_gid,
                                         check_xml_formula_values=chk_xml)
             assert isinstance(result, AssetGuardResult)
             handle.write.assert_called_once_with(content)
-            tmp_path = os.path.join(OSSEC_TMP_PATH, 'file.tmp')
+            tmp_path = os.path.join(ASSETGUARD_TMP_PATH, 'file.tmp')
             file_path = os.path.join(ASSETGUARD_PATH, filename)
             mock_safe_move.assert_called_once_with(tmp_path, file_path,
                                                     ownership=(mock_uid(), mock_gid()),
@@ -2327,7 +2327,7 @@ def test_upload_file(mock_uid, mock_gid,
         (PermissionError(), False, (utils.AssetGuardError, 1006))]
 )
 @patch('assetguard.core.utils.tempfile.mkstemp',
-        return_value=('handle', os.path.join(OSSEC_TMP_PATH, 'file.tmp')))
+        return_value=('handle', os.path.join(ASSETGUARD_TMP_PATH, 'file.tmp')))
 @patch('assetguard.core.utils.chmod')
 @patch('assetguard.core.common.assetguard_gid')
 @patch('assetguard.core.common.assetguard_uid')

@@ -9,10 +9,10 @@ from assetguard import AssetGuard
 from assetguard.core import common, configuration
 from assetguard.core.cluster.cluster import get_node
 from assetguard.core.cluster.utils import manager_restart, running_in_master_node
-from assetguard.core.configuration import get_ossec_conf, write_ossec_conf
+from assetguard.core.configuration import get_assetguard_conf, write_assetguard_conf
 from assetguard.core.exception import AssetGuardError, AssetGuardInternalError
-from assetguard.core.manager import status, get_api_conf, get_update_information_template, get_ossec_logs, \
-    get_logs_summary, validate_ossec_conf, OSSEC_LOG_FIELDS
+from assetguard.core.manager import status, get_api_conf, get_update_information_template, get_assetguard_logs, \
+    get_logs_summary, validate_assetguard_conf, ASSETGUARD_LOG_FIELDS
 from assetguard.core.results import AffectedItemsAssetGuardResult, AssetGuardResult
 from assetguard.core.utils import process_array, safe_move, validate_assetguard_xml, full_copy
 from assetguard.rbac.decorators import expose_resources, mask_sensitive_config
@@ -87,7 +87,7 @@ def ossec_log(level: str = None, tag: str = None, offset: int = 0, limit: int = 
                                       none_msg=f"Could not read logs"
                                                f"{' in specified node' if node_id != 'manager' else ''}"
                                       )
-    logs = get_ossec_logs()
+    logs = get_assetguard_logs()
 
     query = []
     level and query.append(f'level={level}')
@@ -98,7 +98,7 @@ def ossec_log(level: str = None, tag: str = None, offset: int = 0, limit: int = 
     data = process_array(logs, search_text=search_text, search_in_fields=search_in_fields,
                          complementary_search=complementary_search, sort_by=sort_by,
                          sort_ascending=sort_ascending, offset=offset, limit=limit, q=query,
-                         select=select, allowed_select_fields=OSSEC_LOG_FIELDS, distinct=distinct)
+                         select=select, allowed_select_fields=ASSETGUARD_LOG_FIELDS, distinct=distinct)
     result.affected_items.extend(data['items'])
     result.total_affected_items = data['totalItems']
 
@@ -216,7 +216,7 @@ def validation() -> AffectedItemsAssetGuardResult:
     result = AffectedItemsAssetGuardResult(**_validation_default_result_kwargs)
 
     try:
-        response = validate_ossec_conf()
+        response = validate_assetguard_conf()
         result.affected_items.append({'name': node_id, **response})
         result.total_affected_items += 1
     except AssetGuardError as e:
@@ -262,9 +262,9 @@ def get_config(component: str = None, config: str = None) -> AffectedItemsAssetG
 
 @expose_resources(actions=['cluster:read'], resources=[f'node:id:{node_id}'])
 @mask_sensitive_config()
-def read_ossec_conf(section: str = None, field: str = None, raw: bool = False,
+def read_assetguard_conf(section: str = None, field: str = None, raw: bool = False,
                     distinct: bool = False) -> AffectedItemsAssetGuardResult:
-    """Wrapper for get_ossec_conf.
+    """Wrapper for get_assetguard_conf.
 
     Parameters
     ----------
@@ -291,9 +291,9 @@ def read_ossec_conf(section: str = None, field: str = None, raw: bool = False,
 
     try:
         if raw:
-            with open(common.OSSEC_CONF) as f:
+            with open(common.ASSETGUARD_CONF) as f:
                 return f.read()
-        result.affected_items.append(get_ossec_conf(section=section, field=field, distinct=distinct))
+        result.affected_items.append(get_assetguard_conf(section=section, field=field, distinct=distinct))
     except AssetGuardError as e:
         result.add_failed_item(id_=node_id, error=e)
     result.total_affected_items = len(result.affected_items)
@@ -331,7 +331,7 @@ def get_basic_info() -> AffectedItemsAssetGuardResult:
 
 
 @expose_resources(actions=['cluster:update_config'], resources=[f'node:id:{node_id}'])
-def update_ossec_conf(new_conf: str = None) -> AffectedItemsAssetGuardResult:
+def update_assetguard_conf(new_conf: str = None) -> AffectedItemsAssetGuardResult:
     """Replace assetguard configuration (assetguard-manager.conf) with the provided configuration.
 
     Parameters
@@ -350,7 +350,7 @@ def update_ossec_conf(new_conf: str = None) -> AffectedItemsAssetGuardResult:
                                       none_msg=f"Could not update configuration"
                                                f"{' in specified node' if node_id != 'manager' else ''}"
                                       )
-    backup_file = f'{common.OSSEC_CONF}.backup'
+    backup_file = f'{common.ASSETGUARD_CONF}.backup'
     try:
         # Check a configuration has been provided
         if not new_conf:
@@ -361,13 +361,13 @@ def update_ossec_conf(new_conf: str = None) -> AffectedItemsAssetGuardResult:
 
         # Create a backup of the current configuration before attempting to replace it
         try:
-            full_copy(common.OSSEC_CONF, backup_file)
+            full_copy(common.ASSETGUARD_CONF, backup_file)
         except IOError:
             raise AssetGuardError(1019)
 
         # Write the new configuration and validate it
-        write_ossec_conf(new_conf)
-        is_valid = validate_ossec_conf()
+        write_assetguard_conf(new_conf)
+        is_valid = validate_assetguard_conf()
 
         if not isinstance(is_valid, dict) or ('status' in is_valid and is_valid['status'] != 'OK'):
             raise AssetGuardError(1125)
@@ -377,7 +377,7 @@ def update_ossec_conf(new_conf: str = None) -> AffectedItemsAssetGuardResult:
     except AssetGuardError as e:
         result.add_failed_item(id_=node_id, error=e)
     finally:
-        exists(backup_file) and safe_move(backup_file, common.OSSEC_CONF)
+        exists(backup_file) and safe_move(backup_file, common.ASSETGUARD_CONF)
 
     result.total_affected_items = len(result.affected_items)
     return result

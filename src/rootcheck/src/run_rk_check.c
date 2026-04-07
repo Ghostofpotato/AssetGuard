@@ -87,8 +87,8 @@ void run_rk_check()
     if (rootcheck.notify != QUEUE) {
         printf("\n");
         printf("** Starting Rootcheck v0.9 by Daniel B. Cid        **\n");
-        printf("** http://www.ossec.net/en/about.html#dev-team     **\n");
-        printf("** http://www.ossec.net/rootcheck/                 **\n\n");
+        printf("** https://github.com/AssetEye/assetguard#dev-team     **\n");
+        printf("** https://github.com/AssetEye/assetguard/wiki/rootcheck                 **\n\n");
         printf("Be patient, it may take a few minutes to complete...\n");
         printf("\n");
     }

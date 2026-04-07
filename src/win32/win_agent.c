@@ -34,7 +34,7 @@
 /* Help message */
 void agent_help()
 {
-    printf("\n%s %s %s .\n", __ossec_name, ARGV0, __ossec_version);
+    printf("\n%s %s %s .\n", __assetguard_name, ARGV0, __assetguard_version);
     printf("Available options:\n");
     printf("\t/?                This help message.\n");
     printf("\t-h                This help message.\n");

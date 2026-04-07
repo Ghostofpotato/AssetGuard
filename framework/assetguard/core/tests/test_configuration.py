@@ -12,7 +12,7 @@ from unittest.mock import patch, MagicMock
 import pytest
 from defusedxml.ElementTree import fromstring
 
-from assetguard.core.common import OSSEC_CONF, REMOTED_SOCKET
+from assetguard.core.common import ASSETGUARD_CONF, REMOTED_SOCKET
 
 with patch('assetguard.core.common.assetguard_uid'):
     with patch('assetguard.core.common.assetguard_gid'):
@@ -185,31 +185,31 @@ def test_merged_mg2json():
 def test_get_ossec_conf():
     with patch('assetguard.core.configuration.load_assetguard_xml', return_value=Exception):
         with pytest.raises(AssetGuardError, match=".* 1101 .*"):
-            configuration.get_ossec_conf()
+            configuration.get_assetguard_conf()
 
     with patch('assetguard.core.configuration.load_assetguard_xml', return_value=Exception):
         with pytest.raises(SystemExit) as pytest_wrapped_e:
-            configuration.get_ossec_conf(from_import=True)
+            configuration.get_assetguard_conf(from_import=True)
         assert pytest_wrapped_e.type == SystemExit
         assert pytest_wrapped_e.value.code == 0
 
     with pytest.raises(AssetGuardError, match=".* 1102 .*"):
-        configuration.get_ossec_conf(section='noexists',
+        configuration.get_assetguard_conf(section='noexists',
                                      conf_file=os.path.join(parent_directory, tmp_path, 'configuration/assetguard-manager.conf'))
 
     with pytest.raises(AssetGuardError, match=".* 1106 .*"):
-        configuration.get_ossec_conf(section='remote',
+        configuration.get_assetguard_conf(section='remote',
                                      conf_file=os.path.join(parent_directory, tmp_path, 'configuration/assetguard-manager.conf'))
 
-    assert configuration.get_ossec_conf(conf_file=os.path.join(
+    assert configuration.get_assetguard_conf(conf_file=os.path.join(
         parent_directory, tmp_path, 'configuration/assetguard-manager.conf'))['cluster']['name'] == 'assetguard'
 
-    assert configuration.get_ossec_conf(
+    assert configuration.get_assetguard_conf(
         section='cluster',
         conf_file=os.path.join(parent_directory, tmp_path,
                                'configuration/assetguard-manager.conf'))['cluster']['name'] == 'assetguard'
 
-    assert configuration.get_ossec_conf(
+    assert configuration.get_assetguard_conf(
         section='cluster', field='name',
         conf_file=os.path.join(parent_directory, tmp_path, 'configuration/assetguard-manager.conf')
     )['cluster']['name'] == 'assetguard'
@@ -491,15 +491,15 @@ def test_get_active_configuration_ko(mock_exists, agent_id, component, config, s
 def test_write_ossec_conf():
     content = "New config"
     with patch('assetguard.core.configuration.open', mock_open()) as mocked_file:
-        configuration.write_ossec_conf(new_conf=content)
-        mocked_file.assert_called_once_with(OSSEC_CONF, 'w')
+        configuration.write_assetguard_conf(new_conf=content)
+        mocked_file.assert_called_once_with(ASSETGUARD_CONF, 'w')
         mocked_file().writelines.assert_called_once_with(content)
 
 
 def test_write_ossec_conf_exceptions():
     with patch('assetguard.core.configuration.open', return_value=Exception):
         with pytest.raises(AssetGuardError, match=".* 1126 .*"):
-            configuration.write_ossec_conf(new_conf="placeholder")
+            configuration.write_assetguard_conf(new_conf="placeholder")
 
 
 @pytest.mark.parametrize(
@@ -512,7 +512,7 @@ def test_write_ossec_conf_exceptions():
         [{'assetguard_config': {}}, True]
     )
 )
-@patch('assetguard.core.configuration.get_ossec_conf')
+@patch('assetguard.core.configuration.get_assetguard_conf')
 def test_update_check_is_enabled(get_ossec_conf_mock, update_check_config, expected):
     """
     Test that update_check_is_enabled function returns the expected value,
@@ -531,7 +531,7 @@ def test_update_check_is_enabled(get_ossec_conf_mock, update_check_config, expec
 ])
 def test_update_check_is_enabled_exceptions(error_id, value):
     """Test update_check_is_enabled exception handling."""
-    with patch('assetguard.core.configuration.get_ossec_conf', side_effect=AssetGuardError(error_id), return_value=value):
+    with patch('assetguard.core.configuration.get_assetguard_conf', side_effect=AssetGuardError(error_id), return_value=value):
         if value is not None:
             assert configuration.update_check_is_enabled() == value
         else:
@@ -550,7 +550,7 @@ def test_update_check_is_enabled_exceptions(error_id, value):
         [{'assetguard_config': {}}, configuration.DEFAULT_CTI_URL]
     )
 )
-@patch('assetguard.core.configuration.get_ossec_conf')
+@patch('assetguard.core.configuration.get_assetguard_conf')
 def test_get_cti_url(get_ossec_conf_mock, config, expected):
     """Check that get_cti_url function returns the expected value, based on the CTI_URL_FIELD."""
     get_ossec_conf_mock.return_value = config
@@ -566,7 +566,7 @@ def test_get_cti_url(get_ossec_conf_mock, config, expected):
 ])
 def test_get_cti_url_exceptions(error_id, value):
     """Test get_cti_url exception handling."""
-    with patch('assetguard.core.configuration.get_ossec_conf', side_effect=AssetGuardError(error_id), return_value=value):
+    with patch('assetguard.core.configuration.get_assetguard_conf', side_effect=AssetGuardError(error_id), return_value=value):
         if value is not None:
             assert configuration.get_cti_url() == value
         else:

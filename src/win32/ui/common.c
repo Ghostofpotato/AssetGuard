@@ -202,7 +202,7 @@ char *read_version_file_field(const char *field_name)
     return version_copy;
 }
 
-/* Read ossec config */
+/* Read assetguard config */
 int config_read(__attribute__((unused)) HWND hwnd)
 {
     char *tmp_str;
@@ -313,7 +313,7 @@ int config_read(__attribute__((unused)) HWND hwnd)
     }
 
     /* Get server IP */
-    if (!get_ossec_server()) {
+    if (!get_assetguard_server()) {
         if (strcmp(config_inst.status, ST_MISSING_IMPORT) == 0) {
             config_inst.status = ST_MISSING_ALL;
         } else {
@@ -325,7 +325,7 @@ int config_read(__attribute__((unused)) HWND hwnd)
 }
 
 /* Get OSSEC Server IP */
-int get_ossec_server()
+int get_assetguard_server()
 {
     OS_XML xml;
     char *str = NULL;
@@ -449,7 +449,7 @@ int run_cmd(char *cmd, HWND hwnd)
 }
 
 /* Set OSSEC Server IP */
-int set_ossec_server(char *ip, HWND hwnd)
+int set_assetguard_server(char *ip, HWND hwnd)
 {
     const char **xml_pt = NULL;
     const char **xml_alt_pt = NULL;
@@ -547,7 +547,7 @@ int set_ossec_server(char *ip, HWND hwnd)
 }
 
 /* Set OSSEC Authentication Key */
-int set_ossec_key(char *key, HWND hwnd)
+int set_assetguard_key(char *key, HWND hwnd)
 {
     FILE *fp;
 

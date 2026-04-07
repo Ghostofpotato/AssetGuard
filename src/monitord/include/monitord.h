@@ -96,7 +96,7 @@ int check_logs_time_trigger();
 
 /* Messages prototypes */
 /**
- * @brief Logs agent disconnection event to ossec.log
+ * @brief Logs agent disconnection event to assetguard.log
  *
  * @param agent_name Agent name
  * @param agent_ip Agent IP address

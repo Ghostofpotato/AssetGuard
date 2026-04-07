@@ -182,7 +182,7 @@ int main(int argc, char **argv)
                     break;
 
                 case 'i':
-                    mwarn(DEPRECATED_OPTION_WARN, "-i", OSSECCONF);
+                    mwarn(DEPRECATED_OPTION_WARN, "-i", ASSETGUARDCONF);
                     break;
 
                 case 'g':
@@ -259,11 +259,11 @@ int main(int argc, char **argv)
                     break;
 
                 case 'F':
-                    mwarn(DEPRECATED_OPTION_WARN, "-F", OSSECCONF);
+                    mwarn(DEPRECATED_OPTION_WARN, "-F", ASSETGUARDCONF);
                     break;
 
                 case 'r':
-                    mwarn(DEPRECATED_OPTION_WARN, "-r", OSSECCONF);
+                    mwarn(DEPRECATED_OPTION_WARN, "-r", ASSETGUARDCONF);
                     break;
 
                 case 'a':
@@ -394,8 +394,8 @@ int main(int argc, char **argv)
         }
 
         // Return -1 if not configured
-        if (authd_read_config(OSSECCONF) < 0) {
-            merror_exit(CONFIG_ERROR, OSSECCONF);
+        if (authd_read_config(ASSETGUARDCONF) < 0) {
+            merror_exit(CONFIG_ERROR, ASSETGUARDCONF);
         }
 
         // Overwrite arguments

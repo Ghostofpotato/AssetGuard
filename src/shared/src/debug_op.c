@@ -96,7 +96,7 @@ static void _log_function(int level, const char *tag, const char * file, int lin
 
     if (!flags.initialized) {
         /* If not initialized and plain_only is true, we avoid reading the
-           the ossec.conf file due to the call to many shared libraries (XML read, etc.).
+           the assetguard.conf file due to the call to many shared libraries (XML read, etc.).
            The module will be initialized later. */
         if(plain_only) {
             flags.log_plain = 1;
@@ -138,7 +138,7 @@ static void _log_function(int level, const char *tag, const char * file, int lin
             fp = wfopen(logfile, "w");
             umask(oldmask);
 
-            // Make sure that the group is ossec
+            // Make sure that the group is assetguard
 
             if (fp && getuid() == 0) {
                 gid_t group;
@@ -204,7 +204,7 @@ static void _log_function(int level, const char *tag, const char * file, int lin
             fp = wfopen(logfile, "w");
             umask(oldmask);
 
-            // Make sure that the group is ossec
+            // Make sure that the group is assetguard
 
             if (fp && getuid() == 0) {
                 gid_t group;
@@ -279,18 +279,18 @@ void w_logging_init(){
 
 void os_logging_config(){
   OS_XML xml;
-  const char * xmlf[] = {OSSECCONFIG, "logging", "log_format", NULL};
+  const char * xmlf[] = {ASSETGUARDCONFIG, "logging", "log_format", NULL};
   char * logformat;
   char ** parts = NULL;
   int i;
 
   pid = (int)getpid();
 
-  if (OS_ReadXML(OSSECCONF, &xml) < 0){
+  if (OS_ReadXML(ASSETGUARDCONF, &xml) < 0){
     flags.log_plain = 1;
     flags.log_json = 0;
     OS_ClearXML(&xml);
-    mlerror_exit(LOGLEVEL_ERROR, XML_ERROR, OSSECCONF, xml.err, xml.err_line);
+    mlerror_exit(LOGLEVEL_ERROR, XML_ERROR, ASSETGUARDCONF, xml.err, xml.err_line);
   }
 
   logformat = OS_GetOneContentforElement(&xml, xmlf);

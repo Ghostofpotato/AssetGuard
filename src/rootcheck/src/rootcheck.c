@@ -11,7 +11,7 @@
 /*
  * Rootcheck
  * Copyright (C) 2003 Daniel B. Cid <daniel@underlinux.com.br>
- * http://www.ossec.net/rootcheck/
+ * https://github.com/AssetEye/assetguard/wiki/rootcheck
  */
 
 #include "shared.h"
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 
 int rootcheck_init(int test_config)
 {
-    const char *cfg = OSSECCONF;
+    const char *cfg = ASSETGUARDCONF;
 
 #endif /* OSSECHIDS */
 

@@ -738,7 +738,7 @@ void LogCollectorStart()
 
                         char msg_alert[512 + 1];
 
-                        snprintf(msg_alert, 512, "ossec: File rotated (inode "
+                        snprintf(msg_alert, 512, "assetguard: File rotated (inode "
                                  "changed): '%s'.",
                                  current->file);
 
@@ -771,7 +771,7 @@ void LogCollectorStart()
                         current->exists = 1;
                         char msg_alert[512 + 1];
 
-                        snprintf(msg_alert, 512, "ossec: File size reduced "
+                        snprintf(msg_alert, 512, "assetguard: File size reduced "
                                  "(inode remained): '%s'.",
                                  current->file);
 

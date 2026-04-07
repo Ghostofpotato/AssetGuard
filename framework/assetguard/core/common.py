@@ -196,7 +196,7 @@ ACTIVE_CONFIG_VERSION = 'AssetGuard v4.0.0'
 
 
 # ================================================ AssetGuard path - Config =================================================
-OSSEC_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'assetguard-manager.conf')
+ASSETGUARD_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'assetguard-manager.conf')
 INTERNAL_OPTIONS_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'internal_options.conf')
 LOCAL_INTERNAL_OPTIONS_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'local_internal_options.conf')
 AR_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'shared', 'ar.conf')
@@ -212,8 +212,8 @@ DATABASE_PATH = os.path.join(ASSETGUARD_PATH, 'var', 'db')
 DATABASE_PATH_GLOBAL = os.path.join(DATABASE_PATH, 'global.db')
 ANALYSISD_STATS = os.path.join(ASSETGUARD_PATH, 'var', 'run', 'assetguard-manager-analysisd.state')
 REMOTED_STATS = os.path.join(ASSETGUARD_PATH, 'var', 'run', 'assetguard-manager-remoted.state')
-OSSEC_TMP_PATH = os.path.join(ASSETGUARD_PATH, 'tmp')
-OSSEC_PIDFILE_PATH = os.path.join(ASSETGUARD_PATH, 'var', 'run')
+ASSETGUARD_TMP_PATH = os.path.join(ASSETGUARD_PATH, 'tmp')
+ASSETGUARD_PIDFILE_PATH = os.path.join(ASSETGUARD_PATH, 'var', 'run')
 OS_PIDFILE_PATH = os.path.join('var', 'run')
 WDB_PATH = os.path.join(ASSETGUARD_PATH, 'queue', 'db')
 STATS_PATH = os.path.join(ASSETGUARD_PATH, 'stats')

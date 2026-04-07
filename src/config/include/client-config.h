@@ -56,14 +56,14 @@ void Free_Client(agent * config);
 
 /**
  * @brief Check if address has default values
- * @param servers Server(s) configuration block in agent ossec.conf
+ * @param servers Server(s) configuration block in agent assetguard.conf
  * @return Returns true if successful and false if not success
  */
 bool Validate_Address(agent_server *servers);
 
 /**
  * @brief Checks if at least one <manager> block is not a link-local ipv6 address or it has a network interface configured.
- * @param servers Server(s) configuration block in agent ossec.conf
+ * @param servers Server(s) configuration block in agent assetguard.conf
  * @return Returns true if successful and false if not success.
  */
 bool Validate_IPv6_Link_Local_Interface(agent_server *servers);

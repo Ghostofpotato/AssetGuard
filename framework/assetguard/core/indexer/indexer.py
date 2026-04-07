@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 from opensearchpy import AsyncOpenSearch
 from opensearchpy.exceptions import ImproperlyConfigured, TransportError
-from assetguard.core.configuration import get_ossec_conf
+from assetguard.core.configuration import get_assetguard_conf
 from assetguard.core.exception import AssetGuardException, AssetGuardIndexerError
 from assetguard.core.indexer.credential_manager import KeystoreClient
 from assetguard.core.indexer.max_version_components import MaxVersionIndex
@@ -238,7 +238,7 @@ async def get_indexer_client() -> AsyncIterator[Indexer]:
     """
     MAX_RETRIES = 3
     try:
-        assetguard_config = get_ossec_conf(section="indexer")
+        assetguard_config = get_assetguard_conf(section="indexer")
         if not assetguard_config:
             raise AssetGuardException(
                 code=1002, message="Missing indexer configuration in AssetGuard config"
