@@ -115,7 +115,7 @@ STATIC void* wm_agent_upgrade_listen_messages(__attribute__((unused)) void *arg)
     // Initialize socket
     char sockname[PATH_MAX + 1];
 
-	strcpy(sockname, AGENT_UPGRADE_SOCK);
+	snprintf(sockname, sizeof(sockname), "%s", AGENT_UPGRADE_SOCK);
 
     int sock = OS_BindUnixDomainWithPerms(sockname, SOCK_STREAM, OS_MAXSTR, getuid(), wm_getGroupID(), 0660);
     if (sock < 0) {

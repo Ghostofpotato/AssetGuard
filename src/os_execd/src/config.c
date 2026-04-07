@@ -209,7 +209,7 @@ cJSON *getClusterConfig(void) {
 
     cJSON *cluster_config_cJSON;
 
-    strcpy(sockname, CLUSTER_SOCK);
+    snprintf(sockname, sizeof(sockname), "%s", CLUSTER_SOCK);
 
     if (sock = external_socket_connect(sockname, ASSETGUARD_IPC_TIMEOUT), sock < 0) {
         switch (errno) {

@@ -603,7 +603,7 @@ size_t CreateSecMSG(const keystore *keys, const char *msg, size_t msg_length, ch
     OS_MD5_Str(_tmpmsg, length, md5sum);
 
     /* Generate final msg to be compressed: <md5sum><_tmpmsg> */
-    strcpy(_finmsg, md5sum);
+    snprintf(_finmsg, sizeof(_finmsg), "%s", md5sum);
     memcpy(_finmsg + 32, _tmpmsg, length);
     length += 32;
 

@@ -253,16 +253,16 @@ int wm_agent_upgrade_validate_wpk_version(wm_agent_info *agent_info, wm_upgrade_
     // Set protocol
     if (!strstr(task->wpk_repository, http_tag) && !strstr(task->wpk_repository, https_tag)) {
         if (task->use_http) {
-            strcat(repository_url, http_tag);
+            strncat(repository_url, http_tag, OS_SIZE_1024 - strlen(repository_url) - 1);
         } else {
-            strcat(repository_url, https_tag);
+            strncat(repository_url, https_tag, OS_SIZE_1024 - strlen(repository_url) - 1);
         }
     }
 
     // Set repository
     strncat(repository_url, task->wpk_repository, OS_SIZE_512);
     if (task->wpk_repository[strlen(task->wpk_repository) - 1] != '/') {
-        strcat(repository_url, "/");
+        strncat(repository_url, "/", OS_SIZE_1024 - strlen(repository_url) - 1);
     }
 
     // Set URL path

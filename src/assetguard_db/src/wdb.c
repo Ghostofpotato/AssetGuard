@@ -1201,8 +1201,7 @@ sqlite3_stmt * wdb_get_cache_stmt(wdb_t * wdb, char const *query) {
                 new_item = node_stmt->next;
             }
             new_item->next = NULL;
-            os_malloc(strlen(query) + 1, new_item->value.query);
-            strcpy(new_item->value.query, query);
+            os_strdup(query, new_item->value.query);
 
             if (sqlite3_prepare_v2(wdb->db, new_item->value.query, -1, &new_item->value.stmt, NULL) != SQLITE_OK) {
                 merror("DB(%s) sqlite3_prepare_v2() : %s", wdb->id, sqlite3_errmsg(wdb->db));

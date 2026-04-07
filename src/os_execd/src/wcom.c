@@ -341,7 +341,7 @@ size_t wcom_getconfig(const char * section, char ** output) {
         int sock = -1;
         char sockname[PATH_MAX + 1] = {0};
 
-        strcpy(sockname, CLUSTER_SOCK);
+        snprintf(sockname, sizeof(sockname), "%s", CLUSTER_SOCK);
 
         if (sock = OS_ConnectUnixDomain(sockname, SOCK_STREAM, OS_MAXSTR), sock < 0) {
             os_strdup("err Unable to connect with socket. The component might be disabled", *output);

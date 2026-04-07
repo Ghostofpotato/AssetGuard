@@ -305,7 +305,7 @@ static int w_enrollment_send_message(w_enrollment_ctx *cfg) {
     }
 
     /* Append new line character */
-    strcat(buf,"\n");
+    strncat(buf, "\n", (OS_SIZE_65536 + OS_SIZE_4096) - strlen(buf));
     int ret = SSL_write(cfg->ssl, buf, strlen(buf));
     if (ret < 0) {
         merror("SSL write error (unable to send message.)");

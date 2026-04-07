@@ -797,9 +797,9 @@ char* get_subkey(char* key) {
 
     aux_token = strtok(remaining_key, "\\");
     while (aux_token !=NULL && !(strchr(aux_token, '?') || strchr(aux_token, '*'))) {
-        strcat(subkey, aux_token);
+        strncat(subkey, aux_token, OS_SIZE_128 - strlen(subkey) - 1);
         aux_token = strtok(NULL, "\\");
-        strcat(subkey, "\\");
+        strncat(subkey, "\\", OS_SIZE_128 - strlen(subkey) - 1);
     }
     int path_len = strlen(subkey) - 1;
     os_free(remaining_key);
@@ -970,13 +970,15 @@ void w_expand_by_wildcard(reg_path_struct **array_struct, char wildcard_chr) {
                         os_calloc(OS_SIZE_256, sizeof(char), full_path);
 
                         //Copy first part.
-                        strcpy(full_path, first_part);
+                        snprintf(full_path, OS_SIZE_256, "%s", first_part);
 
                         //Add key result.
-                        strcat(full_path, *query_keys);
+                        strncat(full_path, *query_keys, OS_SIZE_256 - strlen(full_path) - 1);
 
                         //Copy second part.
-                        second_part != NULL ? strcat(full_path, second_part) : strcat(full_path,"\0");
+                        if (second_part != NULL) {
+                            strncat(full_path, second_part, OS_SIZE_256 - strlen(full_path) - 1);
+                        }
 
                         // ----- End final path variable section -----
 
@@ -1019,13 +1021,15 @@ void w_expand_by_wildcard(reg_path_struct **array_struct, char wildcard_chr) {
                     os_calloc(OS_SIZE_256, sizeof(char), full_path);
 
                     //Copy first part.
-                    strcpy(full_path, first_part);
+                    snprintf(full_path, OS_SIZE_256, "%s", first_part);
 
                     //Add key result.
-                    strcat(full_path, *query_keys);
+                    strncat(full_path, *query_keys, OS_SIZE_256 - strlen(full_path) - 1);
 
                     //Copy second part.
-                    second_part != NULL ? strcat(full_path, second_part) : strcat(full_path, "\0");
+                    if (second_part != NULL) {
+                        strncat(full_path, second_part, OS_SIZE_256 - strlen(full_path) - 1);
+                    }
 
                     // ----- End final path variable section -----
 

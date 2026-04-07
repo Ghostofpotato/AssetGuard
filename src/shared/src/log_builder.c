@@ -287,7 +287,7 @@ int log_builder_update_host_ip(log_builder_t * builder) {
     }
     rwlock_lock_write(&builder->rwlock);
     if (*host_ip != '\0' && strcmp(host_ip, "Err")) {
-        strcpy(builder->host_ip, host_ip);
+        snprintf(builder->host_ip, IPSIZE, "%s", host_ip);
     } else {
         strncpy(builder->host_ip, "0.0.0.0", IPSIZE - 1);
     }

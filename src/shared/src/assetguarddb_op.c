@@ -45,7 +45,7 @@ int wdbc_connect_with_attempts(int max_attempts) {
     int wdb_socket = -1;
     char sockname[PATH_MAX + 1];
 
-    strcpy(sockname, WDB_LOCAL_SOCK);
+    snprintf(sockname, sizeof(sockname), "%s", WDB_LOCAL_SOCK);
 
 
     for (int attempts = 1; attempts <= max_attempts && (wdb_socket = OS_ConnectUnixDomain(sockname, SOCK_STREAM, OS_SIZE_6144)) < 0; attempts++) {

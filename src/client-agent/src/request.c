@@ -277,7 +277,7 @@ void * req_receiver(__attribute__((unused)) void * arg) {
             // Send data
             if (OS_SendSecureTCP(node->sock, node->length, node->buffer) != 0) {
                 merror("OS_SendSecureTCP(): %s", strerror(errno));
-                strcpy(buffer,"err Send data");
+                snprintf(buffer, OS_MAXSTR, "%s", "err Send data");
                 length = strlen(buffer);
             } else {
 
@@ -286,19 +286,19 @@ void * req_receiver(__attribute__((unused)) void * arg) {
                 switch (length = OS_RecvSecureTCP(node->sock, buffer,OS_MAXSTR), length) {
                 case -1:
                     merror("recv(): %s", strerror(errno));
-                    strcpy(buffer,"err Receive data");
+                    snprintf(buffer, OS_MAXSTR, "%s", "err Receive data");
                     length = strlen(buffer);
                     break;
 
                 case 0:
                     mdebug1("Empty message from local client.");
-                    strcpy(buffer,"err Empty response");
+                    snprintf(buffer, OS_MAXSTR, "%s", "err Empty response");
                     length = strlen(buffer);
                     break;
 
                 case OS_SOCKTERR:
                     mdebug1("Maximum buffer length reached.");
-                    strcpy(buffer,"err Maximum buffer length reached");
+                    snprintf(buffer, OS_MAXSTR, "%s", "err Maximum buffer length reached");
                     length = strlen(buffer);
                     break;
 
@@ -311,7 +311,7 @@ void * req_receiver(__attribute__((unused)) void * arg) {
 #endif
         if (length <= 0) {
             // Build error string
-            strcpy(buffer,"err Disconnected");
+            snprintf(buffer, OS_MAXSTR, "%s", "err Disconnected");
             length = strlen(buffer);
         }
 

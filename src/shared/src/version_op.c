@@ -83,7 +83,7 @@ os_info *get_win_version()
             }
             else {
                 memset(temp, '\0', sizeof(temp));
-                strcpy(temp, "Microsoft ");
+                snprintf(temp, sizeof(temp), "%s", "Microsoft ");
                 strncat(temp, value, 1022);
                 info->os_name = strdup(temp);
             }

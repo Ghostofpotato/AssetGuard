@@ -34,7 +34,7 @@ void * reloadAgent() {
 	int sock = -1;
 	char sockname[PATH_MAX + 1];
 
-	strcpy(sockname, COM_LOCAL_SOCK);
+	snprintf(sockname, sizeof(sockname), "%s", COM_LOCAL_SOCK);
 
 	if (sock = OS_ConnectUnixDomain(sockname, SOCK_STREAM, OS_MAXSTR), sock < 0) {
 		switch (errno) {

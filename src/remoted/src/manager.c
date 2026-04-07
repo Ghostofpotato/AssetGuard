@@ -1916,9 +1916,9 @@ void *wait_for_msgs(__attribute__((unused)) void *none)
             char sharedcfg_dir[128] = {0};
 
             if (multi_group) {
-                strcpy(sharedcfg_dir, MULTIGROUPS_DIR);
+                snprintf(sharedcfg_dir, sizeof(sharedcfg_dir), "%s", MULTIGROUPS_DIR);
             } else {
-                strcpy(sharedcfg_dir, SHAREDCFG_DIR);
+                snprintf(sharedcfg_dir, sizeof(sharedcfg_dir), "%s", SHAREDCFG_DIR);
             }
 
             if (send_file_toagent(agent_id, group, SHAREDCFG_FILENAME, merged_sum, sharedcfg_dir) < 0) {

@@ -127,13 +127,13 @@ int audit_print_reply(struct audit_reply *rep) {
                 int val = perm = rep->ruledata->values[i];
                 perms[0] = 0;
                 if (val & AUDIT_PERM_READ)
-                    strcat(perms, "r");
+                    strncat(perms, "r", sizeof(perms) - strlen(perms) - 1);
                 if (val & AUDIT_PERM_WRITE)
-                    strcat(perms, "w");
+                    strncat(perms, "w", sizeof(perms) - strlen(perms) - 1);
                 if (val & AUDIT_PERM_EXEC)
-                    strcat(perms, "x");
+                    strncat(perms, "x", sizeof(perms) - strlen(perms) - 1);
                 if (val & AUDIT_PERM_ATTR)
-                    strcat(perms, "a");
+                    strncat(perms, "a", sizeof(perms) - strlen(perms) - 1);
             }
         }
         if (path && key) {

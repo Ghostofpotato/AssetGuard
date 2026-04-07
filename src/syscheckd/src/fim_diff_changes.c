@@ -524,7 +524,7 @@ diff_data *initialize_file_diff_data(const char *filename, const directory_t *co
         goto error;
     }
 #else
-    strcpy(abs_diff_dir_path, DIFF_DIR);
+    snprintf(abs_diff_dir_path, sizeof(abs_diff_dir_path), "%s", DIFF_DIR);
 #endif
 
     OS_SHA1_Str(buffer, -1, encoded_path);
@@ -780,7 +780,7 @@ char *gen_diff_str(const diff_data *diff){
             while (n > 0 && diff_str[n - 1] != '\n')
                 n--;
         }
-        strcpy(diff_str + n, STR_MORE_CHANGES);
+        memcpy(diff_str + n, STR_MORE_CHANGES, strlen(STR_MORE_CHANGES) + 1);
     }
 #else
     os_strdup(buf, diff_str);
@@ -791,7 +791,7 @@ char *gen_diff_str(const diff_data *diff){
         while (n > 0 && diff_str[n - 1] != '\n')
             n--;
 
-        strcpy(diff_str + n, STR_MORE_CHANGES);
+        memcpy(diff_str + n, STR_MORE_CHANGES, strlen(STR_MORE_CHANGES) + 1);
     }
 #endif
 

@@ -70,8 +70,8 @@ char **OS_StrBreak(char match, const char *_str, size_t size)
                 goto error;
             }
             strncpy(aux_str, tmp_str, i-2);
-            strcat(aux_str, str);
-            strcpy(tmp_str, aux_str);
+            strncat(aux_str, str, strlen(tmp_str) - (i - 2));
+            snprintf(tmp_str, strlen(dup_str) + 1, "%s", aux_str);
             str_ant = tmp_str+i-2;
             str = tmp_str+i-1;
             i--;

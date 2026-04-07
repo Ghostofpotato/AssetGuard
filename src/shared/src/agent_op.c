@@ -556,7 +556,7 @@ int w_send_clustered_message(const char* command, const char* payload, char* res
     int send_attempts = 0;
     bool send_error = FALSE;
 
-    strcpy(sockname, CLUSTER_SOCK);
+    snprintf(sockname, sizeof(sockname), "%s", CLUSTER_SOCK);
     for (send_attempts = 0; send_attempts < CLUSTER_SEND_MESSAGE_ATTEMPTS; ++send_attempts) {
         result = 0;
         send_error = FALSE;

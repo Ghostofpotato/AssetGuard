@@ -72,7 +72,7 @@ void w_rotate_log(int compress, int keep_log_days, int new_day, int rotate_json,
     // ossec.json
     snprintf(old_path_json, PATH_MAX, "%s", LOGJSONFILE);
     // logs
-    strcpy(base_dir, "logs");
+    snprintf(base_dir, sizeof(base_dir), "%s", "logs");
 #else
     // /var/assetguard-manager/logs/assetguard-manager.log
     snprintf(old_path, PATH_MAX, "%s", LOGFILE);

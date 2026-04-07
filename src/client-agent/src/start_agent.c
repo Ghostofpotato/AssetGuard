@@ -214,7 +214,7 @@ STATIC bool parse_agent_groups(const cJSON *root, char *agent_groups, size_t age
                 if (offset > 0) {
                     agent_groups[offset++] = ',';
                 }
-                strcpy(agent_groups + offset, group_item->valuestring);
+                memcpy(agent_groups + offset, group_item->valuestring, group_len);
                 offset += group_len;
                 valid_groups++;
             }
