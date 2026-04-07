@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - UI regression testing
 about: Report the results after running UI manual tests.
-title: 'Release [WAZUH VERSION] - Release Candidate [RC VERSION] - Wazuh UI regression testing'
+title: 'Release [ASSETGUARD VERSION] - Release Candidate [RC VERSION] - AssetGuard UI regression testing'
 labels: 'level/task, type/test, request/operational'
 assignees: ''
 
@@ -9,7 +9,7 @@ assignees: ''
 
 The following issue aims to run manual tests for the current release candidate, report the results, and open new issues for any encountered errors.
 
-## Wazuh UI tests information
+## AssetGuard UI tests information
 |                                        |     |
 |----------------------------------------|-----|
 | **Main release candidate issue**       |     |
@@ -57,7 +57,7 @@ Test summary:
 | Test | Chrome         | Firefox        | Safari         |
 |------|----------------|----------------|----------------|
 | Verify the app package installs and operates as expected. | :black_circle: | :black_circle: | :black_circle: |
-| Verify the default `opensearch_dashboards.yml` has the same settings of the repository [opensearch_dashboards.yml](https://github.com/wazuh/wazuh-dashboard/blob/main/config/opensearch_dashboards.prod.yml) | :black_circle: | :black_circle: | :black_circle: |
+| Verify the default `opensearch_dashboards.yml` has the same settings of the repository [opensearch_dashboards.yml](https://github.com/assetguard/assetguard-dashboard/blob/main/config/opensearch_dashboards.prod.yml) | :black_circle: | :black_circle: | :black_circle: |
 
 
 ## Test plan

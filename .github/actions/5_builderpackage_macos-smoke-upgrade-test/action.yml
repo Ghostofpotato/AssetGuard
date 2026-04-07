@@ -1,5 +1,5 @@
-name: 'Test upgrade Wazuh agent package'
-description: 'Test upgrade Wazuh agent package'
+name: 'Test upgrade AssetGuard agent package'
+description: 'Test upgrade AssetGuard agent package'
 
 inputs:
   old_package_url:
@@ -29,7 +29,7 @@ runs:
       shell: bash
       if: inputs.architecture == 'arm64'
       run: |
-        ${{ env.SSH_COMMAND_ARM64 }} 'cd ~ && sudo bash /tmp/smoke_upgrade_test.sh ${{ inputs.old_package_url }} ${{ inputs.expected_upgrade_version }} "wazuh/packages/macos/output/*agent*pkg"'
+        ${{ env.SSH_COMMAND_ARM64 }} 'cd ~ && sudo bash /tmp/smoke_upgrade_test.sh ${{ inputs.old_package_url }} ${{ inputs.expected_upgrade_version }} "assetguard/packages/macos/output/*agent*pkg"'
 
     - name: Copy upgrade test script to remote intel64 host
       shell: bash

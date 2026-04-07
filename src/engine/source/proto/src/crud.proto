@@ -3,7 +3,7 @@ syntax = "proto3";
 import "engine.proto";
 import "google/protobuf/struct.proto";
 
-package com.wazuh.api.engine.content;
+package com.assetguard.api.engine.content;
 
 /* Small summary of a catalog item */
 message ResourceSummary
@@ -41,7 +41,7 @@ message namespaceGet_Response
  **************************************************/
 message namespacePost_Request
 {
-    string space = 1; // Namespace name to create/ensure (e.g. draft, testing, custom, wazuh)
+    string space = 1; // Namespace name to create/ensure (e.g. draft, testing, custom, assetguard)
 }
 // message namespacePost_Response -> Return a GenericStatus_Response
 
@@ -85,7 +85,7 @@ message namespaceImport_Request
  **************************************************/
 message policyPost_Request
 {
-    string space = 1;      // Namespace name (draft, testing, custom, wazuh)
+    string space = 1;      // Namespace name (draft, testing, custom, assetguard)
     string ymlContent = 2; // Policy payload as YAML string
 }
 // message policyPost_Response -> Return a GenericStatus_Response
@@ -128,7 +128,7 @@ message policyValidate_Request
  **************************************************/
 message resourceList_Request
 {
-    string space = 1; // Namespace name (draft, testing, custom, wazuh)
+    string space = 1; // Namespace name (draft, testing, custom, assetguard)
     string type = 2;  // "decoder" | "output" | "filter" | "integration" | "kvdb"
 }
 

@@ -17,7 +17,7 @@ import (
 
 func main() {
 
-	var sockPath string = "/var/wazuh-manager/queue/sockets/queue-http.sock" // Path to HTTP unix socket
+	var sockPath string = "/var/assetguard-manager/queue/sockets/queue-http.sock" // Path to HTTP unix socket
 	var logFile string
 	var logMessage string
 	var isRawMessage bool
@@ -79,7 +79,7 @@ func sendEvent(client *http.Client, message string, agentid int, isRaw bool, con
 
 		// Header line (JSON)
 		header := map[string]interface{}{
-			"wazuh": map[string]interface{}{
+			"assetguard": map[string]interface{}{
 				"agent": map[string]interface{}{
 					"id":   strconv.Itoa(agentid),
 					"name": fmt.Sprintf("hostname%d", agentid),

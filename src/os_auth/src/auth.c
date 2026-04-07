@@ -1,5 +1,5 @@
 /* Auth Common
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * Mar 22, 2018.
  *
  * This program is free software; you can redistribute it
@@ -14,10 +14,10 @@
 #include "defs.h"
 #include "os_err.h"
 #include "string_op.h"
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_queries_op.h"
 #include "wdb.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 #define static
 
 // Redefine ossec_version
@@ -140,7 +140,7 @@ w_err_t w_auth_parse_data(const char* buf,
             return OS_INVALID;
         }
 
-        if (!config.allow_higher_versions && compare_wazuh_versions(__ossec_version, version, false) < 0) {
+        if (!config.allow_higher_versions && compare_assetguard_versions(__ossec_version, version, false) < 0) {
             merror("Incompatible version for new agent from: %s", ip);
             snprintf(response, OS_SIZE_2048, "ERROR: %s", HC_INVALID_VERSION_RESPONSE);
             return OS_INVALID;

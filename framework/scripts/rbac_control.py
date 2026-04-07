@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import argparse
@@ -9,11 +9,11 @@ from os import path
 from signal import signal, SIGINT
 
 try:
-    from wazuh import WazuhError
-    from wazuh.core.results import AffectedItemsWazuhResult
-    from wazuh.core.cluster import utils as cluster_utils
+    from assetguard import AssetGuardError
+    from assetguard.core.results import AffectedItemsAssetGuardResult
+    from assetguard.core.cluster import utils as cluster_utils
 except Exception as e:
-    print("Error importing 'Wazuh' package.\n\n{0}\n".format(e))
+    print("Error importing 'AssetGuard' package.\n\n{0}\n".format(e))
     sys.exit(1)
 
 
@@ -26,8 +26,8 @@ async def restore_default_passwords(script_args):
     """Try to update all RBAC default users passwords with console prompt."""
     import yaml
     from getpass import getpass
-    from wazuh.core.common import DEFAULT_RBAC_RESOURCES
-    from wazuh.security import update_user
+    from assetguard.core.common import DEFAULT_RBAC_RESOURCES
+    from assetguard.security import update_user
 
     default_users_file = path.join(DEFAULT_RBAC_RESOURCES, 'users.yaml')
     with open(default_users_file) as f:
@@ -56,7 +56,7 @@ async def reset_rbac_database(script_args):
         print("\tRBAC database reset aborted.")
         sys.exit(0)
 
-    from wazuh.core.security import rbac_db_factory_reset
+    from assetguard.core.security import rbac_db_factory_reset
 
     response = await cluster_utils.forward_function(rbac_db_factory_reset, request_type="local_master")
 
@@ -65,7 +65,7 @@ async def reset_rbac_database(script_args):
 
 
 def get_script_arguments():
-    arg_parser = argparse.ArgumentParser(description="Wazuh RBAC tool: manage resources from the Wazuh RBAC database")
+    arg_parser = argparse.ArgumentParser(description="AssetGuard RBAC tool: manage resources from the AssetGuard RBAC database")
     arg_parser._positionals.title = "Arguments"
     arg_subparsers = arg_parser.add_subparsers()
 
@@ -99,7 +99,7 @@ if __name__ == "__main__":
 
     try:
         asyncio.run(main())
-    except WazuhError as e:
+    except AssetGuardError as e:
         print(f"Error {e.code}: {e.message}")
     except Exception as e:
         print(f"Internal error: {e}")

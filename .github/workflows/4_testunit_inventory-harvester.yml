@@ -38,7 +38,7 @@ jobs:
       - name: Inventory harvester - Coverage
         uses: ./.github/actions/coverage_cpp
         with:
-          path: src/wazuh_modules/inventory_harvester
+          path: src/assetguard_modules/inventory_harvester
           id: inventory_harvester
 
   inventory-harvester-asan:

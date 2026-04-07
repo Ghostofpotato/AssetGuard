@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -9,14 +9,14 @@ from sys import exit
 
 
 @lru_cache(maxsize=None)
-def find_wazuh_path() -> str:
+def find_assetguard_path() -> str:
     """
-    Get the Wazuh installation path.
+    Get the AssetGuard installation path.
 
     Returns
     -------
     str
-        Path where Wazuh is installed or empty string if there is no framework in the environment.
+        Path where AssetGuard is installed or empty string if there is no framework in the environment.
     """
     abs_path = os.path.abspath(os.path.dirname(__file__))
     allparts = []
@@ -32,19 +32,19 @@ def find_wazuh_path() -> str:
             abs_path = parts[0]
             allparts.insert(0, parts[1])
 
-    wazuh_path = ''
+    assetguard_path = ''
     try:
         for i in range(0, allparts.index('wodles')):
-            wazuh_path = os.path.join(wazuh_path, allparts[i])
+            assetguard_path = os.path.join(assetguard_path, allparts[i])
     except ValueError:
         pass
 
-    return wazuh_path
+    return assetguard_path
 
 
-def call_wazuh_control(option: str) -> str:
+def call_assetguard_control(option: str) -> str:
     """
-    Execute the wazuh-control script with the parameters specified.
+    Execute the assetguard-control script with the parameters specified.
 
     Parameters
     ----------
@@ -54,89 +54,89 @@ def call_wazuh_control(option: str) -> str:
     Returns
     -------
     str
-        The output of the call to wazuh-control.
+        The output of the call to assetguard-control.
     """
-    wazuh_control = os.path.join(find_wazuh_path(), "bin", "wazuh-control")
+    assetguard_control = os.path.join(find_assetguard_path(), "bin", "assetguard-control")
     try:
-        proc = subprocess.Popen([wazuh_control, option], stdout=subprocess.PIPE)
+        proc = subprocess.Popen([assetguard_control, option], stdout=subprocess.PIPE)
         (stdout, stderr) = proc.communicate()
         return stdout.decode()
     except (OSError, ChildProcessError):
-        print(f'ERROR: a problem occurred while executing {wazuh_control}')
+        print(f'ERROR: a problem occurred while executing {assetguard_control}')
         exit(1)
 
 
-def get_wazuh_info(field: str) -> str:
+def get_assetguard_info(field: str) -> str:
     """
-    Execute the wazuh-control script with the 'info' argument, filtering by field if specified.
+    Execute the assetguard-control script with the 'info' argument, filtering by field if specified.
 
     Parameters
     ----------
     field : str
-        The field of the output that's being requested. Its value can be 'WAZUH_VERSION', 'WAZUH_REVISION' or
-        'WAZUH_TYPE'.
+        The field of the output that's being requested. Its value can be 'ASSETGUARD_VERSION', 'ASSETGUARD_REVISION' or
+        'ASSETGUARD_TYPE'.
 
     Returns
     -------
     str
-        The output of the wazuh-control script.
+        The output of the assetguard-control script.
     """
-    wazuh_info = call_wazuh_control("info")
-    if not wazuh_info:
+    assetguard_info = call_assetguard_control("info")
+    if not assetguard_info:
         return "ERROR"
 
     if not field:
-        return wazuh_info
+        return assetguard_info
 
-    env_variables = wazuh_info.rsplit("\n")
+    env_variables = assetguard_info.rsplit("\n")
     env_variables.remove("")
-    wazuh_env_vars = dict()
+    assetguard_env_vars = dict()
     for env_variable in env_variables:
         key, value = env_variable.split("=")
-        wazuh_env_vars[key] = value.replace("\"", "")
+        assetguard_env_vars[key] = value.replace("\"", "")
 
-    return wazuh_env_vars[field]
+    return assetguard_env_vars[field]
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_version() -> str:
+def get_assetguard_version() -> str:
     """
-    Return the version of Wazuh installed.
+    Return the version of AssetGuard installed.
 
     Returns
     -------
     str
-        The version of Wazuh installed.
+        The version of AssetGuard installed.
     """
-    return get_wazuh_info("WAZUH_VERSION")
+    return get_assetguard_info("ASSETGUARD_VERSION")
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_revision() -> str:
+def get_assetguard_revision() -> str:
     """
-    Return the revision of the Wazuh instance installed.
+    Return the revision of the AssetGuard instance installed.
 
     Returns
     -------
     str
-        The revision of the Wazuh instance installed.
+        The revision of the AssetGuard instance installed.
     """
-    return get_wazuh_info("WAZUH_REVISION")
+    return get_assetguard_info("ASSETGUARD_REVISION")
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_type() -> str:
+def get_assetguard_type() -> str:
     """
-    Return the type of Wazuh instance installed.
+    Return the type of AssetGuard instance installed.
 
     Returns
     -------
     str
-        The type of Wazuh instance installed.
+        The type of AssetGuard instance installed.
     """
-    return get_wazuh_info("WAZUH_TYPE")
+    return get_assetguard_info("ASSETGUARD_TYPE")
 
 
-ANALYSISD = os.path.join(find_wazuh_path(), 'queue', 'sockets', 'queue')
+ANALYSISD = os.path.join(find_assetguard_path(), 'queue', 'sockets', 'queue')
 # Max size of the event that ANALYSISID can handle
 MAX_EVENT_SIZE = 65535

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -122,7 +122,7 @@ void *read_ucs2_le(logreader *lf, int *rc, int drop_it) {
         /* Incorrect message size */
         if (__ms) {
             // strlen(str) >= (OS_MAXSTR - OS_LOG_HEADER - 2)
-            // truncate str before logging to wazuh log file
+            // truncate str before logging to assetguard log file
 
             if (!__ms_reported) {
                 merror("Large message size from file '%s' (length = %lld): '%.*s'...", lf->file, rbytes, sample_log_length, (char* ) str);

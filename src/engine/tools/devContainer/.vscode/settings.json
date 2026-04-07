@@ -8,7 +8,7 @@
     "cmake.configureOnOpen": true,
     "cmake.ctest.parallelJobs": 0,
     "cmake.options.statusBarVisibility": "icon",
-    "cmake.sourceDirectory": "${env:WAZUH_REPO}/src",
+    "cmake.sourceDirectory": "${env:ASSETGUARD_REPO}/src",
     "editor.rulers": [
         80,
         90,
@@ -154,19 +154,19 @@
         "editorRuler.foreground": "#7220a8"
     },
     "yaml.schemas": {
-        "wazuh/src/engine/ruleset/schemas/wazuh-decoders.json": [
+        "assetguard/src/engine/ruleset/schemas/assetguard-decoders.json": [
             "*/decoders/*.yml",
             "*/decoders/*/*.yml",
             "*/decoders/*/*/*.yml",
             "*/decoders/*/*/*/*.yml"
         ],
-        "wazuh/src/engine/ruleset/schemas/wazuh-rules.json": [
+        "assetguard/src/engine/ruleset/schemas/assetguard-rules.json": [
             "*/rules/*.yml",
             "*/rules/*/*.yml",
             "*/rules/*/*/*.yml",
             "*/rules/*/*/*/*.yml",
         ],
-        "wazuh/src/engine/ruleset/schemas/wazuh-filters.json": [
+        "assetguard/src/engine/ruleset/schemas/assetguard-filters.json": [
             "*/filters/*.yml",
             "*/filters/*/*.yml",
             "*/filters/*/*/*.yml",

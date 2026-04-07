@@ -61,13 +61,13 @@ helper/
 The `engine-helper-test` python package contains various scripts to help to create and run helper function tests.
 
 
-Requires python 3.8, to install navigate where the Wazuh repository folder is located and run:
+Requires python 3.8, to install navigate where the AssetGuard repository folder is located and run:
 
-`pip install wazuh/src/engine/test/helper_tests/engine-helper-test`
+`pip install assetguard/src/engine/test/helper_tests/engine-helper-test`
 
 If we want to install for developing and modifying the scripts, install in editable mode and the additional dev packages:
 
-`pip install -e wazuh/src/engine/test/helper_tests/engine-helper-test[dev]`
+`pip install -e assetguard/src/engine/test/helper_tests/engine-helper-test[dev]`
 
 # Usage
 ```bash
@@ -171,7 +171,7 @@ options:
 After completing the installation, you must run the setupEnvironment.py that builds the environment in a certain location.
 
 ```bash
-cd ./wazuh/src/engine
+cd ./assetguard/src/engine
 python3 test/setupEnvironment.py -e /tmp/environment
 engine-helper-test -e /tmp/environment init --mmdb test/helper_tests/mmdb/ --conf test/helper_tests/configuration_files/config.env
 engine-helper-test -e /tmp/environment validate --input-dir test/helper_tests/helpers_description/

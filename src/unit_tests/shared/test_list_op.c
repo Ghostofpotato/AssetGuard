@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,7 +15,7 @@
 
 #include "syscheck.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
 #include "shared.h"
 
 syscheck_config config;

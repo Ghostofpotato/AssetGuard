@@ -1,0 +1,18 @@
+[Unit]
+Description=AssetGuard agent
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+TimeoutSec=45
+
+ExecStart=/usr/bin/env ASSETGUARD_HOME_TMP/bin/assetguard-control start
+ExecStop=/usr/bin/env ASSETGUARD_HOME_TMP/bin/assetguard-control stop
+ExecReload=/usr/bin/env ASSETGUARD_HOME_TMP/bin/assetguard-control reload
+
+KillMode=process
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

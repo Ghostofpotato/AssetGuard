@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "engine.proto";
 
-package com.wazuh.api.engine.router;
+package com.assetguard.api.engine.router;
 
 enum State
 {
@@ -115,13 +115,13 @@ message TableGet_Response
 /***************************************************
  * Send a event to queue of the router
  *
- * Send a Standard Wazuh event -> "<Queue>:<Location>:<Message>"
- * Standard Wazuh event
+ * Send a Standard AssetGuard event -> "<Queue>:<Location>:<Message>"
+ * Standard AssetGuard event
  * command: router.queue/post (<resource>/<action>)
  **************************************************/
 message QueuePost_Request
 {
-    string wazuh_event = 1; // Event to send
+    string assetguard_event = 1; // Event to send
     reserved 2;             // Reserved for future use (event json position)
     reserved "event";       // Reserved for event in json format for future use in the engine
 }

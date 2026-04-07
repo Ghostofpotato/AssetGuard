@@ -13,7 +13,7 @@ if [[ -z "$ISSUE_NUMBER" || -z "$RELEASE" || -z "$STAGE" ]]; then
   exit 1
 fi
 
-REPO="wazuh/wazuh"
+REPO="assetguard/assetguard"
 PROJECT_NUMBER=86  # XDR+SIEM/Agent team project number
 
 echo "Configuring fields for issue #$ISSUE_NUMBER in project..."
@@ -53,7 +53,7 @@ ISSUE_DATA=$(gh api graphql -f query='
         }
       }
     }
-  }' -f owner='wazuh' -f repo='wazuh' -F number=$ISSUE_NUMBER)
+  }' -f owner='assetguard' -f repo='assetguard' -F number=$ISSUE_NUMBER)
 
 # Find the project item that matches our project number
 PROJECT_ID=$(echo "$ISSUE_DATA" | jq -r ".data.repository.issue.projectItems.nodes[] | select(.project.number==$PROJECT_NUMBER) | .project.id")
@@ -92,7 +92,7 @@ FIELDS_DATA=$(gh api graphql -f query='
         }
       }
     }
-  }' -f org='wazuh' -F number=$PROJECT_NUMBER)
+  }' -f org='assetguard' -F number=$PROJECT_NUMBER)
 
 # Extract field IDs
 STATUS_FIELD_ID=$(echo "$FIELDS_DATA" | jq -r '.data.organization.projectV2.fields.nodes[] | select(.name=="Status") | .id')

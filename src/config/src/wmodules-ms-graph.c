@@ -1,5 +1,5 @@
 /*
- * Wazuh Microsoft Graph Module Configuration
+ * AssetGuard Microsoft Graph Module Configuration
  * Copyright (C) 2023, InfoDefense Inc.
  * March, 2023.
  *

@@ -1,6 +1,6 @@
 # API communication
 
-The library provides a client interface to communicate locally with wazuh-engine. 
+The library provides a client interface to communicate locally with assetguard-engine. 
 
 
 1. [Directory structure](#directory-structure)
@@ -36,7 +36,7 @@ To install the library, run the following command:
 
 # Usage
 
-The library provides a client interface to communicate with wazuh-engine.
+The library provides a client interface to communicate with assetguard-engine.
 
 For example, to get a resource from the engine, you can use the following code:
 

@@ -10,20 +10,20 @@ import json
 
 upgrade_log = r"C:\win-agent-base\upgraded_version.log"
 
-def check_and_uninstall_wazuh():
+def check_and_uninstall_assetguard():
     """
-    Checks if Wazuh is installed. If so, it uninstalls it before proceeding.
-    We use WMIC to look for any product name containing 'Wazuh'.
+    Checks if AssetGuard is installed. If so, it uninstalls it before proceeding.
+    We use WMIC to look for any product name containing 'AssetGuard'.
     """
-    print("Checking if Wazuh is already installed...")
+    print("Checking if AssetGuard is already installed...")
     check_cmd = (
-        'wmic product where "Name like \'%Wazuh%\'" get Name, Version /format:list'
+        'wmic product where "Name like \'%AssetGuard%\'" get Name, Version /format:list'
     )
     result = subprocess.run(check_cmd, capture_output=True, text=True, shell=True)
-    if "Name=Wazuh" in result.stdout:
-        print("Wazuh is currently installed. Proceeding to uninstall...")
+    if "Name=AssetGuard" in result.stdout:
+        print("AssetGuard is currently installed. Proceeding to uninstall...")
         uninstall_cmd = (
-            'wmic product where "Name like \'%Wazuh%\'" call uninstall /nointeractive'
+            'wmic product where "Name like \'%AssetGuard%\'" call uninstall /nointeractive'
         )
         # Attempt to uninstall
         uninstall_result = subprocess.run(uninstall_cmd, capture_output=True, text=True, shell=True)
@@ -37,12 +37,12 @@ def check_and_uninstall_wazuh():
             print(f"Uninstallation failed with return code {uninstall_result.returncode}.")
             sys.exit(uninstall_result.returncode)
     else:
-        print("No existing Wazuh installation found.")
+        print("No existing AssetGuard installation found.")
         sys.exit(1)
 
 def download_package(package_url):
     """
-    Downloads the old Wazuh MSI package to C:\\old_package.
+    Downloads the old AssetGuard MSI package to C:\\old_package.
     """
     old_pkg_dir = r"C:\old_package"
     os.makedirs(old_pkg_dir, exist_ok=True)
@@ -73,10 +73,10 @@ def install_package(package_path):
         print(f"Error: The package to install does not exist at {package_path}")
         sys.exit(1)
 
-    print(f"Installing Wazuh from: {package_path}")
+    print(f"Installing AssetGuard from: {package_path}")
 
     temp_log_path = r"C:\win-agent-base\msiexec_install.log"
-    cmd = ["msiexec", "/i", package_path, "/qn", "/norestart", "/q", "WAZUH_MANAGER=1.1.1.1", "/l", temp_log_path]
+    cmd = ["msiexec", "/i", package_path, "/qn", "/norestart", "/q", "ASSETGUARD_MANAGER=1.1.1.1", "/l", temp_log_path]
     try:
         subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
@@ -97,7 +97,7 @@ def install_package(package_path):
             print(f"Warning: Unable to process msiexec log file: {e}")
 
 def verify_installation(expected_version):
-    success_pattern = "Product: Wazuh Agent -- Installation completed successfully"
+    success_pattern = "Product: AssetGuard Agent -- Installation completed successfully"
 
     try:
         if not os.path.exists(upgrade_log):
@@ -114,21 +114,21 @@ def verify_installation(expected_version):
             print("The upgrade could not be completed (expected 2 success messages).")
             return False
 
-        agent_exe = r"C:\Program Files (x86)\ossec-agent\wazuh-agent.exe"
+        agent_exe = r"C:\Program Files (x86)\ossec-agent\assetguard-agent.exe"
         if not os.path.exists(agent_exe):
-            print(f"Error: Wazuh agent not found at {agent_exe}")
+            print(f"Error: AssetGuard agent not found at {agent_exe}")
             return False
 
-        print("Starting Wazuh service...")
-        subprocess.run(["NET", "START", "Wazuh"], shell=True, check=True)
+        print("Starting AssetGuard service...")
+        subprocess.run(["NET", "START", "AssetGuard"], shell=True, check=True)
 
-        print("Checking Wazuh service status...")
-        ps_cmd = ["powershell", "-Command", "(Get-Service wazuh).Status"]
+        print("Checking AssetGuard service status...")
+        ps_cmd = ["powershell", "-Command", "(Get-Service assetguard).Status"]
         result = subprocess.run(ps_cmd, capture_output=True, text=True)
         service_status = result.stdout.strip()
         print(f"Service status: {service_status}")
         if service_status != "Running":
-            print("Wazuh agent service is not running.")
+            print("AssetGuard agent service is not running.")
             return False
 
         version_file_path = r"C:\Program Files (x86)\ossec-agent\version.json"
@@ -166,7 +166,7 @@ def main():
     open(upgrade_log, 'w').close()
 
     # 1. Uninstall if existing
-    check_and_uninstall_wazuh()
+    check_and_uninstall_assetguard()
 
     # 2. Download & install old package
     old_package_path = download_package(old_package_url)
@@ -174,12 +174,12 @@ def main():
 
     # 3. Find & install new package
     new_pkg_dir = r"C:\win-agent-base"
-    pattern = os.path.join(new_pkg_dir, "wazuh*.msi")
+    pattern = os.path.join(new_pkg_dir, "assetguard*.msi")
     msi_files = glob.glob(pattern)
     msi_files = [f for f in msi_files if not re.search(r"(dbg|debug)", f, re.IGNORECASE)]
 
     if not msi_files:
-        print(f"Error: No Wazuh MSI found in {new_pkg_dir} matching 'wazuh*.msi' (excluding dbg/debug).")
+        print(f"Error: No AssetGuard MSI found in {new_pkg_dir} matching 'assetguard*.msi' (excluding dbg/debug).")
         sys.exit(1)
 
     new_package_path = msi_files[0]

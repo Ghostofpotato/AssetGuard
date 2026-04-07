@@ -1,6 +1,6 @@
 # Documentation Installation Guide
 
-This guide explains how to set up and build the Wazuh technical documentation locally.
+This guide explains how to set up and build the AssetGuard technical documentation locally.
 
 ## Prerequisites
 
@@ -102,4 +102,4 @@ If you encounter parse errors in `book.toml`, ensure:
 
 - [mdBook Documentation](https://rust-lang.github.io/mdBook/)
 - [mdbook-mermaid Documentation](https://github.com/badboy/mdbook-mermaid)
-- [Wazuh Repository](https://github.com/wazuh/wazuh)
+- [AssetGuard Repository](https://github.com/assetguard/assetguard)

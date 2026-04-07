@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, AssetGuard Inc.
+ Created by AssetGuard, Inc. <info@assetguard.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 
@@ -8,11 +8,11 @@ import pytest
 import time
 
 from pathlib import Path
-from wazuh_testing.tools.simulators.agent_simulator import connect
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.modules.remoted.configuration import REMOTED_DEBUG
-from wazuh_testing.constants.paths.sockets import REMOTED_SOCKET_PATH
-from wazuh_testing.utils import sockets
+from assetguard_testing.tools.simulators.agent_simulator import connect
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.modules.remoted.configuration import REMOTED_DEBUG
+from assetguard_testing.constants.paths.sockets import REMOTED_SOCKET_PATH
+from assetguard_testing.utils import sockets
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
 
@@ -33,7 +33,7 @@ local_internal_options = {REMOTED_DEBUG: '2'}
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_request_agent_info(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                            set_wazuh_configuration, daemons_handler, simulate_agents):
+                            set_assetguard_configuration, daemons_handler, simulate_agents):
 
     '''
     description: Check that there are no problems when the manager tries to communicate with an agent to ask for
@@ -57,14 +57,14 @@ def test_request_agent_info(test_configuration, test_metadata, configure_local_i
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options using the values from `local_internal_options`.
+            brief: Configure the AssetGuard local internal options using the values from `local_internal_options`.
         - daemons_handler:
             type: fixture
             brief: Restart service once the test finishes stops the daemons.
         - simulate_agents
             type: fixture
             brief: create agents
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
     '''

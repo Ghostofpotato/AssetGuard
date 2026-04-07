@@ -67,13 +67,13 @@ std::shared_ptr<ISchemaValidatorEngine> getValidator(const std::string& indexPat
 ```
 
 **Parameters:**
-- `indexPattern` - Index pattern (e.g., `"wazuh-states-inventory-packages"`)
+- `indexPattern` - Index pattern (e.g., `"assetguard-states-inventory-packages"`)
 
 **Returns:** Validator instance or `nullptr` if not found
 
 **Example:**
 ```cpp
-auto validator = factory.getValidator("wazuh-states-inventory-packages");
+auto validator = factory.getValidator("assetguard-states-inventory-packages");
 
 if (validator)
 {
@@ -191,7 +191,7 @@ virtual std::string getSchemaName() const = 0;
 **Example:**
 ```cpp
 std::string name = validator->getSchemaName();
-// Returns: "wazuh-states-inventory-packages"
+// Returns: "assetguard-states-inventory-packages"
 ```
 
 ---
@@ -287,7 +287,7 @@ bool schema_validator_validate(
 ```
 
 **Parameters:**
-- `index` - Index name for schema lookup (e.g., `"wazuh-states-fim-file"`)
+- `index` - Index name for schema lookup (e.g., `"assetguard-states-fim-file"`)
 - `message` - JSON string to validate
 - `errorMessage` - Output parameter for error message (caller must free)
 
@@ -296,7 +296,7 @@ bool schema_validator_validate(
 **Example:**
 ```c
 char* errorMessage = NULL;
-const char* index = "wazuh-states-fim-file";
+const char* index = "assetguard-states-fim-file";
 const char* message = "{\"file\":{\"path\":\"/etc/passwd\",\"size\":1024}}";
 
 if (!schema_validator_validate(index, message, &errorMessage))

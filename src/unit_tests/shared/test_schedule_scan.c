@@ -12,9 +12,9 @@
 #include "shared.h"
 #include "wmodules.h"
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/time_op_wrappers.h"
-#include "../wrappers/wazuh/os_regex/os_regex_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/time_op_wrappers.h"
+#include "../wrappers/assetguard/os_regex/os_regex_wrappers.h"
 
 #ifdef WIN32
 #define localtime_r(x, y) localtime_s(y, x)

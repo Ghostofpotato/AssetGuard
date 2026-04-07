@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2024, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2024, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 import sys
 import time
@@ -7,12 +7,12 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, PATH_MONITORED_REALTIME
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.modules.fim.patterns import EVENT_TYPE_ADDED, PATH_MONITORED_REALTIME
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import file
+from assetguard_testing.utils.callbacks import generate_callback
 
 
 @pytest.fixture()
@@ -22,7 +22,7 @@ def path_to_edit(test_metadata: dict) -> str:
 
     fim_mode = test_metadata.get('fim_mode', '')
     if sys.platform == WINDOWS and fim_mode == 'realtime':
-        FileMonitor(WAZUH_LOG_PATH).start(
+        FileMonitor(ASSETGUARD_LOG_PATH).start(
             callback=generate_callback(PATH_MONITORED_REALTIME),
             timeout=60
         )
@@ -35,7 +35,7 @@ def path_to_edit(test_metadata: dict) -> str:
     else:
         file.write_file(to_edit, 'test')
 
-    FileMonitor(WAZUH_LOG_PATH).start(generate_callback(EVENT_TYPE_ADDED))
+    FileMonitor(ASSETGUARD_LOG_PATH).start(generate_callback(EVENT_TYPE_ADDED))
 
     yield to_edit
 

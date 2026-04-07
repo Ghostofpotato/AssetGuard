@@ -14,7 +14,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/bin)
 
 file(GLOB KEYSTORE_SRC "src/keyStore.cpp")
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 
@@ -36,15 +36,15 @@ link_directories(${SRC_FOLDER}/external/rocksdb/build)
 
 add_library(keystore STATIC ${KEYSTORE_SRC})
 
-target_link_libraries(keystore PRIVATE rocksdb wazuhext)
+target_link_libraries(keystore PRIVATE rocksdb assetguardext)
 
 if(NOT UNIT_TEST)
-  add_executable(wazuh-manager-keystore src/main.cpp)
+  add_executable(assetguard-manager-keystore src/main.cpp)
 
-  target_link_libraries(wazuh-manager-keystore keystore)
+  target_link_libraries(assetguard-manager-keystore keystore)
 
   set_target_properties(
-    wazuh-manager-keystore PROPERTIES BUILD_RPATH_USE_ORIGIN TRUE
+    assetguard-manager-keystore PROPERTIES BUILD_RPATH_USE_ORIGIN TRUE
                                       BUILD_RPATH "$ORIGIN/../lib")
 endif(NOT UNIT_TEST)
 

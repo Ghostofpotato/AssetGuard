@@ -10,8 +10,8 @@
 /**
  * @brief Parse and extract indexer configuration from XML configuration file
  *
- * This function reads a Wazuh XML configuration file, locates the <indexer>
- * section within <wazuh_config>, validates the configuration parameters,
+ * This function reads a AssetGuard XML configuration file, locates the <indexer>
+ * section within <assetguard_config>, validates the configuration parameters,
  * and converts them to a JSON string format.
  *
  * Supported configuration paths:

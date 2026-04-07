@@ -1,6 +1,6 @@
 /*
- * Wazuh Module Configuration
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Module Configuration
+ * Copyright (C) 2015, AssetGuard Inc.
  * December, 2017.
  *
  * This program is free software; you can redistribute it
@@ -49,7 +49,7 @@ static void wm_clean_request(wm_azure_request_t * request);
 static void wm_clean_storage(wm_azure_storage_t * storage);
 static void wm_clean_container(wm_azure_container_t * container);
 
-static const char *AUTHENTICATION_OPTIONS_URL = "https://documentation.wazuh.com/current/azure/activity-services/prerequisites/credentials.html";
+static const char *AUTHENTICATION_OPTIONS_URL = "https://documentation.assetguard.com/current/azure/activity-services/prerequisites/credentials.html";
 static const char *DEPRECATED_MESSAGE = "Deprecated tag <%s> found at module '%s'. This tag was deprecated in %s; please use a different authentication method. Check %s for more information.";
 
 // Parse XML

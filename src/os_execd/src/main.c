@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -39,7 +39,7 @@ static void help_execd(char * home_path)
 }
 
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 __attribute((weak))
 #endif
 int main(int argc, char **argv)
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
         }
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(ASSETGUARD_HOMEDIR, home_path);
     os_free(home_path);
 
     /* Check if the group given is valid */

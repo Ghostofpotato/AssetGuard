@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,8 +17,8 @@
 
 #include "shared.h"
 #include "validate_op.h"
-#include "../wrappers/wazuh/shared/expression_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
+#include "../wrappers/assetguard/shared/expression_wrappers.h"
+#include "../wrappers/assetguard/os_net/os_net_wrappers.h"
 #include "../../shared/src/validate_op.c"
 
 /* tests */

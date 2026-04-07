@@ -32,7 +32,7 @@ stages:
 test_name: GET /cluster/healthcheck
 
 marks:
-  - xfail #https://github.com/wazuh/wazuh/issues/34666
+  - xfail #https://github.com/assetguard/assetguard/issues/34666
 
 stages:
 
@@ -114,7 +114,7 @@ stages:
         error: !anyint
         data:
           affected_items:
-            - cluster: wazuh
+            - cluster: assetguard
               node: master-node
               type: master
           failed_items: []
@@ -355,7 +355,7 @@ stages:
 test_name: GET /cluster/configuration/validation
 
 marks:
-  - xfail #https://github.com/wazuh/wazuh/issues/34733
+  - xfail #https://github.com/assetguard/assetguard/issues/34733
 
 stages:
 
@@ -682,7 +682,7 @@ stages:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/cluster/worker2/configuration"
       method: PUT
-      data: "{valid_wazuh_conf:s}"
+      data: "{valid_assetguard_conf:s}"
       headers:
         Authorization: "Bearer {test_login_token}"
         content-type: application/octet-stream
@@ -702,7 +702,7 @@ stages:
       verify: False
       url: "{protocol:s}://{host:s}:{port:d}/cluster/worker1/configuration"
       method: PUT
-      data: "{valid_wazuh_conf:s}"
+      data: "{valid_assetguard_conf:s}"
       headers:
         Authorization: "Bearer {test_login_token}"
         content-type: application/octet-stream

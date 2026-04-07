@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -26,7 +26,7 @@
 #define CBUFFER       0002000000
 #define CCLUSTER      0004000000
 #define CLGCSOCKET    0010000000
-#define WAZUHDB       0040000000
+#define ASSETGUARDDB       0040000000
 #define ATAMPERING    0200000000
 
 #define MAX_NEEDED_TAGS 4
@@ -37,12 +37,12 @@
                             (modules & CCLIENT       ) | (modules & CMAIL         ) | (modules & CAR           ) |\
                             (modules & CAGENT_CONFIG ) | (modules & CWMODULE      ) |\
                             (modules & CAUTHD        ) | (modules & CBUFFER       ) | (modules & CCLUSTER      ) |\
-                            (modules & CLGCSOCKET    ) | (modules & WAZUHDB       ) )
+                            (modules & CLGCSOCKET    ) | (modules & ASSETGUARDDB       ) )
 
 
 
 #include "os_xml.h"
-#include "wazuh_db-config.h"
+#include "assetguard_db-config.h"
 #include "time.h"
 
 /* Main function to read the config */

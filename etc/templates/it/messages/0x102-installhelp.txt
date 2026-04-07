@@ -16,4 +16,4 @@
      database servers, etc)
 
    - Ulteriori informazioni su:
-     https://documentation.wazuh.com
+     https://documentation.assetguard.com

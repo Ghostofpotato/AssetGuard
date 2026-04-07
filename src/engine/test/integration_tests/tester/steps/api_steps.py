@@ -30,8 +30,8 @@ POLICY_NS = "testing"
 DECODER_TEST_UUID = "2faeea8b-672b-4b42-8f91-657d7810d636"
 DECODER_OTHER_UUID = "594ea807-a037-408d-95b8-9a124ea333df"
 
-INTEG_WAZUH_CORE_UUID = "9b1a1ef2-1a70-4a8b-a89b-38b34174c2d1"
-INTEG_OTHER_WAZUH_CORE_UUID = "a15bbd77-8cb0-488f-94cd-4783d689a72f"
+INTEG_ASSETGUARD_CORE_UUID = "9b1a1ef2-1a70-4a8b-a89b-38b34174c2d1"
+INTEG_OTHER_ASSETGUARD_CORE_UUID = "a15bbd77-8cb0-488f-94cd-4783d689a72f"
 
 LOGTEST_DECODER_UUID = "a1f330f4-8012-48ab-9949-c5d76edaf9b1"
 LOGTEST_INTEG_UUID = "a1f330f4-8012-48ab-9949-c5d76edaf9b2"
@@ -134,7 +134,7 @@ def add_integration_to_policy(integration_name: str, policy_name: str):
     """
     assert policy_name == POLICY_NS, "This step is intended for policy 'testing'"
 
-    integ_list = [INTEG_WAZUH_CORE_UUID, INTEG_OTHER_WAZUH_CORE_UUID]
+    integ_list = [INTEG_ASSETGUARD_CORE_UUID, INTEG_OTHER_ASSETGUARD_CORE_UUID]
     policy_yaml = build_policy_yaml(
         default_parent=DECODER_TEST_UUID,
         root_decoder=DECODER_TEST_UUID,
@@ -194,7 +194,7 @@ def session_tear_down():
 def step_impl(context, policy_name: str, integration_name: str):
     """
     - policy_name must be 'testing' (namespace/policy in CM)
-    - integration_name: 'wazuh-core-test' or 'other-wazuh-core-test'
+    - integration_name: 'assetguard-core-test' or 'other-assetguard-core-test'
     Here we DO NOT create decoders or integrations (that is done by init.py),
     we only upsert the policy in CM with the corresponding integration.
     """
@@ -205,12 +205,12 @@ def step_impl(context, policy_name: str, integration_name: str):
     # Session cleanup so each scenario starts clean
     session_tear_down()
 
-    if integration_name == "wazuh-core-test":
-        integ_list = [INTEG_WAZUH_CORE_UUID]
+    if integration_name == "assetguard-core-test":
+        integ_list = [INTEG_ASSETGUARD_CORE_UUID]
         default_parent = DECODER_TEST_UUID
         root_decoder = DECODER_TEST_UUID
-    elif integration_name == "other-wazuh-core-test":
-        integ_list = [INTEG_OTHER_WAZUH_CORE_UUID]
+    elif integration_name == "other-assetguard-core-test":
+        integ_list = [INTEG_OTHER_ASSETGUARD_CORE_UUID]
         default_parent = DECODER_OTHER_UUID
         root_decoder = DECODER_OTHER_UUID
     else:
@@ -344,17 +344,17 @@ def step_send_event_with_extended_metadata(context, message: str, session_name: 
     request.name = session_name
     request.trace_level = debug_level_to_int[debug_level]
 
-    # Build agent_metadata struct with nested wazuh.agent object
+    # Build agent_metadata struct with nested assetguard.agent object
     agent_struct = Struct()
     agent_struct["id"] = agent_id
     agent_struct["name"] = agent_name
     agent_struct["type"] = agent_type
 
-    wazuh_struct = Struct()
-    wazuh_struct["agent"] = agent_struct
+    assetguard_struct = Struct()
+    assetguard_struct["agent"] = agent_struct
 
     agent_metadata = Struct()
-    agent_metadata["wazuh"] = wazuh_struct
+    agent_metadata["assetguard"] = assetguard_struct
     request.agent_metadata.CopyFrom(agent_metadata)
 
     LOCATION = f"[{agent_id}] ({agent_name}) any->SomeModule"
@@ -378,16 +378,16 @@ def step_send_event_with_basic_metadata(context, message: str, session_name: str
     request.name = session_name
     request.trace_level = debug_level_to_int[debug_level]
 
-    # Build agent_metadata struct with nested wazuh.agent object
+    # Build agent_metadata struct with nested assetguard.agent object
     agent_struct = Struct()
     agent_struct["id"] = agent_id
     agent_struct["name"] = agent_name
 
-    wazuh_struct = Struct()
-    wazuh_struct["agent"] = agent_struct
+    assetguard_struct = Struct()
+    assetguard_struct["agent"] = agent_struct
 
     agent_metadata = Struct()
-    agent_metadata["wazuh"] = wazuh_struct
+    agent_metadata["assetguard"] = assetguard_struct
     request.agent_metadata.CopyFrom(agent_metadata)
 
     LOCATION = f"[{agent_id}] ({agent_name}) any->SomeModule"

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -13,7 +13,7 @@
 #include "expression.h"
 #include "os_net.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 #define static
 
 #undef OSSEC_DEFINES

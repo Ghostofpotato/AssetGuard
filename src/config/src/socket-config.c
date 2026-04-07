@@ -1,6 +1,6 @@
 /*
  * Socket settings manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * Feb 7, 2018.
  *
  * This program is free software; you can redistribute it

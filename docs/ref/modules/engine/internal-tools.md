@@ -1,12 +1,12 @@
 # Internal Development Tools
 
-The repository contains Python modules that are not distributed with the Wazuh engine.
-These modules are intended **exclusively for internal use** during the development and testing of the Wazuh engine.
+The repository contains Python modules that are not distributed with the AssetGuard engine.
+These modules are intended **exclusively for internal use** during the development and testing of the AssetGuard engine.
 Their use outside of development is not recommended, as they may change without notice.
 
 ## Api-communication
 
-This library provides a client interface for local communication with the Wazuh engine. It is designed to facilitate seamless interaction between components during development and testing.
+This library provides a client interface for local communication with the AssetGuard engine. It is designed to facilitate seamless interaction between components during development and testing.
 
 For more details, refer to the README on src/engine/tools/api-communication/README.md
 
@@ -14,14 +14,14 @@ For more details, refer to the README on src/engine/tools/api-communication/READ
 
 ## Engine Suite
 
-The `engine-suite` Python package offers a comprehensive set of tools to manage and interact with the Wazuh engine.
-These tools simplify the management of assets, policies, integrations, and other elements within the Wazuh environment,
+The `engine-suite` Python package offers a comprehensive set of tools to manage and interact with the AssetGuard engine.
+These tools simplify the management of assets, policies, integrations, and other elements within the AssetGuard environment,
 providing a centralized and efficient workflow.
 
 ### Key Tools in `engine-suite`:
 - **engine-clear**: Clears specific configurations or data from the engine.
 - **engine-integration**: Handles integrations with external systems.
-- **engine-policy**: Manages policies within the Wazuh engine.
+- **engine-policy**: Manages policies within the AssetGuard engine.
 - **engine-router**: Configures and tests routing within the engine.
 - **engine-test**: Provides utilities for testing engine functionality.
 
@@ -31,7 +31,7 @@ For more details, refer to the README on src/engine/tools/engine-suite/README.md
 
 ## Engine Test Utils
 
-A Python library containing utility functions and helpers for testing scripts that interact with the Wazuh engine.
+A Python library containing utility functions and helpers for testing scripts that interact with the AssetGuard engine.
 These utilities streamline the creation and execution of test cases.
 
 For more details, refer to the README on src/engine/test/engine-test-utils/README.md
@@ -55,7 +55,7 @@ For more details, refer to the README on src/engine/test/helper-test/README.md
 
 ## Engine Integration Test
 
-The `engine-integration-test` tool is designed to test the integration of the Wazuh engine with external systems.
+The `engine-integration-test` tool is designed to test the integration of the AssetGuard engine with external systems.
 It verifies the correct operation of integrations and ensures that data is correctly processed and forwarded to the
 engine.
 

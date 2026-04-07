@@ -2,11 +2,11 @@
 
 The **Inventory Sync** module is designed to run with minimal configuration, working out of the box with default settings. It acts as a synchronization intermediary, relying primarily on the **Indexer Connector** configuration for indexing operations.
 
-The module itself does not expose dedicated options in **`wazuh-manager.conf`**. Instead, it inherits operational parameters from the Indexer Connector.
+The module itself does not expose dedicated options in **`assetguard-manager.conf`**. Instead, it inherits operational parameters from the Indexer Connector.
 
 ---
 
-## Connection to Wazuh Indexer
+## Connection to AssetGuard Indexer
 
 Inventory Sync delegates all indexing tasks to the **Indexer Connector**.
 Incoming FlatBuffer messages from agents are processed and grouped into **bulk operations**, which are then sent to the Indexer for efficient storage.
@@ -20,10 +20,10 @@ Incoming FlatBuffer messages from agents are processed and grouped into **bulk o
     </hosts>
     <ssl>
       <certificate_authorities>
-        <ca>/var/wazuh-manager/etc/certs/root-ca.pem</ca>
+        <ca>/var/assetguard-manager/etc/certs/root-ca.pem</ca>
       </certificate_authorities>
-      <certificate>/var/wazuh-manager/etc/certs/manager.pem</certificate>
-      <key>/var/wazuh-manager/etc/certs/manager-key.pem</key>
+      <certificate>/var/assetguard-manager/etc/certs/manager.pem</certificate>
+      <key>/var/assetguard-manager/etc/certs/manager-key.pem</key>
     </ssl>
   </indexer>
 ```
@@ -54,7 +54,7 @@ Before starting synchronization, verify Indexer health via the **`/_cluster/heal
 
 ```json
 {
-  "cluster_name": "wazuh-cluster",
+  "cluster_name": "assetguard-cluster",
   "status": "green",
   "number_of_nodes": 1,
   "active_primary_shards": 15,
@@ -81,7 +81,7 @@ curl --cacert <root_CA_path> --cert <cert_path> --key <key_path> \
 
 The Inventory Sync module uses **RocksDB** for temporary session data:
 
-* **Location**: `inventory_sync/` directory (relative to Wazuh working dir)
+* **Location**: `inventory_sync/` directory (relative to AssetGuard working dir)
 * **Key Format**: `<session_id>_<sequence>` to isolate per-session data
 * **Cleanup Policy**: Automatic cleanup at startup and after session completion
 

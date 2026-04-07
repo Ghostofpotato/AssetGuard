@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12.4)
 # Set the project name
 project(fimebpf)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../../ ABSOLUTE)
 endif()
 
@@ -22,8 +22,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_library(fimebpf SHARED src/ebpf_whodata.cpp)
 
-# Link against wazuh
-target_link_libraries(fimebpf PRIVATE wazuh)
+# Link against assetguard
+target_link_libraries(fimebpf PRIVATE assetguard)
 
 # Set additional compile flags for the loader (if needed)
 target_compile_options(fimebpf PRIVATE -Wall -Wextra)

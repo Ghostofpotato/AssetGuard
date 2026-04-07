@@ -434,7 +434,7 @@
         ]
     },
     {
-        "path": "framework/wazuh",
+        "path": "framework/assetguard",
         "files": [
             {
                 "name": "active_response.py",
@@ -564,7 +564,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core",
+        "path": "framework/assetguard/core",
         "files": [
             {
                 "name": "InputValidator.py",
@@ -751,8 +751,8 @@
                 ]
             },
             {
-                "name": "wazuh_queue.py",
-                "tag": "wazuh",
+                "name": "assetguard_queue.py",
+                "tag": "assetguard",
                 "tests": [
                     "test_agent_DELETE_endpoints.tavern.yaml",
                     "test_agent_GET_endpoints.tavern.yaml",
@@ -762,8 +762,8 @@
                 ]
             },
             {
-                "name": "wazuh_socket.py",
-                "tag": "wazuh",
+                "name": "assetguard_socket.py",
+                "tag": "assetguard",
                 "tests": [
                     "test_agent_DELETE_endpoints.tavern.yaml",
                     "test_agent_GET_endpoints.tavern.yaml",
@@ -797,7 +797,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/cluster",
+        "path": "framework/assetguard/core/cluster",
         "files": [
             {
                 "name": "client.py",
@@ -910,7 +910,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/cluster/dapi",
+        "path": "framework/assetguard/core/cluster/dapi",
         "files": [
             {
                 "name": "dapi.py",
@@ -926,7 +926,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/cluster/hap_helper",
+        "path": "framework/assetguard/core/cluster/hap_helper",
         "files": [
             {
                 "name": "hap_helper.py",
@@ -951,8 +951,8 @@
                 ]
             },
             {
-                "name": "wazuh.py",
-                "tag": "wazuh",
+                "name": "assetguard.py",
+                "tag": "assetguard",
                 "tests": [
                     "test_agent_DELETE_endpoints.tavern.yaml",
                     "test_agent_GET_endpoints.tavern.yaml",
@@ -964,7 +964,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/cluster/tests",
+        "path": "framework/assetguard/core/cluster/tests",
         "files": [
             {
                 "name": "conftest.py",
@@ -980,7 +980,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/tests/data/test_agent",
+        "path": "framework/assetguard/core/tests/data/test_agent",
         "files": [
             {
                 "name": "schema_global_test.sql",
@@ -996,7 +996,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/tests/data/test_agent/add_manual",
+        "path": "framework/assetguard/core/tests/data/test_agent/add_manual",
         "files": [
             {
                 "name": "add_manual_use_cases.yaml",
@@ -1012,7 +1012,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/tests/data/test_database",
+        "path": "framework/assetguard/core/tests/data/test_database",
         "files": [
             {
                 "name": "schema_global_test.sql",
@@ -1028,7 +1028,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/core/tests/data/test_rootcheck",
+        "path": "framework/assetguard/core/tests/data/test_rootcheck",
         "files": [
             {
                 "name": "schema_rootcheck_test.sql",
@@ -1044,7 +1044,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/rbac",
+        "path": "framework/assetguard/rbac",
         "files": [
             {
                 "name": "auth_context.py",
@@ -1104,7 +1104,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/rbac/default",
+        "path": "framework/assetguard/rbac/default",
         "files": [
             {
                 "name": "policies.yaml",
@@ -1164,7 +1164,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/rbac/tests",
+        "path": "framework/assetguard/rbac/tests",
         "files": [
             {
                 "name": "utils.py",
@@ -1180,7 +1180,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/rbac/tests/data",
+        "path": "framework/assetguard/rbac/tests/data",
         "files": [
             {
                 "name": "schema_security_test.sql",
@@ -1196,7 +1196,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/tests",
+        "path": "framework/assetguard/tests",
         "files": [
             {
                 "name": "util.py",
@@ -1212,7 +1212,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/tests/data",
+        "path": "framework/assetguard/tests/data",
         "files": [
             {
                 "name": "schema_global_test.sql",
@@ -1261,7 +1261,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/tests/data/security",
+        "path": "framework/assetguard/tests/data/security",
         "files": [
             {
                 "name": "policies_test_cases.yml",
@@ -1376,7 +1376,7 @@
         ]
     },
     {
-        "path": "framework/wazuh/tests/data/security/default",
+        "path": "framework/assetguard/tests/data/security/default",
         "files": [
             {
                 "name": "default_cases.yml",

@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -10,17 +10,17 @@ from connexion.lifecycle import ConnexionResponse
 
 from api.controllers.test.utils import CustomAffectedItems
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
-        from wazuh.event import send_event_to_analysisd
-        from wazuh.tests.util import RBAC_bypasser
+with patch('assetguard.common.assetguard_uid'):
+    with patch('assetguard.common.assetguard_gid'):
+        sys.modules['assetguard.rbac.orm'] = MagicMock()
+        import assetguard.rbac.decorators
+        from assetguard.event import send_event_to_analysisd
+        from assetguard.tests.util import RBAC_bypasser
 
         from api.controllers.event_controller import forward_event
 
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        assetguard.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['assetguard.rbac.orm']
 
 
 @pytest.mark.asyncio

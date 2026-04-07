@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,10 +14,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/config_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/fim_sync_wrappers.h"
-#include "../wrappers/wazuh/shared_modules/agent_sync_protocol_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/syscheckd/config_wrappers.h"
+#include "../wrappers/assetguard/syscheckd/fim_sync_wrappers.h"
+#include "../wrappers/assetguard/shared_modules/agent_sync_protocol_wrappers.h"
 #include "syscheck.h"
 #include "syscheck-config.h"
 

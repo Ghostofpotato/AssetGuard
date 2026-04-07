@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-      - name: Build wazuh agent for macOS 14
+      - name: Build assetguard agent for macOS 14
         run: |
           make deps -C src TARGET=agent -j3
           make -C src TARGET=agent -j3

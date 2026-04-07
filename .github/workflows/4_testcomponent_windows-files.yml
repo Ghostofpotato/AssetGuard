@@ -20,11 +20,11 @@ jobs:
         run: |
           mkdir -p src/bin_files
           # We exclude the installer from the test
-          find src/win32/ -regex '.*wazuh-agent-[0-9]+.[0-9]+.[0-9]+\.exe$' -delete
+          find src/win32/ -regex '.*assetguard-agent-[0-9]+.[0-9]+.[0-9]+\.exe$' -delete
           # We remove the executables that aren't distributed in the signed installer
           rm -f src/win32/setup-*.exe
           cp src/win32/*.exe src/bin_files/
-          # We exclude the libraries that aren't built by Wazuh
+          # We exclude the libraries that aren't built by AssetGuard
           rm -f src/win32/libwinpthread-1.dll
           rm -f src/win32/libgcc_s_dw2-1.dll
           rm -f src/win32/libstdc++-6.dll

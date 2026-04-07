@@ -511,19 +511,19 @@ Each inventory type is synchronized with its specific index, with certain types 
 
 | Inventory Type | Database Table | Sync Protocol Index | VD Context Support |
 |----------------|----------------|-------------------|-------------------|
-| Hardware | `dbsync_hwinfo` | `wazuh-states-inventory-hardware` | No |
-| OS | `dbsync_osinfo` | `wazuh-states-inventory-system` | **Yes** → VD Sync Protocol |
-| Packages | `dbsync_packages` | `wazuh-states-inventory-packages` | **Yes** → VD Sync Protocol |
-| Processes | `dbsync_processes` | `wazuh-states-inventory-processes` | No |
-| Ports | `dbsync_ports` | `wazuh-states-inventory-ports` | No |
-| Users | `dbsync_users` | `wazuh-states-inventory-users` | No |
-| Groups | `dbsync_groups` | `wazuh-states-inventory-groups` | No |
-| Services | `dbsync_services` | `wazuh-states-inventory-services` | No |
-| Browser Extensions | `dbsync_browser_extensions` | `wazuh-states-inventory-browser-extensions` | No |
-| Hotfixes | `dbsync_hotfixes` | `wazuh-states-inventory-hotfixes` | **Yes** → VD Sync Protocol |
-| Network Interfaces | `dbsync_network_iface` | `wazuh-states-inventory-interfaces` | No |
-| Network Protocols | `dbsync_network_protocol` | `wazuh-states-inventory-protocols` | No |
-| Network Address | `dbsync_network_address` | `wazuh-states-inventory-networks` | No |
+| Hardware | `dbsync_hwinfo` | `assetguard-states-inventory-hardware` | No |
+| OS | `dbsync_osinfo` | `assetguard-states-inventory-system` | **Yes** → VD Sync Protocol |
+| Packages | `dbsync_packages` | `assetguard-states-inventory-packages` | **Yes** → VD Sync Protocol |
+| Processes | `dbsync_processes` | `assetguard-states-inventory-processes` | No |
+| Ports | `dbsync_ports` | `assetguard-states-inventory-ports` | No |
+| Users | `dbsync_users` | `assetguard-states-inventory-users` | No |
+| Groups | `dbsync_groups` | `assetguard-states-inventory-groups` | No |
+| Services | `dbsync_services` | `assetguard-states-inventory-services` | No |
+| Browser Extensions | `dbsync_browser_extensions` | `assetguard-states-inventory-browser-extensions` | No |
+| Hotfixes | `dbsync_hotfixes` | `assetguard-states-inventory-hotfixes` | **Yes** → VD Sync Protocol |
+| Network Interfaces | `dbsync_network_iface` | `assetguard-states-inventory-interfaces` | No |
+| Network Protocols | `dbsync_network_protocol` | `assetguard-states-inventory-protocols` | No |
+| Network Address | `dbsync_network_address` | `assetguard-states-inventory-networks` | No |
 
 > **VD Context Routing**: OS info, packages, and hotfixes data is automatically routed to the VD module's independent sync protocol instance based on table detection logic in the code, while still generating regular stateful events for inventory synchronization.
 
@@ -781,7 +781,7 @@ Return Total Rows Updated
 
 ## Schema Validation Integration
 
-Syscollector integrates with the [Schema Validator](../utils/schema-validator/README.md) module to ensure all inventory data conforms to the expected Wazuh indexer schema before transmission.
+Syscollector integrates with the [Schema Validator](../utils/schema-validator/README.md) module to ensure all inventory data conforms to the expected AssetGuard indexer schema before transmission.
 
 ### Purpose
 
@@ -955,19 +955,19 @@ void Syscollector::deleteFailedItemsFromDB(
 
 ### Supported Indices
 
-Syscollector validates data for the following Wazuh indices:
+Syscollector validates data for the following AssetGuard indices:
 
 | Table Name | Index Pattern | Description |
 |------------|---------------|-------------|
-| `dbsync_hwinfo` | `wazuh-states-inventory-hardware` | Hardware information |
-| `dbsync_osinfo` | `wazuh-states-inventory-system` | Operating system details |
-| `dbsync_netinfo_iface` | `wazuh-states-inventory-network` | Network interfaces |
-| `dbsync_netinfo_proto` | `wazuh-states-inventory-network` | Network protocols |
-| `dbsync_netinfo_addr` | `wazuh-states-inventory-network` | Network addresses |
-| `dbsync_packages` | `wazuh-states-inventory-packages` | Installed packages |
-| `dbsync_hotfixes` | `wazuh-states-inventory-hotfixes` | System hotfixes (Windows) |
-| `dbsync_ports` | `wazuh-states-inventory-ports` | Open network ports |
-| `dbsync_processes` | `wazuh-states-inventory-processes` | Running processes |
+| `dbsync_hwinfo` | `assetguard-states-inventory-hardware` | Hardware information |
+| `dbsync_osinfo` | `assetguard-states-inventory-system` | Operating system details |
+| `dbsync_netinfo_iface` | `assetguard-states-inventory-network` | Network interfaces |
+| `dbsync_netinfo_proto` | `assetguard-states-inventory-network` | Network protocols |
+| `dbsync_netinfo_addr` | `assetguard-states-inventory-network` | Network addresses |
+| `dbsync_packages` | `assetguard-states-inventory-packages` | Installed packages |
+| `dbsync_hotfixes` | `assetguard-states-inventory-hotfixes` | System hotfixes (Windows) |
+| `dbsync_ports` | `assetguard-states-inventory-ports` | Open network ports |
+| `dbsync_processes` | `assetguard-states-inventory-processes` | Running processes |
 
 ### Deferred Deletion Pattern
 
@@ -1030,7 +1030,7 @@ Syscollector uses a deferred deletion pattern to safely remove invalid entries:
 
 **Validation Failure:**
 ```
-[ERROR] Schema validation failed for Syscollector message (table: dbsync_packages, index: wazuh-states-inventory-packages). Errors:
+[ERROR] Schema validation failed for Syscollector message (table: dbsync_packages, index: assetguard-states-inventory-packages). Errors:
   - Field 'package.version' expected type 'keyword', got 'object'
 [ERROR] Raw event that failed validation: {"package":{"version":{"major":1}}}
 [ERROR] Discarding invalid Syscollector message (table: dbsync_packages)

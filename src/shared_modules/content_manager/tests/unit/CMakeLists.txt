@@ -5,7 +5,7 @@ project(content_manager_utest)
 # Copy input files to the build directory
 file(COPY input_files DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 
@@ -28,7 +28,7 @@ target_link_libraries(
   optimized
   gmock
   urlrequest
-  wazuhext
+  assetguardext
   lzma
   rocksdb
   pthread)

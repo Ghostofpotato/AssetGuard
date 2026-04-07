@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -8,21 +8,21 @@ from unittest.mock import MagicMock, patch
 import pytest
 from connexion.lifecycle import ConnexionResponse
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
+with patch('assetguard.common.assetguard_uid'):
+    with patch('assetguard.common.assetguard_gid'):
+        sys.modules['assetguard.rbac.orm'] = MagicMock()
+        import assetguard.rbac.decorators
         from api.controllers.default_controller import (BasicInfo, DATE_FORMAT,
                                                         default_info, socket)
-        from wazuh.tests.util import RBAC_bypasser
-        from wazuh.core.utils import get_utc_now
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        from assetguard.tests.util import RBAC_bypasser
+        from assetguard.core.utils import get_utc_now
+        assetguard.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['assetguard.rbac.orm']
 
 
 @pytest.mark.asyncio
 @patch('api.controllers.default_controller.load_spec', return_value=MagicMock())
-@patch('api.controllers.default_controller.WazuhResult', return_value={})
+@patch('api.controllers.default_controller.AssetGuardResult', return_value={})
 async def test_default_info(mock_wresult, mock_lspec):
     """Verify 'default_info' endpoint is working as expected."""
     result = await default_info()

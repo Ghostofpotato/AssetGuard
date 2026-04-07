@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -19,12 +19,12 @@
 #include "logcollector.h"
 #include "shared.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../wrappers/assetguard/shared/file_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/linux/socket_wrappers.h"
-#include "../wrappers/wazuh/shared/expression_wrappers.h"
-#include "../wrappers/wazuh/logcollector/logcollector_wrappers.h"
-#include "../wrappers/wazuh/logcollector/macos_log_wrappers.h"
+#include "../wrappers/assetguard/shared/expression_wrappers.h"
+#include "../wrappers/assetguard/logcollector/logcollector_wrappers.h"
+#include "../wrappers/assetguard/logcollector/macos_log_wrappers.h"
 #include "../wrappers/posix/signal_wrappers.h"
 #include "../wrappers/linux/wait_wrappers.h"
 #include "../wrappers/posix/time_wrappers.h"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -62,7 +62,7 @@ void test_read_empty_cluster_name(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -76,7 +76,7 @@ void test_read_empty_cluster_name(void **state) {
 
 void test_read_invalid_characters_in_cluster_name(void **state) {
     const char * configuration =
-        "<name>wazuh 01</name>"
+        "<name>assetguard 01</name>"
         "<node_name>node01</node_name>"
         "<node_type>master</node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -87,7 +87,7 @@ void test_read_invalid_characters_in_cluster_name(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -95,13 +95,13 @@ void test_read_invalid_characters_in_cluster_name(void **state) {
 
     test_structure *test_data = *state;
     test_data->nodes = string_to_xml_node(configuration, &(test_data->xml));
-    expect_string(__wrap__merror, formatted_msg, "Detected a not allowed character in cluster name: \"wazuh 01\". Characters allowed: \"!\"#$%&'-.0123456789:<=>?ABCDEFGHIJKLMNOPQRESTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~\".");
+    expect_string(__wrap__merror, formatted_msg, "Detected a not allowed character in cluster name: \"assetguard 01\". Characters allowed: \"!\"#$%&'-.0123456789:<=>?ABCDEFGHIJKLMNOPQRESTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~\".");
     assert_int_equal(Read_Cluster(&test_data->xml, test_data->nodes, &test_data->config, NULL), OS_INVALID);
 }
 
 void test_read_empty_node_name(void **state) {
     const char * configuration =
-        "<name>wazuh</name>"
+        "<name>assetguard</name>"
         "<node_name></node_name>"
         "<node_type>master</node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -112,7 +112,7 @@ void test_read_empty_node_name(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -126,7 +126,7 @@ void test_read_empty_node_name(void **state) {
 
 void test_read_invalid_characters_in_node_name(void **state) {
     const char * configuration =
-        "<name>wazuh</name>"
+        "<name>assetguard</name>"
         "<node_name>node 01</node_name>"
         "<node_type>master</node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -137,7 +137,7 @@ void test_read_invalid_characters_in_node_name(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -151,7 +151,7 @@ void test_read_invalid_characters_in_node_name(void **state) {
 
 void test_read_empty_node_type(void **state) {
     const char * configuration =
-        "<name>wazuh</name>"
+        "<name>assetguard</name>"
         "<node_name>node01</node_name>"
         "<node_type></node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -162,7 +162,7 @@ void test_read_empty_node_type(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -176,7 +176,7 @@ void test_read_empty_node_type(void **state) {
 
 void test_read_invalid_node_type(void **state) {
     const char * configuration =
-        "<name>wazuh</name>"
+        "<name>assetguard</name>"
         "<node_name>node01</node_name>"
         "<node_type>invalid</node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -187,7 +187,7 @@ void test_read_invalid_node_type(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -201,7 +201,7 @@ void test_read_invalid_node_type(void **state) {
 
 void test_read_deprecated_client_value(void **state) {
     const char * configuration =
-        "<name>wazuh</name>"
+        "<name>assetguard</name>"
         "<node_name>node01</node_name>"
         "<node_type>client</node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -212,7 +212,7 @@ void test_read_deprecated_client_value(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -228,7 +228,7 @@ void test_read_deprecated_client_value(void **state) {
 void test_read_deprecated_disabled_option(void **state) {
     const char * configuration =
         "<disabled>yes</disabled>"
-        "<name>wazuh</name>"
+        "<name>assetguard</name>"
         "<node_name>node01</node_name>"
         "<node_type>master</node_type>"
         "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -239,7 +239,7 @@ void test_read_deprecated_disabled_option(void **state) {
         "</nodes>"
         "<haproxy_helper>"
             "<haproxy_disabled>no</haproxy_disabled>"
-            "<haproxy_address>wazuh-proxy</haproxy_address>"
+            "<haproxy_address>assetguard-proxy</haproxy_address>"
             "<haproxy_user>haproxy</haproxy_user>"
             "<haproxy_password>haproxy</haproxy_password>"
         "</haproxy_helper>"
@@ -253,7 +253,7 @@ void test_read_deprecated_disabled_option(void **state) {
 
 void test_read_deprecated_interval_option(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -264,7 +264,7 @@ void test_read_deprecated_interval_option(void **state) {
     "</nodes>"
     "<haproxy_helper>"
         "<haproxy_disabled>no</haproxy_disabled>"
-        "<haproxy_address>wazuh-proxy</haproxy_address>"
+        "<haproxy_address>assetguard-proxy</haproxy_address>"
         "<haproxy_user>haproxy</haproxy_user>"
         "<haproxy_password>haproxy</haproxy_password>"
     "</haproxy_helper>"
@@ -279,7 +279,7 @@ void test_read_deprecated_interval_option(void **state) {
 
 void test_read_valid_configuration(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -290,7 +290,7 @@ void test_read_valid_configuration(void **state) {
     "</nodes>"
     "<haproxy_helper>"
         "<haproxy_disabled>no</haproxy_disabled>"
-        "<haproxy_address>wazuh-proxy</haproxy_address>"
+        "<haproxy_address>assetguard-proxy</haproxy_address>"
         "<haproxy_user>haproxy</haproxy_user>"
         "<haproxy_password>haproxy</haproxy_password>"
     "</haproxy_helper>"
@@ -303,7 +303,7 @@ void test_read_valid_configuration(void **state) {
 
 void test_read_valid_configuration_no_haproxy(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -321,7 +321,7 @@ void test_read_valid_configuration_no_haproxy(void **state) {
 
 void test_read_invalid_haproxy_disable_option(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -332,7 +332,7 @@ void test_read_invalid_haproxy_disable_option(void **state) {
     "</nodes>"
     "<haproxy_helper>"
         "<haproxy_disabled>invalid</haproxy_disabled>"
-        "<haproxy_address>wazuh-proxy</haproxy_address>"
+        "<haproxy_address>assetguard-proxy</haproxy_address>"
         "<haproxy_user>haproxy</haproxy_user>"
         "<haproxy_password>haproxy</haproxy_password>"
     "</haproxy_helper>"
@@ -346,7 +346,7 @@ void test_read_invalid_haproxy_disable_option(void **state) {
 
 void test_read_invalid_haproxy_protocol_option(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -357,7 +357,7 @@ void test_read_invalid_haproxy_protocol_option(void **state) {
     "</nodes>"
     "<haproxy_helper>"
         "<haproxy_disabled>no</haproxy_disabled>"
-        "<haproxy_address>wazuh-proxy</haproxy_address>"
+        "<haproxy_address>assetguard-proxy</haproxy_address>"
         "<haproxy_user>haproxy</haproxy_user>"
         "<haproxy_password>haproxy</haproxy_password>"
         "<haproxy_protocol>invalid</haproxy_protocol>"
@@ -372,7 +372,7 @@ void test_read_invalid_haproxy_protocol_option(void **state) {
 
 void test_read_valid_configuration_haproxy_empty_address(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -397,7 +397,7 @@ void test_read_valid_configuration_haproxy_empty_address(void **state) {
 
 void test_read_valid_configuration_haproxy_empty_user(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -408,7 +408,7 @@ void test_read_valid_configuration_haproxy_empty_user(void **state) {
     "</nodes>"
     "<haproxy_helper>"
         "<haproxy_disabled>no</haproxy_disabled>"
-        "<haproxy_address>wazuh-proxy</haproxy_address>"
+        "<haproxy_address>assetguard-proxy</haproxy_address>"
         "<haproxy_user></haproxy_user>"
         "<haproxy_password>haproxy</haproxy_password>"
     "</haproxy_helper>"
@@ -422,7 +422,7 @@ void test_read_valid_configuration_haproxy_empty_user(void **state) {
 
 void test_read_valid_configuration_haproxy_empty_password(void **state) {
     const char * configuration =
-    "<name>wazuh</name>"
+    "<name>assetguard</name>"
     "<node_name>node01</node_name>"
     "<node_type>master</node_type>"
     "<key>fd3350b86d239654e34866ab3c4988a8</key>"
@@ -433,7 +433,7 @@ void test_read_valid_configuration_haproxy_empty_password(void **state) {
     "</nodes>"
     "<haproxy_helper>"
         "<haproxy_disabled>no</haproxy_disabled>"
-        "<haproxy_address>wazuh-proxy</haproxy_address>"
+        "<haproxy_address>assetguard-proxy</haproxy_address>"
         "<haproxy_user>haproxy</haproxy_user>"
         "<haproxy_password></haproxy_password>"
     "</haproxy_helper>"

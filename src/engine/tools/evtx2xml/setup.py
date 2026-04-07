@@ -13,7 +13,7 @@ setup(
             'evtx2xml=evtx2xml.evtx_to_xml:main',
         ],
     },
-    url='https://github.com/wazuh/wazuh',
-    author='Wazuh  Inc.',
+    url='https://github.com/assetguard/assetguard',
+    author='AssetGuard  Inc.',
     description='A tool to convert EVTX files to XML',
 )

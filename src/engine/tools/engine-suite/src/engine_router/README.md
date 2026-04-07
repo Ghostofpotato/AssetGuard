@@ -1,6 +1,6 @@
 ## engine-router
 
-The `engine-router` tool is a command-line interface that allows you to manage routes in the Wazuh engine. It provides the ability to list, create, update, and delete routes. The tool is part of the `engine-suite` package.
+The `engine-router` tool is a command-line interface that allows you to manage routes in the AssetGuard engine. It provides the ability to list, create, update, and delete routes. The tool is part of the `engine-suite` package.
 
 ## Directory structure
 
@@ -40,7 +40,7 @@ options:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   --api-socket API_SOCKET
-                        Path to the Wazuh API socket
+                        Path to the AssetGuard API socket
 
 subcommands:
   {get,delete,add,reload,update,list,ingest}

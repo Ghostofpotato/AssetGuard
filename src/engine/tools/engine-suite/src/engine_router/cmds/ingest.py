@@ -17,7 +17,7 @@ def run(args):
 
     # Create the request
     request = erouter.QueuePost_Request()
-    request.wazuh_event = event
+    request.assetguard_event = event
 
     # Send the request
     error, response = client.send_recv(request)

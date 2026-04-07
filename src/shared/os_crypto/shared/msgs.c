@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -16,7 +16,7 @@
 #include "aes_op.h"
 #include "agentd.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 #define static
 #endif
 
@@ -65,7 +65,7 @@ int doEncryptByMethod(const char *input, char *output, const char *charkey,
     }
 }
 
-/* Set the agent crypto method read from the wazuh configuration file */
+/* Set the agent crypto method read from the assetguard configuration file */
 void os_set_agent_crypto_method(keystore * keys,const int method){
     keys->keyentries[0]->crypto_method = method;
 }

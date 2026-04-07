@@ -10,9 +10,9 @@ help="ajuda"
 
 # Global
 moreinfo="Maiores informações em: "
-starting="Iniciando Wazuh"
+starting="Iniciando AssetGuard"
 systemis="O Sistema é"
-modifiedinit="O script de inicialização foi modificado para executar Wazuh durante o boot."
+modifiedinit="O script de inicialização foi modificado para executar AssetGuard durante o boot."
 noboot="Sistema desconhecido. Nenhum script de incialização foi adicionado."
 
 # Parte 1
@@ -27,7 +27,7 @@ clientchose="Escolhida instalação cliente"
 
 # Parte 2
 settingupenv="Configurando o ambiente de instalação"
-wheretoinstall="Escolha onde instalar Wazuh"
+wheretoinstall="Escolha onde instalar AssetGuard"
 installat="A instalação será feita no diretório"
 deletedir="O diretório de instalação já existe. Deseja removê-lo?"
 
@@ -42,8 +42,8 @@ usingsmtp="Usando servidor SMTP: "
 whatsmtp="Qual é o ip/host de seu servidor SMTP?"
 
 # Parte 3.1/agente
-serverip="Qual é o endereço IP do gestor Wazuh?"
-serveraddr="Qual é o endereço IP/nome do host do gestor Wazuh?"
+serverip="Qual é o endereço IP do gestor AssetGuard?"
+serveraddr="Qual é o endereço IP/nome do host do gestor AssetGuard?"
 addingip="Adicionando IP do servidor"
 addingname="Adicionando hostname do servidor"
 
@@ -80,21 +80,21 @@ yesrunauthd="Auth habilitado"
 
 # Parte 4
 installing="Instalando o sistema"
-startwazuh="Deseja iniciar o Wazuh após a instalação?"
-nowazuhstart="Wazuh não iniciará no final da instalação."
-yeswazuhstart="Wazuh começará no final da instalação."
+startassetguard="Deseja iniciar o AssetGuard após a instalação?"
+noassetguardstart="AssetGuard não iniciará no final da instalação."
+yesassetguardstart="AssetGuard começará no final da instalação."
 runningmake="Executando o Makefile"
 
 # Final
 configurationdone="Configuração finalizada corretamente"
-tostart="Para iniciar Wazuh"
-tostop="Para parar Wazuh"
+tostart="Para iniciar AssetGuard"
+tostop="Para parar AssetGuard"
 configat="A configuração pode ser vista ou modificada em"
 addserveragent="Você precisa adicionar cada um dos clientes antes que estejam autorizados a acessar o servidor."
 presskey="Pressione ENTER para continuar."
 
 # Update
-wanttoupdate="Wazuh ja esta instalado. Deseja atualiza-lo?"
+wanttoupdate="AssetGuard ja esta instalado. Deseja atualiza-lo?"
 mustuninstall="A instalação não pode prosseguir sem desinstalar as versões antigas. Saindo."
 unabletoupdate="Error na atualizacao. Sera necessario reinstala-lo."
 updatecompleted="Atualizacao completada."

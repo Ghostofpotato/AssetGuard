@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -13,7 +13,7 @@
 
 #ifdef ENABLE_AUDIT
 
-#ifndef WAZUH_UNIT_TESTING
+#ifndef ASSETGUARD_UNIT_TESTING
 #define STATIC static
 #else
 #define STATIC

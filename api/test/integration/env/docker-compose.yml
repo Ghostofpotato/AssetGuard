@@ -1,178 +1,178 @@
 services:
-  wazuh-master:
+  assetguard-master:
     build:
       context: .
       dockerfile: base/manager/manager.Dockerfile
-    image: integration_test_wazuh-manager
-    hostname: wazuh-master
+    image: integration_test_assetguard-manager
+    hostname: assetguard-master
     ports:
       - "55000:55000"
     volumes:
-      - api_security:/var/wazuh-manager/api/configuration/security
-      - api_ssl:/var/wazuh-manager/api/configuration/ssl
+      - api_security:/var/assetguard-manager/api/configuration/security
+      - api_ssl:/var/assetguard-manager/api/configuration/ssl
       - ./configurations/tmp/manager:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
-      - wazuh-master
+      - assetguard-master
       - master-node
       - master
 
-  wazuh-worker1:
-    image: integration_test_wazuh-manager
-    hostname: wazuh-worker1
+  assetguard-worker1:
+    image: integration_test_assetguard-manager
+    hostname: assetguard-worker1
     ports:
       - "55001:55000"
     volumes:
-      - api_security:/var/wazuh-manager/api/configuration/security
-      - api_ssl:/var/wazuh-manager/api/configuration/ssl
+      - api_security:/var/assetguard-manager/api/configuration/security
+      - api_ssl:/var/assetguard-manager/api/configuration/ssl
       - ./configurations/tmp/manager:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
-      - wazuh-master
+      - assetguard-master
       - worker1
       - worker
     depends_on:
-      - wazuh-master
+      - assetguard-master
 
-  wazuh-worker2:
-    image: integration_test_wazuh-manager
-    hostname: wazuh-worker2
+  assetguard-worker2:
+    image: integration_test_assetguard-manager
+    hostname: assetguard-worker2
     ports:
       - "55002:55000"
     volumes:
-      - api_security:/var/wazuh-manager/api/configuration/security
-      - api_ssl:/var/wazuh-manager/api/configuration/ssl
+      - api_security:/var/assetguard-manager/api/configuration/security
+      - api_ssl:/var/assetguard-manager/api/configuration/ssl
       - ./configurations/tmp/manager:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
-      - wazuh-master
+      - assetguard-master
       - worker2
       - worker
     depends_on:
-      - wazuh-master
+      - assetguard-master
 
-  wazuh-agent1:
+  assetguard-agent1:
     build:
       context: .
       dockerfile: base/agent/new.Dockerfile
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent1
+    image: integration_test_assetguard-agent
+    hostname: assetguard-agent1
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent1
+      - assetguard-agent1
     depends_on:
       - haproxy-lb
 
-  wazuh-agent2:
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent2
+  assetguard-agent2:
+    image: integration_test_assetguard-agent
+    hostname: assetguard-agent2
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent2
+      - assetguard-agent2
     depends_on:
-      - wazuh-agent1
+      - assetguard-agent1
       - haproxy-lb
 
-  wazuh-agent3:
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent3
+  assetguard-agent3:
+    image: integration_test_assetguard-agent
+    hostname: assetguard-agent3
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent3
+      - assetguard-agent3
     depends_on:
-      - wazuh-agent2
+      - assetguard-agent2
       - haproxy-lb
 
-  wazuh-agent4:
-    image: integration_test_wazuh-agent
-    hostname: wazuh-agent4
+  assetguard-agent4:
+    image: integration_test_assetguard-agent
+    hostname: assetguard-agent4
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent4
+      - assetguard-agent4
     depends_on:
-      - wazuh-agent3
+      - assetguard-agent3
       - haproxy-lb
 
-  wazuh-agent5:
+  assetguard-agent5:
     build:
       context: .
       dockerfile: base/agent/old.Dockerfile
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent5
+    image: integration_test_assetguard-agent_old
+    hostname: assetguard-agent5
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent5
+      - assetguard-agent5
       - agent_old
     depends_on:
-      - wazuh-agent4
+      - assetguard-agent4
       - haproxy-lb
 
-  wazuh-agent6:
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent6
+  assetguard-agent6:
+    image: integration_test_assetguard-agent_old
+    hostname: assetguard-agent6
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent6
+      - assetguard-agent6
       - agent_old
     depends_on:
-      - wazuh-agent5
+      - assetguard-agent5
       - haproxy-lb
 
-  wazuh-agent7:
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent7
+  assetguard-agent7:
+    image: integration_test_assetguard-agent_old
+    hostname: assetguard-agent7
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent7
+      - assetguard-agent7
       - agent_old
     depends_on:
-      - wazuh-agent6
+      - assetguard-agent6
       - haproxy-lb
 
-  wazuh-agent8:
-    image: integration_test_wazuh-agent_old
-    hostname: wazuh-agent8
+  assetguard-agent8:
+    image: integration_test_assetguard-agent_old
+    hostname: assetguard-agent8
     volumes:
       - ./configurations/tmp/agent:/tmp_volume
       - ./tools/:/tools
     entrypoint:
       - /scripts/entrypoint.sh
       - haproxy-lb
-      - wazuh-agent8
+      - assetguard-agent8
       - agent_old
     depends_on:
-      - wazuh-agent7
+      - assetguard-agent7
       - haproxy-lb
 
   haproxy-lb:
@@ -186,9 +186,9 @@ services:
     entrypoint:
       - /scripts/entrypoint.sh
     depends_on:
-      - wazuh-master
-      - wazuh-worker1
-      - wazuh-worker2
+      - assetguard-master
+      - assetguard-worker1
+      - assetguard-worker2
 
   cti:
     build:

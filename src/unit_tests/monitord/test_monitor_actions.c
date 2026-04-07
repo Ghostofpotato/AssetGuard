@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * November, 2020.
  *
  * This program is free software; you can redistribute it
@@ -17,14 +17,14 @@
 #include <stdio.h>
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh//monitord/monitord_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/mq_op_wrappers.h"
+#include "../wrappers/assetguard/shared/hash_op_wrappers.h"
+#include "../wrappers/assetguard/os_net/os_net_wrappers.h"
+#include "../wrappers/assetguard//monitord/monitord_wrappers.h"
 #include "../wrappers/posix/stat_wrappers.h"
-#include "../wrappers/wazuh/shared/auth_client_wrappers.h"
-#include "../wrappers/wazuh/shared/agent_op_wrappers.h"
+#include "../wrappers/assetguard/shared/auth_client_wrappers.h"
+#include "../wrappers/assetguard/shared/agent_op_wrappers.h"
 
 #include "client-config.h"
 #include "store_op.h"
@@ -35,7 +35,7 @@
 
 #ifdef TEST_SERVER
 #undef ARGV0
-#define ARGV0 "wazuh-manager-monitord"
+#define ARGV0 "assetguard-manager-monitord"
 #endif
 
 /* redefinitons/wrapping */
@@ -98,8 +98,8 @@ void test_monitor_send_disconnection_msg_success(void **state) {
     expect_string(__wrap_wdb_find_agent, ip, agent_ip);
     will_return(__wrap_wdb_find_agent, 1);
 
-    // Expect minfo to be called with OS_AG_DISCON format: "wazuh: Agent disconnected: [%03d] (%s)."
-    expect_string(__wrap__minfo, formatted_msg, "wazuh: Agent disconnected: [001] (Agent1).");
+    // Expect minfo to be called with OS_AG_DISCON format: "assetguard: Agent disconnected: [%03d] (%s)."
+    expect_string(__wrap__minfo, formatted_msg, "assetguard: Agent disconnected: [001] (Agent1).");
 
     monitor_send_disconnection_msg(agent_name, agent_ip);
 }
@@ -221,7 +221,7 @@ void test_monitor_agents_alert_agent_info_fail() {
     expect_value(__wrap_wdb_get_agent_info, id, 1);
     will_return(__wrap_wdb_get_agent_info, j_agent_info);
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Unable to retrieve agent's '1' data from Wazuh DB");
+    expect_string(__wrap__mdebug1, formatted_msg, "Unable to retrieve agent's '1' data from AssetGuard DB");
     expect_value(__wrap_OSHash_Delete, self, agents_to_alert_hash);
     expect_value(__wrap_OSHash_Delete, key, "1");
     will_return(__wrap_OSHash_Delete, 2);
@@ -258,7 +258,7 @@ void test_monitor_agents_alert_message_sent() {
     expect_string(__wrap_wdb_find_agent, name, "Agent1");
     expect_string(__wrap_wdb_find_agent, ip, "any");
     will_return(__wrap_wdb_find_agent, 1);
-    expect_string(__wrap__minfo, formatted_msg, "wazuh: Agent disconnected: [001] (Agent1).");
+    expect_string(__wrap__minfo, formatted_msg, "assetguard: Agent disconnected: [001] (Agent1).");
 
     expect_value(__wrap_OSHash_Delete, self, agents_to_alert_hash);
     expect_value(__wrap_OSHash_Delete, key, "1");
@@ -300,7 +300,7 @@ void test_monitor_agents_deletion_success() {
     will_return(__wrap_auth_remove_agent, 0);
 
     // Expect minfo to be called with OS_AG_REMOVED format
-    expect_string(__wrap__minfo, formatted_msg, "wazuh: Agent removed: [013] (Agent13).");
+    expect_string(__wrap__minfo, formatted_msg, "assetguard: Agent removed: [013] (Agent13).");
 
     monitor_agents_deletion();
 }
@@ -319,7 +319,7 @@ void test_monitor_agents_deletion_agent_info_fail() {
     expect_value(__wrap_wdb_get_agent_info, id, 13);
     will_return(__wrap_wdb_get_agent_info, NULL);
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Unable to retrieve agent's '13' data from Wazuh DB");
+    expect_string(__wrap__mdebug1, formatted_msg, "Unable to retrieve agent's '13' data from AssetGuard DB");
     expect_value(__wrap_OSHash_Delete, self, agents_to_alert_hash);
     expect_string(__wrap_OSHash_Delete, key, "13");
     will_return(__wrap_OSHash_Delete, 2);

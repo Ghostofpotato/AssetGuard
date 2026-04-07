@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -189,7 +189,7 @@ static void _log_function(int level, const char *tag, const char * file, int lin
     }
 
     if (flags.log_plain) {
-      /* If under chroot, log directly to /logs/<wazuh log file> */
+      /* If under chroot, log directly to /logs/<assetguard log file> */
 
 #ifndef WIN32
         int oldmask;

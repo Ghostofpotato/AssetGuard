@@ -527,9 +527,9 @@ if (registry_values_count > 0) {
 ```
 
 **Indices checked:**
-- `FIM_FILES_SYNC_INDEX` (`"wazuh-states-fim-files"`) - File monitoring data
-- `FIM_REGISTRY_KEYS_SYNC_INDEX` (`"wazuh-states-fim-registry-keys"`) - Registry keys (Windows)
-- `FIM_REGISTRY_VALUES_SYNC_INDEX` (`"wazuh-states-fim-registry-values"`) - Registry values (Windows)
+- `FIM_FILES_SYNC_INDEX` (`"assetguard-states-fim-files"`) - File monitoring data
+- `FIM_REGISTRY_KEYS_SYNC_INDEX` (`"assetguard-states-fim-registry-keys"`) - Registry keys (Windows)
+- `FIM_REGISTRY_VALUES_SYNC_INDEX` (`"assetguard-states-fim-registry-values"`) - Registry values (Windows)
 
 #### Step 2: Data Clean Notification
 
@@ -850,7 +850,7 @@ All coordination commands are thread-safe:
 
 ## Schema Validation Integration
 
-FIM integrates with the [Schema Validator](../utils/schema-validator/README.md) module to ensure all events conform to the expected Wazuh indexer schema before transmission.
+FIM integrates with the [Schema Validator](../utils/schema-validator/README.md) module to ensure all events conform to the expected AssetGuard indexer schema before transmission.
 
 ### Purpose
 
@@ -963,7 +963,7 @@ Validate a JSON message:
 
 ```c
 char* errorMessage = NULL;
-const char* index = "wazuh-states-fim-file";
+const char* index = "assetguard-states-fim-file";
 const char* message = "{\"file\":{\"path\":\"/etc/passwd\"}}";
 
 if (!schema_validator_validate(index, message, &errorMessage))
@@ -1032,12 +1032,12 @@ FIM uses a deferred deletion pattern to safely remove invalid entries:
 
 ### Supported Schemas
 
-FIM validates data for the following Wazuh indices:
+FIM validates data for the following AssetGuard indices:
 
 | Event Type | Index Pattern | Description |
 |------------|---------------|-------------|
-| File events | `wazuh-states-fim-file` | File creation, modification, deletion |
-| Registry events | `wazuh-states-fim-registry` | Registry key/value changes (Windows) |
+| File events | `assetguard-states-fim-file` | File creation, modification, deletion |
+| Registry events | `assetguard-states-fim-registry` | Registry key/value changes (Windows) |
 
 #### File Event Structure
 
@@ -1064,7 +1064,7 @@ INFO: Schema validator initialized successfully from embedded resources
 
 **Validation Failure (File):**
 ```
-DEBUG2: Schema validation failed for FIM message (file: /etc/passwd, index: wazuh-states-fim-file). Error: Field 'file.size' expected type 'long', got 'string'
+DEBUG2: Schema validation failed for FIM message (file: /etc/passwd, index: assetguard-states-fim-file). Error: Field 'file.size' expected type 'long', got 'string'
 DEBUG2: Raw event that failed validation: {"file":{"path":"/etc/passwd","size":"1024"}}
 DEBUG: Discarding invalid FIM message (file: /etc/passwd)
 DEBUG: Marking FIM entry for deferred deletion due to validation failure
@@ -1072,7 +1072,7 @@ DEBUG: Marking FIM entry for deferred deletion due to validation failure
 
 **Validation Failure (Registry):**
 ```
-DEBUG2: Schema validation failed for FIM message (registry: HKEY_LOCAL_MACHINE\Software\Test, index: wazuh-states-fim-registry). Error: Field 'registry.value_type' expected type 'keyword', got 'integer'
+DEBUG2: Schema validation failed for FIM message (registry: HKEY_LOCAL_MACHINE\Software\Test, index: assetguard-states-fim-registry). Error: Field 'registry.value_type' expected type 'keyword', got 'integer'
 DEBUG2: Raw event that failed validation: {"registry":{"path":"HKEY_LOCAL_MACHINE\\Software\\Test","value_type":1}}
 DEBUG: Discarding invalid FIM message (registry: HKEY_LOCAL_MACHINE\Software\Test)
 ```

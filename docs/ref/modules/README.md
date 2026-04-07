@@ -9,4 +9,4 @@
 - [Inventory Sync](inventory-sync/) - Manager-side synchronization service for agent inventory and context data
 - [Agent Sync Protocol](utils/sync-protocol/) - Agent-side library for synchronizing data with the manager
 - [FlatBuffers](utils/flatbuffers/) - High-performance serialization for synchronization protocol
-- [Cluster](utils/cluster/) - Manages the Wazuh server cluster
+- [Cluster](utils/cluster/) - Manages the AssetGuard server cluster

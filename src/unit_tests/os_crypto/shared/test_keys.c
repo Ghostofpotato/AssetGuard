@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,10 +17,10 @@
 #include "shared.h"
 #include "sec.h"
 #include "../../wrappers/common.h"
-#include "../../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../../wrappers/wazuh/shared/rbtree_op_wrappers.h"
+#include "../../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../../wrappers/assetguard/shared/rbtree_op_wrappers.h"
 #include "../../wrappers/libc/stdio_wrappers.h"
-#include "../../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../../wrappers/assetguard/shared/file_op_wrappers.h"
 
 
 int OS_IsAllowedID(keystore *keys, const char *id);

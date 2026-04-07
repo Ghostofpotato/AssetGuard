@@ -237,7 +237,7 @@ def init(env_path: Path, conf_path: Path, mmdb_dir: Path):
     cpy_kvdb(env_path)
     print("KVDB created.")
 
-    binary_path = env_path / 'wazuh-engine'
+    binary_path = env_path / 'assetguard-engine'
 
     try:
         print("Starting engine...")

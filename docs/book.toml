@@ -1,7 +1,7 @@
 [book]
-title = "Wazuh technical documentation"
-authors = ["Wazuh Core Team"]
-description = "Technical documentation for Wazuh Manager and Agent components and modules"
+title = "AssetGuard technical documentation"
+authors = ["AssetGuard Core Team"]
+description = "Technical documentation for AssetGuard Manager and Agent components and modules"
 language = "en"
 src = "."
 
@@ -15,7 +15,7 @@ command = "mdbook-mermaid"
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
-git-repository-url = "https://github.com/wazuh/wazuh"
+git-repository-url = "https://github.com/assetguard/assetguard"
 additional-js = ["mermaid.min.js", "mermaid-init.js"]
 
 [output.html.fold]

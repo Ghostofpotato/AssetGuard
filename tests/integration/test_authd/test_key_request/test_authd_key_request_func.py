@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the 'wazuh-manager-authd' daemon correctly handles the key requests
+brief: These tests will check if the 'assetguard-manager-authd' daemon correctly handles the key requests
        from agents with pre-existing IP addresses or IDs.
 
 tier: 0
@@ -19,7 +19,7 @@ components:
     - manager
 
 daemons:
-    - wazuh-manager-authd
+    - assetguard-manager-authd
 
 os_platform:
     - linux
@@ -44,8 +44,8 @@ os_version:
     - Red Hat 6
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/auth.html
-    - https://documentation.wazuh.com/current/user-manual/registering/key-request.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/auth.html
+    - https://documentation.assetguard.com/current/user-manual/registering/key-request.html
 
 tags:
     - key_request
@@ -54,13 +54,13 @@ import re
 from pathlib import Path
 
 import pytest
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.paths.sockets import MODULESD_KREQUEST_SOCKET_PATH
-from wazuh_testing.utils.configuration import load_configuration_template, get_test_cases_data
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import callbacks
-from wazuh_testing.modules.authd import PREFIX
-from wazuh_testing.modules.authd.configuration import AUTHD_DEBUG_CONFIG
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.paths.sockets import MODULESD_KREQUEST_SOCKET_PATH
+from assetguard_testing.utils.configuration import load_configuration_template, get_test_cases_data
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils import callbacks
+from assetguard_testing.modules.authd import PREFIX
+from assetguard_testing.modules.authd.configuration import AUTHD_DEBUG_CONFIG
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH, SCRIPTS_FOLDER_PATH
 
@@ -87,14 +87,14 @@ receiver_sockets, monitored_sockets = None, None
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_key_request_func(test_configuration, test_metadata, set_wazuh_configuration, connect_to_sockets,
+def test_key_request_func(test_configuration, test_metadata, set_assetguard_configuration, connect_to_sockets,
                           truncate_monitored_files_module, configure_local_internal_options, daemons_handler,
                           copy_tmp_script, wait_for_authd_startup):
     '''
     description:
         Checks that every input message on the key request port generates the appropiate response to the manager.
 
-    wazuh_min_version: 4.4.0
+    assetguard_min_version: 4.4.0
 
     parameters:
         - test_configuration:
@@ -103,15 +103,15 @@ def test_key_request_func(test_configuration, test_metadata, set_wazuh_configura
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - connect_to_sockets:
             type: fixture
             brief: Bind to the configured sockets at function scope.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - configure_local_internal_options:
             type: fixture
             brief: Handle the monitoring of a specified file.
@@ -144,8 +144,8 @@ def test_key_request_func(test_configuration, test_metadata, set_wazuh_configura
 
     key_request_sock.send(message, size=False)
     # Monitor expected log messages
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     for log in expected_logs:
         log = re.escape(log)
-        wazuh_log_monitor.start(callback=callbacks.generate_callback(fr'{PREFIX}{log}'), timeout=10, encoding='utf-8')
-        assert wazuh_log_monitor.callback_result, f'Error event not detected'
+        assetguard_log_monitor.start(callback=callbacks.generate_callback(fr'{PREFIX}{log}'), timeout=10, encoding='utf-8')
+        assert assetguard_log_monitor.callback_result, f'Error event not detected'

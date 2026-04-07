@@ -4,7 +4,7 @@ description: "Get package url of the last stable version"
 inputs:
   component:
     required: true
-    description: "Requested Wazuh component [manager,agent]"
+    description: "Requested AssetGuard component [manager,agent]"
   os:
     required: true
     description: "Operative system of the package [linux,macos,windows]"

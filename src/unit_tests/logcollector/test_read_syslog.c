@@ -9,7 +9,7 @@
 #include "logcollector.h"
 #include "shared.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../wrappers/assetguard/shared/file_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/libc/string_wrappers.h"
 

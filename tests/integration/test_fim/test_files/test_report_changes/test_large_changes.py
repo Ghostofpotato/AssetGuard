@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        these files are modified. Specifically, these tests will verify that FIM events include
        the 'content_changes' field with the tag 'More changes' when it exceeds the maximum size
        allowed, and the 'report_changes' option is enabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'assetguard-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - assetguard-syscheckd
 
 os_platform:
     - linux
@@ -49,8 +49,8 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
+    - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
+    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
 
 pytest_args:
     - fim_mode:
@@ -72,17 +72,17 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.platforms import WINDOWS, MACOS
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_MODIFIED, EVENT_TYPE_ADDED, ERROR_MSG_FIM_EVENT_NOT_DETECTED
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.file import truncate_file, write_file_write
-from wazuh_testing.utils.string import generate_string
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.platforms import WINDOWS, MACOS
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from assetguard_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from assetguard_testing.modules.fim.patterns import EVENT_TYPE_MODIFIED, EVENT_TYPE_ADDED, ERROR_MSG_FIM_EVENT_NOT_DETECTED
+from assetguard_testing.modules.fim.utils import get_fim_event_data
+from assetguard_testing.tools.monitors.file_monitor import FileMonitor
+from assetguard_testing.utils.file import truncate_file, write_file_write
+from assetguard_testing.utils.string import generate_string
+from assetguard_testing.utils.callbacks import generate_callback
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -109,16 +109,16 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: 2}
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_large_changes(test_configuration, test_metadata, configure_local_internal_options,
-                        truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, clean_fim_sync_db, daemons_handler, detect_end_scan):
+                        truncate_monitored_files, set_assetguard_configuration, folder_to_monitor, clean_fim_sync_db, daemons_handler, detect_end_scan):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon detects the character limit in the file changes is reached
+    description: Check if the 'assetguard-syscheckd' daemon detects the character limit in the file changes is reached
                  showing the 'More changes' tag in the 'content_changes' field of the generated events. For this
                  purpose, the test will monitor a directory, add a testing file and modify it, adding more characters
                  than the allowed limit. Then, it will unzip the 'diff' and get the size of the changes. Finally,
                  the test will verify that the generated FIM event contains in its 'content_changes' field the proper
                  value depending on the test case.
 
-    wazuh_min_version: 4.6.0
+    assetguard_min_version: 4.6.0
 
     tier: 1
 
@@ -135,7 +135,7 @@ def test_large_changes(test_configuration, test_metadata, configure_local_intern
         - truncate_monitored_files:
             type: fixture
             brief: Reset the 'ossec.log' file and start a new monitor.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - folder_to_monitor:
@@ -143,7 +143,7 @@ def test_large_changes(test_configuration, test_metadata, configure_local_intern
             brief: Folder created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
         - detect_end_scan
             type: fixture
             brief: Check first scan end.
@@ -167,17 +167,17 @@ def test_large_changes(test_configuration, test_metadata, configure_local_intern
         - The 'More changes' message appears in content_changes when the changes size is bigger than the set limit.
     '''
     fim_mode = test_metadata.get('fim_mode')
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     
     # Wait for appropriate readiness based on mode
     # For scheduled mode, detect_end_scan fixture already handles waiting for scan end
     # For real-time mode, we need to wait for real-time monitoring to be fully initialized
     if fim_mode == 'realtime':
-        wazuh_log_monitor.start(
+        assetguard_log_monitor.start(
             timeout=60,
             callback=generate_callback(r'.*Real-time file integrity monitoring started.*')
         )
-        assert wazuh_log_monitor.callback_result, "Real-time monitoring did not start"
+        assert assetguard_log_monitor.callback_result, "Real-time monitoring did not start"
     
     if sys.platform == WINDOWS:
         time.sleep(5)
@@ -186,22 +186,22 @@ def test_large_changes(test_configuration, test_metadata, configure_local_intern
     test_file_path = os.path.join(test_metadata.get('folder_to_monitor'), test_metadata.get('filename'))
 
     # Create the file and and capture the event.
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(ASSETGUARD_LOG_PATH)
     original_string = generate_string(test_metadata.get('original_size'), '0')
     write_file_write(test_file_path, content=original_string)
 
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=120)
-    assert wazuh_log_monitor.callback_result, ERROR_MSG_FIM_EVENT_NOT_DETECTED
+    assetguard_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=120)
+    assert assetguard_log_monitor.callback_result, ERROR_MSG_FIM_EVENT_NOT_DETECTED
 
     # Modify the file with new content
-    truncate_file(WAZUH_LOG_PATH)
+    truncate_file(ASSETGUARD_LOG_PATH)
     modified_string = generate_string(test_metadata.get('modified_size'), '1')
     write_file_write(test_file_path, content=modified_string)
 
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_MODIFIED), timeout=20)
-    assert wazuh_log_monitor.callback_result
+    assetguard_log_monitor.start(generate_callback(EVENT_TYPE_MODIFIED), timeout=20)
+    assert assetguard_log_monitor.callback_result
 
-    event = get_fim_event_data(wazuh_log_monitor.callback_result)
+    event = get_fim_event_data(assetguard_log_monitor.callback_result)
 
     # Assert 'More changes' is shown when the command returns more than 'limit' characters
     if test_metadata.get('has_more_changes'):

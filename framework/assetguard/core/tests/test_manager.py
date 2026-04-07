@@ -1,0 +1,345 @@
+#!/usr/bin/env python
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
+# This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
+
+import os
+from datetime import timezone, datetime
+from unittest.mock import patch
+from uuid import uuid4
+
+import httpx
+import pytest
+
+with patch('assetguard.core.common.assetguard_uid'):
+    with patch('assetguard.core.common.assetguard_gid'):
+        from assetguard.core.manager import *
+        from assetguard.core.exception import AssetGuardException
+
+test_data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'manager')
+ossec_log_path = '{0}/ossec_log.log'.format(test_data_path)
+ossec_log_json_path = '{0}/ossec_log.log'.format(test_data_path)
+
+
+class InitManager:
+    def __init__(self):
+        """Sets up necessary environment to test manager functions"""
+        # path for temporary API files
+        self.api_tmp_path = os.path.join(test_data_path, 'tmp')
+
+
+@pytest.fixture(scope='module')
+def test_manager():
+    # Set up
+    test_manager = InitManager()
+    return test_manager
+
+
+@pytest.fixture
+def client_session_get_mock():
+    with patch('httpx.AsyncClient.get') as get_mock:
+        yield get_mock
+
+
+@pytest.fixture
+def installation_uid():
+    return str(uuid4())
+
+
+def get_logs(json_log: bool = False):
+    with open(ossec_log_json_path if json_log else ossec_log_path) as f:
+        return f.read()
+
+
+@pytest.mark.parametrize('process_status', [
+    'running',
+    'stopped',
+    'failed',
+    'restarting',
+    'starting'
+])
+@patch('os.path.exists')
+@patch('assetguard.core.cluster.utils.glob')
+def test_get_status(manager_glob, manager_exists, test_manager, process_status):
+    """Tests core.manager.status()
+
+    Tests manager.status() function in two cases:
+        * PID files are created and processed are running,
+        * No process is running and therefore no PID files have been created
+
+    Parameters
+    ----------
+    manager_glob : mock
+        Mock of glob.glob function.
+    manager_exists : mock
+        Mock of os.path.exists function.
+    process_status : str
+        Status to test (valid values: running/stopped/failed/restarting).
+    """
+
+    def mock_glob(path_to_check):
+        return [path_to_check.replace('*', '0234')] if process_status == 'running' else []
+
+    def mock_exists(path_to_check):
+        if path_to_check == '/proc/0234':
+            return process_status == 'running'
+        else:
+            return path_to_check.endswith(f'.{process_status.replace("ing", "").replace("re", "")}') or \
+                   path_to_check.endswith(f'.{process_status.replace("ing", "")}')
+
+    manager_glob.side_effect = mock_glob
+    manager_exists.side_effect = mock_exists
+    manager_status = status()
+    assert isinstance(manager_status, dict)
+    assert all(process_status == x for x in manager_status.values())
+    if process_status == 'running':
+        manager_exists.assert_any_call("/proc/0234")
+
+
+def test_get_ossec_log_fields():
+    """Test get_ossec_log_fields() method returns a tuple"""
+    result = get_ossec_log_fields('2020/07/14 06:10:40 rootcheck: INFO: Ending rootcheck scan.')
+    assert isinstance(result, tuple), 'The result is not a tuple'
+    assert result[0] == datetime(2020, 7, 14, 6, 10, 40, tzinfo=timezone.utc)
+    assert result[1] == 'assetguard-rootcheck'
+    assert result[2] == 'info'
+    assert result[3] == ' Ending rootcheck scan.'
+
+
+def test_get_ossec_log_fields_ko():
+    """Test get_ossec_log_fields() method returns None when nothing matches """
+    result = get_ossec_log_fields('DEBUG')
+    assert not result
+
+
+@pytest.mark.parametrize("log_format", [
+    LoggingFormat.plain, LoggingFormat.json
+])
+def test_get_ossec_logs(log_format):
+    """Test get_ossec_logs() method returns result with expected information"""
+    logs = get_logs(json_log=log_format == LoggingFormat.json).splitlines()
+
+    with patch("assetguard.core.manager.get_assetguard_active_logging_format", return_value=log_format):
+        with pytest.raises(AssetGuardInternalError, match=".*1020.*"):
+            get_ossec_logs()
+
+        with patch('assetguard.core.manager.exists', return_value=True):
+            with patch('assetguard.core.manager.tail', return_value=logs):
+                result = get_ossec_logs()
+                assert all(key in log for key in ('timestamp', 'tag', 'level', 'description') for log in result)
+
+
+@patch("assetguard.core.manager.get_assetguard_active_logging_format", return_value=LoggingFormat.plain)
+@patch('assetguard.core.manager.exists', return_value=True)
+def test_get_logs_summary(mock_exists, mock_active_logging_format):
+    """Test get_logs_summary() method returns result with expected information"""
+    logs = get_logs().splitlines()
+    with patch('assetguard.core.manager.tail', return_value=logs):
+        result = get_logs_summary()
+        assert all(key in log for key in ('all', 'info', 'error', 'critical', 'warning', 'debug')
+                   for log in result.values())
+        assert result['assetguard-manager-modulesd:database'] == {'all': 2, 'info': 0, 'error': 0, 'critical': 0, 'warning': 0,
+                                                     'debug': 2}
+
+
+@patch('assetguard.core.manager.exists', return_value=True)
+@patch('assetguard.core.manager.load_assetguard_xml')
+def test_validate_ossec_conf(mock_load_xml, mock_exists):
+    """Test that validate_ossec_conf validates XML configuration successfully."""
+    # Mock successful XML load
+    mock_load_xml.return_value = None
+
+    result = validate_ossec_conf()
+
+    assert result == {'status': 'OK'}
+    mock_exists.assert_called_with(common.OSSEC_CONF)
+    mock_load_xml.assert_called_once_with(xml_path=common.OSSEC_CONF)
+
+
+@patch('assetguard.core.manager.load_assetguard_xml')
+@patch("assetguard.core.manager.exists")
+def test_validation_ko(mock_exists, mock_load_xml):
+    """Test that validate_ossec_conf handles errors correctly."""
+
+    # Configuration file not exists
+    mock_exists.return_value = False
+    with pytest.raises(AssetGuardInternalError, match='.* 1020 .*'):
+        validate_ossec_conf()
+
+    # XML validation error
+    mock_exists.return_value = True
+    mock_load_xml.side_effect = AssetGuardError(1113, 'Invalid XML syntax')
+    with pytest.raises(AssetGuardError, match='.* 1113 .*'):
+        validate_ossec_conf()
+
+    # Other exception wrapped as validation error
+    mock_load_xml.side_effect = Exception('Unexpected error')
+    with pytest.raises(AssetGuardError, match='.* 1908 .*'):
+        validate_ossec_conf()
+
+
+
+@patch('assetguard.core.manager.configuration.api_conf', new={'max_upload_size': 0})
+def test_get_api_config():
+    """Checks that get_api_config method is returning current api_conf dict."""
+    result = get_api_conf()
+    assert result == {'max_upload_size': 0}
+
+
+@pytest.mark.parametrize('update_check', (True, False))
+@pytest.mark.parametrize('last_check_date', (None, datetime.now()))
+def test_get_update_information_template(last_check_date, update_check, installation_uid):
+    """Test that the get_update_information_template function is working properly with the given data."""
+
+    template = get_update_information_template(uuid=installation_uid, update_check=update_check,
+                                               last_check_date=last_check_date)
+
+    assert 'uuid' in template
+    assert 'last_check_date' in template
+    assert template['last_check_date'] == (last_check_date if last_check_date is not None else '')
+    assert 'update_check' in template
+    assert template['update_check'] == update_check
+    assert 'current_version' in template
+    assert template['current_version'] == f"v{assetguard.__version__}"
+    assert 'last_available_major' in template
+    assert 'last_available_minor' in template
+    assert 'last_available_patch' in template
+
+
+@pytest.mark.asyncio
+async def test_query_update_check_service_catch_exceptions_and_dont_raise(
+    installation_uid, client_session_get_mock
+):
+    """Test that the query_update_check_service function handle errors correctly."""
+    message_error = 'Some client error'
+    client_session_get_mock.side_effect = httpx.RequestError(message_error)
+    update_information = await query_update_check_service(installation_uid)
+
+    client_session_get_mock.assert_called()
+
+    assert update_information['status_code'] == 500
+    assert update_information['message'] == message_error
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    'major,minor,patch',
+    (
+        [['5.0.0', '5.0.1'], ['4.9.0', '4.9.1'], ['4.8.1', '4.8.2']],
+        [
+            ['5.0.0', '5.0.1'],
+            ['4.9.0', '4.9.1'],
+            [
+                '4.8.1',
+            ],
+        ],
+        [['5.0.0', '5.0.1'], ['4.9.0'], ['4.8.1', '4.8.2']],
+        [['5.0.0'], ['4.9.1'], ['4.8.1']],
+        [['5.0.0'], ['4.9.1'], []],
+        [['5.0.0'], [], ['4.8.1']],
+        [[], ['4.9.1'], ['4.8.1']],
+        [[], [], []],
+    ),
+)
+async def test_query_update_check_service_returns_correct_data_when_status_200(
+    installation_uid, client_session_get_mock, major, minor, patch
+):
+    """Test that query_update_check_service function proccess the updates information correctly."""
+    def _build_release_info(semvers: list[str]) -> list:
+        release_info = []
+        for semver in semvers:
+            major, minor, patch = semver.split('.')
+            release_info.append(
+                {
+                    'tag': f'v{semver}',
+                    'description': 'Some description',
+                    'title': f'AssetGuard {semver}',
+                    'published_date': '2023-09-22T10:44:00Z',
+                    'semver': {'minor': minor, 'patch': patch, 'major': major},
+                }
+            )
+
+        return release_info
+
+    response_data = {
+        'data': {
+            'minor': _build_release_info(minor),
+            'patch': _build_release_info(patch),
+            'major': _build_release_info(major),
+        }
+    }
+    status = 200
+
+    client_session_get_mock.return_value = httpx.Response(status_code=status, json=response_data)
+
+    update_information = await query_update_check_service(installation_uid)
+
+    client_session_get_mock.assert_called()
+
+    assert update_information['status_code'] == status
+    assert update_information['uuid'] == installation_uid
+
+    if len(major):
+        assert (
+            update_information['last_available_major']
+            == response_data['data']['major'][-1]
+        )
+    else:
+        assert update_information['last_available_major'] == {}
+
+    if len(minor):
+        assert (
+            update_information['last_available_minor']
+            == response_data['data']['minor'][-1]
+        )
+    else:
+        assert update_information['last_available_minor'] == {}
+
+    if len(patch):
+        assert (
+            update_information['last_available_patch']
+            == response_data['data']['patch'][-1]
+        )
+    else:
+        assert update_information['last_available_patch'] == {}
+
+
+async def test_query_update_check_service_returns_correct_data_on_error(
+    installation_uid, client_session_get_mock
+):
+    """Test that query_update_check_service function returns correct data when an error occurs."""
+
+    response_data = {'errors': {'detail': 'Unauthorized'}}
+    status = 403
+
+    client_session_get_mock.return_value = httpx.Response(status_code=status, json=response_data)
+
+    update_information = await query_update_check_service(installation_uid)
+
+    client_session_get_mock.assert_called()
+
+    assert update_information['status_code'] == status
+    assert update_information['message'] == response_data['errors']['detail']
+
+
+@pytest.mark.asyncio
+async def test_query_update_check_service_request(
+    installation_uid, client_session_get_mock
+):
+    """Test that query_update_check_service function make request to the URL with the correct headers."""
+
+    version = '4.8.0'
+    with patch('framework.assetguard.core.manager.assetguard.__version__', version):
+        await query_update_check_service(installation_uid)
+
+        client_session_get_mock.assert_called()
+
+        client_session_get_mock.assert_called_with(
+            RELEASE_UPDATES_URL,
+            headers={
+                ASSETGUARD_UID_KEY: installation_uid,
+                ASSETGUARD_TAG_KEY: f'v{version}',
+                USER_AGENT_KEY: f'AssetGuard UpdateCheckService/v{version}'
+            },
+            follow_redirects=True
+        )

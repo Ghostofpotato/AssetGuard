@@ -12,7 +12,7 @@ on:
   pull_request:
     types: [synchronize, opened, reopened, ready_for_review]
     paths:
-      - 'src/wazuh_modules/inventory_sync/**'
+      - 'src/assetguard_modules/inventory_sync/**'
       - 'src/shared_modules/utils/flatbuffers/**'
       - '.github/workflows/5_testintegration_inventory-sync.yml'
       - 'src/shared_modules/indexer_connector/**'
@@ -71,19 +71,19 @@ jobs:
         if: github.event_name == 'pull_request'
         id: wait-for-specific-check
         run: |
-          echo "[>] Waiting for specific check 'Build Wazuh Manager (deb, amd64) / Build deb wazuh-manager on amd64' to be created..."
+          echo "[>] Waiting for specific check 'Build AssetGuard Manager (deb, amd64) / Build deb assetguard-manager on amd64' to be created..."
 
           # Maximum wait time: 5 minutes
           MAX_ATTEMPTS=10
           ATTEMPT=0
-          CHECK_NAME="Build Wazuh Manager (deb, amd64) / Build deb wazuh-manager on amd64"
+          CHECK_NAME="Build AssetGuard Manager (deb, amd64) / Build deb assetguard-manager on amd64"
 
           while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
             ATTEMPT=$((ATTEMPT + 1))
             echo "[*] Attempt $ATTEMPT/$MAX_ATTEMPTS: Checking for specific check '$CHECK_NAME'..."
 
             # Check if the specific check exists for this PR
-            CHECK_EXISTS=$(gh api repos/wazuh/wazuh/commits/${{ github.event.pull_request.head.sha }}/check-runs \
+            CHECK_EXISTS=$(gh api repos/assetguard/assetguard/commits/${{ github.event.pull_request.head.sha }}/check-runs \
               --paginate \
               --jq ".check_runs[] | select(.name == \"$CHECK_NAME\") | .name" | head -1)
 
@@ -109,19 +109,19 @@ jobs:
         if: github.event_name == 'pull_request' && steps.wait-for-specific-check.outputs.check-created == 'true'
         id: wait-for-check-completion
         run: |
-          echo "[>] Waiting for check 'Build Wazuh Manager (deb, amd64) / Build deb wazuh-manager on amd64' to complete..."
+          echo "[>] Waiting for check 'Build AssetGuard Manager (deb, amd64) / Build deb assetguard-manager on amd64' to complete..."
 
           # Maximum wait time: 30 minutes
           MAX_ATTEMPTS=60
           ATTEMPT=0
-          CHECK_NAME="Build Wazuh Manager (deb, amd64) / Build deb wazuh-manager on amd64"
+          CHECK_NAME="Build AssetGuard Manager (deb, amd64) / Build deb assetguard-manager on amd64"
 
           while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
             ATTEMPT=$((ATTEMPT + 1))
             echo "[*] Attempt $ATTEMPT/$MAX_ATTEMPTS: Checking status of '$CHECK_NAME'..."
 
             # Check the status of the specific check
-            CHECK_STATUS=$(gh api repos/wazuh/wazuh/commits/${{ github.event.pull_request.head.sha }}/check-runs \
+            CHECK_STATUS=$(gh api repos/assetguard/assetguard/commits/${{ github.event.pull_request.head.sha }}/check-runs \
               --paginate \
               --jq ".check_runs[] | select(.name == \"$CHECK_NAME\") | .conclusion" | head -1)
 
@@ -174,12 +174,12 @@ jobs:
         if: github.event_name == 'pull_request' && steps.wait-for-check-completion.outputs.check-completed == 'true'
         id: get-run-info
         run: |
-          # Find the successful run of "Package - Build multiple Wazuh Manager Packages" for this specific commit
+          # Find the successful run of "Package - Build multiple AssetGuard Manager Packages" for this specific commit
           # This ensures we get the package built for the exact commit of this PR
           RUN_ID=$(gh run list -L 200 \
             --commit="${{ github.event.pull_request.head.sha }}" \
             --json databaseId,headSha,displayTitle,workflowName,conclusion \
-            --jq '.[] | select(.workflowName | test("Package - Build multiple Wazuh Manager Packages")) | .databaseId' | head -1)
+            --jq '.[] | select(.workflowName | test("Package - Build multiple AssetGuard Manager Packages")) | .databaseId' | head -1)
 
           if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
             echo "[-] No package build run found for this branch"
@@ -191,12 +191,12 @@ jobs:
           echo "[+] Found package build run: $RUN_ID"
 
           # Get the list of artifacts from this run and find the amd64 deb package
-          ARTIFACT_NAME=$(gh api repos/wazuh/wazuh/actions/runs/$RUN_ID/artifacts --jq '.artifacts[] | select(.name | test("wazuh-manager_.*amd64.*\\.deb$")) | .name' | head -1)
+          ARTIFACT_NAME=$(gh api repos/assetguard/assetguard/actions/runs/$RUN_ID/artifacts --jq '.artifacts[] | select(.name | test("assetguard-manager_.*amd64.*\\.deb$")) | .name' | head -1)
 
           if [ -z "$ARTIFACT_NAME" ]; then
-            echo "[-] No amd64 deb wazuh-manager artifact found in run $RUN_ID"
+            echo "[-] No amd64 deb assetguard-manager artifact found in run $RUN_ID"
             echo "[*] Available artifacts:"
-            gh api repos/wazuh/wazuh/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name'
+            gh api repos/assetguard/assetguard/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name'
             exit 1
           fi
 
@@ -206,7 +206,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download Wazuh manager package (deb amd64)
+      - name: Download AssetGuard manager package (deb amd64)
         if: github.event_name == 'pull_request' && steps.wait-for-check-completion.outputs.check-completed == 'true'
         uses: actions/download-artifact@v4
         with:
@@ -215,10 +215,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.get-run-info.outputs.run-id }}
 
-      - name: Install Wazuh manager package
+      - name: Install AssetGuard manager package
         if: github.event_name == 'pull_request' && steps.wait-for-check-completion.outputs.check-completed == 'true'
         run: |
-          echo "[>] Installing Wazuh manager package (deb amd64)..."
+          echo "[>] Installing AssetGuard manager package (deb amd64)..."
 
           # Find the amd64 .deb package in the downloaded artifacts
           echo "[*] Downloaded packages:"
@@ -240,37 +240,37 @@ jobs:
           # Install the package
           sudo dpkg -i "$PACKAGE_FILE" || sudo apt-get -f install -y
 
-          # Replace https://127.0.0.1:9200 with http://127.0.0.1:9200 in /var/wazuh-manager/etc/wazuh-manager.conf
-          sudo sed -i 's/https:\/\/127\.0\.0\.1:9200/http:\/\/127.0.0.1:9200/g' /var/wazuh-manager/etc/wazuh-manager.conf
+          # Replace https://127.0.0.1:9200 with http://127.0.0.1:9200 in /var/assetguard-manager/etc/assetguard-manager.conf
+          sudo sed -i 's/https:\/\/127\.0\.0\.1:9200/http:\/\/127.0.0.1:9200/g' /var/assetguard-manager/etc/assetguard-manager.conf
 
-          sudo mkdir -p /var/wazuh-manager/etc/certs
-          sudo touch /var/wazuh-manager/etc/certs/root-ca.pem
-          sudo touch /var/wazuh-manager/etc/certs/manager.pem
-          sudo touch /var/wazuh-manager/etc/certs/manager-key.pem
+          sudo mkdir -p /var/assetguard-manager/etc/certs
+          sudo touch /var/assetguard-manager/etc/certs/root-ca.pem
+          sudo touch /var/assetguard-manager/etc/certs/manager.pem
+          sudo touch /var/assetguard-manager/etc/certs/manager-key.pem
 
-          # Print wazuh configuration file content for verification
-          echo "[>] Current wazuh-manager.conf content:"
+          # Print assetguard configuration file content for verification
+          echo "[>] Current assetguard-manager.conf content:"
           echo "=========================================="
-          sudo cat /var/wazuh-manager/etc/wazuh-manager.conf
+          sudo cat /var/assetguard-manager/etc/assetguard-manager.conf
           echo "=========================================="
 
-          # Start Wazuh manager
-          sudo systemctl start wazuh-manager
+          # Start AssetGuard manager
+          sudo systemctl start assetguard-manager
           sleep 10
 
           # Verify installation
-          if systemctl is-active --quiet wazuh-manager; then
-            echo "[+] Wazuh manager installed and running"
+          if systemctl is-active --quiet assetguard-manager; then
+            echo "[+] AssetGuard manager installed and running"
             echo "[*] Service status:"
-            sudo systemctl status wazuh-manager --no-pager --lines=5
+            sudo systemctl status assetguard-manager --no-pager --lines=5
           else
-            echo "[-] Failed to start Wazuh manager"
-            sudo systemctl status wazuh-manager --no-pager
+            echo "[-] Failed to start AssetGuard manager"
+            sudo systemctl status assetguard-manager --no-pager
             exit 1
           fi
 
       - name: Setup Python test environment
-        working-directory: src/wazuh_modules/inventory_sync/qa
+        working-directory: src/assetguard_modules/inventory_sync/qa
         run: |
           echo "[>] Setting up Python environment..."
           python3 -m venv venv
@@ -280,7 +280,7 @@ jobs:
           echo "[+] Python environment ready"
 
       - name: Generate FlatBuffers classes
-        working-directory: src/wazuh_modules/inventory_sync/qa
+        working-directory: src/assetguard_modules/inventory_sync/qa
         run: |
           echo "[>] Generating FlatBuffers classes..."
           source venv/bin/activate
@@ -298,7 +298,7 @@ jobs:
 
 
       - name: Run inventory sync integration tests
-        working-directory: src/wazuh_modules/inventory_sync/qa
+        working-directory: src/assetguard_modules/inventory_sync/qa
         run: |
           echo "[>] Running inventory sync integration tests..."
           source venv/bin/activate
@@ -318,48 +318,48 @@ jobs:
         run: |
           echo "[>] Collecting test results and logs..."
 
-          # Stop Wazuh manager if installed from package
-          if systemctl is-active --quiet wazuh-manager 2>/dev/null; then
-            sudo systemctl stop wazuh-manager
-            echo "[+] Stopped wazuh-manager"
+          # Stop AssetGuard manager if installed from package
+          if systemctl is-active --quiet assetguard-manager 2>/dev/null; then
+            sudo systemctl stop assetguard-manager
+            echo "[+] Stopped assetguard-manager"
           fi
 
-          # Debug: Check Wazuh installation and directories
-          echo "[*] Debugging Wazuh installation..."
-          echo "[*] Checking if /var/wazuh-manager exists:"
-          ls -la /var/wazuh-manager/ 2>/dev/null || echo "[-] /var/wazuh-manager directory not found"
+          # Debug: Check AssetGuard installation and directories
+          echo "[*] Debugging AssetGuard installation..."
+          echo "[*] Checking if /var/assetguard-manager exists:"
+          ls -la /var/assetguard-manager/ 2>/dev/null || echo "[-] /var/assetguard-manager directory not found"
 
-          echo "[*] Checking if /var/wazuh-manager/logs exists:"
-          ls -la /var/wazuh-manager/logs/ 2>/dev/null || echo "[-] /var/wazuh-manager/logs directory not found"
+          echo "[*] Checking if /var/assetguard-manager/logs exists:"
+          ls -la /var/assetguard-manager/logs/ 2>/dev/null || echo "[-] /var/assetguard-manager/logs directory not found"
 
-          echo "[*] Checking all files in /var/wazuh-manager/logs/ (if exists):"
-          sudo find /var/wazuh-manager/logs/ -type f -name "*.log" 2>/dev/null || echo "[-] No log files found"
+          echo "[*] Checking all files in /var/assetguard-manager/logs/ (if exists):"
+          sudo find /var/assetguard-manager/logs/ -type f -name "*.log" 2>/dev/null || echo "[-] No log files found"
 
-          echo "[*] Checking Wazuh service status:"
-          sudo systemctl status wazuh-manager --no-pager --lines=10 || echo "[-] Could not get service status"
+          echo "[*] Checking AssetGuard service status:"
+          sudo systemctl status assetguard-manager --no-pager --lines=10 || echo "[-] Could not get service status"
 
-          echo "[*] Checking if Wazuh was actually installed:"
-          dpkg -l | grep wazuh || echo "[-] No Wazuh packages found"
+          echo "[*] Checking if AssetGuard was actually installed:"
+          dpkg -l | grep assetguard || echo "[-] No AssetGuard packages found"
 
-          # Collect Wazuh logs if they exist
-          if [ -f /var/wazuh-manager/logs/wazuh-manager.log ]; then
-            echo "[*] Wazuh logs (last 50 lines):"
-            sudo tail -50 /var/wazuh-manager/logs/wazuh-manager.log
+          # Collect AssetGuard logs if they exist
+          if [ -f /var/assetguard-manager/logs/assetguard-manager.log ]; then
+            echo "[*] AssetGuard logs (last 50 lines):"
+            sudo tail -50 /var/assetguard-manager/logs/assetguard-manager.log
 
-            # Copy wazuh-manager.log to workspace for artifact upload
-            sudo cp /var/wazuh-manager/logs/wazuh-manager.log ./wazuh-manager.log
-            sudo chown $USER:$USER ./wazuh-manager.log
-            echo "[+] Copied wazuh-manager.log to workspace"
+            # Copy assetguard-manager.log to workspace for artifact upload
+            sudo cp /var/assetguard-manager/logs/assetguard-manager.log ./assetguard-manager.log
+            sudo chown $USER:$USER ./assetguard-manager.log
+            echo "[+] Copied assetguard-manager.log to workspace"
           else
-            echo "[-] wazuh-manager.log not found at /var/wazuh-manager/logs/wazuh-manager.log"
+            echo "[-] assetguard-manager.log not found at /var/assetguard-manager/logs/assetguard-manager.log"
 
             # Try to find any log files that might exist
             echo "[*] Searching for any log files in the system:"
-            sudo find /var/log -name "*wazuh*" -o -name "*ossec*" 2>/dev/null | head -10 || echo "[-] No Wazuh/OSSEC logs found in /var/log"
+            sudo find /var/log -name "*assetguard*" -o -name "*ossec*" 2>/dev/null | head -10 || echo "[-] No AssetGuard/OSSEC logs found in /var/log"
 
             # Check if logs might be in a different location
             echo "[*] Checking common log locations:"
-            for log_path in "/var/log/wazuh" "/var/log/ossec" "/opt/wazuh/logs" "/usr/local/ossec/logs"; do
+            for log_path in "/var/log/assetguard" "/var/log/ossec" "/opt/assetguard/logs" "/usr/local/ossec/logs"; do
               if [ -d "$log_path" ]; then
                 echo "[+] Found log directory: $log_path"
                 ls -la "$log_path"/
@@ -375,17 +375,17 @@ jobs:
         with:
           name: inventory-sync-test-results
           path: |
-            src/wazuh_modules/inventory_sync/qa/generated/
-            src/wazuh_modules/inventory_sync/qa/wazuh_agents.json
+            src/assetguard_modules/inventory_sync/qa/generated/
+            src/assetguard_modules/inventory_sync/qa/assetguard_agents.json
           retention-days: 7
           if-no-files-found: warn
 
-      - name: Upload Wazuh logs
+      - name: Upload AssetGuard logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: wazuh-logs
+          name: assetguard-logs
           path: |
-            wazuh-manager.log
+            assetguard-manager.log
           retention-days: 7
           if-no-files-found: warn

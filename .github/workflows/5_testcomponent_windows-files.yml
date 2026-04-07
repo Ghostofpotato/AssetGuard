@@ -28,10 +28,10 @@ jobs:
           rm -f src/bin_files/setup-*.exe
           rm -f src/bin_files/*_test_tool.exe
           rm -f src/bin_files/*_example.exe
-          # Copy Wazuh-built DLLs (excluding external MinGW libraries)
+          # Copy AssetGuard-built DLLs (excluding external MinGW libraries)
           cp src/build/bin/*.dll src/bin_files/ 2>/dev/null || true
           cp src/build/lib/*.dll src/bin_files/ 2>/dev/null || true
-          # Remove external MinGW libraries that aren't built by Wazuh
+          # Remove external MinGW libraries that aren't built by AssetGuard
           rm -f src/bin_files/libwinpthread-1.dll
           rm -f src/bin_files/libgcc_s_dw2-1.dll
           rm -f src/bin_files/libstdc++-6.dll

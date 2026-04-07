@@ -10,7 +10,7 @@ metadata:
     - If true: All event fields will be erased (only the discard flag remains). This ensures that the event reaching the indexer will be almost empty.
 
     Usage Rules:
-    - Must be used with the exact target field 'wazuh.space.event_discarded'
+    - Must be used with the exact target field 'assetguard.space.event_discarded'
     - Cannot accept any parameters
     - Should be called in the normalization/map stage when a discard condition is met
 
@@ -25,4 +25,4 @@ is_variadic: false
 target_field:
   type:
     - boolean
-  # Special constraint: must be "wazuh.space.event_discarded"
+  # Special constraint: must be "assetguard.space.event_discarded"

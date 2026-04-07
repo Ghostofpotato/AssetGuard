@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -27,7 +27,7 @@ typedef struct
 {
     char agent_id[256];           ///< Agent identifier (e.g., "001")
     char agent_name[256];         ///< Agent name
-    char agent_version[256];      ///< Wazuh agent version
+    char agent_version[256];      ///< AssetGuard agent version
     char architecture[256];       ///< System architecture (e.g., "x86_64")
     char hostname[256];           ///< System hostname
     char os_name[256];            ///< Operating system name

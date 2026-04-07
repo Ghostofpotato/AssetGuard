@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -18,8 +18,8 @@
 
 #define WHODATA_PERMS (AUDIT_PERM_WRITE | AUDIT_PERM_ATTR)
 #define VERCODE(M,m,p)  ((((unsigned)(M) & 0xFF) << 16) | (((unsigned)(m) & 0xFF) << 8) | ((unsigned)(p) & 0xFF))
-#define AUDIT_HEALTHCHECK_KEY "wazuh_hc"
-#define AUDIT_KEY "wazuh_fim"
+#define AUDIT_HEALTHCHECK_KEY "assetguard_hc"
+#define AUDIT_KEY "assetguard_fim"
 
 typedef struct {
     char *path;

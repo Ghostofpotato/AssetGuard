@@ -40,5 +40,5 @@ If you have any questions or issues, please open an issue on GitHub.
 
 ## Links
 
-- [GitHub Repository](https://github.com/wazuh/wazuh)
+- [GitHub Repository](https://github.com/assetguard/assetguard)
 

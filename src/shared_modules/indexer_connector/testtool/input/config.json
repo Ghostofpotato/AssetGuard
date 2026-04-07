@@ -1,5 +1,5 @@
 {
-  "name": "wazuh-states-vulnerabilities-cluster",
+  "name": "assetguard-states-vulnerabilities-cluster",
   "enabled": "yes",
   "hosts": ["http://0.0.0.0:9200"]
 }

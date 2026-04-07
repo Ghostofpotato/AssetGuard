@@ -45,7 +45,7 @@ def parse_args():
         '--api-socket',
         type=str,
         default=DefaultSettings.SOCKET_PATH,
-        help='Path to the Wazuh API socket'
+        help='Path to the AssetGuard API socket'
     )
 
     # Top-level subcommands (cm / ns)

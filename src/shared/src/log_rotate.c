@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * June 12, 2017.
  *
  * This program is free software; you can redistribute it
@@ -67,19 +67,19 @@ void w_rotate_log(int compress, int keep_log_days, int new_day, int rotate_json,
     localtime_r(&now, &tm);
 
 #ifdef WIN32
-    // wazuh log file
+    // assetguard log file
     snprintf(old_path, PATH_MAX, "%s", LOGFILE);
     // ossec.json
     snprintf(old_path_json, PATH_MAX, "%s", LOGJSONFILE);
     // logs
     strcpy(base_dir, "logs");
 #else
-    // /var/wazuh-manager/logs/wazuh-manager.log
+    // /var/assetguard-manager/logs/assetguard-manager.log
     snprintf(old_path, PATH_MAX, "%s", LOGFILE);
-    // /var/wazuh-manager/logs/wazuh-manager.json
+    // /var/assetguard-manager/logs/assetguard-manager.json
     snprintf(old_path_json, PATH_MAX, "%s", LOGJSONFILE);
-    // /var/wazuh-manager/logs/wazuh-manager
-    snprintf(base_dir, PATH_MAX, "logs/wazuh");
+    // /var/assetguard-manager/logs/assetguard-manager
+    snprintf(base_dir, PATH_MAX, "logs/assetguard");
 #endif
 
     os_snprintf(year_dir, PATH_MAX, "%s/%d", base_dir, tm.tm_year + 1900);

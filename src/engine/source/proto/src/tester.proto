@@ -3,7 +3,7 @@ syntax = "proto3";
 import "engine.proto";
 import "google/protobuf/struct.proto";
 
-package com.wazuh.api.engine.tester;
+package com.assetguard.api.engine.tester;
 
 enum State
 {

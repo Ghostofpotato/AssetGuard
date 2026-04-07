@@ -5,8 +5,8 @@
 #include "syscheck-config.h"
 
 #include "wrappers/posix/pthread_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "wrappers/wazuh/shared/mq_op_wrappers.h"
+#include "wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "wrappers/assetguard/shared/mq_op_wrappers.h"
 
 /**********************************************************************************************************************\
  * Auxiliar expect functions

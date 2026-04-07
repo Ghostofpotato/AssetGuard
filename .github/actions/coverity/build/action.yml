@@ -22,5 +22,5 @@ runs:
           -v "${{ github.workspace }}:/src" \
           -w /src \
           -u $(id -u):$(id -g) \
-          ghcr.io/wazuh/coverity-scan:${{ inputs.docker_image_tag }} \
+          ghcr.io/assetguard/coverity-scan:${{ inputs.docker_image_tag }} \
           ${{ inputs.command }}

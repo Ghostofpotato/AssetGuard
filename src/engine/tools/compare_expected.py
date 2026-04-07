@@ -101,11 +101,11 @@ def get_direct(field: str, df: pd.DataFrame) -> Optional[str]:
 if __name__ == '__main__':
     try:
         arg_parser = ArgumentParser(
-            description='Compare expected results of an output and wazuh output. Files should be a json consisting of an array of output objects, the script expects that the order of both files is the same')
+            description='Compare expected results of an output and assetguard output. Files should be a json consisting of an array of output objects, the script expects that the order of both files is the same')
         arg_parser.add_argument(
             'table', help='CSV table with metadata about the test')
         arg_parser.add_argument(
-            'wazuh_output', type=Path, help='Path to the file with wazuh output')
+            'assetguard_output', type=Path, help='Path to the file with assetguard output')
         arg_parser.add_argument(
             'other_output', type=Path, help='Path to the file with other output')
         arg_parser.add_argument('-o', '--output', type=Path, help='Path to the output file, default: /tmp/compare_expected/compare_diff.json',
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         args = arg_parser.parse_args()
 
         table = args.table
-        wazuh_output_path = Path(args.wazuh_output)
+        assetguard_output_path = Path(args.assetguard_output)
         other_output_path = Path(args.other_output)
         output_path = Path(args.output)
         show_extra = args.extra
@@ -128,27 +128,27 @@ if __name__ == '__main__':
         df = pd.read_csv(table)
 
         # Read the files
-        wazuh_expected = loads(wazuh_output_path.read_text())
+        assetguard_expected = loads(assetguard_output_path.read_text())
         other_expected = loads(other_output_path.read_text())
 
         # Verify that the number of outputs is the same
-        if len(wazuh_expected) != len(other_expected):
+        if len(assetguard_expected) != len(other_expected):
             raise Exception(
-                f'Expected the same number of outputs, got {len(wazuh_expected)} wazuh outputs and {len(other_expected)} other outputs')
+                f'Expected the same number of outputs, got {len(assetguard_expected)} assetguard outputs and {len(other_expected)} other outputs')
 
         # Compare each output following the table rules
         compare_results = []
 
-        for wazuh_output, other_output in zip(wazuh_expected, other_expected):
+        for assetguard_output, other_output in zip(assetguard_expected, other_expected):
             current_result = {}
             current_result['original'] = get_value(
-                'event.original', wazuh_output)
+                'event.original', assetguard_output)
             checked_fields = set()
             checked_fields.add('event.original')
 
             # Need to match
             for field in fields_needed_to_match(df):
-                waz_value = get_value(field, wazuh_output)
+                waz_value = get_value(field, assetguard_output)
                 oth_field = get_direct(field, df)
                 if oth_field is None:
                     oth_field = field
@@ -160,30 +160,30 @@ if __name__ == '__main__':
                     if 'need_to_match' not in current_result:
                         current_result['need_to_match'] = {}
                     current_result['need_to_match'][key] = {
-                        'wazuh': waz_value,
+                        'assetguard': waz_value,
                         'other': oth_value
                     }
 
-            # Extra wazuh fields and missing wazuh fields
+            # Extra assetguard fields and missing assetguard fields
             for field in fields_mapped_by_waz(df):
-                waz_value = get_value(field, wazuh_output)
+                waz_value = get_value(field, assetguard_output)
                 oth_value = get_value(field, other_output)
 
-                # Wazuh missing fields
+                # AssetGuard missing fields
                 if waz_value is None and show_missing:
                     if 'need_by_waz' not in current_result:
                         current_result['need_by_waz'] = []
                     current_result['need_by_waz'].append(field)
 
-                # Wazuh extra fields
+                # AssetGuard extra fields
                 if waz_value is not None and oth_value is None and show_extra:
-                    if 'wazuh_extra' not in current_result:
-                        current_result['wazuh_extra'] = []
-                    current_result['wazuh_extra'].append(field)
+                    if 'assetguard_extra' not in current_result:
+                        current_result['assetguard_extra'] = []
+                    current_result['assetguard_extra'].append(field)
 
             # Extra other fields and missing other fields
             for field in fields_mapped_by_oth(df):
-                waz_value = get_value(field, wazuh_output)
+                waz_value = get_value(field, assetguard_output)
                 oth_value = get_value(field, other_output)
 
                 # other missing fields
@@ -206,7 +206,7 @@ if __name__ == '__main__':
 
         # Notify the user
         print(
-            f'{wazuh_output_path.name} and {other_output_path.name} -> {output_path}')
+            f'{assetguard_output_path.name} and {other_output_path.name} -> {output_path}')
 
     except KeyboardInterrupt:
         print('Interrupted by the user')

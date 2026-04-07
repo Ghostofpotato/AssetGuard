@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 # Tool to build and compress the WPK package
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# AssetGuard package generator
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public

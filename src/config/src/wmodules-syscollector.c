@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscollector Module Configuration
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Syscollector Module Configuration
+ * Copyright (C) 2015, AssetGuard Inc.
  * March 9, 2017.
  *
  * This program is free software; you can redistribute it

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -18,7 +18,7 @@
 #include "active_responses.h"
 #include "startup_gate_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #else
@@ -33,7 +33,7 @@ STATIC OSListNode *timeout_node;
 STATIC OSHash *repeated_hash;
 
 #ifdef WIN32
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
     #include "../../unit_tests/wrappers/windows/libc/stdio_wrappers.h"
 #endif
 static pthread_mutex_t timeout_list_mutex;
@@ -239,7 +239,7 @@ void ExecdRun(char *exec_msg, int *childcount)
     }
 
 #ifndef WIN32
-    if (!strcmp(name, "restart-wazuh")) {
+    if (!strcmp(name, "restart-assetguard")) {
         char *cmd_api[MAX_ARGS] = {0};
 
         cJSON_Delete(json_root);
@@ -483,7 +483,7 @@ void ExecdStart(int q)
     /* Clear the buffer */
     memset(buffer, '\0', OS_MAXSTR + 1);
 
-#ifndef WAZUH_UNIT_TESTING
+#ifndef ASSETGUARD_UNIT_TESTING
     /* Create list for timeout */
     timeout_list = OSList_Create();
     if (!timeout_list) {
@@ -549,7 +549,7 @@ void ExecdStart(int q)
 
         ExecdRun(buffer, &childcount);
 
-    #ifdef WAZUH_UNIT_TESTING
+    #ifdef ASSETGUARD_UNIT_TESTING
         break;
     #endif
     }
@@ -603,7 +603,7 @@ int WinExecdStart()
 
 // Create a thread to run windows AR simultaneous
 DWORD WINAPI win_exec_main(__attribute__((unused)) void * args) {
-    startup_gate_wait_for_ready("wazuh-execd");
+    startup_gate_wait_for_ready("assetguard-execd");
 
     while(1) {
         char* exec_msg = queue_pop_ex(winexec_queue);

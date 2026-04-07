@@ -2,14 +2,14 @@
 
 ## Introduction
 
-The **Schema Validator** is a shared module that validates JSON messages against Wazuh-indexer index template mappings. It ensures that data sent to the Wazuh indexer conforms to the expected schema, preventing indexing errors and maintaining data integrity across Wazuh components.
+The **Schema Validator** is a shared module that validates JSON messages against AssetGuard-indexer index template mappings. It ensures that data sent to the AssetGuard indexer conforms to the expected schema, preventing indexing errors and maintaining data integrity across AssetGuard components.
 
-The validator supports Wazuh-indexer mapping syntax including all data types, nested objects, and strict validation mode. It provides detailed error messages for debugging and integrates seamlessly with multiple Wazuh modules (FIM, SCA, Syscollector).
+The validator supports AssetGuard-indexer mapping syntax including all data types, nested objects, and strict validation mode. It provides detailed error messages for debugging and integrates seamlessly with multiple AssetGuard modules (FIM, SCA, Syscollector).
 
 ## Key Features
 
-- **Wazuh-indexer Mapping Support**: Validates against Wazuh-indexer index template mappings
-- **Type Validation**: Supports all Wazuh-indexer data types (text, keyword, long, integer, float, boolean, date, object, etc.)
+- **AssetGuard-indexer Mapping Support**: Validates against AssetGuard-indexer index template mappings
+- **Type Validation**: Supports all AssetGuard-indexer data types (text, keyword, long, integer, float, boolean, date, object, etc.)
 - **Nested Object Validation**: Recursively validates nested object structures
 - **Embedded Schemas**: Schemas are embedded at compile-time for zero-configuration deployment
 - **Detailed Error Messages**: Provides specific field paths and validation failures
@@ -55,7 +55,7 @@ The module follows a factory pattern with three main components:
 
 ### Module Integration
 
-Each Wazuh module integrates with the Schema Validator independently:
+Each AssetGuard module integrates with the Schema Validator independently:
 
 ```
 ┌────────────┐  ┌────────────┐  ┌──────────────┐
@@ -71,24 +71,24 @@ Each Wazuh module integrates with the Schema Validator independently:
                       │
           ┌───────────▼───────────┐
           │  Embedded Schemas     │
-          │  - wazuh-states-*     │
+          │  - assetguard-states-*     │
           └───────────────────────┘
 ```
 
 ## Supported Indices
 
-The validator supports schemas for all Wazuh state indices:
+The validator supports schemas for all AssetGuard state indices:
 
-- `wazuh-states-inventory-hardware`
-- `wazuh-states-inventory-system`
-- `wazuh-states-inventory-network`
-- `wazuh-states-inventory-packages`
-- `wazuh-states-inventory-hotfixes`
-- `wazuh-states-inventory-ports`
-- `wazuh-states-inventory-processes`
-- `wazuh-states-sca`
-- `wazuh-states-fim-file`
-- `wazuh-states-fim-registry`
+- `assetguard-states-inventory-hardware`
+- `assetguard-states-inventory-system`
+- `assetguard-states-inventory-network`
+- `assetguard-states-inventory-packages`
+- `assetguard-states-inventory-hotfixes`
+- `assetguard-states-inventory-ports`
+- `assetguard-states-inventory-processes`
+- `assetguard-states-sca`
+- `assetguard-states-fim-file`
+- `assetguard-states-fim-registry`
 
 ## Documentation Structure
 
@@ -111,7 +111,7 @@ if (validatorFactory.initialize())
 }
 
 // 2. Get a validator for a specific index
-auto validator = validatorFactory.getValidator("wazuh-states-inventory-packages");
+auto validator = validatorFactory.getValidator("assetguard-states-inventory-packages");
 
 if (validator)
 {
@@ -155,7 +155,7 @@ if (schema_validator_initialize())
 
 // 2. Validate a message
 char* errorMessage = NULL;
-const char* index = "wazuh-states-fim-file";
+const char* index = "assetguard-states-fim-file";
 const char* message = "{\"file\":{\"path\":\"/etc/passwd\"}}";
 
 if (schema_validator_validate(index, message, &errorMessage))
@@ -208,7 +208,7 @@ The module gracefully handles initialization and validation failures:
 
 ## Building
 
-The Schema Validator is built as part of the Wazuh build system:
+The Schema Validator is built as part of the AssetGuard build system:
 
 ```bash
 make TARGET=server|agent <DEBUG=1>
@@ -227,6 +227,6 @@ ctest -L schema_validator -V
 
 ## References
 
-- [Wazuh-indexer Mapping Documentation](https://www.elastic.co/guide/en/Wazuh-indexer/reference/current/mapping.html)
-- [Wazuh Indexer Templates](https://documentation.wazuh.com/current/user-manual/wazuh-indexer/index.html)
+- [AssetGuard-indexer Mapping Documentation](https://www.elastic.co/guide/en/AssetGuard-indexer/reference/current/mapping.html)
+- [AssetGuard Indexer Templates](https://documentation.assetguard.com/current/user-manual/assetguard-indexer/index.html)
 - [JSON Schema Validation](https://json-schema.org/)

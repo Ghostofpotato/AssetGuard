@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -12,7 +12,7 @@
 #include "active_responses.h"
 #include "dll_load_notify.h"
 
-#define RULE_NAME "WAZUH ACTIVE RESPONSE BLOCKED IP"
+#define RULE_NAME "ASSETGUARD ACTIVE RESPONSE BLOCKED IP"
 
 #define PATH_FIREWALL_PROFILES_REG_DEFAULT "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\"
 #define FIREWALL_DATA_INITIALIZE { false, false, FIREWALL_DOMAIN }

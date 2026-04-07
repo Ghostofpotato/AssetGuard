@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * June 13, 2017.
  *
  * This program is free software; you can redistribute it
@@ -52,7 +52,7 @@ void * w_rotate_log_thread(__attribute__((unused)) void * arg) {
     // /var/ossec/logs/ossec.json
     snprintf(path_json, PATH_MAX, "%s", LOGJSONFILE);
 #else
-    // WAZUH_HOME/logs/<wazuh log file>
+    // ASSETGUARD_HOME/logs/<assetguard log file>
     snprintf(path, PATH_MAX, "%s", LOGFILE);
     // /var/ossec/logs/ossec.json
     snprintf(path_json, PATH_MAX, "%s", LOGJSONFILE);

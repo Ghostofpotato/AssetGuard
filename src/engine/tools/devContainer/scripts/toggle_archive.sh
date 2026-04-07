@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# Script to enable, disable, or check the status of the Wazuh archiver via the local analysisd socket.
+# Script to enable, disable, or check the status of the AssetGuard archiver via the local analysisd socket.
 #
 # Usage:
 #   ./toggle_archive.sh {enable|disable|status}
 #
 # Requirements:
-#   - Must be run with sufficient permissions to access $ANALYSISD_SOCKET (usually as root or wazuh user).
+#   - Must be run with sufficient permissions to access $ANALYSISD_SOCKET (usually as root or assetguard user).
 #   - Requires 'curl' installed with support for --unix-socket.
 #
 # Example:
 #   sudo ./toggle_archive.sh enable
 
-ANALYSISD_SOCKET="/var/wazuh-manager/queue/sockets/analysis"
+ANALYSISD_SOCKET="/var/assetguard-manager/queue/sockets/analysis"
 ENDPOINT_ACTIVATE="http://localhost/archiver/activate"
 ENDPOINT_STATUS="http://localhost/archiver/status"
 ENDPOINT_DISABLE="http://localhost/archiver/deactivate"

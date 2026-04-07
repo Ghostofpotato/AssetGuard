@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12.4)
 project(agent_sync_protocol)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 
@@ -104,7 +104,7 @@ target_link_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/../agent_metadata/build/lib)
 
 target_link_libraries(agent_sync_protocol PRIVATE flatbuffers FilesystemWrapper
-                                                  agent_metadata wazuhext)
+                                                  agent_metadata assetguardext)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set_target_properties(

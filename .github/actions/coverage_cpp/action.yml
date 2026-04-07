@@ -68,7 +68,7 @@ runs:
                 include_files+="--include=$(pwd)/$file "
               fi
             done
-          elif [[ ${{ inputs.path }} =~ "wazuh_modules/inventory_sync" ]]; then
+          elif [[ ${{ inputs.path }} =~ "assetguard_modules/inventory_sync" ]]; then
             # For inventory_sync module, include src/ and include/ directories
             paths="src/ include/"
             for file in $(find $paths -type f -regextype posix-extended -regex ".*/*\.(hpp|cpp|h|c)")

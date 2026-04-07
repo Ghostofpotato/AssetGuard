@@ -4,19 +4,19 @@ Configuration options for remoted module.
 
 ## XML Configuration
 
-File: `/var/wazuh-manager/etc/wazuh-manager.conf`
+File: `/var/assetguard-manager/etc/assetguard-manager.conf`
 
 ### Key Options
 
 ```xml
-<wazuh_config>
+<assetguard_config>
   <remote>
     <port>1514</port>
     <protocol>tcp</protocol>
     <queue_size>131072</queue_size>
     <allow_higher_versions>yes</allow_higher_versions>
   </remote>
-</wazuh_config>
+</assetguard_config>
 ```
 
 | Option | Default | Description |
@@ -28,7 +28,7 @@ File: `/var/wazuh-manager/etc/wazuh-manager.conf`
 
 ## Internal Options
 
-File: `/var/wazuh-manager/etc/internal_options.conf` or `/var/wazuh-manager/etc/local_internal_options.conf`
+File: `/var/assetguard-manager/etc/internal_options.conf` or `/var/assetguard-manager/etc/local_internal_options.conf`
 
 ### Key Settings
 
@@ -118,13 +118,13 @@ remoted.sender_pool=4
 
 ## Monitoring
 
-Enable statistics in `/var/wazuh-manager/etc/internal_options.conf`:
+Enable statistics in `/var/assetguard-manager/etc/internal_options.conf`:
 
 ```conf
 remoted.state_interval=5
 ```
 
-View statistics: `cat /var/wazuh-manager/var/run/wazuh-manager-remoted.state`
+View statistics: `cat /var/assetguard-manager/var/run/assetguard-manager-remoted.state`
 
 Enable debug logging:
 
@@ -137,4 +137,4 @@ remoted.debug=2
 - [Stateless Metadata](stateless-metadata.md)
 - [Remoted Architecture](architecture.md)
 - [Event Protocol](event-protocol.md)
-- [Wazuh Configuration Guide](https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/remote.html)
+- [AssetGuard Configuration Guide](https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/remote.html)

@@ -1,6 +1,6 @@
 # Architecture
 
-The Wazuh Server API is a layered system where an HTTP server delegates to a Python framework, which in turn communicates with internal daemons and databases through Unix sockets.
+The AssetGuard Server API is a layered system where an HTTP server delegates to a Python framework, which in turn communicates with internal daemons and databases through Unix sockets.
 
 ---
 
@@ -8,12 +8,12 @@ The Wazuh Server API is a layered system where an HTTP server delegates to a Pyt
 
 ```mermaid
 graph TD
-    A["Client (curl / SDK / Dashboard)"] --> B["Wazuh Server API (REST, JWT, RBAC)"]
-    B --> C["Wazuh Python Framework"]
+    A["Client (curl / SDK / Dashboard)"] --> B["AssetGuard Server API (REST, JWT, RBAC)"]
+    B --> C["AssetGuard Python Framework"]
     C --> D["Core Logic Layer"]
     
     D --> E["Unix sockets (daemons)"]
-    D --> F["Wazuh Database (WDB)"]
+    D --> F["AssetGuard Database (WDB)"]
     D --> G["Configuration files"]
     D --> H["Internal queues"]
 
@@ -32,7 +32,7 @@ graph TD
 ## Directory Structure
 
 ### API Interface Layer
-`wazuh/framework/wazuh/`
+`assetguard/framework/assetguard/`
 
 This layer:
 - Exposes API-facing functions
@@ -59,7 +59,7 @@ It **must not** contain business logic.
 ---
 
 ### Core Logic Layer
-`wazuh/framework/wazuh/core/`
+`assetguard/framework/assetguard/core/`
 
 This layer contains **all real logic**. It is **API-agnostic** and can be reused internally.
 
@@ -67,12 +67,12 @@ This layer contains **all real logic**. It is **API-agnostic** and can be reused
 |-----------|-------------|
 | `agent.py`, `manager.py`, etc. | Business logic implementation |
 | `common.py` | Global constants, paths, context variables, and utility functions |
-| `results.py` | Standardized result model (`WazuhResult`, `AffectedItemsWazuhResult`) |
+| `results.py` | Standardized result model (`AssetGuardResult`, `AffectedItemsAssetGuardResult`) |
 | `InputValidator.py` | Regex-based input validation (names, lengths) |
 | `utils.py` | General utilities (caching, process management, helpers) |
-| `wazuh_socket.py` | IPC with Wazuh daemons via Unix sockets |
-| `wazuh_queue.py` | Internal async messaging |
-| `wdb.py` | Async interface to Wazuh DB (length-prefixed Unix socket protocol) |
+| `assetguard_socket.py` | IPC with AssetGuard daemons via Unix sockets |
+| `assetguard_queue.py` | Internal async messaging |
+| `wdb.py` | Async interface to AssetGuard DB (length-prefixed Unix socket protocol) |
 | `wdb_http.py` | HTTP-based alternative WDB client (via `aiohttp`) |
 | `configuration.py` | Parse `ossec.conf` and related files |
 | `exception.py` | Custom exception hierarchy and error code catalog |
@@ -80,12 +80,12 @@ This layer contains **all real logic**. It is **API-agnostic** and can be reused
 | `pyDaemonModule.py` | UNIX daemonization (double-fork pattern) |
 | `stats.py` | Statistics processing logic |
 | `cluster/` | Cluster architecture (master, worker, DAPI, HAProxy helper) |
-| `indexer/` | Wazuh Indexer integration (credentials, disconnected agents) |
+| `indexer/` | AssetGuard Indexer integration (credentials, disconnected agents) |
 
 ---
 
 ### API Server Layer
-`wazuh/api/api/`
+`assetguard/api/api/`
 
 This layer implements the **HTTP server** that exposes the REST API.
 
@@ -126,7 +126,7 @@ Each controller wraps framework calls in the **DAPI (Distributed API)** layer to
 ---
 
 ### RBAC Sub-module
-`wazuh/framework/wazuh/rbac/`
+`assetguard/framework/assetguard/rbac/`
 
 | File | Responsibility |
 |------|----------------|
@@ -139,7 +139,7 @@ Each controller wraps framework calls in the **DAPI (Distributed API)** layer to
 ---
 
 ### Cluster Sub-module
-`wazuh/framework/wazuh/core/cluster/`
+`assetguard/framework/assetguard/core/cluster/`
 
 | File | Responsibility |
 |------|----------------|
@@ -160,11 +160,11 @@ Each controller wraps framework calls in the **DAPI (Distributed API)** layer to
 ---
 
 ### Indexer Sub-module
-`wazuh/framework/wazuh/core/indexer/`
+`assetguard/framework/assetguard/core/indexer/`
 
 | File | Responsibility |
 |------|----------------|
-| `indexer.py` | Main Wazuh Indexer client |
+| `indexer.py` | Main AssetGuard Indexer client |
 | `credential_manager.py` | Indexer credential management |
 | `disconnected_agents.py` | Handling disconnected agents in the indexer |
 | `max_version_components.py` | Version component handling |
@@ -182,14 +182,14 @@ Example: `GET /agents?status=active`
 5. Request is routed to the controller (`agent_controller.py`)
 6. Controller wraps the call in the **DAPI** layer for cluster routing
 7. DAPI determines the target node (`local_master`, `local_any`, etc.)
-8. Framework function (`wazuh/agent.py`) is invoked
+8. Framework function (`assetguard/agent.py`) is invoked
 9. RBAC permissions are checked via `expose_resources` decorator
 10. Core logic (`core/agent.py`) is executed
 11. Data is fetched from:
     - WDB (via Unix socket or HTTP)
     - Manager daemon (via Unix socket)
     - Filesystem
-12. Result is wrapped in `AffectedItemsWazuhResult` or `WazuhResult`
+12. Result is wrapped in `AffectedItemsAssetGuardResult` or `AssetGuardResult`
 13. Result is serialized to JSON and returned
 
 ---
@@ -223,8 +223,8 @@ All framework functions return standardized result objects defined in `core/resu
 
 | Class | Description |
 |-------|-------------|
-| `WazuhResult` | Base dict-like result wrapper |
-| `AffectedItemsWazuhResult` | Tracks affected/failed items with error details |
+| `AssetGuardResult` | Base dict-like result wrapper |
+| `AffectedItemsAssetGuardResult` | Tracks affected/failed items with error details |
 
 Results support:
 - Merge operations (`|` operator) for combining results across cluster nodes
@@ -235,18 +235,18 @@ Results support:
 
 ## Socket Communication Protocol
 
-The framework communicates with Wazuh daemons via **Unix domain sockets** using a length-prefixed protocol.
+The framework communicates with AssetGuard daemons via **Unix domain sockets** using a length-prefixed protocol.
 
 ### Protocol Details
 - Messages use a **4-byte little-endian header** indicating the payload length
 - The same framing is used for both sending and receiving
-- `WazuhAsyncSocket` (in `core/wdb.py`) handles async socket connections
+- `AssetGuardAsyncSocket` (in `core/wdb.py`) handles async socket connections
 
 ### Key Socket Paths
 
 | Socket | Daemon | Purpose |
 |--------|--------|---------|
-| `wdb` | wazuh-db | Database queries |
+| `wdb` | assetguard-db | Database queries |
 | `queue/sockets/queue` | analysisd | Event ingestion |
 | `queue/sockets/auth` | authd | Agent registration |
 | `queue/sockets/remote` | remoted | Agent communication |

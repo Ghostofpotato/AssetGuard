@@ -1,12 +1,12 @@
 openapi: 3.0.3
 info:
-  title: Wazuh-Engine Analysis API
-  description: API for managing security policies, testing, geolocation, routing, and archiving using the Wazuh-Engine.
+  title: AssetGuard-Engine Analysis API
+  description: API for managing security policies, testing, geolocation, routing, and archiving using the AssetGuard-Engine.
   version: 1.0.0
 
 servers:
-  - url: "http+unix:/run/wazuh-server/analysis"
-    description: "Wazuh server using Unix socket over HTTP"
+  - url: "http+unix:/run/assetguard-server/analysis"
+    description: "AssetGuard server using Unix socket over HTTP"
 
 tags:
   - name: Router
@@ -16,7 +16,7 @@ tags:
   - name: Geo
     description: "Operations for geo databases"
   - name: Archiver
-    description: "Operations for managing the archives. By default a file 'archives.json' is created at '/var/lib/wazuh-server/archives.json' where all events received by the Engine are stored."
+    description: "Operations for managing the archives. By default a file 'archives.json' is created at '/var/lib/assetguard-server/archives.json' where all events received by the Engine are stored."
   - name: Raw Event Indexer
     description: "Operations for enabling, disabling, and checking status of raw event indexing."
   - name: Content
@@ -169,8 +169,8 @@ paths:
                             "metadata": {
                               "description": "Default filter to allow all events (for default ruleset)",
                               "author": {
-                                "name": "Wazuh, Inc.",
-                                "url": "https://wazuh.com",
+                                "name": "AssetGuard, Inc.",
+                                "url": "https://assetguard.com",
                                 "date": "2022/11/08"
                               }
                             },
@@ -348,9 +348,9 @@ paths:
                   value:
                     status: "OK"
                     result:
-                      output: {"wazuh":{"protocol":{"queue":1,"location":"syscheck"},"integration":{"category":"Security","name":"integration/wazuh-core/0","decoders":["core-wazuh-message","integrations"]}},"name":"nahuel","event":{"original":"File /etc/passwd modified"},"@timestamp":"2025-12-26T17:33:22Z"}
+                      output: {"assetguard":{"protocol":{"queue":1,"location":"syscheck"},"integration":{"category":"Security","name":"integration/assetguard-core/0","decoders":["core-assetguard-message","integrations"]}},"name":"nahuel","event":{"original":"File /etc/passwd modified"},"@timestamp":"2025-12-26T17:33:22Z"}
                       asset_traces:
-                        - asset: "decoder/core-wazuh-message/0"
+                        - asset: "decoder/core-assetguard-message/0"
                           success: true
                           traces:
                             - "@timestamp: get_date -> Success"
@@ -360,9 +360,9 @@ paths:
                   value:
                     status: "OK"
                     result:
-                      output: {"wazuh":{"protocol":{"queue":1,"location":"syscheck"},"integration":{"category":"Security","name":"integration/wazuh-core/0","decoders":["core-wazuh-message","integrations"]}},"event":{"kind":"test","original":"File /etc/passwd modified"},"@timestamp":"2025-12-26T17:34:18Z"}
+                      output: {"assetguard":{"protocol":{"queue":1,"location":"syscheck"},"integration":{"category":"Security","name":"integration/assetguard-core/0","decoders":["core-assetguard-message","integrations"]}},"event":{"kind":"test","original":"File /etc/passwd modified"},"@timestamp":"2025-12-26T17:34:18Z"}
                       asset_traces:
-                        - asset: "decoder/core-wazuh-message/0"
+                        - asset: "decoder/core-assetguard-message/0"
                           success: true
                           traces:
                             - "@timestamp: get_date -> Success"
@@ -448,7 +448,7 @@ paths:
         - Router
       summary: Create a new route
       description: |
-        This endpoint allows the creation of a new route in the Wazuh Engine API.
+        This endpoint allows the creation of a new route in the AssetGuard Engine API.
       requestBody:
         required: true
         content:
@@ -514,7 +514,7 @@ paths:
         - Router
       summary: Delete a route
       description: |
-        This endpoint allows deleting a specific route in the Wazuh Engine API.
+        This endpoint allows deleting a specific route in the AssetGuard Engine API.
       requestBody:
         required: true
         content:
@@ -569,7 +569,7 @@ paths:
                 error: null
                 route:
                   name: "example-route"
-                  namespaceId: "wazuh"
+                  namespaceId: "assetguard"
                   priority: 10
                   description: "Example route"
                   entry_status: ENABLED
@@ -600,7 +600,7 @@ paths:
         - Router
       summary: Reload a route
       description: |
-        This endpoint allows reloading a specific route in the Wazuh Engine API.
+        This endpoint allows reloading a specific route in the AssetGuard Engine API.
       requestBody:
         required: true
         content:
@@ -631,7 +631,7 @@ paths:
                   summary: Some asset has validation errors
                   value:
                     status: "ERROR"
-                    error: "Failed to reload the route: Failed to create environment with namespace 'wazuh': Expected 'name' key in asset document but got 'n'"
+                    error: "Failed to reload the route: Failed to create environment with namespace 'assetguard': Expected 'name' key in asset document but got 'n'"
         "500":
           $ref: "#/components/responses/InternalServerError_500"
 
@@ -687,7 +687,7 @@ paths:
         - Router
       summary: Retrieve all routes
       description: |
-        This endpoint retrieves the list of existing routes in the Wazuh Engine API.
+        This endpoint retrieves the list of existing routes in the AssetGuard Engine API.
       requestBody:
         required: true
         content:
@@ -706,7 +706,7 @@ paths:
                 error: null
                 routes:
                   - name: "example-route"
-                    namespaceId: "wazuh"
+                    namespaceId: "assetguard"
                     priority: 10
                     description: "Example route"
                     entry_status: ENABLED
@@ -722,7 +722,7 @@ paths:
         - Router
       summary: Send an event to the router queue
       description: |
-        This endpoint allows sending a Wazuh event to the router queue.
+        This endpoint allows sending a AssetGuard event to the router queue.
       requestBody:
         required: true
         content:
@@ -921,7 +921,7 @@ paths:
                   summary: Namespace has no assets
                   value:
                     status: "ERROR"
-                    error: "Failed to create the testing environment: Namespace 'wazuh' has no assets"
+                    error: "Failed to create the testing environment: Namespace 'assetguard' has no assets"
         "500":
           $ref: "#/components/responses/InternalServerError_500"
 
@@ -1224,12 +1224,12 @@ paths:
                     status: "OK"
                     entries:
                       - name: "GeoLite2-City.mmdb"
-                        path: "/var/wazuh-manager/geo/GeoLite2-City.mmdb"
+                        path: "/var/assetguard-manager/geo/GeoLite2-City.mmdb"
                         hash: "a1b2c3d4e5f6"
                         createdAt: "2024-01-15T10:30:00Z"
                         type: "city"
                       - name: "GeoLite2-ASN.mmdb"
-                        path: "/var/wazuh-manager/geo/GeoLite2-ASN.mmdb"
+                        path: "/var/assetguard-manager/geo/GeoLite2-ASN.mmdb"
                         hash: "f6e5d4c3b2a1"
                         createdAt: "2024-01-15T10:30:00Z"
                         type: "asn"
@@ -1471,7 +1471,7 @@ paths:
               update_iocs:
                 summary: Update IOCs from file with hash
                 value:
-                  path: "/var/lib/wazuh-server/iocs/threat-intel.ndjson"
+                  path: "/var/lib/assetguard-server/iocs/threat-intel.ndjson"
                   hash: "5d41402abc4b2a76b9719d911017c592"
       responses:
         "200":
@@ -1648,7 +1648,7 @@ paths:
                     id: "82e215c4-988a-4f64-8d15-b98b2fc03a4f"
                     date: "2025-10-06T13:32:19Z"
                     title: "windows_kerberos_status_code_to_code_name"
-                    author: "Wazuh Inc."
+                    author: "AssetGuard Inc."
                     content:
                       "0x0": "KDC_ERR_NONE"
                       "0x1": "KDC_ERR_NAME_EXP"
@@ -1872,9 +1872,9 @@ components:
     QueuePost_Request:
       type: object
       properties:
-        wazuh_event:
+        assetguard_event:
           type: string
-          description: "Wazuh event to be processed"
+          description: "AssetGuard event to be processed"
 
     EpsUpdate_Request:
       type: object
@@ -1926,7 +1926,7 @@ components:
         path:
           type: string
           description: "Absolute path to the ndjson file containing IOCs to synchronize"
-          example: "/var/lib/wazuh-server/iocs/threat-intel.ndjson"
+          example: "/var/lib/assetguard-server/iocs/threat-intel.ndjson"
         hash:
           type: string
           description: "MD5 hash of the IOC file. Required for change detection and skipping unnecessary syncs."

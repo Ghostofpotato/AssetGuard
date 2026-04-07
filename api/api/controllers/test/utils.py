@@ -1,11 +1,11 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
-from wazuh.core.results import AffectedItemsWazuhResult
+from assetguard.core.results import AffectedItemsAssetGuardResult
 
 
-class CustomAffectedItems(AffectedItemsWazuhResult):
+class CustomAffectedItems(AffectedItemsAssetGuardResult):
     """Mock custom values that are needed in controller tests"""
 
     def __init__(self, empty: bool = False):

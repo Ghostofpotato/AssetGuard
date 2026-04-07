@@ -1,8 +1,8 @@
-# Wazuh Engine API — Developer Guide
+# AssetGuard Engine API — Developer Guide
 
 ## Overview
 
-The Wazuh Engine exposes an internal HTTP API over a **Unix Domain Socket (UDS)**. This API is the control plane for the engine: it handles routing, testing, content management, archiving, geolocation, IOC synchronization, and more.
+The AssetGuard Engine exposes an internal HTTP API over a **Unix Domain Socket (UDS)**. This API is the control plane for the engine: it handles routing, testing, content management, archiving, geolocation, IOC synchronization, and more.
 
 The API system spans five tightly-coupled locations in the repository:
 
@@ -18,11 +18,11 @@ The API system spans five tightly-coupled locations in the repository:
 
 ```
 ┌──────────────────────┐     HTTP/JSON over UDS      ┌──────────────────────┐
-│  Python CLI tools    │  ─────────────────────────►  │   wazuh-engine       │
+│  Python CLI tools    │  ─────────────────────────►  │   assetguard-engine       │
 │  (engine-suite)      │  ◄─────────────────────────  │   (C++ HTTP server)  │
 │                      │                               │                      │
 │  Uses APIClient      │   Unix socket path            │  httplib server on   │
-│  from                │   /run/wazuh-server/analysis   │  UDS, routes to     │
+│  from                │   /run/assetguard-server/analysis   │  UDS, routes to     │
 │  api-communication   │                               │  handler functions   │
 └──────────────────────┘                               └──────────────────────┘
 ```
@@ -195,16 +195,16 @@ add_library(api::archiver ALIAS api_archiver)
 
 | File | Package | Domain |
 |------|---------|--------|
-| `engine.proto` | `com.wazuh.api.engine` | Base types: `ReturnStatus` enum, `GenericStatus_Response` |
-| `router.proto` | `com.wazuh.api.engine.router` | Route CRUD, table queries, event queue |
-| `tester.proto` | `com.wazuh.api.engine.tester` | Session management, test runs, logtest |
-| `geo.proto` | `com.wazuh.api.engine.geo` | GeoIP database queries |
-| `archiver.proto` | `com.wazuh.api.engine.archiver` | Archive activate/deactivate/status |
-| `rawevtindexer.proto` | `com.wazuh.api.engine.rawevtindexer` | Raw event indexer enable/disable/status |
-| `crud.proto` | `com.wazuh.api.engine.content` | Namespace, policy, and resource CRUD |
-| `ioc.proto` | `com.wazuh.api.engine.ioc` | IOC sync: update and state |
-| `metrics.proto` | `com.wazuh.api.engine.metrics` | Metrics dump/get/enable/list (internal only) |
-| `request_response.proto` | `com.wazuh.api.engine.test` | Generic test request/response |
+| `engine.proto` | `com.assetguard.api.engine` | Base types: `ReturnStatus` enum, `GenericStatus_Response` |
+| `router.proto` | `com.assetguard.api.engine.router` | Route CRUD, table queries, event queue |
+| `tester.proto` | `com.assetguard.api.engine.tester` | Session management, test runs, logtest |
+| `geo.proto` | `com.assetguard.api.engine.geo` | GeoIP database queries |
+| `archiver.proto` | `com.assetguard.api.engine.archiver` | Archive activate/deactivate/status |
+| `rawevtindexer.proto` | `com.assetguard.api.engine.rawevtindexer` | Raw event indexer enable/disable/status |
+| `crud.proto` | `com.assetguard.api.engine.content` | Namespace, policy, and resource CRUD |
+| `ioc.proto` | `com.assetguard.api.engine.ioc` | IOC sync: update and state |
+| `metrics.proto` | `com.assetguard.api.engine.metrics` | Metrics dump/get/enable/list (internal only) |
+| `request_response.proto` | `com.assetguard.api.engine.test` | Generic test request/response |
 
 ### Naming Convention
 
@@ -270,7 +270,7 @@ pip install -e src/engine/tools/api-communication
 ```python
 from api_communication.client import APIClient
 
-client = APIClient("/run/wazuh-server/analysis")  # UDS path
+client = APIClient("/run/assetguard-server/analysis")  # UDS path
 
 # Option 1: send_recv (returns raw dict)
 error, response_dict = client.send_recv(proto_request_message)
@@ -466,7 +466,7 @@ Create or modify a `.proto` file in `src/engine/source/proto/src/`:
 // src/engine/source/proto/src/example.proto
 syntax = "proto3";
 import "engine.proto";
-package com.wazuh.api.engine.example;
+package com.assetguard.api.engine.example;
 
 message ExampleAction_Request {
     string name = 1;

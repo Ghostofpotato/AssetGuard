@@ -1,5 +1,5 @@
 /* Remote request manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * June 2, 2017.
  *
  * This program is free software; you can redistribute it

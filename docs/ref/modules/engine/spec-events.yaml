@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: Wazuh-Engine Events Ingestion API
-  description: API for ingesting enriched security events into the Wazuh-Engine.
+  title: AssetGuard-Engine Events Ingestion API
+  description: API for ingesting enriched security events into the AssetGuard-Engine.
   version: 1.0.0
 
 servers:
-  - url: "http+unix:/var/wazuh-manager/queue/sockets/queue-http.sock"
+  - url: "http+unix:/var/assetguard-manager/queue/sockets/queue-http.sock"
     description: "Events ingestion socket"
 
 tags:
@@ -26,7 +26,7 @@ paths:
       summary: Ingest enriched events (NDJSON)
       description: |
         Accepts a newline-delimited JSON (NDJSON) stream of enriched events over HTTP via Unix domain socket.
-        Socket path: /var/wazuh-manager/queue/sockets/queue-http.sock
+        Socket path: /var/assetguard-manager/queue/sockets/queue-http.sock
       requestBody:
         required: true
         content:

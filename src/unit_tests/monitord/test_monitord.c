@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * November, 2020.
  *
  * This program is free software; you can redistribute it
@@ -17,9 +17,9 @@
 #include <stdio.h>
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/mq_op_wrappers.h"
+#include "../wrappers/assetguard/shared/validate_op_wrappers.h"
 
 #include "../../external/cJSON/cJSON.h"
 #include "store_op.h"
@@ -31,7 +31,7 @@
 
 #ifdef TEST_SERVER
 #undef ARGV0
-#define ARGV0 "wazuh-manager-monitord"
+#define ARGV0 "assetguard-manager-monitord"
 #endif
 
 /* redefinitons/wrapping */

@@ -32,14 +32,14 @@ The API reads its configuration from files defined in `api/constants.py`:
 
 ## Global Constants & Context (`core/common.py`)
 
-This module centralizes all Wazuh paths, limits, and runtime context.
+This module centralizes all AssetGuard paths, limits, and runtime context.
 
 ### Key Functions
 
 | Function | Description |
 |----------|-------------|
-| `find_wazuh_path()` | Auto-discovers the Wazuh installation root |
-| `wazuh_uid()` / `wazuh_gid()` | Gets the wazuh-manager system user/group IDs |
+| `find_assetguard_path()` | Auto-discovers the AssetGuard installation root |
+| `assetguard_uid()` / `assetguard_gid()` | Gets the assetguard-manager system user/group IDs |
 | `get_installation_uid()` | Returns (or creates) a persistent UUID |
 | `reset_context_cache()` | Decorator for request-scoped caching |
 

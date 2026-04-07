@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(wazuh-agentd C)
+project(assetguard-agentd C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -32,13 +32,13 @@ include_directories(
   ${SRC_FOLDER}/monitord/
   ${SRC_FOLDER}/rootcheck/include/
   ${SRC_FOLDER}/syscheckd/include/
-  ${SRC_FOLDER}/wazuh_modules/include/
-  ${SRC_FOLDER}/wazuh_modules/src/
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/agent/
-  ${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/manager/
-  ${SRC_FOLDER}/wazuh_modules/src/task_manager/
-  ${SRC_FOLDER}/wazuh_modules/sca/include/
+  ${SRC_FOLDER}/assetguard_modules/include/
+  ${SRC_FOLDER}/assetguard_modules/src/
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/agent/
+  ${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/manager/
+  ${SRC_FOLDER}/assetguard_modules/src/task_manager/
+  ${SRC_FOLDER}/assetguard_modules/sca/include/
   ${SRC_FOLDER}/shared_modules/agent_metadata/include/
   ${SRC_FOLDER}/shared_modules/common/
   ${CMAKE_CURRENT_SOURCE_DIR}/include/
@@ -47,8 +47,8 @@ include_directories(
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_definitions(-DARGV0="wazuh-agentd")
-add_definitions(-DGROUPGLOBAL="wazuh")
+add_definitions(-DARGV0="assetguard-agentd")
+add_definitions(-DGROUPGLOBAL="assetguard")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   add_definitions(-DWIN32=1 -DWIN_EXPORT)
@@ -72,14 +72,14 @@ list(REMOVE_ITEM AGENTD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 add_library(agentd_lib STATIC ${AGENTD_SRC})
 set_target_properties(agentd_lib PROPERTIES LINKER_LANGUAGE C)
 
-# Enable WAZUH_UNIT_TESTING to export static functions for unit tests
+# Enable ASSETGUARD_UNIT_TESTING to export static functions for unit tests
 if(UNIT_TEST)
-  target_compile_definitions(agentd_lib PRIVATE WAZUH_UNIT_TESTING)
+  target_compile_definitions(agentd_lib PRIVATE ASSETGUARD_UNIT_TESTING)
   target_compile_options(agentd_lib PRIVATE -O0 -g)
 endif()
 
-target_link_libraries(agentd_lib PUBLIC wazuhext pthread agent_metadata config
-                                        wazuh_modulesd_lib wazuh)
+target_link_libraries(agentd_lib PUBLIC assetguardext pthread agent_metadata config
+                                        assetguard_modulesd_lib assetguard)
 
 if(UNIX)
   target_link_libraries(agentd_lib PUBLIC dl)
@@ -90,24 +90,24 @@ endif(UNIX)
 
 # Build Windows libraries (needed by Makefile for final win32 executables)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  add_library(wazuh-agentd STATIC ${AGENTD_SRC})
-  target_compile_definitions(wazuh-agentd PUBLIC -D_WIN32_WINNT=0x600)
+  add_library(assetguard-agentd STATIC ${AGENTD_SRC})
+  target_compile_definitions(assetguard-agentd PUBLIC -D_WIN32_WINNT=0x600)
   if(UNIT_TEST)
-    target_compile_definitions(wazuh-agentd PRIVATE WAZUH_UNIT_TESTING)
+    target_compile_definitions(assetguard-agentd PRIVATE ASSETGUARD_UNIT_TESTING)
   endif()
-  target_link_libraries(wazuh-agentd PRIVATE wazuhext pthread agent_metadata
-                                             config wazuh_modulesd_lib wazuh)
+  target_link_libraries(assetguard-agentd PRIVATE assetguardext pthread agent_metadata
+                                             config assetguard_modulesd_lib assetguard)
   # Only build Unix executable when not running unit tests
 elseif(NOT UNIT_TEST)
-  add_executable(wazuh-agentd "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
+  add_executable(assetguard-agentd "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
   set_target_properties(
-    wazuh-agentd PROPERTIES LINKER_LANGUAGE C RUNTIME_OUTPUT_DIRECTORY
+    assetguard-agentd PROPERTIES LINKER_LANGUAGE C RUNTIME_OUTPUT_DIRECTORY
                                               ${SRC_FOLDER}/build/bin)
-  target_link_libraries(wazuh-agentd PRIVATE agentd_lib)
+  target_link_libraries(assetguard-agentd PRIVATE agentd_lib)
 
   if(APPLE)
     set_target_properties(
-      wazuh-agentd PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE
+      assetguard-agentd PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE
                               INSTALL_RPATH "@executable_path/../lib")
   else()
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,-rpath,$ORIGIN/../lib")

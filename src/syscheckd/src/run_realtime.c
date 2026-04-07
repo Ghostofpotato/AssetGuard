@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -18,7 +18,7 @@
 #include "syscheck_op.h"
 #include "file.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 #ifdef WIN32
 #include "../../unit_tests/wrappers/windows/fileapi_wrappers.h"
 #include "../../unit_tests/wrappers/windows/handleapi_wrappers.h"

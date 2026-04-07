@@ -63,7 +63,7 @@ Uses the shared DBSync component for local SQLite database operations.
 
 ### **Agent Sync Protocol**
 
-Integrates with Wazuh's Agent Sync Protocol for reliable manager communication.
+Integrates with AssetGuard's Agent Sync Protocol for reliable manager communication.
 
 **Key responsibilities:**
 * Persists SCA data changes for synchronization with the manager
@@ -402,7 +402,7 @@ Return 0 (success) or -1 (error)
 
 ## Schema Validation Integration
 
-SCA integrates with the [Schema Validator](../utils/schema-validator/README.md) module to ensure all security check results conform to the expected Wazuh indexer schema before transmission.
+SCA integrates with the [Schema Validator](../utils/schema-validator/README.md) module to ensure all security check results conform to the expected AssetGuard indexer schema before transmission.
 
 ### Purpose
 
@@ -622,7 +622,7 @@ SCA uses a deferred deletion pattern to safely remove invalid checks:
 
 ### Supported Schema
 
-SCA validates data against the `wazuh-states-sca` index:
+SCA validates data against the `assetguard-states-sca` index:
 
 **Schema Structure:**
 - `check.*`: Check details (id, name, description, result, etc.)
@@ -660,7 +660,7 @@ LoggingHelper::getInstance().log(LOG_DEBUG,
 
 **Validation Failure:**
 ```
-[ERROR] Schema validation failed for SCA message (checkId: cis_rhel7_1.1.1, index: wazuh-states-sca). Errors:
+[ERROR] Schema validation failed for SCA message (checkId: cis_rhel7_1.1.1, index: assetguard-states-sca). Errors:
   - Field 'check.result' expected type 'keyword', got 'integer'
 [ERROR] Raw event that failed validation: {"check":{"id":"cis_rhel7_1.1.1","result":1}}
 [DEBUG] Marking SCA check for deferred deletion due to validation failure

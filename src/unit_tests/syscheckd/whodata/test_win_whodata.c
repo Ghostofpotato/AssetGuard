@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -22,17 +22,17 @@
 #include "wrappers/common.h"
 #include "wrappers/libc/stdio_wrappers.h"
 #include "wrappers/libc/stdlib_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "wrappers/wazuh/shared/file_op_wrappers.h"
-#include "wrappers/wazuh/shared/fs_op_wrappers.h"
-#include "wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "wrappers/wazuh/shared/string_op_wrappers.h"
-#include "wrappers/wazuh/shared/randombytes_wrappers.h"
-#include "wrappers/wazuh/syscheckd/config_wrappers.h"
-#include "wrappers/wazuh/syscheckd/create_db_wrappers.h"
-#include "wrappers/wazuh/wazuh_modules/wm_exec_wrappers.h"
-#include "wrappers/wazuh/shared/validate_op_wrappers.h"
+#include "wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "wrappers/assetguard/shared/file_op_wrappers.h"
+#include "wrappers/assetguard/shared/fs_op_wrappers.h"
+#include "wrappers/assetguard/shared/hash_op_wrappers.h"
+#include "wrappers/assetguard/shared/mq_op_wrappers.h"
+#include "wrappers/assetguard/shared/string_op_wrappers.h"
+#include "wrappers/assetguard/shared/randombytes_wrappers.h"
+#include "wrappers/assetguard/syscheckd/config_wrappers.h"
+#include "wrappers/assetguard/syscheckd/create_db_wrappers.h"
+#include "wrappers/assetguard/assetguard_modules/wm_exec_wrappers.h"
+#include "wrappers/assetguard/shared/validate_op_wrappers.h"
 #include "wrappers/windows/winevt_wrappers.h"
 #include "wrappers/windows/ntsecapi_wrappers.h"
 

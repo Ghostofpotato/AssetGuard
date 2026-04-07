@@ -19,7 +19,7 @@ limits:
     browser_extensions: 0
   sca:
     checks: 0
-cluster_name: wazuh-cluster
-cluster_node: wazuh-node-01
+cluster_name: assetguard-cluster
+cluster_node: assetguard-node-01
 agent_groups:
   - default

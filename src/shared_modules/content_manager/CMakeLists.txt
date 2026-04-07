@@ -9,7 +9,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 endif()
 
@@ -50,7 +50,7 @@ file(GLOB CONTENT_DOWNLOAD_SRC "src/*.cpp")
 
 add_library(content_manager SHARED ${CONTENT_DOWNLOAD_SRC})
 
-target_link_libraries(content_manager PRIVATE urlrequest gcc_s wazuhext lzma
+target_link_libraries(content_manager PRIVATE urlrequest gcc_s assetguardext lzma
                                               rocksdb flatbuffers)
 
 set_target_properties(content_manager PROPERTIES BUILD_RPATH_USE_ORIGIN TRUE

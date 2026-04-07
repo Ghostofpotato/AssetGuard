@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -13,8 +13,8 @@
 #include <cmocka.h>
 
 #include "agentd.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/url_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/url_wrappers.h"
 
 #ifdef TEST_AGENT
 

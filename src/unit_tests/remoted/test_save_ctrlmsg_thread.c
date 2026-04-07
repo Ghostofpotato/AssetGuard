@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -16,12 +16,12 @@
 
 #include "shared.h"
 #include "remoted.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
-#include "../wrappers/wazuh/shared/queue_linked_op_wrappers.h"
+#include "../wrappers/assetguard/shared/queue_linked_op_wrappers.h"
 
-#include "../wrappers/wazuh/remoted/queue_wrappers.h"
-#include "../wrappers/wazuh/remoted/manager_wrappers.h"
+#include "../wrappers/assetguard/remoted/queue_wrappers.h"
+#include "../wrappers/assetguard/remoted/manager_wrappers.h"
 #include "secure.c"
 
 void * save_control_thread(void * control_msg_queue);

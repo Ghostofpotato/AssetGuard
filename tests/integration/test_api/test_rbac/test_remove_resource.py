@@ -1,7 +1,7 @@
 """
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -21,11 +21,11 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-apid
-    - wazuh-manager-db
-    - wazuh-manager-analysisd
-    - wazuh-manager-remoted
-    - wazuh-manager-modulesd
+    - assetguard-manager-apid
+    - assetguard-manager-db
+    - assetguard-manager-analysisd
+    - assetguard-manager-remoted
+    - assetguard-manager-modulesd
 
 os_platform:
     - linux
@@ -42,8 +42,8 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/api/getting-started.html
-    - https://documentation.wazuh.com/current/user-manual/api/reference.html#tag/Security
+    - https://documentation.assetguard.com/current/user-manual/api/getting-started.html
+    - https://documentation.assetguard.com/current/user-manual/api/reference.html#tag/Security
     - https://en.wikipedia.org/wiki/Role-based_access_control
 
 tags:
@@ -53,10 +53,10 @@ import pytest
 from pathlib import Path
 
 from . import TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.api import TARGET_ROUTE_MAP
-from wazuh_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
-from wazuh_testing.modules.api.utils import manage_security_resources
-from wazuh_testing.utils.configuration import get_test_cases_data
+from assetguard_testing.constants.api import TARGET_ROUTE_MAP
+from assetguard_testing.constants.daemons import API_DAEMONS_REQUIREMENTS
+from assetguard_testing.modules.api.utils import manage_security_resources
+from assetguard_testing.utils.configuration import get_test_cases_data
 
 
 # Marks
@@ -78,7 +78,7 @@ def test_remove_resource(test_configuration, test_metadata, truncate_monitored_f
     """
     description: Check if relationships between security resources stay the same after removing the linked resource.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     test_phases:
         - setup:
@@ -110,7 +110,7 @@ def test_remove_resource(test_configuration, test_metadata, truncate_monitored_f
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Wrapper of a helper function to handle Wazuh daemons.
+            brief: Wrapper of a helper function to handle AssetGuard daemons.
         - wait_for_api_start:
             type: fixture
             brief: Monitor the API log file to detect whether it has been started or not.

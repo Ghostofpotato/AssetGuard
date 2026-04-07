@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -19,7 +19,7 @@
 #define EPS_LIMITS_MAX_EPS 100000
 #define EPS_LIMITS_MIN_EPS 0
 
-#define CTI_URL_DEFAULT "https://cti.wazuh.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0"
+#define CTI_URL_DEFAULT "https://cti.assetguard.com/api/v1/catalog/contexts/vd_1.0.0/consumers/vd_4.8.0"
 
 typedef struct __eps {
     // EPS limits configuration
@@ -64,7 +64,7 @@ typedef struct __Config {
     /* Vector of targets forwarder */
     char** forwarders_list;
 
-    /* Vector of socket configuration from wazuh configuration file <socket/> */
+    /* Vector of socket configuration from assetguard configuration file <socket/> */
     socket_forwarder *socket_list;
 
 

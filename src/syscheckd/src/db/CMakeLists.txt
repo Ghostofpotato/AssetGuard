@@ -43,7 +43,7 @@ elseif(UNIX AND NOT APPLE)
   string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,-rpath=$ORIGIN")
 endif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
-target_link_libraries(fimdb PRIVATE dbsync wazuhext)
+target_link_libraries(fimdb PRIVATE dbsync assetguardext)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   find_program(DLLTOOL i686-w64-mingw32-dlltool)

@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 import api_communication.proto.engine_pb2 as _engine_pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x61rchiver.proto\x12\x1d\x63om.wazuh.api.engine.archiver\x1a\x0c\x65ngine.proto\"\x1a\n\x18\x41rchiverActivate_Request\"\x1c\n\x1a\x41rchiverDeactivate_Request\"\x18\n\x16\x41rchiverStatus_Request\"{\n\x17\x41rchiverStatus_Response\x12\x32\n\x06status\x18\x01 \x01(\x0e\x32\".com.wazuh.api.engine.ReturnStatus\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x0e\n\x06\x61\x63tive\x18\x03 \x01(\x08\x42\x08\n\x06_errorb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x61rchiver.proto\x12\x1d\x63om.assetguard.api.engine.archiver\x1a\x0c\x65ngine.proto\"\x1a\n\x18\x41rchiverActivate_Request\"\x1c\n\x1a\x41rchiverDeactivate_Request\"\x18\n\x16\x41rchiverStatus_Request\"{\n\x17\x41rchiverStatus_Response\x12\x32\n\x06status\x18\x01 \x01(\x0e\x32\".com.assetguard.api.engine.ReturnStatus\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x0e\n\x06\x61\x63tive\x18\x03 \x01(\x08\x42\x08\n\x06_errorb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'archiver_pb2', globals())

@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-|Wazuh version| Component | Action type |
+|AssetGuard version| Component | Action type |
 |---| --- | --- |
 | X.Y.Z-rev | Rules/Decoders | New/Error/Improve |
 

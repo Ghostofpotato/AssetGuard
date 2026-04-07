@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Enable debug mode for the modulesd daemon
-echo 'wazuh_modules.debug=2' >> /var/ossec/etc/local_internal_options.conf
+echo 'assetguard_modules.debug=2' >> /var/ossec/etc/local_internal_options.conf
 
 # Apply test.keys
 cp /tmp_volume/configuration_files/test.keys /var/ossec/etc/test.keys
 
-# Modify wazuh configuration file
+# Modify assetguard configuration file
 for conf_file in /tmp_volume/configuration_files/*.conf; do
   # Do not apply 5.x configuration changes to agents with version 4.x
   if [ "$3" == "agent_old" ]; then
@@ -21,7 +21,7 @@ for conf_file in /tmp_volume/configuration_files/*.conf; do
 done
 
 sed -n "/$2 /p" /var/ossec/etc/test.keys > /var/ossec/etc/client.keys
-chown root:wazuh-manager /var/ossec/etc/client.keys
+chown root:assetguard-manager /var/ossec/etc/client.keys
 rm /var/ossec/etc/test.keys
 
 # Agent configuration
@@ -29,6 +29,6 @@ for sh_file in /tmp_volume/configuration_files/*.sh; do
   . $sh_file
 done
 
-/var/ossec/bin/wazuh-control start || /var/ossec/bin/ossec-control start
+/var/ossec/bin/assetguard-control start || /var/ossec/bin/ossec-control start
 
 tail -f /var/ossec/logs/ossec.log

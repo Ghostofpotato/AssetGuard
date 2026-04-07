@@ -1,6 +1,6 @@
 /*
- * Shared functions for querying wazuh-agentd
- * Copyright (C) 2015, Wazuh Inc.
+ * Shared functions for querying assetguard-agentd
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,9 +15,9 @@
 #include <stddef.h>
 
 /**
- * @brief Query wazuh-agentd via local socket or agcom_dispatch
+ * @brief Query assetguard-agentd via local socket or agcom_dispatch
  *
- * Sends a command to wazuh-agentd and receives the response. On Unix/Linux,
+ * Sends a command to assetguard-agentd and receives the response. On Unix/Linux,
  * this uses a Unix domain socket. On Windows, it uses agcom_dispatch.
  *
  * The response format from agentd is expected to be:

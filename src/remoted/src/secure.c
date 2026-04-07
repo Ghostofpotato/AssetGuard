@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -15,14 +15,14 @@
 #include "remoted.h"
 #include "remoted_op.h"
 #include "state.h"
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_queries_op.h"
 #include "router.h"
 #include "sym_load.h"
 #include "indexed_queue_op.h"
 #include "batch_queue_op.h"
 #include "http_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #else
@@ -163,7 +163,7 @@ static char *w_ctrl_msg_get_key(void *data) {
  * @brief Thread function to save control messages
  *
  * This function is executed by the control message thread pool. It waits for messages to be pushed into the queue and processes them.
- * Updates the agent's status in wazuhdb and sends the message to the appropriate handler.
+ * Updates the agent's status in assetguarddb and sends the message to the appropriate handler.
  * @param queue Pointer to the control message queue, which is used to store messages to be processed.
  * @return void* Null
  */
@@ -269,7 +269,7 @@ void HandleSecure()
         }
     }
 
-    // Reset all the agents' connection status in Wazuh DB
+    // Reset all the agents' connection status in AssetGuard DB
     // The master will disconnect and alert the agents on its own DB. Thus, synchronization is not required.
     if (OS_SUCCESS != wdb_reset_agents_connection("synced", NULL))
         mwarn("Unable to reset the agents' connection status. Possible incorrect statuses until the agents get connected to the manager.");
@@ -564,7 +564,7 @@ STATIC void * close_fp_main(void * args) {
             }
         }
         key_unlock();
-    #ifdef WAZUH_UNIT_TESTING
+    #ifdef ASSETGUARD_UNIT_TESTING
         break;
     #endif
     }
@@ -1326,14 +1326,14 @@ static int append_header(dispatch_ctx_t *ctx) {
     cJSON *root = cJSON_CreateObject();
     if (!root) goto fail;
 
-    cJSON *wazuh = cJSON_CreateObject();
+    cJSON *assetguard = cJSON_CreateObject();
     cJSON *agent = cJSON_CreateObject();
     cJSON *host  = cJSON_CreateObject();
     cJSON *os    = cJSON_CreateObject();
     if (!agent || !host || !os) { cJSON_Delete(root); goto fail; }
 
-    cJSON_AddItemToObject(root, "wazuh", wazuh);
-    cJSON_AddItemToObject(wazuh, "agent", agent);
+    cJSON_AddItemToObject(root, "assetguard", assetguard);
+    cJSON_AddItemToObject(assetguard, "agent", agent);
     cJSON_AddItemToObject(agent, "host", host);
     cJSON_AddItemToObject(host, "os",    os);
 
@@ -1378,10 +1378,10 @@ static int append_header(dispatch_ctx_t *ctx) {
     // agent.host.hostname (only for Linux/macOS, empty for Windows)
     if (have_meta && snap.hostname) cJSON_AddStringToObject(host, "hostname", snap.hostname);
 
-    // Add wazuh.cluster.name and wazuh.cluster.node
+    // Add assetguard.cluster.name and assetguard.cluster.node
     bool has_cluster_info = false;
     cJSON *cluster = cJSON_CreateObject();
-    if (wazuh && cluster) {
+    if (assetguard && cluster) {
         if (have_meta && snap.cluster_name && snap.cluster_name[0]) {
             cJSON_AddStringToObject(cluster, "name", snap.cluster_name);
             has_cluster_info = true;
@@ -1399,7 +1399,7 @@ static int append_header(dispatch_ctx_t *ctx) {
         }
 
         if (has_cluster_info) {
-            cJSON_AddItemToObject(wazuh, "cluster", cluster);
+            cJSON_AddItemToObject(assetguard, "cluster", cluster);
         } else {
             cJSON_Delete(cluster);
         }
@@ -1469,7 +1469,7 @@ void *dispach_events_thread(void *arg) {
         .unix_socket_path   = ANLSYS_ENRICH_SOCK,           // analysisd unix socket
         .url                = "http://localhost/events/enriched",
         .content_type       = "application/x-wev1",
-        .user_agent         = "wazuh-manager-remoted/1.0",
+        .user_agent         = "assetguard-manager-remoted/1.0",
         .timeout_ms         = 5000,
         .connect_timeout_ms = 2000,
         .keepalive          = true

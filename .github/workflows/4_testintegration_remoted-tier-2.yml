@@ -24,13 +24,13 @@ jobs:
           architecture: x64
       - name: "Install a compatible CMake"
         uses: ./.github/actions/reinstall_cmake
-      # Build wazuh server for linux.
-      - name: Build wazuh server for linux
+      # Build assetguard server for linux.
+      - name: Build assetguard server for linux
         run: |
           make deps -C src TARGET=server -j2
           make -C src TARGET=server -j2
-      # Install wazuh server for linux.
-      - name: Install wazuh server for linux
+      # Install assetguard server for linux.
+      - name: Install assetguard server for linux
         run: |
           echo 'USER_LANGUAGE="en"' > ./etc/preloaded-vars.conf
           echo "" >> ./etc/preloaded-vars.conf
@@ -64,16 +64,16 @@ jobs:
       - name: Download and install integration tests framework
         run: |
           VERSION="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' VERSION.json)"
-          if [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_NAME}`" != "X" ]; then
+          if [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${BRANCH_NAME}`" != "X" ]; then
               QA_BRANCH=${BRANCH_NAME}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
               QA_BRANCH=${BRANCH_BASE}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${VERSION}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/assetguard/qa-integration-framework.git ${VERSION}`" != "X" ]; then
               QA_BRANCH=${VERSION}
           else
               QA_BRANCH="main"
           fi
-          git clone -b ${QA_BRANCH} --single-branch https://github.com/wazuh/qa-integration-framework.git
+          git clone -b ${QA_BRANCH} --single-branch https://github.com/assetguard/qa-integration-framework.git
           sudo pip install qa-integration-framework/
           sudo rm -rf qa-integration-framework/
       # Run remoted integration tests.

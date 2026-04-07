@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * Mar 14, 2018.
  *
  * This program is free software; you can redistribute it
@@ -17,7 +17,7 @@
 #include "db.h"
 #include "agent_sync_protocol_c_interface.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 /* Replace assert with mock_assert */
 extern void mock_assert(const int result, const char* const expression,
                         const char * const file, const int line);

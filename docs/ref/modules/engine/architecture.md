@@ -131,17 +131,17 @@ orchestratorModule ----- apiModule
 storageModule --- builderModule
 
 ```
-<center><i>Simplified architecture of the Wazuh engine</i></center>
+<center><i>Simplified architecture of the AssetGuard engine</i></center>
 
-The **Wazuh-Engine** is composed of multiple modules that work together to provide all engine functionality. Below is a summary of each module’s responsibilities and interactions.
+The **AssetGuard-Engine** is composed of multiple modules that work together to provide all engine functionality. Below is a summary of each module’s responsibilities and interactions.
 
 ---
 
 ## Main Modules
 
 1. **Server**
-   The Server module exposes the Wazuh-Engine to the rest of the Wazuh-Server system. It creates two Unix stream sockets:
-   - **engine.socket**: Receives events from Wazuh agents and forwards them to the Orchestrator module for processing.
+   The Server module exposes the AssetGuard-Engine to the rest of the AssetGuard-Server system. It creates two Unix stream sockets:
+   - **engine.socket**: Receives events from AssetGuard agents and forwards them to the Orchestrator module for processing.
    - **api.socket**: Exposes the engine’s REST API, forwarding requests to the API module. These requests manage engine state (policies, assets, routes, DB updates, etc.).
 
 2. **Orchestrator**
@@ -160,7 +160,7 @@ The **Wazuh-Engine** is composed of multiple modules that work together to provi
    - **Helper Functions**: Builds code for auxiliary or common utility functions.
 
 5. **API**
-   The API module manages interactions between the Wazuh-Engine and external modules or services via a REST interface. Its major components include:
+   The API module manages interactions between the AssetGuard-Engine and external modules or services via a REST interface. Its major components include:
    - **Orchestrator Manager**: Handles orchestrator-related tasks.
    - **KVDB Manager**: Manages access to the KVDB module.
    - **Metric Manager**: Interfaces with the metrics system in the Global module.
@@ -179,7 +179,7 @@ The **Wazuh-Engine** is composed of multiple modules that work together to provi
 
 9. **Global**
    The Global module offers cross-cutting engine resources:
-   - **Metrics**: Tracks performance and usage statistics for Wazuh-Engine.
+   - **Metrics**: Tracks performance and usage statistics for AssetGuard-Engine.
    - **Logger**: Centralizes logging features for all modules.
 
 ---
@@ -189,11 +189,11 @@ The **Wazuh-Engine** is composed of multiple modules that work together to provi
 The **Server** module provides the primary interface for both incoming agent events and external API requests:
 
 - **engine.socket**:
-  - Receives raw events from Wazuh agents.
+  - Receives raw events from AssetGuard agents.
   - Forwards these events to the Orchestrator for routing and policy application.
 
 - **api.socket**:
-  - Exposes the REST API of the Wazuh-Engine.
+  - Exposes the REST API of the AssetGuard-Engine.
   - Forwards requests to the API module, which then manages tasks such as policy updates, asset management, and configuration changes.
 
 ---
@@ -210,7 +210,7 @@ The **Orchestrator** determines how incoming events are routed and tested agains
     |-------------------|----------|--------------------------|
     | router_example    | 1        | policy_1                 |
     | ...               | ...      | policy_2                 |
-    | default           | 255      | wazuh-default-policy     |
+    | default           | 255      | assetguard-default-policy     |
 
 - **Tester**:
   - Uses a **Session Table** to maintain session state.

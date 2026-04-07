@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -13,7 +13,7 @@
 #include "state.h"
 #include "remoted_op.h"
 #include "cluster_utils.h"
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_queries_op.h"
 #include "os_net.h"
 #include "shared_download.h"
 #include "sha256_op.h"
@@ -27,7 +27,7 @@
 #define DEFAULT_CLUSTER_NAME "undefined"
 #define DEFAULT_NODE_NAME "undefined"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 // Remove STATIC qualifier from tests
   #define STATIC
 
@@ -152,7 +152,7 @@ STATIC bool group_changed(const char *multi_group);
  * @param agent_id. Agent id to assign a group
  * @param msg. Message from agent to process and validate current configuration files
  * @param group. Name of the found group, it will include the name of the group or 'default' group or NULL if it fails.
- * @param wdb_sock Wazuh-DB socket.
+ * @param wdb_sock AssetGuard-DB socket.
  * @return OS_SUCCESS if it found or assigned a group, OS_INVALID otherwise
  */
 STATIC int lookfor_agent_group(const char *agent_id, char *msg, char **group, int *wdb_sock);
@@ -202,7 +202,7 @@ STATIC void copy_directory(const char *src_path, const char *dst_path, char *gro
  * @param msg Message to send
  * @param status_code Status code to set
  * @param version Agent version to set
- * @param wdb_sock Wazuh-DB socket
+ * @param wdb_sock AssetGuard-DB socket
  */
 STATIC void send_wrong_version_response(const char *agent_id, char *msg, agent_status_code_t status_code, char *version, int *wdb_sock);
 
@@ -449,7 +449,7 @@ int validate_control_msg(const keyentry * key, char *r_msg, size_t msg_length, c
                     // Update agent data to keep context of events to forward
                     OSHash_Set_ex(agent_data_hash, key->id, strdup(version->valuestring));
                     if (!logr.allow_higher_versions &&
-                        compare_wazuh_versions(__ossec_version, version->valuestring, false) < 0) {
+                        compare_assetguard_versions(__ossec_version, version->valuestring, false) < 0) {
 
                         // For version errors, we need database access, so queue the message
                         cJSON_Delete(agent_info);
@@ -500,7 +500,7 @@ int validate_control_msg(const keyentry * key, char *r_msg, size_t msg_length, c
     if (*is_shutdown == 0) {
         if (manager_module_limits_enabled &&
             agent_version[0] != '\0' &&
-            compare_wazuh_versions(agent_version, MIN_VERSION_MODULE_LIMITS, true) >= 0) {
+            compare_assetguard_versions(agent_version, MIN_VERSION_MODULE_LIMITS, true) >= 0) {
 
             char *handshake_json = build_handshake_json(&manager_module_limits, key->id);
             if (handshake_json) {
@@ -548,7 +548,7 @@ void save_controlmsg(const keyentry * key, char *r_msg, int *wdb_sock, bool *pos
                 cJSON *version = NULL;
                 if (version = cJSON_GetObjectItem(agent_info, "version"), cJSON_IsString(version)) {
                     if (!logr.allow_higher_versions &&
-                        compare_wazuh_versions(__ossec_version, version->valuestring, false) < 0) {
+                        compare_assetguard_versions(__ossec_version, version->valuestring, false) < 0) {
 
                         send_wrong_version_response(key->id, HC_INVALID_VERSION,
                                                     INVALID_VERSION, version->valuestring,

@@ -3,7 +3,7 @@ syntax = "proto3";
 import "engine.proto";
 import "google/protobuf/struct.proto"; // For Value
 
-package com.wazuh.api.engine.test;
+package com.assetguard.api.engine.test;
 
 /******************** Only for test proposes ********************/
 message Request

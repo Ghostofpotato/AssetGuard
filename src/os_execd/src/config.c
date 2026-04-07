@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -211,7 +211,7 @@ cJSON *getClusterConfig(void) {
 
     strcpy(sockname, CLUSTER_SOCK);
 
-    if (sock = external_socket_connect(sockname, WAZUH_IPC_TIMEOUT), sock < 0) {
+    if (sock = external_socket_connect(sockname, ASSETGUARD_IPC_TIMEOUT), sock < 0) {
         switch (errno) {
         case ECONNREFUSED:
             merror("At getClusterConfig(): Could not connect to socket '%s': %s (%d).", sockname, strerror(errno), errno);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,12 +15,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/fs_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
-#include "../wrappers/wazuh/shared/agent_op_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/create_db_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/fim_db_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/fs_op_wrappers.h"
+#include "../wrappers/assetguard/shared/validate_op_wrappers.h"
+#include "../wrappers/assetguard/shared/agent_op_wrappers.h"
+#include "../wrappers/assetguard/syscheckd/create_db_wrappers.h"
+#include "../wrappers/assetguard/syscheckd/fim_db_wrappers.h"
 
 #include "syscheck.h"
 #include "cJSON.h"

@@ -12,7 +12,7 @@ fi
 STORE_PATH="${ENGINE_STANDALONE_DIR}/store"
 SCHEMA_PATH="${STORE_PATH}/schema"
 ENGINE_SCHEMA_PATH="${SCHEMA_PATH}/engine-schema/"
-ENGINE_LOGPAR_TYPE_PATH="${SCHEMA_PATH}/wazuh-logpar-overrides"
+ENGINE_LOGPAR_TYPE_PATH="${SCHEMA_PATH}/assetguard-logpar-overrides"
 ENGINE_ALLOWED_FIELDS_PATH="${SCHEMA_PATH}/allowed-fields"
 mkdir -p "${ENGINE_SCHEMA_PATH}"
 mkdir -p "${ENGINE_LOGPAR_TYPE_PATH}"
@@ -30,7 +30,7 @@ mkdir -p "$ENGINE_STANDALONE_DIR/outputs" # For cmsync output files
 # Copying the store files
 echo "Copying store files..."
 cp "${ENGINE_SRC}/ruleset/schemas/engine-schema.json" "${ENGINE_SCHEMA_PATH}/0"
-cp "${ENGINE_SRC}/ruleset/schemas/wazuh-logpar-overrides.json" "${ENGINE_LOGPAR_TYPE_PATH}/0"
+cp "${ENGINE_SRC}/ruleset/schemas/assetguard-logpar-overrides.json" "${ENGINE_LOGPAR_TYPE_PATH}/0"
 cp "${ENGINE_SRC}/ruleset/schemas/allowed-fields.json" "${ENGINE_ALLOWED_FIELDS_PATH}/0"
 
 echo "Standalone structure created at ${ENGINE_STANDALONE_DIR}"

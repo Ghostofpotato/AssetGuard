@@ -1,6 +1,6 @@
 /*
  * URL download support library
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * April 3, 2018.
  *
  * This program is free software; you can redistribute it
@@ -13,11 +13,11 @@
 #include "sha256_op.h"
 #include "os_net.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
     #ifdef WIN32
         #include "../../unit_tests/wrappers/windows/url_wrappers.h"
     #else
-        #include "../../unit_tests/wrappers/wazuh/shared/url_wrappers.h"
+        #include "../../unit_tests/wrappers/assetguard/shared/url_wrappers.h"
     #endif
 #endif
 

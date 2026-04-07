@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12.4)
 
 project(manage_agents C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -28,7 +28,7 @@ include_directories(
   ${SRC_FOLDER}/config/include/
   ${SRC_FOLDER}/data_provider/include/
   ${SRC_FOLDER}/syscheckd/include/
-  ${SRC_FOLDER}/wazuh_modules/include/
+  ${SRC_FOLDER}/assetguard_modules/include/
   ${SRC_FOLDER}/
   ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
@@ -36,7 +36,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_definitions(-DARGV0="manage_agents")
-add_definitions(-DGROUPGLOBAL="wazuh")
+add_definitions(-DGROUPGLOBAL="assetguard")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   add_definitions(-DWIN32=1 -DWIN_EXPORT)
@@ -56,13 +56,13 @@ list(REMOVE_ITEM ADDAGENT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 add_library(addagent_lib STATIC ${ADDAGENT_SRC})
 set_target_properties(addagent_lib PROPERTIES LINKER_LANGUAGE C)
 
-# Enable WAZUH_UNIT_TESTING to export static functions for unit tests
+# Enable ASSETGUARD_UNIT_TESTING to export static functions for unit tests
 if(UNIT_TEST)
-  target_compile_definitions(addagent_lib PRIVATE WAZUH_UNIT_TESTING)
+  target_compile_definitions(addagent_lib PRIVATE ASSETGUARD_UNIT_TESTING)
   target_compile_options(addagent_lib PRIVATE -O0 -g)
 endif()
 
-target_link_libraries(addagent_lib PUBLIC wazuhext pthread wazuh)
+target_link_libraries(addagent_lib PUBLIC assetguardext pthread assetguard)
 
 if(UNIX)
   target_link_libraries(addagent_lib PUBLIC dl)
@@ -73,12 +73,12 @@ endif(UNIX)
 
 # Build Windows library
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  add_library(wazuh-addagent STATIC ${ADDAGENT_SRC})
-  target_compile_definitions(wazuh-addagent PUBLIC -D_WIN32_WINNT=0x600)
+  add_library(assetguard-addagent STATIC ${ADDAGENT_SRC})
+  target_compile_definitions(assetguard-addagent PUBLIC -D_WIN32_WINNT=0x600)
   if(UNIT_TEST)
-    target_compile_definitions(wazuh-addagent PRIVATE WAZUH_UNIT_TESTING)
+    target_compile_definitions(assetguard-addagent PRIVATE ASSETGUARD_UNIT_TESTING)
   endif()
-  target_link_libraries(wazuh-addagent PRIVATE ${WAZUH_WINDOWS_LIBS} wazuh)
+  target_link_libraries(assetguard-addagent PRIVATE ${ASSETGUARD_WINDOWS_LIBS} assetguard)
 
   if(NOT UNIT_TEST)
     # Build manage_agents.exe Windows executable
@@ -93,9 +93,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
                                    OUTPUT_NAME manage_agents)
     target_link_libraries(
       manage_agents_win
-      PRIVATE wazuh-addagent
-              wazuh
-              ${WAZUH_WINDOWS_LIBS}
+      PRIVATE assetguard-addagent
+              assetguard
+              ${ASSETGUARD_WINDOWS_LIBS}
               wsock32
               wevtapi
               comctl32

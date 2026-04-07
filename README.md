@@ -3,7 +3,7 @@
 [![Email](https://img.shields.io/badge/email-join-blue.svg)](if@dronetjek.dk)
 
 
-AssetGuard is a internal security platform based on Wazuh, used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments.
+AssetGuard is a internal security platform based on AssetGuard, used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments.
 
 AssetGuard solution consists of an endpoint security agent, deployed to the monitored systems, and a management server, which collects and analyzes data gathered by the agents. Besides, Assetguard has been fully integrated with the Elastic Stack, providing a search engine and data visualization tool that allows users to navigate through their security alerts.
 
@@ -55,13 +55,13 @@ AssetGuard is widely used by payment processing companies and financial institut
 
 **Cloud security**
 
-AssetGuard helps monitoring cloud infrastructure at an API level, using integration modules that are able to pull security data from well known cloud providers, such as Amazon AWS, Azure or Google Cloud. In addition, Wazuh provides rules to assess the configuration of your cloud environment, easily spotting weaknesses.
+AssetGuard helps monitoring cloud infrastructure at an API level, using integration modules that are able to pull security data from well known cloud providers, such as Amazon AWS, Azure or Google Cloud. In addition, AssetGuard provides rules to assess the configuration of your cloud environment, easily spotting weaknesses.
 
 In addition, Assetguard light-weight and multi-platform agents are commonly used to monitor cloud environments at the instance level.
 
 **Containers security**
 
-AssetGuard provides security visibility into your Docker hosts and containers, monitoring their behavior and detecting threats, vulnerabilities and anomalies. The Wazuh agent has native integration with the Docker engine allowing users to monitor images, volumes, network settings, and running containers.
+AssetGuard provides security visibility into your Docker hosts and containers, monitoring their behavior and detecting threats, vulnerabilities and anomalies. The AssetGuard agent has native integration with the Docker engine allowing users to monitor images, volumes, network settings, and running containers.
 
 AssetGuard continuously collects and analyzes detailed runtime information. For example, alerting for containers running in privileged mode, vulnerable applications, a shell running in a container, changes to persistent volumes or images, and other possible threats.
 
@@ -71,51 +71,51 @@ The AssetGuard WUI provides a powerful user interface for data visualization and
 
 **Modules overview**
 
-![Modules overview](https://github.com/wazuh/wazuh-dashboard-plugins/raw/main/screenshots/app.png)
+![Modules overview](https://github.com/assetguard/assetguard-dashboard-plugins/raw/main/screenshots/app.png)
 
 **Security events**
 
-![Overview](https://github.com/wazuh/wazuh-dashboard-plugins/blob/main/screenshots/app2.png)
+![Overview](https://github.com/assetguard/assetguard-dashboard-plugins/blob/main/screenshots/app2.png)
 
 **Integrity monitoring**
 
-![Overview](https://github.com/wazuh/wazuh-dashboard-plugins/blob/main/screenshots/app3.png)
+![Overview](https://github.com/assetguard/assetguard-dashboard-plugins/blob/main/screenshots/app3.png)
 
 **Vulnerability detection**
 
-![Overview](https://github.com/wazuh/wazuh-dashboard-plugins/blob/main/screenshots/app4.png)
+![Overview](https://github.com/assetguard/assetguard-dashboard-plugins/blob/main/screenshots/app4.png)
 
 **Regulatory compliance**
 
-![Overview](https://github.com/wazuh/wazuh-dashboard-plugins/blob/main/screenshots/app5.png)
+![Overview](https://github.com/assetguard/assetguard-dashboard-plugins/blob/main/screenshots/app5.png)
 
 **Agents overview**
 
-![Overview](https://github.com/wazuh/wazuh-dashboard-plugins/blob/main/screenshots/app6.png)
+![Overview](https://github.com/assetguard/assetguard-dashboard-plugins/blob/main/screenshots/app6.png)
 
 **Agent summary**
 
-![Overview](https://github.com/wazuh/wazuh-dashboard-plugins/blob/main/screenshots/app7.png)
+![Overview](https://github.com/assetguard/assetguard-dashboard-plugins/blob/main/screenshots/app7.png)
 
 ## Orchestration
 
-Here you can find all the automation tools maintained by the Wazuh team.
+Here you can find all the automation tools maintained by the AssetGuard team.
 
-* [Wazuh AWS CloudFormation](https://github.com/wazuh/wazuh-cloudformation)
+* [AssetGuard AWS CloudFormation](https://github.com/assetguard/assetguard-cloudformation)
 
-* [Docker containers](https://github.com/wazuh/wazuh-docker)
+* [Docker containers](https://github.com/assetguard/assetguard-docker)
 
-* [Wazuh Ansible](https://github.com/wazuh/wazuh-ansible)
+* [AssetGuard Ansible](https://github.com/assetguard/assetguard-ansible)
 
-* [Wazuh Chef](https://github.com/wazuh/wazuh-chef)
+* [AssetGuard Chef](https://github.com/assetguard/assetguard-chef)
 
-* [Wazuh Puppet](https://github.com/wazuh/wazuh-puppet)
+* [AssetGuard Puppet](https://github.com/assetguard/assetguard-puppet)
 
-* [Wazuh Kubernetes](https://github.com/wazuh/wazuh-kubernetes)
+* [AssetGuard Kubernetes](https://github.com/assetguard/assetguard-kubernetes)
 
-* [Wazuh Bosh](https://github.com/wazuh/wazuh-bosh)
+* [AssetGuard Bosh](https://github.com/assetguard/assetguard-bosh)
 
-* [Wazuh Salt](https://github.com/wazuh/wazuh-salt)
+* [AssetGuard Salt](https://github.com/assetguard/assetguard-salt)
 
 ## Branches
 
@@ -162,28 +162,28 @@ Here you can find all the automation tools maintained by the Wazuh team.
 
 ## Documentation
 
-* [Full documentation](http://documentation.wazuh.com)
-* [Wazuh installation guide](https://documentation.wazuh.com/current/installation-guide/index.html)
+* [Full documentation](http://documentation.assetguard.com)
+* [AssetGuard installation guide](https://documentation.assetguard.com/current/installation-guide/index.html)
 
 ## Get involved
 
-Become part of the [Wazuh's community](https://wazuh.com/community/) to learn from other users, participate in discussions, talk to our developers and contribute to the project.
+Become part of the [AssetGuard's community](https://assetguard.com/community/) to learn from other users, participate in discussions, talk to our developers and contribute to the project.
 
 If you want to contribute to our project please don’t hesitate to make pull-requests, submit issues or send commits, we will review all your questions.
 
-You can also join our [Slack community channel](https://wazuh.com/community/join-us-on-slack/) and [mailing list](https://groups.google.com/d/forum/wazuh) by sending an email to [wazuh+subscribe@googlegroups.com](mailto:wazuh+subscribe@googlegroups.com), to ask questions and participate in discussions.
+You can also join our [Slack community channel](https://assetguard.com/community/join-us-on-slack/) and [mailing list](https://groups.google.com/d/forum/assetguard) by sending an email to [assetguard+subscribe@googlegroups.com](mailto:assetguard+subscribe@googlegroups.com), to ask questions and participate in discussions.
 
 Stay up to date on news, releases, engineering articles and more.
 
-* [Wazuh website](http://wazuh.com)
-* [Linkedin](https://www.linkedin.com/company/wazuh)
-* [YouTube](https://www.youtube.com/c/wazuhsecurity)
-* [Twitter](https://twitter.com/wazuh)
-* [Wazuh blog](https://wazuh.com/blog/)
-* [Slack announcements channel](https://wazuh.com/community/join-us-on-slack/)
+* [AssetGuard website](http://assetguard.com)
+* [Linkedin](https://www.linkedin.com/company/assetguard)
+* [YouTube](https://www.youtube.com/c/assetguardsecurity)
+* [Twitter](https://twitter.com/assetguard)
+* [AssetGuard blog](https://assetguard.com/blog/)
+* [Slack announcements channel](https://assetguard.com/community/join-us-on-slack/)
 
 ## Authors
 
-Wazuh Copyright (C) 2015-2023 Wazuh Inc. (License GPLv2)
+AssetGuard Copyright (C) 2015-2023 AssetGuard Inc. (License GPLv2)
 
 Based on the OSSEC project started by Daniel Cid.

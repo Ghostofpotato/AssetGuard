@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -32,8 +32,8 @@
 #define LOGFILE   "logs/ossec.log"
 #define LOGJSONFILE "logs/ossec.json"
 #else
-#define LOGFILE   "logs/wazuh-manager.log"
-#define LOGJSONFILE "logs/wazuh-manager.json"
+#define LOGFILE   "logs/assetguard-manager.log"
+#define LOGJSONFILE "logs/assetguard-manager.json"
 #endif
 #else
 #define LOGFILE "ossec.log"

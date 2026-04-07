@@ -1,5 +1,5 @@
 """
-Copyright (C) 2015, Wazuh Inc.
+Copyright (C) 2015, AssetGuard Inc.
 March 28, 2022.
 
 This program is free software; you can redistribute it
@@ -383,7 +383,7 @@ def runReadyToReview(moduleName, clean=False, target="agent"):
     # The ASAN check is in the end. It builds again the module but with the ASAN flag
     # and runs the test tool.
     # Running this type of check in Windows will be analyzed in #17019
-    if target != "winagent" and moduleName != "shared_modules/agent_metadata" and moduleName != "shared_modules/file_helper" and moduleName != "wazuh_modules/agent_info" and moduleName != "wazuh_modules/sca":
+    if target != "winagent" and moduleName != "shared_modules/agent_metadata" and moduleName != "shared_modules/file_helper" and moduleName != "assetguard_modules/agent_info" and moduleName != "assetguard_modules/sca":
         runASAN(moduleName=moduleName,
                 testToolConfig=smokeTestConfig)
     if clean:
@@ -616,7 +616,7 @@ def collect_windows_runtime_dlls(bin_dir):
         "libstdc++-6.dll",
         "libwinpthread-1.dll",
         "schema_validator.dll",
-        "libwazuhext.dll",
+        "libassetguardext.dll",
     ]
 
     search_paths = [
@@ -664,7 +664,7 @@ def runTests(moduleName):
         utils.printFail(msg="[Tests: CTest configuration not found]")
         raise ValueError("CTest configuration not found in centralized build directory")
 
-    # Extract module label: "wazuh_modules/agent_info" -> "agent_info"
+    # Extract module label: "assetguard_modules/agent_info" -> "agent_info"
     #                       "shared_modules/dbsync" -> "dbsync"
     moduleLabel = os.path.basename(moduleName)
 

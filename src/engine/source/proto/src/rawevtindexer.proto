@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "engine.proto";
 
-package com.wazuh.api.engine.rawevtindexer;
+package com.assetguard.api.engine.rawevtindexer;
 
 /*
  * This API is used to manage the raw event indexer in the engine

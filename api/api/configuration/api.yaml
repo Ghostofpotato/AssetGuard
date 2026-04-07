@@ -43,7 +43,7 @@
 #  block_time: 300
 #  max_request_per_minute: 300
 
-# Drop privileges (Run as wazuh-manager user)
+# Drop privileges (Run as assetguard-manager user)
 # drop_privileges: yes
 
 # Maximum body size that the API can accept, in bytes (0 -> limitless)
@@ -52,7 +52,7 @@
 # Number of processes dedicated to processing authentication requests.
 # authentication_pool_size: 2
 
-# Uploadable Wazuh configuration sections
+# Uploadable AssetGuard configuration sections
 # upload_configuration:
 #   remote_commands:
 #     localfile:

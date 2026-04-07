@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -15,7 +15,7 @@
 #include <getopt.h>
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-agentd"
+#define ARGV0 "assetguard-agentd"
 #endif
 
 /* Prototypes */
@@ -184,7 +184,7 @@ int main(int argc, char **argv)
         }
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(ASSETGUARD_HOMEDIR, home_path);
     os_free(home_path);
     mdebug1(STARTUP_MSG, (int)getpid());
 

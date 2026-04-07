@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '.'))
 import aws_utils as utils
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-import wazuh_integration
+import assetguard_integration
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'services'))
 import aws_service
@@ -47,7 +47,7 @@ def mock_get_client(*args, **kwargs):
         return mock_client
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
 @patch('aws_service.AWSService.__init__', side_effect=aws_service.AWSService.__init__)
 def test_aws_inspector_initializes_properly(mock_aws_service, mock_sts_client):
     """Test if the instances of AWSInspector are created properly."""
@@ -76,7 +76,7 @@ def test_aws_inspector_send_describe_findings(mock_sts_client):
             }
         ]
     }
-    with patch('wazuh_integration.WazuhIntegration.send_msg') as mock_send_msg, \
+    with patch('assetguard_integration.AssetGuardIntegration.send_msg') as mock_send_msg, \
             patch('aws_service.AWSService.format_message') as mock_format:
         instance.send_describe_findings(arn_list)
         assert instance.sent_events == 1
@@ -86,12 +86,12 @@ def test_aws_inspector_send_describe_findings(mock_sts_client):
 
 @pytest.mark.parametrize('reparse', [True, False])
 @pytest.mark.parametrize('only_logs_after', [utils.TEST_ONLY_LOGS_AFTER, None])
-@patch('wazuh_integration.WazuhAWSDatabase.init_db')
-@patch('wazuh_integration.WazuhAWSDatabase.close_db')
+@patch('assetguard_integration.AssetGuardAWSDatabase.init_db')
+@patch('assetguard_integration.AssetGuardAWSDatabase.close_db')
 @patch('inspector.AWSInspector.send_describe_findings')
 @patch('inspector.aws_tools.debug')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.send_msg')
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardIntegration.send_msg')
 @patch.object(inspector.AWSInspector, 'get_client', mock_get_client)
 def test_aws_inspector_get_alerts(mock_send_msg, mock_sts_client, mock_debug, mock_send_describe_findings, mock_init_db, mock_close_db,
                                   only_logs_after, reparse, custom_database):
@@ -126,11 +126,11 @@ def test_aws_inspector_get_alerts(mock_send_msg, mock_sts_client, mock_debug, mo
 
 
 @pytest.mark.parametrize('region', inspector.INSPECTOR_V2_REGIONS)
-@patch('wazuh_integration.WazuhAWSDatabase.init_db')
-@patch('wazuh_integration.WazuhAWSDatabase.close_db')
+@patch('assetguard_integration.AssetGuardAWSDatabase.init_db')
+@patch('assetguard_integration.AssetGuardAWSDatabase.close_db')
 @patch('inspector.aws_tools.debug')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhIntegration.send_msg')
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardIntegration.send_msg')
 @patch.object(inspector.AWSInspector, 'get_client', mock_get_client)
 def test_aws_inspector_v2_get_alerts(mock_send_msg, mock_sts_client, mock_debug, mock_init_db, mock_close_db,
                                      region, custom_database):

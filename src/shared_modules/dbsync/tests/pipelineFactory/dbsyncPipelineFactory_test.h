@@ -1,6 +1,6 @@
 /*
- * Wazuh DBSYNC
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard DBSYNC
+ * Copyright (C) 2015, AssetGuard Inc.
  * July 16, 2020.
  *
  * This program is free software; you can redistribute it

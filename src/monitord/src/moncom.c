@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * Aug 17, 2018.
  *
  * This program is free software; you can redistribute it

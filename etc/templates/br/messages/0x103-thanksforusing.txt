@@ -1,12 +1,12 @@
 
-   Obrigado por usar Wazuh.
+   Obrigado por usar AssetGuard.
    Se você tiver alguma pergunta, sugestão ou encontrar algum
    "bug", contate-nos.
 
    Use nossa lista de correio público em:
-      https://groups.google.com/forum/#!forum/wazuh
+      https://groups.google.com/forum/#!forum/assetguard
 
    Maiores informações podem ser encontradas em:
-          - http://www.wazuh.com
+          - http://www.assetguard.com
 
        ---  Pressione ENTER para continuar  ---

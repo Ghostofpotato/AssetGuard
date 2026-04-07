@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2010 Trend Micro Inc.
  * All right reserved.
  *
@@ -35,7 +35,7 @@
 #include "registry.h"
 #endif
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 unsigned int files_read = 0;
 time_t last_time = 0;
 void audit_set_db_consistency(void);
@@ -475,7 +475,7 @@ void cleanup_failed_registry_values(OSList* failed_values) {
 
 
 void check_max_fps() {
-#ifndef WAZUH_UNIT_TESTING
+#ifndef ASSETGUARD_UNIT_TESTING
     static unsigned int files_read = 0;
     static time_t last_time = 0;
 #endif
@@ -1099,7 +1099,7 @@ int fim_whodata_initialize() {
     }
 
     /* If the initialization of the Whodata engine fails,
-    Wazuh must monitor files/directories in Realtime mode. */
+    AssetGuard must monitor files/directories in Realtime mode. */
     if (!run_whodata_scan()) {
         if (t_hdle = CreateThread(NULL, 0, state_checker, NULL, 0, &t_id), !t_hdle) {
             merror(FIM_ERROR_CHECK_THREAD);

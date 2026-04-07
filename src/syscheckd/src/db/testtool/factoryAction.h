@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscheck - Test tool
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Syscheck - Test tool
+ * Copyright (C) 2015, AssetGuard Inc.
  * January 23, 2022.
  *
  * This program is free software; you can redistribute it

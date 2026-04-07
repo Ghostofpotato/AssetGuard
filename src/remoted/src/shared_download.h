@@ -1,6 +1,6 @@
 /*
- * Wazuh Shared Configuration Manager
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Shared Configuration Manager
+ * Copyright (C) 2015, AssetGuard Inc.
  * April 3, 2018.
  *
  * This program is free software; you can redistribute it

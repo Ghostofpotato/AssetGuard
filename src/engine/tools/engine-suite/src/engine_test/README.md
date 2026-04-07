@@ -47,7 +47,7 @@ Contains the different formats of handled events, such as syslog, json, macos, e
 # Install
 The script is packaged along the engine-suite python packaged, to install simply run:
 ```bash
-pip install wazuh/src/engine/tools/engine-suite
+pip install assetguard/src/engine/tools/engine-suite
 ```
 To verify it's working:
 ```bash
@@ -62,7 +62,7 @@ usage: engine-test [-h] [-c CONFIG_FILE] [-v] {run,add,get,list,delete} ...
 options:
   -h, --help            show this help message and exit
   -c CONFIG_FILE, --config CONFIG_FILE
-                        Configuration file. Default: /var/wazuh-manager/etc/engine-test.conf
+                        Configuration file. Default: /var/assetguard-manager/etc/engine-test.conf
   -v, --version         show program's version number and exit
 
 subcommands:

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     OS_SetName(ARGV0);
 #ifndef WIN32
     char * home_path = w_homedir(argv[0]);
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(ASSETGUARD_HOMEDIR, home_path);
 
     /* Change working directory */
     if (chdir(home_path) == -1) {

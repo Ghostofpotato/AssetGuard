@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -26,18 +26,18 @@
 /* Audit defs */
 #define WDATA_DEFAULT_INTERVAL_SCAN 300
 #define AUDIT_SOCKET                "queue/sockets/audit"
-#define AUDIT_CONF_FILE             "tmp/af_wazuh.conf"
+#define AUDIT_CONF_FILE             "tmp/af_assetguard.conf"
 #define AUDIT_HEALTHCHECK_DIR       "tmp"
-#define AUDIT_HEALTHCHECK_KEY       "wazuh_hc"
+#define AUDIT_HEALTHCHECK_KEY       "assetguard_hc"
 #define AUDIT_HEALTHCHECK_FILE      "tmp/audit_hc"
 
 #define FIM_SYNC_PROTOCOL_DB_PATH   "queue/fim/db/fim_sync.db"
 #define FIM_SYNC_RETRIES 3
 
-#define FIM_FILES_SYNC_INDEX         "wazuh-states-fim-files"
+#define FIM_FILES_SYNC_INDEX         "assetguard-states-fim-files"
 #ifdef WIN32
-#define FIM_REGISTRY_KEYS_SYNC_INDEX   "wazuh-states-fim-registry-keys"
-#define FIM_REGISTRY_VALUES_SYNC_INDEX "wazuh-states-fim-registry-values"
+#define FIM_REGISTRY_KEYS_SYNC_INDEX   "assetguard-states-fim-registry-keys"
+#define FIM_REGISTRY_VALUES_SYNC_INDEX "assetguard-states-fim-registry-values"
 #endif
 
 // The length of a SHA-1 hash in its hexadecimal string representation.

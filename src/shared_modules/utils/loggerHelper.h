@@ -1,6 +1,6 @@
 /*
- * Wazuh logging helper
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard logging helper
+ * Copyright (C) 2015, AssetGuard Inc.
  * September 15, 2022.
  *
  * This program is free software; you can redistribute it

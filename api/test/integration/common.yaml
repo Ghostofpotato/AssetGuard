@@ -10,8 +10,8 @@ variables:
   host: localhost
   port: 55010
   user: testing
-  user_auth_context: wazuh-wui
-  pass: wazuh
+  user_auth_context: assetguard-wui
+  pass: assetguard
   basic_auth: dGVzdGluZzp3YXp1aA== # b64 encoded user:pass, update if user or pass changes
   basic_auth_context: d2F6dWgtd3VpOndhenVoLXd1aQ== # b64 encoded user:pass, update if user or pass changes
   login_endpoint: security/user/authenticate
@@ -24,7 +24,7 @@ variables:
   global_db_delay: 30
   cluster_sync_delay: 20
 
-  custom_wpk_path: "/var/wazuh-manager/test.wpk"
+  custom_wpk_path: "/var/assetguard-manager/test.wpk"
 
   invalid_file:
     "import os #:l\nos.system('do something bad') #:l"
@@ -118,8 +118,8 @@ variables:
     </localfile>
     </agent_config>
 
-  valid_wazuh_conf:
-    <wazuh_config>
+  valid_assetguard_conf:
+    <assetguard_config>
       <global>
         <agents_disconnection_time>20s</agents_disconnection_time>
         <agents_disconnection_alert_time>100s</agents_disconnection_alert_time>
@@ -143,10 +143,10 @@ variables:
         <enabled>no</enabled>
         <feed-update-interval>60m</feed-update-interval>
       </vulnerability-detection>
-    </wazuh_config>
+    </assetguard_config>
 
-  valid_wazuh_conf_with_update_check_enabled:
-    <wazuh_config>
+  valid_assetguard_conf_with_update_check_enabled:
+    <assetguard_config>
       <global>
         <agents_disconnection_time>20s</agents_disconnection_time>
         <agents_disconnection_alert_time>100s</agents_disconnection_alert_time>
@@ -171,10 +171,10 @@ variables:
         <enabled>no</enabled>
         <feed-update-interval>60m</feed-update-interval>
       </vulnerability-detection>
-    </wazuh_config>
+    </assetguard_config>
 
-  invalid_wazuh_conf:
-    <wazuh_config>
+  invalid_assetguard_conf:
+    <assetguard_config>
       <global>
       </global>
 
@@ -184,10 +184,10 @@ variables:
       </vulnerability-detection>
 
       <remote>
-    </wazuh_config>
+    </assetguard_config>
 
-  invalid_wazuh_xml:
-    <wazuh_config>
+  invalid_assetguard_xml:
+    <assetguard_config>
       <global>
         <agents_disconnection_time>20s</agents_disconnection_time>
         <agents_disconnection_alert_time>100s</agents_disconnection_alert_time>
@@ -206,10 +206,10 @@ variables:
       <syscheck>
         <disabled>yes</disabled>
       </syscheck>
-    </wazuh_config>
+    </assetguard_config>
 
-  wazuh_conf_with_invalid_cti_url:
-    <wazuh_config>
+  assetguard_conf_with_invalid_cti_url:
+    <assetguard_config>
       <global>
         <agents_disconnection_time>20s</agents_disconnection_time>
         <agents_disconnection_alert_time>100s</agents_disconnection_alert_time>
@@ -234,4 +234,4 @@ variables:
         <enabled>no</enabled>
         <feed-update-interval>60m</feed-update-interval>
       </vulnerability-detection>
-    </wazuh_config>
+    </assetguard_config>

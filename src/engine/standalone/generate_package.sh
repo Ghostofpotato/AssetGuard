@@ -2,7 +2,7 @@
 
 set -e
 CURRENT_PATH="$( cd $(dirname $0) ; pwd -P )"
-WAZUH_PATH="$(cd $CURRENT_PATH/../../..; pwd -P)"
+ASSETGUARD_PATH="$(cd $CURRENT_PATH/../../..; pwd -P)"
 ARCHITECTURE="amd64"
 OUTDIR="${CURRENT_PATH}/output"
 JOBS="2"
@@ -23,10 +23,10 @@ ctrl_c() {
 }
 
 install_geoip() {
-    local wazuh_path="$1"
+    local assetguard_path="$1"
     local temp_dir="$2"
 
-    local geoip_src_path="${wazuh_path}/src/external/geo_db"
+    local geoip_src_path="${assetguard_path}/src/external/geo_db"
     local mmdb_dst_dir="${temp_dir}/data/mmdb"
     local store_doc_dir="${temp_dir}/data/store/geo/mmdb"
     local store_doc="${store_doc_dir}/0"
@@ -112,7 +112,7 @@ build_standalone() {
 
     # Build the Docker image if needed
     if [[ ${BUILD_DOCKER} == "yes" ]]; then
-        DOCKERFILE_PATH="${WAZUH_PATH}/packages/rpms/${PACKAGE_ARCH}/manager"
+        DOCKERFILE_PATH="${ASSETGUARD_PATH}/packages/rpms/${PACKAGE_ARCH}/manager"
         if [ ! -d "${DOCKERFILE_PATH}" ]; then
             echo "Error: Dockerfile path not found: ${DOCKERFILE_PATH}"
             return 1
@@ -120,8 +120,8 @@ build_standalone() {
 
         # Copy the necessary files for Docker build
         echo "Copying necessary files for Docker build..."
-        cp ${WAZUH_PATH}/packages/build.sh ${DOCKERFILE_PATH}
-        cp ${WAZUH_PATH}/packages/rpms/utils/* ${DOCKERFILE_PATH}
+        cp ${ASSETGUARD_PATH}/packages/build.sh ${DOCKERFILE_PATH}
+        cp ${ASSETGUARD_PATH}/packages/rpms/utils/* ${DOCKERFILE_PATH}
 
         echo "Building Docker image ${CONTAINER_NAME}:${DOCKER_TAG}..."
         docker build -t ${CONTAINER_NAME}:${DOCKER_TAG} ${DOCKERFILE_PATH} || return 1
@@ -138,38 +138,38 @@ build_standalone() {
     fi
 
     # Build the standalone package with a Docker container
-    echo "Building Wazuh Engine Standalone package..."
-    docker run --entrypoint /workspace/wazuh/src/engine/standalone/docker-entrypoint.sh \
+    echo "Building AssetGuard Engine Standalone package..."
+    docker run --entrypoint /workspace/assetguard/src/engine/standalone/docker-entrypoint.sh \
         -e BUILD_TYPE="${BUILD_TYPE}" \
         -e JOBS="${JOBS}" \
-        -t --rm -v ${WAZUH_PATH}:/workspace/wazuh:Z \
+        -t --rm -v ${ASSETGUARD_PATH}:/workspace/assetguard:Z \
         ${CONTAINER_NAME}:${DOCKER_TAG} || return 1
 
     # Get version
-    VERSION="$(grep '"version"' ${WAZUH_PATH}/VERSION.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')"
+    VERSION="$(grep '"version"' ${ASSETGUARD_PATH}/VERSION.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')"
 
     # Create output directory if it doesn't exist
     mkdir -p ${OUTDIR}
 
     # Generate engine schemas
     echo "Generating engine schemas..."
-    python3 ${WAZUH_PATH}/src/engine/tools/engine-schema/engine_schema.py generate \
-        --output-dir ${WAZUH_PATH}/src/engine/ruleset/schemas/ \
-        --wcs-path ${WAZUH_PATH}/src/external/wcs-flat-files/ \
-        --decoder-template ${WAZUH_PATH}/src/engine/ruleset/schemas/wazuh-decoders.template.json \
-        --exclude-geo ${WAZUH_PATH}/src/engine/ruleset/schemas/exclude-enrichment-geo.json \
-        --ioc-enrichment-cfg ${WAZUH_PATH}/src/engine/ruleset/schemas/ioc-enrichment-cfg.json || return 1
+    python3 ${ASSETGUARD_PATH}/src/engine/tools/engine-schema/engine_schema.py generate \
+        --output-dir ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/ \
+        --wcs-path ${ASSETGUARD_PATH}/src/external/wcs-flat-files/ \
+        --decoder-template ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/assetguard-decoders.template.json \
+        --exclude-geo ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/exclude-enrichment-geo.json \
+        --ioc-enrichment-cfg ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/ioc-enrichment-cfg.json || return 1
 
     # Create standalone package structure
     echo "Creating standalone package structure..."
-    TEMP_DIR="${OUTDIR}/wazuh-engine-standalone-${VERSION}"
+    TEMP_DIR="${OUTDIR}/assetguard-engine-standalone-${VERSION}"
     rm -rf ${TEMP_DIR}
 
     install -d -m 770 \
         ${TEMP_DIR}/bin/lib \
         ${TEMP_DIR}/data/store/schema \
         ${TEMP_DIR}/data/store/schema/engine-schema \
-        ${TEMP_DIR}/data/store/schema/wazuh-logpar-overrides \
+        ${TEMP_DIR}/data/store/schema/assetguard-logpar-overrides \
         ${TEMP_DIR}/data/store/schema/allowed-fields \
         ${TEMP_DIR}/data/store/enrichment/geo \
         ${TEMP_DIR}/data/store/enrichment/ioc \
@@ -190,37 +190,37 @@ build_standalone() {
     touch ${TEMP_DIR}/sockets/.keep
 
     # Copy schemas
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/engine-schema.json ${TEMP_DIR}/data/store/schema/engine-schema/0
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/wazuh-logpar-overrides.json ${TEMP_DIR}/data/store/schema/wazuh-logpar-overrides/0
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/allowed-fields.json ${TEMP_DIR}/data/store/schema/allowed-fields/0
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/wazuh-decoders.json ${TEMP_DIR}/schemas/
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/wazuh-filters.json ${TEMP_DIR}/schemas/
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/engine-schema.json ${TEMP_DIR}/data/store/schema/engine-schema/0
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/assetguard-logpar-overrides.json ${TEMP_DIR}/data/store/schema/assetguard-logpar-overrides/0
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/allowed-fields.json ${TEMP_DIR}/data/store/schema/allowed-fields/0
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/assetguard-decoders.json ${TEMP_DIR}/schemas/
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/assetguard-filters.json ${TEMP_DIR}/schemas/
 
     # Copy enrichments
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/enrichment-geo.json ${TEMP_DIR}/data/store/enrichment/geo/0
-    cp -r ${WAZUH_PATH}/src/engine/ruleset/schemas/enrichment-ioc.json ${TEMP_DIR}/data/store/enrichment/ioc/0
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/enrichment-geo.json ${TEMP_DIR}/data/store/enrichment/geo/0
+    cp -r ${ASSETGUARD_PATH}/src/engine/ruleset/schemas/enrichment-ioc.json ${TEMP_DIR}/data/store/enrichment/ioc/0
 
     # Copy geo dbs
-    install_geoip "${WAZUH_PATH}" "${TEMP_DIR}"
+    install_geoip "${ASSETGUARD_PATH}" "${TEMP_DIR}"
 
     # Copy scripts and README
-    cp -r ${WAZUH_PATH}/src/engine/standalone/run_engine.sh ${TEMP_DIR}/
+    cp -r ${ASSETGUARD_PATH}/src/engine/standalone/run_engine.sh ${TEMP_DIR}/
     chmod +x ${TEMP_DIR}/run_engine.sh
-    cp ${WAZUH_PATH}/src/engine/standalone/README.md ${TEMP_DIR}/
+    cp ${ASSETGUARD_PATH}/src/engine/standalone/README.md ${TEMP_DIR}/
 
     # Copy libraries and binaries
-    cp ${WAZUH_PATH}/src/external/rocksdb/build/librocksdb.so.8 ${TEMP_DIR}/bin/lib
-    cp ${WAZUH_PATH}/src/build/lib/libwazuhext.so ${TEMP_DIR}/bin/lib
-    cp ${WAZUH_PATH}/src/build/lib/libindexer_connector.so ${TEMP_DIR}/bin/lib
-    cp ${WAZUH_PATH}/gcc-libs/libstdc++.so.6* ${TEMP_DIR}/bin/lib/
-    cp ${WAZUH_PATH}/src/build/engine/wazuh-engine ${TEMP_DIR}/bin/
-    chmod +x ${TEMP_DIR}/bin/wazuh-engine
+    cp ${ASSETGUARD_PATH}/src/external/rocksdb/build/librocksdb.so.8 ${TEMP_DIR}/bin/lib
+    cp ${ASSETGUARD_PATH}/src/build/lib/libassetguardext.so ${TEMP_DIR}/bin/lib
+    cp ${ASSETGUARD_PATH}/src/build/lib/libindexer_connector.so ${TEMP_DIR}/bin/lib
+    cp ${ASSETGUARD_PATH}/gcc-libs/libstdc++.so.6* ${TEMP_DIR}/bin/lib/
+    cp ${ASSETGUARD_PATH}/src/build/engine/assetguard-engine ${TEMP_DIR}/bin/
+    chmod +x ${TEMP_DIR}/bin/assetguard-engine
 
     # Create zip package
-    PACKAGE_NAME="wazuh-engine-${VERSION}-linux-${PACKAGE_ARCH}.tar.gz"
+    PACKAGE_NAME="assetguard-engine-${VERSION}-linux-${PACKAGE_ARCH}.tar.gz"
     echo "Creating package: ${PACKAGE_NAME}"
     cd ${OUTDIR}
-    tar czf ${PACKAGE_NAME} wazuh-engine-standalone-${VERSION}/ || return 1
+    tar czf ${PACKAGE_NAME} assetguard-engine-standalone-${VERSION}/ || return 1
 
     echo "Package created successfully: ${OUTDIR}/${PACKAGE_NAME}"
 

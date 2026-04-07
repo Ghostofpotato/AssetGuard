@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -23,22 +23,22 @@
 #include "../wrappers/linux/socket_wrappers.h"
 #include "../wrappers/posix/stat_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/keys_wrappers.h"
-#include "../wrappers/wazuh/os_crypto/msgs_wrappers.h"
-#include "../wrappers/wazuh/remoted/manager_wrappers.h"
-#include "../wrappers/wazuh/remoted/netbuffer_wrappers.h"
-#include "../wrappers/wazuh/remoted/netcounter_wrappers.h"
-#include "../wrappers/wazuh/remoted/queue_wrappers.h"
-#include "../wrappers/wazuh/remoted/state_wrappers.h"
-#include "../wrappers/wazuh/remoted/agent_metadata_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/shared/queue_linked_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
-#include "../wrappers/wazuh/shared/batch_queue_op_wrappers.h"
-#include "../wrappers/wazuh/shared_modules/router_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_metadata_wrappers.h"
-#include "../wrappers/wazuh/wazuh_db/wdb_wrappers.h"
+#include "../wrappers/assetguard/os_crypto/keys_wrappers.h"
+#include "../wrappers/assetguard/os_crypto/msgs_wrappers.h"
+#include "../wrappers/assetguard/remoted/manager_wrappers.h"
+#include "../wrappers/assetguard/remoted/netbuffer_wrappers.h"
+#include "../wrappers/assetguard/remoted/netcounter_wrappers.h"
+#include "../wrappers/assetguard/remoted/queue_wrappers.h"
+#include "../wrappers/assetguard/remoted/state_wrappers.h"
+#include "../wrappers/assetguard/remoted/agent_metadata_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/hash_op_wrappers.h"
+#include "../wrappers/assetguard/shared/queue_linked_op_wrappers.h"
+#include "../wrappers/assetguard/shared/validate_op_wrappers.h"
+#include "../wrappers/assetguard/shared/batch_queue_op_wrappers.h"
+#include "../wrappers/assetguard/shared_modules/router_wrappers.h"
+#include "../wrappers/assetguard/assetguard_db/wdb_metadata_wrappers.h"
+#include "../wrappers/assetguard/assetguard_db/wdb_wrappers.h"
 
 typedef struct test_agent_info
 {

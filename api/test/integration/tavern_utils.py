@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import ast
@@ -409,7 +409,7 @@ def check_agentd_started(response, agents_list, restarted=True):
         while tries < 80:
             try:
                 # Save agentd logs in a list
-                command = f"docker exec env-wazuh-agent{int(agent_id)}-1 grep agentd /var/ossec/logs/ossec.log"
+                command = f"docker exec env-assetguard-agent{int(agent_id)}-1 grep agentd /var/ossec/logs/ossec.log"
                 output = subprocess.check_output(command.split()).decode().strip().split('\n')
             except subprocess.SubprocessError as exc:
                 raise subprocess.SubprocessError(f"Error while trying to get logs from agent {agent_id}") from exc
@@ -418,14 +418,14 @@ def check_agentd_started(response, agents_list, restarted=True):
             logs_after_restart = [agentd_log for agentd_log in output if
                                   get_timestamp(agentd_log).timestamp() >= restart_request_time.timestamp()]
 
-            # Check the log indicating agentd started is in the agent's wazuh log file (after the restart request)
+            # Check the log indicating agentd started is in the agent's assetguard log file (after the restart request)
             if any(agentd_started_regex.search(string=agentd_log) for agentd_log in logs_after_restart):
                 break
 
             tries += 1
             time.sleep(1)
         else:
-            raise ProcessLookupError("The wazuh-agentd daemon was not started after requesting the restart")
+            raise ProcessLookupError("The assetguard-agentd daemon was not started after requesting the restart")
 
 
 def check_agent_active_status(agents_list):
@@ -443,7 +443,7 @@ def check_agent_active_status(agents_list):
     while tries < 25:
         try:
             # Get active agents
-            output = subprocess.check_output(f"docker exec env-wazuh-master-1 /var/wazuh-manager/framework/python/bin/python3 "
+            output = subprocess.check_output(f"docker exec env-assetguard-master-1 /var/assetguard-manager/framework/python/bin/python3 "
                                              f"{active_agents_script_path}".split()).decode().strip()
         except subprocess.SubprocessError as exc:
             raise subprocess.SubprocessError("Error while trying to get agents") from exc

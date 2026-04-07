@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -21,7 +21,7 @@
 #define NULL_ERROR    "(1105): Attempted to use null string."
 #define FORMAT_ERROR  "(1106): String not correctly formatted."
 #define MKDIR_ERROR   "(1107): Could not create directory '%s' due to [(%d)-(%s)]."
-#define HOME_ERROR    "(1108): Unable to find Wazuh install directory. Export it to WAZUH_HOME environment variable."
+#define HOME_ERROR    "(1108): Unable to find AssetGuard install directory. Export it to ASSETGUARD_HOME environment variable."
 #define THREAD_ERROR  "(1109): Unable to create new pthread."
 #define FWRITE_ERROR  "(1110): Could not write file '%s' due to [(%d)-(%s)]."
 #define WAITPID_ERROR "(1111): Error during waitpid()-call due to [(%d)-(%s)]."
@@ -288,8 +288,8 @@
 #define AG_ENROLL_FAIL  "(4113): Auto Enrollment configuration failed."
 #define AG_INV_INT      "(4114): All server addresses are IPv6 link-local and no interface to any <manager> block has been configured."
 #define AG_TOKEN_FAIL   "(4115): Error trying to get API token with login: %s"
-#define AG_API_ERROR_CODE  "(4116): Unexpected status code in Wazuh agent package uninstallation request: %ld\n"
-#define AG_REQUEST_FAIL    "(4117): Failed validation request to uninstall Wazuh agent package."
+#define AG_API_ERROR_CODE  "(4116): Unexpected status code in AssetGuard agent package uninstallation request: %ld\n"
+#define AG_REQUEST_FAIL    "(4117): Failed validation request to uninstall AssetGuard agent package."
 
 /* Rules reading errors */
 #define RL_INV_ROOT     "(5101): Invalid root element: '%s'."
@@ -309,7 +309,7 @@
 #define DB_MISS_CONFIG        "(5205): Missing database configuration. "\
                               "It requires host, user, pass and database."
 #define DB_CONFIGERR          "(5206): Database configuration error."
-#define DB_COMPILED           "(5207): Wazuh not compiled with support for '%s'."
+#define DB_COMPILED           "(5207): AssetGuard not compiled with support for '%s'."
 #define DB_MAINERROR          "(5208): Multiple database errors. Exiting."
 #define DB_CLOSING            "(5209): Closing connection to database."
 #define DB_ATTEMPT            "(5210): Attempting to reconnect to database."
@@ -515,7 +515,7 @@
 #define MSG_SOCKET_SIZE "(unix_domain) Maximum send buffer set to: '%d'."
 
 #define CONN_TO     "Connected to '%s' (%s queue)"
-#define WAZUH_HOMEDIR "Wazuh home directory: %s"
+#define ASSETGUARD_HOMEDIR "AssetGuard home directory: %s"
 
 /* Debug Messages */
 #define FOUND_USER  "Found user/group ..."
@@ -537,17 +537,17 @@
 #define NORMAL_BUFFER   "Agent buffer is under %d %%. Working properly again."
 #define TOLERANCE_TIME  "Tolerance time set to Zero, defined flooding condition when buffer is full."
 
-/* Wazuh alert messages */
-#define OS_MG_STARTED   "wazuh: Manager started."
-#define OS_AG_STARTED   "wazuh: Agent started: [%03d] (%s)."
-#define OS_AG_STOPPED   "wazuh: Agent stopped: [%03d] (%s)."
-#define OS_AG_DISCON    "wazuh: Agent disconnected: [%03d] (%s)."
-#define OS_AG_REMOVED   "wazuh: Agent removed: [%03d] (%s)."
+/* AssetGuard alert messages */
+#define OS_MG_STARTED   "assetguard: Manager started."
+#define OS_AG_STARTED   "assetguard: Agent started: [%03d] (%s)."
+#define OS_AG_STOPPED   "assetguard: Agent stopped: [%03d] (%s)."
+#define OS_AG_DISCON    "assetguard: Agent disconnected: [%03d] (%s)."
+#define OS_AG_REMOVED   "assetguard: Agent removed: [%03d] (%s)."
 
-#define OS_NORMAL_BUFFER  "wazuh: Agent buffer: 'normal'."
-#define OS_WARN_BUFFER  "wazuh: Agent buffer: '%d%%'."
-#define OS_FULL_BUFFER  "wazuh: Agent buffer: 'full'."
-#define OS_FLOOD_BUFFER "wazuh: Agent buffer: 'flooded'."
+#define OS_NORMAL_BUFFER  "assetguard: Agent buffer: 'normal'."
+#define OS_WARN_BUFFER  "assetguard: Agent buffer: '%d%%'."
+#define OS_FULL_BUFFER  "assetguard: Agent buffer: 'full'."
+#define OS_FLOOD_BUFFER "assetguard: Agent buffer: 'flooded'."
 
 /* WIN32 errors */
 #define CONF_ERROR      "Could not read (%s) (Make sure config exists and executable is running with Administrative privileges)."

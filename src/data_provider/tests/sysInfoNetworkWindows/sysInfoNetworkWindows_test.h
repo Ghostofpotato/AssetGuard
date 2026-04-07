@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard SysInfo
+ * Copyright (C) 2015, AssetGuard Inc.
  * November 7, 2020.
  *
  * This program is free software; you can redistribute it

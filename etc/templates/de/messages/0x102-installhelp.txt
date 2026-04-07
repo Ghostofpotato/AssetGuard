@@ -17,4 +17,4 @@
     als Server dient und an den die Logs zur Analyse geschickt
     werden (sinnvoll zb für Webserver, Datenbankserver usw).
 
-  - weitere Informationen unter: https://documentation.wazuh.com
+  - weitere Informationen unter: https://documentation.assetguard.com

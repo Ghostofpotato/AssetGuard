@@ -9,7 +9,7 @@
 #include <shared.h>
 
 // Configuration constants
-static const char* const XML_TAG_WAZUH_CONFIG = OSSECCONFIG;
+static const char* const XML_TAG_ASSETGUARD_CONFIG = OSSECCONFIG;
 static const char* const XML_TAG_INDEXER = "indexer";
 static const char* const INDEXER_ROOT_PATH = "indexer";
 static const char* const XML_TAG_HOST = "host";
@@ -475,7 +475,7 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
         return NULL;
     }
 
-    // Search for wazuh_config element
+    // Search for assetguard_config element
     for (int i = 0; root_nodes[i] != NULL; i++)
     {
         xml_node* current_root = root_nodes[i];
@@ -489,8 +489,8 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             return NULL;
         }
 
-        // Skip non-wazuh_config elements
-        if (strcmp(current_root->element, XML_TAG_WAZUH_CONFIG) != 0)
+        // Skip non-assetguard_config elements
+        if (strcmp(current_root->element, XML_TAG_ASSETGUARD_CONFIG) != 0)
         {
             continue;
         }
@@ -501,7 +501,7 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             continue;
         }
 
-        // Search for indexer element within wazuh_config
+        // Search for indexer element within assetguard_config
         for (int j = 0; ossec_children[j] != NULL; j++)
         {
             xml_node* current_child = ossec_children[j];

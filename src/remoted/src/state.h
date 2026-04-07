@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * May 04, 2022
  *
  * This program is free software; you can redistribute it
@@ -13,7 +13,7 @@
 
 #define REM_MAX_NUM_AGENTS_STATS 150
 
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_queries_op.h"
 #include <stdint.h>
 
 /* Status structures */

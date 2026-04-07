@@ -3,15 +3,15 @@
 set -euo pipefail
 
 # Defaults
-PROJECT="${PROJECT:-wazuh}"
+PROJECT="${PROJECT:-assetguard}"
 COVERITY_TOKEN="${COVERITY_TOKEN:-}"
-EMAIL="${EMAIL:-devel@wazuh.com}"
+EMAIL="${EMAIL:-devel@assetguard.com}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(realpath "$SCRIPT_DIR/../../..")"
 COVERITY_DIR="$SCRIPT_DIR"
-IMAGE="ghcr.io/wazuh/coverity-scan"
+IMAGE="ghcr.io/assetguard/coverity-scan"
 COV_DIR="$ROOT_DIR/cov-int"
-TARBALL="$ROOT_DIR/wazuh.tgz"
+TARBALL="$ROOT_DIR/assetguard.tgz"
 TOOL_TGZ="$COVERITY_DIR/coverity_tool.tgz"
 JOBS="$(nproc)"
 
@@ -27,9 +27,9 @@ Usage: $0 [--build-image] [--build] [--upload] [--clean] [--jobs N] [--tag <tag>
 
 Options:
   --build-image   Build the Docker image and download Coverity tool (exits after)
-  --build         Run Coverity analysis and generate wazuh.tgz
-  --upload        Upload wazuh.tgz to Coverity
-  --clean         Remove generated files (cov-int/ and wazuh.tgz)
+  --build         Run Coverity analysis and generate assetguard.tgz
+  --upload        Upload assetguard.tgz to Coverity
+  --clean         Remove generated files (cov-int/ and assetguard.tgz)
   --jobs N        Number of parallel jobs to use for build (default: $(nproc))
   --tag <tag>     Tag used for building the Coverity analysis image
   --help          Show this help
@@ -37,9 +37,9 @@ Options:
 No arguments: runs both --build and --upload
 
 Environment variables:
-  PROJECT         Coverity project name (default: "wazuh")
+  PROJECT         Coverity project name (default: "assetguard")
   COVERITY_TOKEN  Coverity token (required for --build-image or --upload)
-  EMAIL           Email associated with Coverity account (default: devel@wazuh.com)
+  EMAIL           Email associated with Coverity account (default: devel@assetguard.com)
 EOF
 }
 
@@ -97,7 +97,7 @@ if $DO_BUILD_IMAGE; then
 
     echo "[*] Downloading Coverity tool..."
     wget -q https://scan.coverity.com/download/linux64 \
-        --post-data "token=${COVERITY_TOKEN}&project=wazuh%2F${PROJECT}" \
+        --post-data "token=${COVERITY_TOKEN}&project=assetguard%2F${PROJECT}" \
         -O "$TOOL_TGZ"
 
     echo "[*] Building Docker image..."
@@ -155,7 +155,7 @@ if $DO_UPLOAD; then
         --form file=@"$TARBALL" \
         --form version="$VERSION" \
         --form description="$DESCRIPTION" \
-        "https://scan.coverity.com/builds?project=wazuh%2F${PROJECT}")
+        "https://scan.coverity.com/builds?project=assetguard%2F${PROJECT}")
 
     body=${response::-3}
     code=${response: -3}

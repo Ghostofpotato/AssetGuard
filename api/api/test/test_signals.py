@@ -24,7 +24,7 @@ from api.signals import (
 @pytest.fixture
 def installation_uid_mock():
     with patch(
-        'wazuh.core.common.INSTALLATION_UID_PATH', os.path.join('/tmp', INSTALLATION_UID_KEY)
+        'assetguard.core.common.INSTALLATION_UID_PATH', os.path.join('/tmp', INSTALLATION_UID_KEY)
     ) as path_mock:
         yield path_mock
 
@@ -50,8 +50,8 @@ async def test_cancel_signal_handler_catch_cancelled_error_and_dont_rise():
 
 @patch('api.signals.os.chmod')
 @patch('api.signals.os.chown')
-@patch('wazuh.core.common.wazuh_gid')
-@patch('wazuh.core.common.wazuh_uid')
+@patch('assetguard.core.common.assetguard_gid')
+@patch('assetguard.core.common.assetguard_uid')
 @pytest.mark.asyncio
 async def test_load_installation_uid_populate_uid_if_not_exists(
     uid_mock, gid_mock, chown_mock, chmod_mock, installation_uid_mock
@@ -92,21 +92,21 @@ async def test_get_update_information_injects_correct_data_into_app_context(
         'last_available_major': {
             'tag': 'v5.0.0',
             'description': '',
-            'title': 'Wazuh 5.0.0',
+            'title': 'AssetGuard 5.0.0',
             'published_date': '2023-10-05T12:48:00Z',
             'semver': {'major': 5, 'minor': 0, 'patch': 0},
         },
         'last_available_minor': {
             'tag': 'v4.9.1',
             'description': '',
-            'title': 'Wazuh 4.9.1',
+            'title': 'AssetGuard 4.9.1',
             'published_date': '2023-10-05T12:47:00Z',
             'semver': {'major': 4, 'minor': 9, 'patch': 1},
         },
         'last_available_patch': {
             'tag': 'v4.8.2',
             'description': '',
-            'title': 'Wazuh 4.8.2',
+            'title': 'AssetGuard 4.8.2',
             'published_date': '2023-10-05T12:46:00Z',
             'semver': {'major': 4, 'minor': 8, 'patch': 2},
         },

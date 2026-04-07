@@ -18,8 +18,8 @@ import (
 
 func main() {
 	var srcLogsFilePath string = "./test_logs.txt"
-	var archivesFilePath string = "/var/wazuh-manager/logs/archives/archives.json"
-	var sockPath string = "/var/wazuh-manager/queue/sockets/queue-http.sock" // Path to unix socket
+	var archivesFilePath string = "/var/assetguard-manager/logs/archives/archives.json"
+	var sockPath string = "/var/assetguard-manager/queue/sockets/queue-http.sock" // Path to unix socket
 	var logFile string
 	var logMessage string
 	var loops int
@@ -157,7 +157,7 @@ func sendEvent(client *http.Client, message string, agentid int, contentType str
 
 	// Header line (JSON)
 	header := map[string]interface{}{
-		"wazuh": map[string]interface{}{
+		"assetguard": map[string]interface{}{
 			"agent": map[string]interface{}{
 				"id":   strconv.Itoa(agentid),
 				"name": fmt.Sprintf("hostname%d", agentid),

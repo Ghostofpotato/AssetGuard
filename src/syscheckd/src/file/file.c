@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -20,7 +20,7 @@
 #include "agent_sync_protocol_c_interface.h"
 #include "schemaValidator_c.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 #ifdef WIN32
 #include "../../../unit_tests/wrappers/windows/stat64_wrappers.h"
 #endif

@@ -41,7 +41,7 @@ runs:
         MAIN_ISSUE="${{ inputs.main_issue }}"
         PREV_ISSUE="${{ inputs.prev_issue }}"
 
-        REPO="wazuh/wazuh"
+        REPO="assetguard/assetguard"
         PROJECT="XDR+SIEM/Agent team"
         LABEL="level/task,type/test"
         TITLE="Release $RELEASE - $STAGE - Agent integration tests"
@@ -84,7 +84,7 @@ runs:
         BODY=$(cat <<EOF
         |Main RC issue|Version|Stage|Tag|Previous issue|
         |---|---|---|---|---|
-        |#$MAIN_ISSUE|$RELEASE|$STAGE|[$TAG](https://github.com/wazuh/wazuh/tree/$TAG)|#$PREV_ISSUE|
+        |#$MAIN_ISSUE|$RELEASE|$STAGE|[$TAG](https://github.com/assetguard/assetguard/tree/$TAG)|#$PREV_ISSUE|
 
         The tests will be performed on GitHub workflows. Linux, Windows, and macOS will be used as required.
 
@@ -116,8 +116,8 @@ runs:
 
         In order to close and proceed with the release or the next candidate version, the following auditors must give the green light to this RC.
 
-        - [ ] @wazuh/devel-xdrsiem-agent
-        - [ ] @wazuh/devel-xdrsiem-qa-release
+        - [ ] @assetguard/devel-xdrsiem-agent
+        - [ ] @assetguard/devel-xdrsiem-qa-release
         EOF
         )
 
@@ -140,7 +140,7 @@ runs:
             export GITHUB_TOKEN="${{ inputs.project_token }}"
 
             # Add issue to project first
-            gh project item-add 86 --owner wazuh --url "$ISSUE_URL"
+            gh project item-add 86 --owner assetguard --url "$ISSUE_URL"
 
             # Configure project fields
             bash .github/scripts/configure-project-fields.sh "$ISSUE_NUMBER" "$RELEASE" "$STAGE"

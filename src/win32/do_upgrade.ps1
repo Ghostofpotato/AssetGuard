@@ -52,28 +52,28 @@ function get-version {
 
 function remove_upgrade_files {
     Remove-Item -Path ".\upgrade\*"  -Exclude "*.log", "upgrade_result" -ErrorAction SilentlyContinue
-    Remove-Item -Path ".\wazuh-agent*.msi" -ErrorAction SilentlyContinue
+    Remove-Item -Path ".\assetguard-agent*.msi" -ErrorAction SilentlyContinue
     Remove-Item -Path ".\do_upgrade.ps1" -ErrorAction SilentlyContinue
 }
 
 
-function get_wazuh_installation_directory {
+function get_assetguard_installation_directory {
     Start-NativePowerShell {
         # Registry paths to check (in order of preference)
         $registryPaths = @(
-            @{Path = "HKLM:\SOFTWARE\WOW6432Node\Wazuh, Inc.\Wazuh Agent"; Key = "WazuhInstallDir"},
-            @{Path = "HKLM:\SOFTWARE\WOW6432Node\Wazuh\Wazuh Agent"; Key = "WazuhInstallDir"},
+            @{Path = "HKLM:\SOFTWARE\WOW6432Node\AssetGuard, Inc.\AssetGuard Agent"; Key = "AssetGuardInstallDir"},
+            @{Path = "HKLM:\SOFTWARE\WOW6432Node\AssetGuard\AssetGuard Agent"; Key = "AssetGuardInstallDir"},
             @{Path = "HKLM:\SOFTWARE\WOW6432Node\ossec"; Key = "Install_Dir"}
         )
 
-        $WazuhInstallDir = $null
+        $AssetGuardInstallDir = $null
 
         # Try each registry path
         foreach ($reg in $registryPaths) {
             try {
-                $WazuhInstallDir = (Get-ItemProperty -Path $reg.Path -ErrorAction SilentlyContinue).($reg.Key)
-                if ($null -ne $WazuhInstallDir) {
-                    Write-output "$(Get-Date -format u) - Found Wazuh installation at: $($reg.Path)\$($reg.Key) = $WazuhInstallDir" >> .\upgrade\upgrade.log
+                $AssetGuardInstallDir = (Get-ItemProperty -Path $reg.Path -ErrorAction SilentlyContinue).($reg.Key)
+                if ($null -ne $AssetGuardInstallDir) {
+                    Write-output "$(Get-Date -format u) - Found AssetGuard installation at: $($reg.Path)\$($reg.Key) = $AssetGuardInstallDir" >> .\upgrade\upgrade.log
                     break
                 }
             }
@@ -83,45 +83,45 @@ function get_wazuh_installation_directory {
         }
 
         # Fallback to current directory if not found in registry
-        if ($null -eq $WazuhInstallDir) {
-            Write-output "$(Get-Date -format u) - Couldn't find Wazuh in registry. Using current directory" >> .\upgrade\upgrade.log
-            $WazuhInstallDir = (Get-Location).Path.TrimEnd('\')
+        if ($null -eq $AssetGuardInstallDir) {
+            Write-output "$(Get-Date -format u) - Couldn't find AssetGuard in registry. Using current directory" >> .\upgrade\upgrade.log
+            $AssetGuardInstallDir = (Get-Location).Path.TrimEnd('\')
         }
 
-        return $WazuhInstallDir
+        return $AssetGuardInstallDir
     }
 }
 
 # Check process status
 function check-process {
-    $process_id = (Get-Process wazuh-agent).id
+    $process_id = (Get-Process assetguard-agent).id
     $counter = 10
     while($process_id -eq $null -And $counter -gt 0) {
         $counter--
-        Start-Service -Name "Wazuh"
+        Start-Service -Name "AssetGuard"
         Start-Sleep 2
-        $process_id = (Get-Process wazuh-agent).id
+        $process_id = (Get-Process assetguard-agent).id
     }
     write-output "$(Get-Date -format u) - Process ID: $($process_id)." >> .\upgrade\upgrade.log
 }
 
-# Check new version and restart the Wazuh service
+# Check new version and restart the AssetGuard service
 function check-installation {
     $actual_version = get-version
     $counter = 5
     while($actual_version -eq $current_version -And $counter -gt 0) {
-        write-output "$(Get-Date -format u) - Waiting for the Wazuh-Agent installation to end." >> .\upgrade\upgrade.log
+        write-output "$(Get-Date -format u) - Waiting for the AssetGuard-Agent installation to end." >> .\upgrade\upgrade.log
         $counter--
         Start-Sleep 2
         $actual_version = get-version
     }
-    write-output "$(Get-Date -format u) - Starting Wazuh-Agent service." >> .\upgrade\upgrade.log
-    Start-Service -Name "Wazuh"
+    write-output "$(Get-Date -format u) - Starting AssetGuard-Agent service." >> .\upgrade\upgrade.log
+    Start-Service -Name "AssetGuard"
 }
 
 # Function to extract the version from the MSI using msiexec
 function get_msi_version {
-    $msiPath = (Get-Item ".\wazuh-agent*.msi").FullName
+    $msiPath = (Get-Item ".\assetguard-agent*.msi").FullName
     write-output "$(Get-Date -format u) - Extracting the version from MSI file." >> .\upgrade\upgrade.log
     try {
         # Extracting the version using msiexec and waiting for it to complete
@@ -185,21 +185,21 @@ function install {
         Write-Output "$(Get-Date -format u) - Tried to stop process win32ui: $($_.Exception.Message)" >> .\upgrade\upgrade.log
     }
 
-    # Try to stop Wazuh service
+    # Try to stop AssetGuard service
     try {
-        Write-Output "$(Get-Date -format u) - Stopping Wazuh service." >> .\upgrade\upgrade.log
-        Stop-Service -Name "Wazuh" -Force -ErrorAction Stop
+        Write-Output "$(Get-Date -format u) - Stopping AssetGuard service." >> .\upgrade\upgrade.log
+        Stop-Service -Name "AssetGuard" -Force -ErrorAction Stop
     } catch {
-        Write-Output "$(Get-Date -format u) - Tried to stop Wazuh service: $($_.Exception.Message)" >> .\upgrade\upgrade.log
+        Write-Output "$(Get-Date -format u) - Tried to stop AssetGuard service: $($_.Exception.Message)" >> .\upgrade\upgrade.log
     }
 
-    # Wait for Wazuh service to fully stop
+    # Wait for AssetGuard service to fully stop
     Start-Sleep -Seconds 5
     Remove-Item .\upgrade\upgrade_result -ErrorAction SilentlyContinue
     Write-Output "$(Get-Date -format u) - Starting upgrade process." >> .\upgrade\upgrade.log
 
     try {
-        $msiPath = (Get-Item ".\wazuh-agent*.msi").Name
+        $msiPath = (Get-Item ".\assetguard-agent*.msi").Name
 
         if ($msi_new_version -ne $null -and $msi_new_version -eq $current_version) {
             Write-Output "$(Get-Date -format u) - Reinstalling the same version." >> .\upgrade\upgrade.log
@@ -229,13 +229,13 @@ function install {
     return $true
 }
 
-# Check that the Wazuh installation runs on the expected path
-$wazuhDir = get_wazuh_installation_directory
-$normalizedWazuhDir = $wazuhDir.TrimEnd('\')
+# Check that the AssetGuard installation runs on the expected path
+$assetguardDir = get_assetguard_installation_directory
+$normalizedAssetGuardDir = $assetguardDir.TrimEnd('\')
 $currentDir = (Get-Location).Path.TrimEnd('\')
 
-if ($normalizedWazuhDir -ne $currentDir) {
-    Write-Output "$(Get-Date -format u) - Current working directory is not the Wazuh installation directory. Aborting." >> .\upgrade\upgrade.log
+if ($normalizedAssetGuardDir -ne $currentDir) {
+    Write-Output "$(Get-Date -format u) - Current working directory is not the AssetGuard installation directory. Aborting." >> .\upgrade\upgrade.log
     Write-output "2" | out-file ".\upgrade\upgrade_result" -encoding ascii
     remove_upgrade_files
     exit 1
@@ -283,7 +283,7 @@ try {
 }
 
 # Install with explicit INSTALLDIR
-install -installDir $wazuhDir
+install -installDir $assetguardDir
 check-installation
 
 write-output "$(Get-Date -format u) - Installation finished." >> .\upgrade\upgrade.log
@@ -295,7 +295,7 @@ Start-Sleep 10
 
 # Check status file
 function Get-AgentStatus {
-    Select-String -Path '.\wazuh-agent.state' -Pattern "^status='(.+)'" | %{$_.Matches[0].Groups[1].value}
+    Select-String -Path '.\assetguard-agent.state' -Pattern "^status='(.+)'" | %{$_.Matches[0].Groups[1].value}
 }
 
 $status = Get-AgentStatus

@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: This module verifies the correct behavior of the enrollment daemon 'wazuh-manager-authd' under different messages.
+brief: This module verifies the correct behavior of the enrollment daemon 'assetguard-manager-authd' under different messages.
 
 components:
     - authd
@@ -16,9 +16,9 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-authd
-    - wazuh-manager-db
-    - wazuh-manager-modulesd
+    - assetguard-manager-authd
+    - assetguard-manager-db
+    - assetguard-manager-modulesd
 
 os_platform:
     - linux
@@ -43,10 +43,10 @@ import pytest
 from pathlib import Path
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
-from wazuh_testing.constants.paths.sockets import WAZUH_DB_SOCKET_PATH
-from wazuh_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
-from wazuh_testing.constants.daemons import AUTHD_DAEMON, WAZUH_DB_DAEMON, MODULES_DAEMON
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from assetguard_testing.constants.paths.sockets import ASSETGUARD_DB_SOCKET_PATH
+from assetguard_testing.constants.ports import DEFAULT_SSL_REMOTE_ENROLLMENT_PORT
+from assetguard_testing.constants.daemons import AUTHD_DAEMON, ASSETGUARD_DB_DAEMON, MODULES_DAEMON
+from assetguard_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 
 # Marks
@@ -63,8 +63,8 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 
 
 # Variables
-receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2'), (WAZUH_DB_SOCKET_PATH, 'AF_UNIX', 'TCP')]
-monitored_sockets_params = [(MODULES_DAEMON, None, True), (WAZUH_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
+receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2'), (ASSETGUARD_DB_SOCKET_PATH, 'AF_UNIX', 'TCP')]
+monitored_sockets_params = [(MODULES_DAEMON, None, True), (ASSETGUARD_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]
 receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 
 # Test daemons to restart.
@@ -72,7 +72,7 @@ daemons_handler_configuration = {'all_daemons': True}
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_ossec_auth_messages_with_key_hash(test_configuration, test_metadata, set_wazuh_configuration,
+def test_ossec_auth_messages_with_key_hash(test_configuration, test_metadata, set_assetguard_configuration,
                                            configure_sockets_environment_module, truncate_monitored_files,
                                            insert_pre_existent_agents, daemons_handler, wait_for_authd_startup,
                                            set_up_groups, connect_to_sockets_module):
@@ -80,7 +80,7 @@ def test_ossec_auth_messages_with_key_hash(test_configuration, test_metadata, se
     description:
         Checks that every input message in authd port generates the adequate output.
 
-    wazuh_min_version:
+    assetguard_min_version:
         4.2.0
 
     tier: 0
@@ -92,9 +92,9 @@ def test_ossec_auth_messages_with_key_hash(test_configuration, test_metadata, se
         - test_metadata:
             type: dict
             brief: Test case metadata.
-        - set_wazuh_configuration:
+        - set_assetguard_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
+            brief: Load basic assetguard configuration.
         - configure_sockets_environment_module:
             type: fixture
             brief: Configure the socket listener to receive and send messages on the sockets.
@@ -109,7 +109,7 @@ def test_ossec_auth_messages_with_key_hash(test_configuration, test_metadata, se
             brief: adds the required agents to the client.keys and global.db
         - daemons_handler:
             type: fixture
-            brief: Restarts wazuh or a specific daemon passed.
+            brief: Restarts assetguard or a specific daemon passed.
         - wait_for_authd_startup:
             type: fixture
             brief: Waits until Authd is accepting connections.

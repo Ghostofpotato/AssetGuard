@@ -1,6 +1,6 @@
 /*
- * Wazuh SYSINFO
- * Copyright (C) 2015-2021, Wazuh Inc.
+ * AssetGuard SYSINFO
+ * Copyright (C) 2015-2021, AssetGuard Inc.
  * January 03, 2023.
  *
  * This program is free software; you can redistribute it

@@ -1,18 +1,18 @@
 nodes:
   indexer:
-    - name: wazuh.indexer
-      ip: wazuh.indexer
+    - name: assetguard.indexer
+      ip: assetguard.indexer
 
   server:
-    - name: wazuh.master
-      ip: wazuh.master
+    - name: assetguard.master
+      ip: assetguard.master
       node_type: master
-    - name: wazuh.worker
-      ip: wazuh.worker
+    - name: assetguard.worker
+      ip: assetguard.worker
       node_type: worker
-    - name: wazuh2.worker
-      ip: wazuh2.worker
+    - name: assetguard2.worker
+      ip: assetguard2.worker
       node_type: worker
   dashboard:
-    - name: wazuh.dashboard
-      ip: wazuh.dashboard
+    - name: assetguard.dashboard
+      ip: assetguard.dashboard

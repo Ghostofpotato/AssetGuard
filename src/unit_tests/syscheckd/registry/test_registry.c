@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -22,12 +22,12 @@
 #include "../../wrappers/windows/winreg_wrappers.h"
 #include "../../wrappers/windows/winbase_wrappers.h"
 #include "../../wrappers/windows/securitybaseapi_wrappers.h"
-#include "../../wrappers/wazuh/syscheckd/fim_db_wrappers.h"
-#include "../../wrappers/wazuh/shared/syscheck_op_wrappers.h"
-#include "../../wrappers/wazuh/syscheckd/fim_diff_changes_wrappers.h"
-#include "../../wrappers/wazuh/shared/utf8_winapi_wrapper_wrappers.h"
-#include "../../wrappers/wazuh/shared_modules/schema_validator_wrappers.h"
-#include "../../wrappers/wazuh/shared_modules/agent_sync_protocol_wrappers.h"
+#include "../../wrappers/assetguard/syscheckd/fim_db_wrappers.h"
+#include "../../wrappers/assetguard/shared/syscheck_op_wrappers.h"
+#include "../../wrappers/assetguard/syscheckd/fim_diff_changes_wrappers.h"
+#include "../../wrappers/assetguard/shared/utf8_winapi_wrapper_wrappers.h"
+#include "../../wrappers/assetguard/shared_modules/schema_validator_wrappers.h"
+#include "../../wrappers/assetguard/shared_modules/agent_sync_protocol_wrappers.h"
 
 #include "test_fim.h"
 

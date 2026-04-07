@@ -2,7 +2,7 @@
   "id": "000",
   "operation": "INSERT",
   "data": {
-    "wazuh": {
+    "assetguard": {
       "agent": {
         "build": {
           "original": "sample_build_1"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * July 23, 2020.
  *
  * This program is free software; you can redistribute it
@@ -9,7 +9,7 @@
  */
 
 #include "shared.h"
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_queries_op.h"
 
 /**
  * @brief Looks for the OS architecture in a string. Possibles architectures

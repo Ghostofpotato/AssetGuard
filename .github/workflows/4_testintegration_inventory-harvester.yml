@@ -33,10 +33,10 @@ jobs:
       # Install python dependencies
       - name: Install dependencies
         run: |
-          pip install -r src/wazuh_modules/inventory_harvester/qa/requirements.txt
+          pip install -r src/assetguard_modules/inventory_harvester/qa/requirements.txt
 
       - name: Run tests
         run: |
           cd src
           echo "{}" > states_update_mappings.json
-          python -m pytest -vv wazuh_modules/inventory_harvester/qa/ --log-cli-level=DEBUG
+          python -m pytest -vv assetguard_modules/inventory_harvester/qa/ --log-cli-level=DEBUG

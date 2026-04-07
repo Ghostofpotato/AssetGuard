@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,15 +15,15 @@
 #include <string.h>
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/client-agent/start_agent.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
-#include "../wrappers/wazuh/monitord/monitord_wrappers.h"
+#include "../wrappers/assetguard/client-agent/start_agent.h"
+#include "../wrappers/assetguard/os_net/os_net_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/validate_op_wrappers.h"
+#include "../wrappers/assetguard/monitord/monitord_wrappers.h"
 #include "../../os_crypto/md5/md5_op.h"
 
 #ifdef TEST_WINAGENT
-#include "../wrappers/wazuh/shared/randombytes_wrappers.h"
+#include "../wrappers/assetguard/shared/randombytes_wrappers.h"
 #endif
 
 #include "agentd.h"
@@ -302,7 +302,7 @@ static void test_agent_handshake_to_server(void **state) {
     will_return(__wrap_OS_RecvSecureTCP, SERVER_ENC_ACK);
     will_return(__wrap_OS_RecvSecureTCP, strlen(SERVER_ENC_ACK));
     expect_string(__wrap_send_msg, msg, "#!-agent startup {\"version\":\"v4.5.0\"}");
-    expect_string(__wrap_send_msg, msg, "1:wazuh-agent:wazuh: Agent started: [001] (agent0).");
+    expect_string(__wrap_send_msg, msg, "1:assetguard-agent:assetguard: Agent started: [001] (agent0).");
     expect_string(__wrap_ReadSecMSG, buffer, SERVER_ENC_ACK);
     will_return(__wrap_ReadSecMSG, "#!-agent ack ");
     will_return(__wrap_ReadSecMSG, KS_VALID);
@@ -460,7 +460,7 @@ static void test_agent_handshake_to_server_error_getting_msg2(void **state) {
 
 /* agent_start_up_to_server */
 static void test_send_msg_on_startup(void **state) {
-    expect_string(__wrap_send_msg, msg, "1:wazuh-agent:wazuh: Agent started: [001] (agent0).");
+    expect_string(__wrap_send_msg, msg, "1:assetguard-agent:assetguard: Agent started: [001] (agent0).");
     send_msg_on_startup();
     return;
 }
@@ -573,8 +573,8 @@ static void test_parse_handshake_json_with_cluster_name(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_name\":\"wazuh-cluster\","
-        "\"cluster_node\":\"wazuh-node\","
+        "\"cluster_name\":\"assetguard-cluster\","
+        "\"cluster_node\":\"assetguard-node\","
         "\"agent_groups\":[\"default\"]"
         "}";
 
@@ -584,7 +584,7 @@ static void test_parse_handshake_json_with_cluster_name(void **state) {
                                agent_groups, sizeof(agent_groups), NULL, 0);
 
     assert_int_equal(ret, 0);
-    assert_string_equal(cluster_name, "wazuh-cluster");
+    assert_string_equal(cluster_name, "assetguard-cluster");
 }
 
 static void test_parse_handshake_json_no_cluster_name(void **state) {
@@ -608,7 +608,7 @@ static void test_parse_handshake_json_no_cluster_name(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_node\":\"wazuh-node\","
+        "\"cluster_node\":\"assetguard-node\","
         "\"agent_groups\":[\"default\"]"
         "}";
 
@@ -721,8 +721,8 @@ static void test_parse_handshake_json_with_cluster_node(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_name\":\"wazuh-cluster\","
-        "\"cluster_node\":\"wazuh-node-01\","
+        "\"cluster_name\":\"assetguard-cluster\","
+        "\"cluster_node\":\"assetguard-node-01\","
         "\"agent_groups\":[\"default\"]"
         "}";
 
@@ -732,8 +732,8 @@ static void test_parse_handshake_json_with_cluster_node(void **state) {
                                agent_groups, sizeof(agent_groups), NULL, 0);
 
     assert_int_equal(ret, 0);
-    assert_string_equal(cluster_name, "wazuh-cluster");
-    assert_string_equal(cluster_node, "wazuh-node-01");
+    assert_string_equal(cluster_name, "assetguard-cluster");
+    assert_string_equal(cluster_node, "assetguard-node-01");
 }
 
 static void test_parse_handshake_json_no_cluster_node(void **state) {
@@ -757,7 +757,7 @@ static void test_parse_handshake_json_no_cluster_node(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_name\":\"wazuh-cluster\","
+        "\"cluster_name\":\"assetguard-cluster\","
         "\"agent_groups\":[\"default\"]"
         "}";
 
@@ -791,8 +791,8 @@ static void test_parse_handshake_json_no_agent_groups(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_name\":\"wazuh-cluster\","
-        "\"cluster_node\":\"wazuh-node\""
+        "\"cluster_name\":\"assetguard-cluster\","
+        "\"cluster_node\":\"assetguard-node\""
         "}";
 
     module_limits_init(&limits);
@@ -825,8 +825,8 @@ static void test_parse_handshake_json_empty_agent_groups(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_name\":\"wazuh-cluster\","
-        "\"cluster_node\":\"wazuh-node\","
+        "\"cluster_name\":\"assetguard-cluster\","
+        "\"cluster_node\":\"assetguard-node\","
         "\"agent_groups\":[]"
         "}";
 
@@ -864,8 +864,8 @@ static void test_parse_handshake_json_invalid_merged_sum(void **state) {
             "},"
             "\"sca\":{\"checks\":10000}"
         "},"
-        "\"cluster_name\":\"wazuh-cluster\","
-        "\"cluster_node\":\"wazuh-node\","
+        "\"cluster_name\":\"assetguard-cluster\","
+        "\"cluster_node\":\"assetguard-node\","
         "\"agent_groups\":[\"default\"],"
         "\"merged_sum\":\"0123456789abcdef0123456789abcdez\""
         "}";

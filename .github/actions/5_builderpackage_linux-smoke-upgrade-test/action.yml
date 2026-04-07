@@ -1,5 +1,5 @@
-name: 'Test upgrade Wazuh agent package'
-description: 'Test upgrade Wazuh agent package'
+name: 'Test upgrade AssetGuard agent package'
+description: 'Test upgrade AssetGuard agent package'
 
 inputs:
   old_package_url:
@@ -19,7 +19,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run test upgrade Wazuh agent package
+    - name: Run test upgrade AssetGuard agent package
       shell: bash
       run: |
         sudo docker run \

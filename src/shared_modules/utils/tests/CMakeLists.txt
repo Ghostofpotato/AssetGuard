@@ -49,7 +49,7 @@ file(
   "filterMsgDispatcher_test.cpp"
   "loggerHelper_test.cpp"
   "globHelper_test.cpp"
-  "wazuhDBQueryBuilder_test.cpp"
+  "assetguardDBQueryBuilder_test.cpp"
   "main.cpp")
 
 file(

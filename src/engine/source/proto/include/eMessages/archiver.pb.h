@@ -47,7 +47,7 @@ struct TableStruct_archiver_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_archiver_2eproto;
 namespace com {
-namespace wazuh {
+namespace assetguard {
 namespace api {
 namespace engine {
 namespace archiver {
@@ -66,16 +66,16 @@ extern ArchiverStatus_ResponseDefaultTypeInternal _ArchiverStatus_Response_defau
 }  // namespace archiver
 }  // namespace engine
 }  // namespace api
-}  // namespace wazuh
+}  // namespace assetguard
 }  // namespace com
 PROTOBUF_NAMESPACE_OPEN
-template<> ::com::wazuh::api::engine::archiver::ArchiverActivate_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::archiver::ArchiverActivate_Request>(Arena*);
-template<> ::com::wazuh::api::engine::archiver::ArchiverDeactivate_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::archiver::ArchiverDeactivate_Request>(Arena*);
-template<> ::com::wazuh::api::engine::archiver::ArchiverStatus_Request* Arena::CreateMaybeMessage<::com::wazuh::api::engine::archiver::ArchiverStatus_Request>(Arena*);
-template<> ::com::wazuh::api::engine::archiver::ArchiverStatus_Response* Arena::CreateMaybeMessage<::com::wazuh::api::engine::archiver::ArchiverStatus_Response>(Arena*);
+template<> ::com::assetguard::api::engine::archiver::ArchiverActivate_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::archiver::ArchiverActivate_Request>(Arena*);
+template<> ::com::assetguard::api::engine::archiver::ArchiverDeactivate_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::archiver::ArchiverDeactivate_Request>(Arena*);
+template<> ::com::assetguard::api::engine::archiver::ArchiverStatus_Request* Arena::CreateMaybeMessage<::com::assetguard::api::engine::archiver::ArchiverStatus_Request>(Arena*);
+template<> ::com::assetguard::api::engine::archiver::ArchiverStatus_Response* Arena::CreateMaybeMessage<::com::assetguard::api::engine::archiver::ArchiverStatus_Response>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
-namespace wazuh {
+namespace assetguard {
 namespace api {
 namespace engine {
 namespace archiver {
@@ -83,7 +83,7 @@ namespace archiver {
 // ===================================================================
 
 class ArchiverActivate_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.archiver.ArchiverActivate_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.archiver.ArchiverActivate_Request) */ {
  public:
   inline ArchiverActivate_Request() : ArchiverActivate_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR ArchiverActivate_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -171,7 +171,7 @@ class ArchiverActivate_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.wazuh.api.engine.archiver.ArchiverActivate_Request";
+    return "com.assetguard.api.engine.archiver.ArchiverActivate_Request";
   }
   protected:
   explicit ArchiverActivate_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -187,7 +187,7 @@ class ArchiverActivate_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.archiver.ArchiverActivate_Request)
+  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.archiver.ArchiverActivate_Request)
  private:
   class _Internal;
 
@@ -201,7 +201,7 @@ class ArchiverActivate_Request final :
 // -------------------------------------------------------------------
 
 class ArchiverDeactivate_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.archiver.ArchiverDeactivate_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.archiver.ArchiverDeactivate_Request) */ {
  public:
   inline ArchiverDeactivate_Request() : ArchiverDeactivate_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR ArchiverDeactivate_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -289,7 +289,7 @@ class ArchiverDeactivate_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.wazuh.api.engine.archiver.ArchiverDeactivate_Request";
+    return "com.assetguard.api.engine.archiver.ArchiverDeactivate_Request";
   }
   protected:
   explicit ArchiverDeactivate_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -305,7 +305,7 @@ class ArchiverDeactivate_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.archiver.ArchiverDeactivate_Request)
+  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.archiver.ArchiverDeactivate_Request)
  private:
   class _Internal;
 
@@ -319,7 +319,7 @@ class ArchiverDeactivate_Request final :
 // -------------------------------------------------------------------
 
 class ArchiverStatus_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.archiver.ArchiverStatus_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.archiver.ArchiverStatus_Request) */ {
  public:
   inline ArchiverStatus_Request() : ArchiverStatus_Request(nullptr) {}
   explicit PROTOBUF_CONSTEXPR ArchiverStatus_Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
@@ -407,7 +407,7 @@ class ArchiverStatus_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.wazuh.api.engine.archiver.ArchiverStatus_Request";
+    return "com.assetguard.api.engine.archiver.ArchiverStatus_Request";
   }
   protected:
   explicit ArchiverStatus_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -423,7 +423,7 @@ class ArchiverStatus_Request final :
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.archiver.ArchiverStatus_Request)
+  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.archiver.ArchiverStatus_Request)
  private:
   class _Internal;
 
@@ -437,7 +437,7 @@ class ArchiverStatus_Request final :
 // -------------------------------------------------------------------
 
 class ArchiverStatus_Response final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.archiver.ArchiverStatus_Response) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.archiver.ArchiverStatus_Response) */ {
  public:
   inline ArchiverStatus_Response() : ArchiverStatus_Response(nullptr) {}
   ~ArchiverStatus_Response() override;
@@ -540,7 +540,7 @@ class ArchiverStatus_Response final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.wazuh.api.engine.archiver.ArchiverStatus_Response";
+    return "com.assetguard.api.engine.archiver.ArchiverStatus_Response";
   }
   protected:
   explicit ArchiverStatus_Response(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -579,13 +579,13 @@ class ArchiverStatus_Response final :
   std::string* _internal_mutable_error();
   public:
 
-  // .com.wazuh.api.engine.ReturnStatus status = 1;
+  // .com.assetguard.api.engine.ReturnStatus status = 1;
   void clear_status();
-  ::com::wazuh::api::engine::ReturnStatus status() const;
-  void set_status(::com::wazuh::api::engine::ReturnStatus value);
+  ::com::assetguard::api::engine::ReturnStatus status() const;
+  void set_status(::com::assetguard::api::engine::ReturnStatus value);
   private:
-  ::com::wazuh::api::engine::ReturnStatus _internal_status() const;
-  void _internal_set_status(::com::wazuh::api::engine::ReturnStatus value);
+  ::com::assetguard::api::engine::ReturnStatus _internal_status() const;
+  void _internal_set_status(::com::assetguard::api::engine::ReturnStatus value);
   public:
 
   // bool active = 3;
@@ -597,7 +597,7 @@ class ArchiverStatus_Response final :
   void _internal_set_active(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.archiver.ArchiverStatus_Response)
+  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.archiver.ArchiverStatus_Response)
  private:
   class _Internal;
 
@@ -637,24 +637,24 @@ class ArchiverStatus_Response final :
 
 // ArchiverStatus_Response
 
-// .com.wazuh.api.engine.ReturnStatus status = 1;
+// .com.assetguard.api.engine.ReturnStatus status = 1;
 inline void ArchiverStatus_Response::clear_status() {
   _impl_.status_ = 0;
 }
-inline ::com::wazuh::api::engine::ReturnStatus ArchiverStatus_Response::_internal_status() const {
-  return static_cast< ::com::wazuh::api::engine::ReturnStatus >(_impl_.status_);
+inline ::com::assetguard::api::engine::ReturnStatus ArchiverStatus_Response::_internal_status() const {
+  return static_cast< ::com::assetguard::api::engine::ReturnStatus >(_impl_.status_);
 }
-inline ::com::wazuh::api::engine::ReturnStatus ArchiverStatus_Response::status() const {
-  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.archiver.ArchiverStatus_Response.status)
+inline ::com::assetguard::api::engine::ReturnStatus ArchiverStatus_Response::status() const {
+  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.archiver.ArchiverStatus_Response.status)
   return _internal_status();
 }
-inline void ArchiverStatus_Response::_internal_set_status(::com::wazuh::api::engine::ReturnStatus value) {
+inline void ArchiverStatus_Response::_internal_set_status(::com::assetguard::api::engine::ReturnStatus value) {
   
   _impl_.status_ = value;
 }
-inline void ArchiverStatus_Response::set_status(::com::wazuh::api::engine::ReturnStatus value) {
+inline void ArchiverStatus_Response::set_status(::com::assetguard::api::engine::ReturnStatus value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.archiver.ArchiverStatus_Response.status)
+  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.archiver.ArchiverStatus_Response.status)
 }
 
 // optional string error = 2;
@@ -670,7 +670,7 @@ inline void ArchiverStatus_Response::clear_error() {
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& ArchiverStatus_Response::error() const {
-  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.archiver.ArchiverStatus_Response.error)
+  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.archiver.ArchiverStatus_Response.error)
   return _internal_error();
 }
 template <typename ArgT0, typename... ArgT>
@@ -678,11 +678,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void ArchiverStatus_Response::set_error(ArgT0&& arg0, ArgT... args) {
  _impl_._has_bits_[0] |= 0x00000001u;
  _impl_.error_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.archiver.ArchiverStatus_Response.error)
+  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.archiver.ArchiverStatus_Response.error)
 }
 inline std::string* ArchiverStatus_Response::mutable_error() {
   std::string* _s = _internal_mutable_error();
-  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.archiver.ArchiverStatus_Response.error)
+  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.archiver.ArchiverStatus_Response.error)
   return _s;
 }
 inline const std::string& ArchiverStatus_Response::_internal_error() const {
@@ -697,7 +697,7 @@ inline std::string* ArchiverStatus_Response::_internal_mutable_error() {
   return _impl_.error_.Mutable(GetArenaForAllocation());
 }
 inline std::string* ArchiverStatus_Response::release_error() {
-  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.archiver.ArchiverStatus_Response.error)
+  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.archiver.ArchiverStatus_Response.error)
   if (!_internal_has_error()) {
     return nullptr;
   }
@@ -722,7 +722,7 @@ inline void ArchiverStatus_Response::set_allocated_error(std::string* error) {
     _impl_.error_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.archiver.ArchiverStatus_Response.error)
+  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.archiver.ArchiverStatus_Response.error)
 }
 
 // bool active = 3;
@@ -733,7 +733,7 @@ inline bool ArchiverStatus_Response::_internal_active() const {
   return _impl_.active_;
 }
 inline bool ArchiverStatus_Response::active() const {
-  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.archiver.ArchiverStatus_Response.active)
+  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.archiver.ArchiverStatus_Response.active)
   return _internal_active();
 }
 inline void ArchiverStatus_Response::_internal_set_active(bool value) {
@@ -742,7 +742,7 @@ inline void ArchiverStatus_Response::_internal_set_active(bool value) {
 }
 inline void ArchiverStatus_Response::set_active(bool value) {
   _internal_set_active(value);
-  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.archiver.ArchiverStatus_Response.active)
+  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.archiver.ArchiverStatus_Response.active)
 }
 
 #ifdef __GNUC__
@@ -760,7 +760,7 @@ inline void ArchiverStatus_Response::set_active(bool value) {
 }  // namespace archiver
 }  // namespace engine
 }  // namespace api
-}  // namespace wazuh
+}  // namespace assetguard
 }  // namespace com
 
 // @@protoc_insertion_point(global_scope)

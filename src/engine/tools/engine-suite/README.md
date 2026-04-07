@@ -11,9 +11,9 @@
 
 ## Summary
 
-The `engine-suite` python package contains a set of tools that allow you to manage and interact with the Wazuh engine.
+The `engine-suite` python package contains a set of tools that allow you to manage and interact with the AssetGuard engine.
 These tools are designed to facilitate the management of assets, policies, integrations, and other elements of the
-Wazuh environment, providing a centralized and efficient way to perform these tasks.
+AssetGuard environment, providing a centralized and efficient way to perform these tasks.
 
 # Directory structure
 
@@ -33,14 +33,14 @@ Wazuh environment, providing a centralized and efficient way to perform these ta
 ## Engine clear
 
 - **Resource Elimination**:
-    You can delete user-specified or default resources in different namespaces such as `user`, `wazuh`, and `system`. This is useful for keeping the environment clean and organized.
+    You can delete user-specified or default resources in different namespaces such as `user`, `assetguard`, and `system`. This is useful for keeping the environment clean and organized.
     To prevent accidental deletions, the module requests confirmation before proceeding with resource deletion, unless the `--force` option is used to force execution without confirmation.
 
 - **Support for Namespaces**:
     Users can specify which namespaces resources should be removed from. If not specified, the module removes them from the default namespaces.
 
 - **Deletion of Policies and Assets**:
-    In addition to kvdbs, can handle the removal of policies and other assets within the Wazuh environment, ensuring that all elements related to rules and configurations are aligned with the desired changes.
+    In addition to kvdbs, can handle the removal of policies and other assets within the AssetGuard environment, ensuring that all elements related to rules and configurations are aligned with the desired changes.
 
 ## Engine catalog
 - **Catalog Management**:
@@ -108,7 +108,7 @@ Requires:
 - `pip3`
 -`tools/engine-suite` package.
 
-To install navigate where the Wazuh repository folder is located and run:
+To install navigate where the AssetGuard repository folder is located and run:
 ```
 pip3 install tools/engine-suite
 ```

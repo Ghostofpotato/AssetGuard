@@ -45,7 +45,7 @@ struct TableStruct_generic_5frequest_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_generic_5frequest_2eproto;
 namespace com {
-namespace wazuh {
+namespace assetguard {
 namespace test {
 namespace generic_request {
 class Generic_Request;
@@ -53,20 +53,20 @@ struct Generic_RequestDefaultTypeInternal;
 extern Generic_RequestDefaultTypeInternal _Generic_Request_default_instance_;
 }  // namespace generic_request
 }  // namespace test
-}  // namespace wazuh
+}  // namespace assetguard
 }  // namespace com
 PROTOBUF_NAMESPACE_OPEN
-template<> ::com::wazuh::test::generic_request::Generic_Request* Arena::CreateMaybeMessage<::com::wazuh::test::generic_request::Generic_Request>(Arena*);
+template<> ::com::assetguard::test::generic_request::Generic_Request* Arena::CreateMaybeMessage<::com::assetguard::test::generic_request::Generic_Request>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
-namespace wazuh {
+namespace assetguard {
 namespace test {
 namespace generic_request {
 
 // ===================================================================
 
 class Generic_Request final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.wazuh.test.generic_request.Generic_Request) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.assetguard.test.generic_request.Generic_Request) */ {
  public:
   inline Generic_Request() : Generic_Request(nullptr) {}
   ~Generic_Request() override;
@@ -169,7 +169,7 @@ class Generic_Request final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.wazuh.test.generic_request.Generic_Request";
+    return "com.assetguard.test.generic_request.Generic_Request";
   }
   protected:
   explicit Generic_Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -206,7 +206,7 @@ class Generic_Request final :
   std::string* _internal_mutable_content();
   public:
 
-  // @@protoc_insertion_point(class_scope:com.wazuh.test.generic_request.Generic_Request)
+  // @@protoc_insertion_point(class_scope:com.assetguard.test.generic_request.Generic_Request)
  private:
   class _Internal;
 
@@ -245,7 +245,7 @@ inline void Generic_Request::clear_content() {
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& Generic_Request::content() const {
-  // @@protoc_insertion_point(field_get:com.wazuh.test.generic_request.Generic_Request.content)
+  // @@protoc_insertion_point(field_get:com.assetguard.test.generic_request.Generic_Request.content)
   return _internal_content();
 }
 template <typename ArgT0, typename... ArgT>
@@ -253,11 +253,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void Generic_Request::set_content(ArgT0&& arg0, ArgT... args) {
  _impl_._has_bits_[0] |= 0x00000001u;
  _impl_.content_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.wazuh.test.generic_request.Generic_Request.content)
+  // @@protoc_insertion_point(field_set:com.assetguard.test.generic_request.Generic_Request.content)
 }
 inline std::string* Generic_Request::mutable_content() {
   std::string* _s = _internal_mutable_content();
-  // @@protoc_insertion_point(field_mutable:com.wazuh.test.generic_request.Generic_Request.content)
+  // @@protoc_insertion_point(field_mutable:com.assetguard.test.generic_request.Generic_Request.content)
   return _s;
 }
 inline const std::string& Generic_Request::_internal_content() const {
@@ -272,7 +272,7 @@ inline std::string* Generic_Request::_internal_mutable_content() {
   return _impl_.content_.Mutable(GetArenaForAllocation());
 }
 inline std::string* Generic_Request::release_content() {
-  // @@protoc_insertion_point(field_release:com.wazuh.test.generic_request.Generic_Request.content)
+  // @@protoc_insertion_point(field_release:com.assetguard.test.generic_request.Generic_Request.content)
   if (!_internal_has_content()) {
     return nullptr;
   }
@@ -297,7 +297,7 @@ inline void Generic_Request::set_allocated_content(std::string* content) {
     _impl_.content_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.wazuh.test.generic_request.Generic_Request.content)
+  // @@protoc_insertion_point(field_set_allocated:com.assetguard.test.generic_request.Generic_Request.content)
 }
 
 #ifdef __GNUC__
@@ -308,7 +308,7 @@ inline void Generic_Request::set_allocated_content(std::string* content) {
 
 }  // namespace generic_request
 }  // namespace test
-}  // namespace wazuh
+}  // namespace assetguard
 }  // namespace com
 
 // @@protoc_insertion_point(global_scope)

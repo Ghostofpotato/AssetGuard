@@ -14,7 +14,7 @@
 #include <netinet/in.h>
 #include <openssl/ssl.h>
 
-class WazuhAuthSimulator {
+class AssetGuardAuthSimulator {
 private:
     std::string host;
     int port;
@@ -52,9 +52,9 @@ private:
                 const DelayRange& connect_delay, const DelayRange& send_delay);
 
 public:
-    WazuhAuthSimulator(const std::string& host_addr = "localhost", int port_num = 1515,
+    AssetGuardAuthSimulator(const std::string& host_addr = "localhost", int port_num = 1515,
                       const std::string& password = "");
-    ~WazuhAuthSimulator();
+    ~AssetGuardAuthSimulator();
 
     void run_simulation(int num_threads, int total_registrations, double new_ratio,
                        double incorrect_pass_ratio, double modern_version_ratio,

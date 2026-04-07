@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - Python integration tests
 about: Report the results after running Python integration tests.
-title: 'Release [WAZUH VERSION] - Release Candidate [RC VERSION] - Python integration tests'
+title: 'Release [ASSETGUARD VERSION] - Release Candidate [RC VERSION] - Python integration tests'
 labels: 'level/task, type/test'
 assignees: ''
 

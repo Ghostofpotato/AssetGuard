@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, AssetGuard Inc.
+ Created by AssetGuard, Inc. <info@assetguard.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 import pytest
@@ -10,20 +10,20 @@ import os
 import sqlite3
 from pathlib import Path
 
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.modules.modulesd.syscollector import patterns
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.paths import WAZUH_PATH
-from wazuh_testing.utils import callbacks
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.utils.services import control_service
-from wazuh_testing.constants.daemons import WAZUH_MANAGER, API_DAEMONS_REQUIREMENTS
-from wazuh_testing.logger import logger
-from wazuh_testing.utils import configuration, database, file, mocking, services
+from assetguard_testing.tools.monitors import file_monitor
+from assetguard_testing.modules.modulesd.syscollector import patterns
+from assetguard_testing.constants.paths.logs import ASSETGUARD_LOG_PATH
+from assetguard_testing.constants.paths import ASSETGUARD_PATH
+from assetguard_testing.utils import callbacks
+from assetguard_testing.constants.platforms import WINDOWS
+from assetguard_testing.utils.services import control_service
+from assetguard_testing.constants.daemons import ASSETGUARD_MANAGER, API_DAEMONS_REQUIREMENTS
+from assetguard_testing.logger import logger
+from assetguard_testing.utils import configuration, database, file, mocking, services
 
 
 # Syscollector database paths
-SYSCOLLECTOR_DB_PATH = os.path.join(WAZUH_PATH, 'queue', 'syscollector', 'db', 'local.db')
+SYSCOLLECTOR_DB_PATH = os.path.join(ASSETGUARD_PATH, 'queue', 'syscollector', 'db', 'local.db')
 
 # Helper function to print table sizes
 def print_db_table_sizes(db_path: str, message: str = ""):
@@ -76,7 +76,7 @@ def wait_for_syscollector_enabled():
     '''
     Wait for the syscollector module to start.
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(ASSETGUARD_LOG_PATH)
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_MODULE_STARTED), timeout=60 if sys.platform == WINDOWS else 10)
     assert log_monitor.callback_result
 
@@ -403,14 +403,14 @@ def populate_syscollector_db():
 
 @pytest.fixture()
 def custom_daemons_handler(request: pytest.FixtureRequest) -> None:
-    """Helper function to handle Wazuh daemons.
+    """Helper function to handle AssetGuard daemons.
 
     It uses `daemons_handler_configuration` of each module in order to configure the behavior of the fixture.
 
     The  `daemons_handler_configuration` should be a dictionary with the following keys:
         daemons (list, optional): List with every daemon to be used by the module. In case of empty a ValueError
             will be raised
-        all_daemons (boolean): Configure to restart all wazuh services. Default `False`.
+        all_daemons (boolean): Configure to restart all assetguard services. Default `False`.
         ignore_errors (boolean): Configure if errors in daemon handling should be ignored. This option is available
         in order to use this fixture along with invalid configuration. Default `False`
 
@@ -429,19 +429,19 @@ def custom_daemons_handler(request: pytest.FixtureRequest) -> None:
                 raise ValueError
 
         if 'all_daemons' in config:
-            logger.debug(f"Wazuh control set to {config['all_daemons']}")
+            logger.debug(f"AssetGuard control set to {config['all_daemons']}")
             all_daemons = config['all_daemons']
 
         if 'ignore_errors' in config:
             logger.debug(f"Ignore error set to {config['ignore_errors']}")
             ignore_errors = config['ignore_errors']
     else:
-        logger.debug("Wazuh control set to 'all_daemons'")
+        logger.debug("AssetGuard control set to 'all_daemons'")
         all_daemons = True
 
     try:
         if all_daemons:
-            logger.debug('Stopping wazuh using wazuh-control')
+            logger.debug('Stopping assetguard using assetguard-control')
             services.control_service('stop')
         else:
             for daemon in daemons:
@@ -462,7 +462,7 @@ def custom_daemons_handler(request: pytest.FixtureRequest) -> None:
 
     try:
         if all_daemons:
-            logger.debug('Starting wazuh using wazuh-control')
+            logger.debug('Starting assetguard using assetguard-control')
             services.control_service('start')
         else:
             for daemon in daemons:
@@ -481,7 +481,7 @@ def custom_daemons_handler(request: pytest.FixtureRequest) -> None:
     yield
 
     if all_daemons:
-        logger.debug('Stopping wazuh using wazuh-control')
+        logger.debug('Stopping assetguard using assetguard-control')
         services.control_service('stop')
     else:
         if daemons == API_DAEMONS_REQUIREMENTS: daemons.reverse()  # Stop in reverse, otherwise the next start will fail

@@ -40,7 +40,7 @@ EXPORTED bool schema_validator_is_initialized(void);
 /**
  * @brief Validate a JSON message against a schema for a specific index
  *
- * @param indexPattern Index pattern (e.g., "wazuh-states-fim-file")
+ * @param indexPattern Index pattern (e.g., "assetguard-states-fim-file")
  * @param message JSON message as string
  * @param errorMessage Output parameter for error message (caller must free)
  * @return true if message is valid, false if invalid

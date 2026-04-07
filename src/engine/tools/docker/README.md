@@ -2,7 +2,7 @@
 
 **Current version: 20250414-0**
 
-This is a container for the develop wazuh-engine. It is based on the `ubuntu:20.04` image and contains all the necessary dependencies to run the engine.
+This is a container for the develop assetguard-engine. It is based on the `ubuntu:20.04` image and contains all the necessary dependencies to run the engine.
 To connect to the container, you can use the `ssh` service. The default user is `root` and the password is `Engine123`.
 On the other hand, the container also have git and `gh cli` installed, so you can clone the repository and create a pull request.
 
@@ -13,7 +13,7 @@ The following command supposes that you are in the directory where the `Dockerfi
 ## Build the image and create the container
 
 This section will guide you through the process of building the image and creating the container.
-Once the container is created, you will not require to build the image again until we update the image or `wazuh-engine`.
+Once the container is created, you will not require to build the image again until we update the image or `assetguard-engine`.
 
 ### Build the image
 
@@ -64,7 +64,7 @@ CONTAINER ID   IMAGE                     COMMAND                  CREATED       
 
 ## Start the container
 
-After creating the container, you can start it, and is not necessary to build the image again until we update the image or `wazuh-engine`.
+After creating the container, you can start it, and is not necessary to build the image again until we update the image or `assetguard-engine`.
 
 To start the container, you can use the `docker start` command:
 

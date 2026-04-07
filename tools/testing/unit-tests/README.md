@@ -1,15 +1,15 @@
 # Unit Tests
 
-Docker-based unit testing suite for Wazuh components with automated report generation.
+Docker-based unit testing suite for AssetGuard components with automated report generation.
 
 ## Overview
 
-Runs Wazuh's complete unit test suite using Docker, including CMocka tests, RTR toolset, and CTest integration for Linux/Windows components.
+Runs AssetGuard's complete unit test suite using Docker, including CMocka tests, RTR toolset, and CTest integration for Linux/Windows components.
 
 ## Prerequisites
 
 - Docker with permission to run containers
-- Access to `ghcr.io/wazuh/unit-tests:latest` image
+- Access to `ghcr.io/assetguard/unit-tests:latest` image
 
 ## Usage
 
@@ -33,7 +33,7 @@ Runs Wazuh's complete unit test suite using Docker, including CMocka tests, RTR 
 
 ## Test Components
 
-- **Linux Manager CMocka tests**: Core Wazuh manager functionality
+- **Linux Manager CMocka tests**: Core AssetGuard manager functionality
 - **Linux Agent CMocka tests**: Agent components for Linux
 - **Windows Agent CMocka tests**: Agent components for Windows
 - **RTR Components**: Data provider, DBsync, Rsync, Syscollector, FIM

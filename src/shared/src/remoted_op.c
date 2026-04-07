@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * July 23, 2020.
  *
  * This program is free software; you can redistribute it
@@ -222,7 +222,7 @@ int parse_agent_update_msg (char *msg,
             }
             break;
         default:
-            // uname - wazuh version / config sum
+            // uname - assetguard version / config sum
             if (str_tmp = strstr(line, " - "), str_tmp)
             {
                 *str_tmp = '\0';
@@ -240,8 +240,8 @@ int parse_agent_update_msg (char *msg,
                     os_strdup(str_tmp, agent_data->config_sum);
                 }
                 else if (str_tmp = strstr(line, __ossec_name), str_tmp) {
-                    // If for some reason the separator between Wazuh version and config sum is
-                    // not found, we look for the Wazuh version in the second part of the line.
+                    // If for some reason the separator between AssetGuard version and config sum is
+                    // not found, we look for the AssetGuard version in the second part of the line.
                     os_strdup(str_tmp, agent_data->version);
                 }
             }
@@ -311,7 +311,7 @@ int parse_json_keepalive(const char *json_str, agent_info_data *agent_data, char
         char *uname_copy = NULL;
         os_strdup(agent_uname->valuestring, uname_copy);
 
-        // Strip " - Wazuh vX.X.X" suffix before parsing (same cleanup as parse_agent_update_msg)
+        // Strip " - AssetGuard vX.X.X" suffix before parsing (same cleanup as parse_agent_update_msg)
         char *dash_separator = strstr(uname_copy, " - ");
         if (dash_separator) {
             *dash_separator = '\0';

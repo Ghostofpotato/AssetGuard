@@ -1,5 +1,5 @@
 """
-Copyright (C) 2015, Wazuh Inc.
+Copyright (C) 2015, AssetGuard Inc.
 March 28, 2022.
 
 This program is free software; you can redistribute it
@@ -15,7 +15,7 @@ from ci import utils
 
 # Constant values
 DELETE_FOLDER_DIC = {
-    'wazuh_modules/syscollector':   ['build', 'smokeTests/output'],
+    'assetguard_modules/syscollector':   ['build', 'smokeTests/output'],
     'shared_modules/dbsync':        ['build', 'smokeTests/output'],
     'shared_modules/sync_protocol': ['build', 'smokeTests/output', 'coverage_report'],
     'shared_modules/agent_metadata': ['build', 'smokeTests/output', 'coverage_report'],
@@ -23,8 +23,8 @@ DELETE_FOLDER_DIC = {
     'data_provider':                ['build', 'smokeTests/output'],
     'syscheckd':                    ['build', 'src/db/smokeTests/output',
                                      'coverage_report'],
-    'wazuh_modules/sca':            ['build'],
-    'wazuh_modules/agent_info':     ['build'],
+    'assetguard_modules/sca':            ['build'],
+    'assetguard_modules/agent_info':     ['build'],
 }
 
 
@@ -307,7 +307,7 @@ def makeDeps(targetName, srcOnly):
         - ValueError: Raises an exception.
 
     Example:
-        makeDeps("wazuh_modules/syscollector", srcOnly=True)
+        makeDeps("assetguard_modules/syscollector", srcOnly=True)
     """
     utils.printSubHeader(moduleName=targetName,
                          headerKey="makeDeps")

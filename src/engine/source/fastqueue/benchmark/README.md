@@ -119,7 +119,7 @@ Direct head-to-head tests:
 ```
 ╰─#  $ENGINE_BUILD/source/fastqueue/fastqueue_comparison_benchmark
 2026-02-16T21:30:07+00:00
-Running /workspaces/wazuh-5.x/wazuh/src/build/engine/source/fastqueue/fastqueue_comparison_benchmark
+Running /workspaces/assetguard-5.x/assetguard/src/build/engine/source/fastqueue/fastqueue_comparison_benchmark
 Run on (32 X 5600 MHz CPU s)
 CPU Caches:
   L1 Data 48 KiB (x16)

@@ -46,7 +46,7 @@ struct TableStruct_engine_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_engine_2eproto;
 namespace com {
-namespace wazuh {
+namespace assetguard {
 namespace api {
 namespace engine {
 class GenericStatus_Response;
@@ -54,13 +54,13 @@ struct GenericStatus_ResponseDefaultTypeInternal;
 extern GenericStatus_ResponseDefaultTypeInternal _GenericStatus_Response_default_instance_;
 }  // namespace engine
 }  // namespace api
-}  // namespace wazuh
+}  // namespace assetguard
 }  // namespace com
 PROTOBUF_NAMESPACE_OPEN
-template<> ::com::wazuh::api::engine::GenericStatus_Response* Arena::CreateMaybeMessage<::com::wazuh::api::engine::GenericStatus_Response>(Arena*);
+template<> ::com::assetguard::api::engine::GenericStatus_Response* Arena::CreateMaybeMessage<::com::assetguard::api::engine::GenericStatus_Response>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace com {
-namespace wazuh {
+namespace assetguard {
 namespace api {
 namespace engine {
 
@@ -93,7 +93,7 @@ inline bool ReturnStatus_Parse(
 // ===================================================================
 
 class GenericStatus_Response final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.wazuh.api.engine.GenericStatus_Response) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:com.assetguard.api.engine.GenericStatus_Response) */ {
  public:
   inline GenericStatus_Response() : GenericStatus_Response(nullptr) {}
   ~GenericStatus_Response() override;
@@ -196,7 +196,7 @@ class GenericStatus_Response final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "com.wazuh.api.engine.GenericStatus_Response";
+    return "com.assetguard.api.engine.GenericStatus_Response";
   }
   protected:
   explicit GenericStatus_Response(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -234,16 +234,16 @@ class GenericStatus_Response final :
   std::string* _internal_mutable_error();
   public:
 
-  // .com.wazuh.api.engine.ReturnStatus status = 1;
+  // .com.assetguard.api.engine.ReturnStatus status = 1;
   void clear_status();
-  ::com::wazuh::api::engine::ReturnStatus status() const;
-  void set_status(::com::wazuh::api::engine::ReturnStatus value);
+  ::com::assetguard::api::engine::ReturnStatus status() const;
+  void set_status(::com::assetguard::api::engine::ReturnStatus value);
   private:
-  ::com::wazuh::api::engine::ReturnStatus _internal_status() const;
-  void _internal_set_status(::com::wazuh::api::engine::ReturnStatus value);
+  ::com::assetguard::api::engine::ReturnStatus _internal_status() const;
+  void _internal_set_status(::com::assetguard::api::engine::ReturnStatus value);
   public:
 
-  // @@protoc_insertion_point(class_scope:com.wazuh.api.engine.GenericStatus_Response)
+  // @@protoc_insertion_point(class_scope:com.assetguard.api.engine.GenericStatus_Response)
  private:
   class _Internal;
 
@@ -270,24 +270,24 @@ class GenericStatus_Response final :
 #endif  // __GNUC__
 // GenericStatus_Response
 
-// .com.wazuh.api.engine.ReturnStatus status = 1;
+// .com.assetguard.api.engine.ReturnStatus status = 1;
 inline void GenericStatus_Response::clear_status() {
   _impl_.status_ = 0;
 }
-inline ::com::wazuh::api::engine::ReturnStatus GenericStatus_Response::_internal_status() const {
-  return static_cast< ::com::wazuh::api::engine::ReturnStatus >(_impl_.status_);
+inline ::com::assetguard::api::engine::ReturnStatus GenericStatus_Response::_internal_status() const {
+  return static_cast< ::com::assetguard::api::engine::ReturnStatus >(_impl_.status_);
 }
-inline ::com::wazuh::api::engine::ReturnStatus GenericStatus_Response::status() const {
-  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.GenericStatus_Response.status)
+inline ::com::assetguard::api::engine::ReturnStatus GenericStatus_Response::status() const {
+  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.GenericStatus_Response.status)
   return _internal_status();
 }
-inline void GenericStatus_Response::_internal_set_status(::com::wazuh::api::engine::ReturnStatus value) {
+inline void GenericStatus_Response::_internal_set_status(::com::assetguard::api::engine::ReturnStatus value) {
   
   _impl_.status_ = value;
 }
-inline void GenericStatus_Response::set_status(::com::wazuh::api::engine::ReturnStatus value) {
+inline void GenericStatus_Response::set_status(::com::assetguard::api::engine::ReturnStatus value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.GenericStatus_Response.status)
+  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.GenericStatus_Response.status)
 }
 
 // optional string error = 2;
@@ -303,7 +303,7 @@ inline void GenericStatus_Response::clear_error() {
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& GenericStatus_Response::error() const {
-  // @@protoc_insertion_point(field_get:com.wazuh.api.engine.GenericStatus_Response.error)
+  // @@protoc_insertion_point(field_get:com.assetguard.api.engine.GenericStatus_Response.error)
   return _internal_error();
 }
 template <typename ArgT0, typename... ArgT>
@@ -311,11 +311,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void GenericStatus_Response::set_error(ArgT0&& arg0, ArgT... args) {
  _impl_._has_bits_[0] |= 0x00000001u;
  _impl_.error_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:com.wazuh.api.engine.GenericStatus_Response.error)
+  // @@protoc_insertion_point(field_set:com.assetguard.api.engine.GenericStatus_Response.error)
 }
 inline std::string* GenericStatus_Response::mutable_error() {
   std::string* _s = _internal_mutable_error();
-  // @@protoc_insertion_point(field_mutable:com.wazuh.api.engine.GenericStatus_Response.error)
+  // @@protoc_insertion_point(field_mutable:com.assetguard.api.engine.GenericStatus_Response.error)
   return _s;
 }
 inline const std::string& GenericStatus_Response::_internal_error() const {
@@ -330,7 +330,7 @@ inline std::string* GenericStatus_Response::_internal_mutable_error() {
   return _impl_.error_.Mutable(GetArenaForAllocation());
 }
 inline std::string* GenericStatus_Response::release_error() {
-  // @@protoc_insertion_point(field_release:com.wazuh.api.engine.GenericStatus_Response.error)
+  // @@protoc_insertion_point(field_release:com.assetguard.api.engine.GenericStatus_Response.error)
   if (!_internal_has_error()) {
     return nullptr;
   }
@@ -355,7 +355,7 @@ inline void GenericStatus_Response::set_allocated_error(std::string* error) {
     _impl_.error_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:com.wazuh.api.engine.GenericStatus_Response.error)
+  // @@protoc_insertion_point(field_set_allocated:com.assetguard.api.engine.GenericStatus_Response.error)
 }
 
 #ifdef __GNUC__
@@ -366,15 +366,15 @@ inline void GenericStatus_Response::set_allocated_error(std::string* error) {
 
 }  // namespace engine
 }  // namespace api
-}  // namespace wazuh
+}  // namespace assetguard
 }  // namespace com
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::com::wazuh::api::engine::ReturnStatus> : ::std::true_type {};
+template <> struct is_proto_enum< ::com::assetguard::api::engine::ReturnStatus> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::com::wazuh::api::engine::ReturnStatus>() {
-  return ::com::wazuh::api::engine::ReturnStatus_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::com::assetguard::api::engine::ReturnStatus>() {
+  return ::com::assetguard::api::engine::ReturnStatus_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -31,7 +31,7 @@ static int read_main_elements(const OS_XML *xml, int modules,
     const char *osbuffer = "client_buffer";                     /* Agent Buffer Config  */
     const char *oscommand = "command";                          /* ? Config      */
     const char *osactive_response = "active-response";          /* Agent Config  */
-    const char *oswmodule = "wodle";                            /* Wodle - Wazuh Module  */
+    const char *oswmodule = "wodle";                            /* Wodle - AssetGuard Module  */
     const char *oslogging = "logging";                          /* Logging Config */
     const char *oscluster = "cluster";                          /* Cluster Config */
     const char *ossocket = "socket";                            /* Socket Config */
@@ -40,11 +40,11 @@ static int read_main_elements(const OS_XML *xml, int modules,
     const char *osvulndetection = "vulnerability-detection";    /* Vulnerability Detection Config */
     const char *osvulndetector = "vulnerability-detector";      /* Old Vulnerability Detector Config */
     const char *osindexer = "indexer";                          /* Indexer Config */
-    const char *osgcp_pub = "gcp-pubsub";                       /* Google Cloud PubSub - Wazuh Module */
-    const char *osgcp_bucket = "gcp-bucket";                    /* Google Cloud Bucket - Wazuh Module */
+    const char *osgcp_pub = "gcp-pubsub";                       /* Google Cloud PubSub - AssetGuard Module */
+    const char *osgcp_bucket = "gcp-bucket";                    /* Google Cloud Bucket - AssetGuard Module */
     const char *agent_upgrade = "agent-upgrade";                /* Agent Upgrade Module */
     const char *task_manager = "task-manager";                  /* Task Manager Module */
-    const char *wazuh_db = "wdb";                               /* Wazuh-DB Daemon */
+    const char *assetguard_db = "wdb";                               /* AssetGuard-DB Daemon */
 #ifndef WIN32
     const char *anti_tampering = "anti_tampering";              /* Agent anti tampering Config */
     const char *osauthd = "auth";                               /* Authd Config */
@@ -156,7 +156,7 @@ static int read_main_elements(const OS_XML *xml, int modules,
                 mwarn(
                     "The '%s' configuration is deprecated, please update your settings to use the new '%s' instead "
                     "(default values will be used based on your previous configurations). "
-                    "See https://documentation.wazuh.com",
+                    "See https://documentation.assetguard.com",
                     osvulndetector,
                     osvulndetection);
                 if (Read_Vulnerability_Detection(xml, chld_node, d1, true) < 0) {
@@ -210,9 +210,9 @@ static int read_main_elements(const OS_XML *xml, int modules,
             #else
                 mwarn("%s configuration is only set in the manager.", node[i]->element);
             #endif
-        }  else if (chld_node && (strcmp(node[i]->element, wazuh_db) == 0)) {
+        }  else if (chld_node && (strcmp(node[i]->element, assetguard_db) == 0)) {
 #if !defined(CLIENT)
-                if ((modules & WAZUHDB) && (Read_WazuhDB(xml, chld_node) < 0)) {
+                if ((modules & ASSETGUARDDB) && (Read_AssetGuardDB(xml, chld_node) < 0)) {
                     goto fail;
                 }
             #else

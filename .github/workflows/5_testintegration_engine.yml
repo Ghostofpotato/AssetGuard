@@ -25,7 +25,7 @@ jobs:
       - name: Install CMake
         uses: ./.github/actions/reinstall_cmake
 
-      - name: Build Wazuh manager
+      - name: Build AssetGuard manager
         run: |
           make deps -C src TARGET=manager -j$(nproc)
           make -C src TARGET=manager -j$(nproc)
@@ -33,16 +33,16 @@ jobs:
       - name: Upload engine binary
         uses: actions/upload-artifact@v4
         with:
-          name: wazuh-engine
-          path: src/build/engine/wazuh-engine
+          name: assetguard-engine
+          path: src/build/engine/assetguard-engine
 
-      - name: Upload wazuh shared libraries
+      - name: Upload assetguard shared libraries
         uses: actions/upload-artifact@v4
         with:
-          name: wazuh-shared-libraries
+          name: assetguard-shared-libraries
           path: |
-            src/build/lib/libwazuhext.so
-            src/build/lib/libwazuhshared.so
+            src/build/lib/libassetguardext.so
+            src/build/lib/libassetguardshared.so
             src/build/lib/libindexer_connector.so
             src/build/lib/libcontent_manager.so
 
@@ -73,7 +73,7 @@ jobs:
     - name: Download engine binary
       uses: actions/download-artifact@v4
       with:
-        name: wazuh-engine
+        name: assetguard-engine
         path: src/build/engine/
 
     - name: Download rocksdb shared libraries
@@ -82,10 +82,10 @@ jobs:
         name: rocksdb-shared-library
         path: src/external/rocksdb/build/
 
-    - name: Download wazuh shared libraries
+    - name: Download assetguard shared libraries
       uses: actions/download-artifact@v4
       with:
-        name: wazuh-shared-libraries
+        name: assetguard-shared-libraries
         path: src/build/lib/
 
     - name: Set up Python
@@ -105,7 +105,7 @@ jobs:
 
     - name: Setup environment
       run: |
-        chmod +x src/build/engine/wazuh-engine
+        chmod +x src/build/engine/assetguard-engine
         python3 ${{env.ENGINE_DIR}}/test/setupEnvironment.py -e /tmp/actions
 
     - name: Initial state
@@ -141,7 +141,7 @@ jobs:
     - name: Download engine binary
       uses: actions/download-artifact@v4
       with:
-        name: wazuh-engine
+        name: assetguard-engine
         path: src/build/engine/
 
     - name: Download rocksdb shared libraries
@@ -150,10 +150,10 @@ jobs:
         name: rocksdb-shared-library
         path: src/external/rocksdb/build/
 
-    - name: Download wazuh shared libraries
+    - name: Download assetguard shared libraries
       uses: actions/download-artifact@v4
       with:
-        name: wazuh-shared-libraries
+        name: assetguard-shared-libraries
         path: src/build/lib/
 
     - name: Set up Python
@@ -170,7 +170,7 @@ jobs:
 
     - name: Setup environment
       run: |
-        chmod +x src/build/engine/wazuh-engine
+        chmod +x src/build/engine/assetguard-engine
         python3 ${{env.ENGINE_DIR}}/test/setupEnvironment.py -e /tmp/actions
 
     - name: Initial state

@@ -58,16 +58,16 @@ The team currently has automated tests whose output should be thoroughly reviewe
   - [ ] Leaks
   - [ ] AddressSanitizer
 
-- Decoder/Rule tests _(Wazuh v4.x)_
+- Decoder/Rule tests _(AssetGuard v4.x)_
   - [ ] Added unit testing files ".ini"
   - [ ] `runtests.py` executed without errors
 
-- Engine _(Wazuh v5.x and above)_
+- Engine _(AssetGuard v5.x and above)_
   - [ ] Test run in parallel
   - [ ] ASAN for test (utest/ctest)
-  - [ ] TSAN for test and wazuh-engine.
+  - [ ] TSAN for test and assetguard-engine.
 
-- Wazuh server API/Framework
+- AssetGuard server API/Framework
   - [ ] Run API Integration Tests
 
 ### Artifacts Affected

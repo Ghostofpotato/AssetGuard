@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -117,7 +117,7 @@ int receive_msg()
             /* Force reconnect agent to the manager */
             else if (strncmp(tmp_msg, HC_FORCE_RECONNECT, strlen(HC_FORCE_RECONNECT)) == 0) {
                 /* Set lock and wait for it */
-                minfo("Wazuh Agent will be reconnected because a reconnect message was received");
+                minfo("AssetGuard Agent will be reconnected because a reconnect message was received");
                 os_setwait();
                 w_agentd_state_update(UPDATE_STATUS, (void *) GA_STATUS_NACTIVE);
 
@@ -248,7 +248,7 @@ int receive_msg()
                                 if (!UnmergeFiles(file, SHAREDCFG_DIR, OS_TEXT, &ignore_list)) {
                                     char msg_output[OS_MAXSTR];
 
-                                    snprintf(msg_output, OS_MAXSTR, "%c:%s:%s",  LOCALFILE_MQ, "wazuh-agent", AG_IN_UNMERGE);
+                                    snprintf(msg_output, OS_MAXSTR, "%c:%s:%s",  LOCALFILE_MQ, "assetguard-agent", AG_IN_UNMERGE);
                                     send_msg(msg_output, -1);
                                 }
                                 else {

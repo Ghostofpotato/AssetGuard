@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# 1. Check if the Wazuh agent is installed; if so, remove it.
-# 2. Retrieve the latest version of the Wazuh agent package.
-# 3. Install the latest version of the Wazuh agent.
+# 1. Check if the AssetGuard agent is installed; if so, remove it.
+# 2. Retrieve the latest version of the AssetGuard agent package.
+# 3. Install the latest version of the AssetGuard agent.
 # 4. Verify successful installation and start the agent.
 # 5. Upgrade: Upgrade to the latest version using the builder package.
 # 6. Verify successful upgrade and start the agent.
 # 7. Verify the updated version.
-# 8. Check if the wazuh-agent service is running.
+# 8. Check if the assetguard-agent service is running.
 
 
 # Input:
@@ -16,7 +16,7 @@ upgrade_version=$2
 new_pkg=$3
 
 ossec_path="/Library/Ossec"
-wazuh_control="$ossec_path/bin/wazuh-control"
+assetguard_control="$ossec_path/bin/assetguard-control"
 
 log_info() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] $1"
@@ -27,7 +27,7 @@ log_error() {
   exit 1
 }
 
-is_wazuh_agent_installed() {
+is_assetguard_agent_installed() {
   if [ -d "$ossec_path" ]; then
     return 0
   else
@@ -35,11 +35,11 @@ is_wazuh_agent_installed() {
   fi
 }
 
-get_wazuh_version(){
-    if [ -f "$wazuh_control" ]; then
-        echo "$($wazuh_control info -v)"
+get_assetguard_version(){
+    if [ -f "$assetguard_control" ]; then
+        echo "$($assetguard_control info -v)"
     else
-        log_error "The script $wazuh_control does not exist."
+        log_error "The script $assetguard_control does not exist."
     fi
 }
 
@@ -50,34 +50,34 @@ download_pkg(){
 }
 
 uninstall_agent(){
-    if launchctl list | grep -q "com.wazuh.agent"; then
-        launchctl unload /Library/LaunchDaemons/com.wazuh.agent.plist
-        /bin/rm -f /Library/LaunchDaemons/com.wazuh.agent.plist
+    if launchctl list | grep -q "com.assetguard.agent"; then
+        launchctl unload /Library/LaunchDaemons/com.assetguard.agent.plist
+        /bin/rm -f /Library/LaunchDaemons/com.assetguard.agent.plist
     else
-        log_info "Wazuh agent service is not currently loaded. Skipping unload."
+        log_info "AssetGuard agent service is not currently loaded. Skipping unload."
     fi
     /bin/rm -r "$ossec_path"
-    /bin/rm -rf /Library/StartupItems/WAZUH
-    /usr/bin/dscl . -delete "/Users/wazuh"
-    /usr/bin/dscl . -delete "/Groups/wazuh"
-    /usr/sbin/pkgutil --forget com.wazuh.pkg.wazuh-agent
+    /bin/rm -rf /Library/StartupItems/ASSETGUARD
+    /usr/bin/dscl . -delete "/Users/assetguard"
+    /usr/bin/dscl . -delete "/Groups/assetguard"
+    /usr/sbin/pkgutil --forget com.assetguard.pkg.assetguard-agent
 }
 
 install_agent(){
     local pkg_file=$1
 
-    echo "WAZUH_MANAGER='1.1.1.1'" > /tmp/wazuh_envs && installer -pkg $pkg_file -target / | tee '/tmp/installer.log'
-    launchctl load /Library/LaunchDaemons/com.wazuh.agent.plist
+    echo "ASSETGUARD_MANAGER='1.1.1.1'" > /tmp/assetguard_envs && installer -pkg $pkg_file -target / | tee '/tmp/installer.log'
+    launchctl load /Library/LaunchDaemons/com.assetguard.agent.plist
     if grep -iqE "The (upgrade|install) was successful" /tmp/installer.log; then
-        local version_installed=$(get_wazuh_version)
+        local version_installed=$(get_assetguard_version)
         log_info "Installed version: $version_installed"
     else
         log_error "The installation could not be completed. The package will not be uploaded.";
     fi
 }
 
-start_wazuh_agent(){
-    $wazuh_control start
+start_assetguard_agent(){
+    $assetguard_control start
 }
 
 main(){
@@ -91,28 +91,28 @@ main(){
 
     old_version=$(download_pkg "$old_package_url" || log_error "Failed to download package.")
 
-    if is_wazuh_agent_installed; then
-        version_installed=$(get_wazuh_version)
-        log_info "Uninstalling wazuh-agent: $version_installed"
+    if is_assetguard_agent_installed; then
+        version_installed=$(get_assetguard_version)
+        log_info "Uninstalling assetguard-agent: $version_installed"
         uninstall_agent
-        log_info "Wazuh successfully uninstalled."
+        log_info "AssetGuard successfully uninstalled."
     fi
 
     install_agent $old_version
-    start_wazuh_agent
+    start_assetguard_agent
 
     log_info "Perform upgrade"
     install_agent $new_pkg
-    version_installed=$(get_wazuh_version)
+    version_installed=$(get_assetguard_version)
     version_installed="${version_installed#v}"
-    start_wazuh_agent
+    start_assetguard_agent
 
     if [ "$version_installed" != "$upgrade_version" ]; then
         log_error "Upgrade version $version_installed does not match expected $upgrade_version"
     fi
 
-    if [ "$(/Library/Ossec/bin/wazuh-control status|grep "is running" -c)" -ne "5" ]; then
-        log_error "The service is not running for wazuh version $version_installed"
+    if [ "$(/Library/Ossec/bin/assetguard-control status|grep "is running" -c)" -ne "5" ]; then
+        log_error "The service is not running for assetguard version $version_installed"
     fi
 
     exit 0

@@ -1,5 +1,5 @@
 """
-Copyright (C) 2015, Wazuh Inc.
+Copyright (C) 2015, AssetGuard Inc.
 March 28, 2022.
 
 This program is free software; you can redistribute it
@@ -38,9 +38,9 @@ HEADER_DIR = {
     'valgrind':            "=============== Running Valgrind    ===============",
     'wintesttool':         "=============== Running TEST TOOL for Windows ====="
 }
-MODULE_LIST = ['wazuh_modules/syscollector', 'shared_modules/dbsync',
+MODULE_LIST = ['assetguard_modules/syscollector', 'shared_modules/dbsync',
                'shared_modules/sync_protocol', 'shared_modules/agent_metadata',
-               'shared_modules/file_helper', 'data_provider', 'syscheckd', 'wazuh_modules/sca', 'wazuh_modules/agent_info']
+               'shared_modules/file_helper', 'data_provider', 'syscheckd', 'assetguard_modules/sca', 'assetguard_modules/agent_info']
 MODULE_LIST_STR = '|'.join(MODULE_LIST)
 TARGET_LIST = ['agent', 'manager', 'winagent']
 

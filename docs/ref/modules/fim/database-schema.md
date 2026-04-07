@@ -2,15 +2,15 @@
 
 The FIM module uses multiple database schemas to store and manage file integrity monitoring data. The architecture includes both local FIMDB databases for state comparison and sync protocol databases for reliable message persistence.
 
-## Wazuh Common Schema (WCS)
+## AssetGuard Common Schema (WCS)
 
-The schemas according to the Wazuh Common Schema (WCS) are available in `src/external/indexer-plugins` and are downloaded during the agent build process as part of external dependencies (`make deps`):
+The schemas according to the AssetGuard Common Schema (WCS) are available in `src/external/indexer-plugins` and are downloaded during the agent build process as part of external dependencies (`make deps`):
 
 - `fim-files.json`
 - `fim-registry-keys.json`
 - `fim-registry-values.json`
 
-These schemas define the standardized format for FIM data that is sent to the Wazuh indexer.
+These schemas define the standardized format for FIM data that is sent to the AssetGuard indexer.
 
 ---
 
@@ -272,7 +272,7 @@ Both databases use indexes to optimize common queries:
 
 ### Fixed Paths
 
-Database files are stored in fixed locations relative to Wazuh installation:
+Database files are stored in fixed locations relative to AssetGuard installation:
 
 - **FIM Database**: `queue/fim/db/fim.db`
 - **Sync Protocol Database**: `queue/fim/db/fim_sync.db`

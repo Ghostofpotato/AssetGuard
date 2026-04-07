@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -22,9 +22,9 @@
 #include "../../syscheckd/src/db/include/db.h"
 #include "../../shared_modules/sync_protocol/include/agent_sync_protocol_c_interface.h"
 #include "syscheck-config.h"
-#include "../wrappers/wazuh/shared_modules/agent_sync_protocol_wrappers.h"
-#include "../wrappers/wazuh/shared_modules/schema_validator_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared_modules/agent_sync_protocol_wrappers.h"
+#include "../wrappers/assetguard/shared_modules/schema_validator_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
 #include "../wrappers/posix/time_wrappers.h"
 
 int64_t __wrap_fim_db_get_last_sync_time(const char* table_name);

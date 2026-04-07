@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.wazuh.test.generic_request;
+package com.assetguard.test.generic_request;
 
 /*
  * This API is used for the component tests of httpsrv module

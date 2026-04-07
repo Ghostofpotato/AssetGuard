@@ -15,7 +15,7 @@ The `engine-public` tool provides public-facing commands for validating policies
 
 The script is packaged along the engine-suite python package, to install simply run:
 ```bash
-pip install wazuh/src/engine/tools/engine-suite
+pip install assetguard/src/engine/tools/engine-suite
 ```
 To verify it's working:
 ```bash
@@ -31,7 +31,7 @@ options:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
   --api-socket API_SOCKET
-                        Path to the Wazuh API socket
+                        Path to the AssetGuard API socket
 
 subcommands:
   {cm}

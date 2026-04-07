@@ -2,7 +2,7 @@
 #    "event": {
 #       "original": "::1 - -  Dec 10 01:02:02 host test_decoder_example[1234]: Test_example for acceptation test\n"
 #    },
-#    "wazuh": {
+#    "assetguard": {
 #        "test": {
 #            "format": "text",
 #            "id": "123",
@@ -19,11 +19,11 @@ metadata:
   description: Test decoder for acceptation tests
 
 check:
-  - wazuh.test.format: text
-  - wazuh.event.original: +exists
-  - wazuh.test.ingested: +exists
-  - wazuh.test.kind: event
+  - assetguard.test.format: text
+  - assetguard.event.original: +exists
+  - assetguard.test.ingested: +exists
+  - assetguard.test.kind: event
 
 normalize:
-  - wazuh.test.kind: event
+  - assetguard.test.kind: event
 

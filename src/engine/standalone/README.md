@@ -1,11 +1,11 @@
-# Wazuh Engine Standalone
+# AssetGuard Engine Standalone
 
 ## Building the standalone package locally
 
-You can build the Wazuh Engine Standalone package locally using the `generate_package.sh` script:
+You can build the AssetGuard Engine Standalone package locally using the `generate_package.sh` script:
 
 ```bash
-cd wazuh/src/engine/standalone
+cd assetguard/src/engine/standalone
 ./generate_package.sh -a amd64
 ```
 
@@ -20,12 +20,12 @@ Available options:
 
 The script will:
 1. Build the required Docker image (or use existing one with `--dont-build-docker`)
-2. Compile Wazuh Engine inside the container
+2. Compile AssetGuard Engine inside the container
 3. Generate engine schemas
 4. Create the standalone package structure
 5. Generate a `.tar.gz` file in the output directory
 
-Example output: `wazuh-engine-5.0.0-linux-amd64.tar.gz`
+Example output: `assetguard-engine-5.0.0-linux-amd64.tar.gz`
 
 ## How to use the standalone engine
 
@@ -33,7 +33,7 @@ Example output: `wazuh-engine-5.0.0-linux-amd64.tar.gz`
 Just run the `run_engine.sh` script in the `standalone_engine` directory to start the engine.
 
 ```bash
-cd wazuh-engine-standalone
+cd assetguard-engine-standalone
 ./run_engine.sh
 ```
 
@@ -45,7 +45,7 @@ The standalone engine will create the following directory structure:
     - **bin/lib**: Contains the shared libraries used by the engine
 - **data/**: Contains the data files used by the engine in runtime, this directory should
     not be modified manually
-    - **data/store**: Contains all the assets in catalog in a format that wazuh-engine can understand (precompiled)
+    - **data/store**: Contains all the assets in catalog in a format that assetguard-engine can understand (precompiled)
     - **data/kvdb**: Contains the key-value database used by the engine in runtime
     - **data/tzdb**: Contains the time zone database used by the engine
     - **data/mmdb**: Contains the MaxMind GeoIP database files

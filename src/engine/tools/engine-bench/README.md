@@ -1,6 +1,6 @@
 # Engine-Bench
 
-`engine-bench` is a benchmarking tool designed to evaluate the performance of the Wazuh engine. It leverages `perf` for performance profiling and generates flame graphs to visualize the performance bottlenecks and hotspots in the engine.
+`engine-bench` is a benchmarking tool designed to evaluate the performance of the AssetGuard engine. It leverages `perf` for performance profiling and generates flame graphs to visualize the performance bottlenecks and hotspots in the engine.
 
 ## Usage
 ```bash
@@ -11,7 +11,7 @@ engine-bench --environment /path/to/environment --output /path/to/output
 ```bash
 Usage: engine-bench [OPTIONS]
 
-  Benchmark the Wazuh engine executable using perf.
+  Benchmark the AssetGuard engine executable using perf.
 
 Options:
   -e, --environment PATH  Path to the environment directory.  [required]
@@ -21,7 +21,7 @@ Options:
 ```
 
 ## Features
-- Performance Profiling: Uses perf to collect performance data for the Wazuh engine.
+- Performance Profiling: Uses perf to collect performance data for the AssetGuard engine.
 - Flame Graph Generation: Automatically generates flame graphs using [Brendan Gregg's FlameGraph](https://github.com/brendangregg/FlameGraph) scripts (stackcollapse-perf.pl and flamegraph.pl).
 - Customizable Output: Allows specifying the output directory for benchmark results.
 

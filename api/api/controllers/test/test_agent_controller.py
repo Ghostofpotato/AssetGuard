@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import sys
@@ -10,10 +10,10 @@ from connexion.lifecycle import ConnexionResponse
 
 from api.controllers.test.utils import CustomAffectedItems
 
-with patch('wazuh.common.wazuh_uid'):
-    with patch('wazuh.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
-        import wazuh.rbac.decorators
+with patch('assetguard.common.assetguard_uid'):
+    with patch('assetguard.common.assetguard_gid'):
+        sys.modules['assetguard.rbac.orm'] = MagicMock()
+        import assetguard.rbac.decorators
         from api.controllers.agent_controller import (
             add_agent, delete_agents, delete_groups,
             delete_multiple_agent_single_group,
@@ -28,12 +28,12 @@ with patch('wazuh.common.wazuh_uid'):
             put_multiple_agent_single_group, put_upgrade_agents,
             put_upgrade_custom_agents, reconnect_agents, restart_agent,
             restart_agents, restart_agents_by_group, restart_agents_by_node)
-        from wazuh import agent, stats
-        from wazuh.core.common import DATABASE_LIMIT
-        from wazuh.tests.util import RBAC_bypasser
+        from assetguard import agent, stats
+        from assetguard.core.common import DATABASE_LIMIT
+        from assetguard.tests.util import RBAC_bypasser
 
-        wazuh.rbac.decorators.expose_resources = RBAC_bypasser
-        del sys.modules['wazuh.rbac.orm']
+        assetguard.rbac.decorators.expose_resources = RBAC_bypasser
+        del sys.modules['assetguard.rbac.orm']
 
 
 @pytest.mark.asyncio
@@ -481,9 +481,9 @@ async def test_put_upgrade_agents(mock_exc, mock_dapi, mock_remove, mock_dfunc, 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("mock_request", ["agent_controller"], indirect=True)
 @pytest.mark.parametrize('agents_list, file_path',  [
-    (['all'], '/var/wazuh-manager/valid_file.wpk'),
-    (['001', '002'], '/var/wazuh-manager/var/upgrade/valid_file.wpk'),
-    (['001'], '/var/wazuh-manager/wrong_file.txt')
+    (['all'], '/var/assetguard-manager/valid_file.wpk'),
+    (['001', '002'], '/var/assetguard-manager/var/upgrade/valid_file.wpk'),
+    (['001'], '/var/assetguard-manager/wrong_file.txt')
 ])
 @patch('api.configuration.api_conf')
 @patch('api.controllers.agent_controller.DistributedAPI.distribute_function', return_value=AsyncMock())
@@ -979,7 +979,7 @@ async def test_get_group_file(mock_exc, mock_dapi, mock_remove, mock_dfunc, mock
 @patch('api.controllers.agent_controller.DistributedAPI.distribute_function', return_value=AsyncMock())
 @patch('api.controllers.agent_controller.remove_nones_to_dict')
 @patch('api.controllers.agent_controller.DistributedAPI.__init__', return_value=None)
-@patch('api.controllers.agent_controller.AffectedItemsWazuhResult', return_value={})
+@patch('api.controllers.agent_controller.AffectedItemsAssetGuardResult', return_value={})
 async def test_restart_agents_by_group(mock_aiwr, mock_dapi, mock_remove, mock_dfunc, mock_exp, mock_alist,
                                       mock_request):
     """Verify 'restart_agents_by_group' endpoint is working as expected."""

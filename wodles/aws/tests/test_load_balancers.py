@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import csv
@@ -23,7 +23,7 @@ def test_aws_lb_bucket_initializes_properly(mock_custom_bucket):
     mock_custom_bucket.assert_called_once()
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('assetguard_integration.AssetGuardIntegration.get_sts_client')
 def test_aws_lb_bucket_get_base_prefix(mock_sts):
     """Test 'get_base_prefix' returns the expected prefix with the format <prefix>/AWSLogs/<suffix>"""
     instance = utils.get_mocked_bucket(class_=load_balancers.AWSLBBucket, prefix=f'{utils.TEST_PREFIX}/',

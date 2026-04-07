@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def setup_engine(engine_src_dir, environment_dir):
-    schemas = ["wazuh-logpar-overrides", "engine-schema", "allowed-fields"]
+    schemas = ["assetguard-logpar-overrides", "engine-schema", "allowed-fields"]
 
     for schema in schemas:
         print(f"Copying schema {schema}")
@@ -29,8 +29,8 @@ def setup_engine(engine_src_dir, environment_dir):
 
 
     # Copy engine binary
-    engine_bin = Path(engine_src_dir) / '..' / 'build' / 'engine' / 'wazuh-engine'
-    engine_bin_dest = Path(environment_dir) / 'wazuh-engine'
+    engine_bin = Path(engine_src_dir) / '..' / 'build' / 'engine' / 'assetguard-engine'
+    engine_bin_dest = Path(environment_dir) / 'assetguard-engine'
     print(f"Copying from {engine_bin} to {engine_bin_dest}")
     # If source not exists, show error message
     if not engine_bin.exists():
@@ -47,12 +47,12 @@ def main():
 
     environment_directory = args.environment
     if environment_directory is None:
-        print("environment_directory is optional. For default is wazuh directory. Usage: python script.py -e <environment_directory>")
+        print("environment_directory is optional. For default is assetguard directory. Usage: python script.py -e <environment_directory>")
 
     SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
     ENGINE_SRC_DIR = os.path.join(SCRIPT_DIR, '../')
-    WAZUH_DIR = os.path.realpath(os.path.join(SCRIPT_DIR, '../../../'))
-    ENVIRONMENT_DIR = environment_directory or os.path.join(WAZUH_DIR, 'environment')
+    ASSETGUARD_DIR = os.path.realpath(os.path.join(SCRIPT_DIR, '../../../'))
+    ENVIRONMENT_DIR = environment_directory or os.path.join(ASSETGUARD_DIR, 'environment')
     ENVIRONMENT_DIR = str(Path(ENVIRONMENT_DIR).resolve())
 
     setup_engine(ENGINE_SRC_DIR, ENVIRONMENT_DIR)

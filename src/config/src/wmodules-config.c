@@ -1,6 +1,6 @@
 /*
- * Wazuh Module Configuration
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Module Configuration
+ * Copyright (C) 2015, AssetGuard Inc.
  * April 25, 2016.
  *
  * This program is free software; you can redistribute it

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -11,21 +11,21 @@
 #ifndef OS_WIN_H
 #define OS_WIN_H
 
-/* Install the WAZUH-HIDS agent service */
+/* Install the ASSETGUARD-HIDS agent service */
 int InstallService(char *path);
 
-/* Uninstall the WAZUH-HIDS agent service */
+/* Uninstall the ASSETGUARD-HIDS agent service */
 int UninstallService();
 
-/* Check if the WAZUH-HIDS agent service is running
+/* Check if the ASSETGUARD-HIDS agent service is running
  * Returns 1 on success (running) or 0 if not running
  */
 int CheckServiceRunning();
 
-/* Start WAZUH-HIDS service */
+/* Start ASSETGUARD-HIDS service */
 int os_start_service();
 
-/* Stop WAZUH-HIDS service */
+/* Stop ASSETGUARD-HIDS service */
 int os_stop_service();
 
 /* Start the process from the services */

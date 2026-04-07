@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import logging
@@ -9,10 +9,10 @@ from connexion.lifecycle import ConnexionResponse
 from connexion import request
 from api.controllers.util import json_response
 from api.util import parse_api_param, remove_nones_to_dict, raise_if_exc
-from wazuh import rootcheck
-from wazuh.core.cluster.dapi.dapi import DistributedAPI
+from assetguard import rootcheck
+from assetguard.core.cluster.dapi.dapi import DistributedAPI
 
-logger = logging.getLogger('wazuh-api')
+logger = logging.getLogger('assetguard-api')
 
 
 async def put_rootcheck(agents_list: str = '*', pretty: bool = False,

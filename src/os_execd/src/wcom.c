@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * Jun 07, 2017.
  *
  * This program is free software; you can redistribute it
@@ -62,7 +62,7 @@ size_t wcom_dispatch(char *command, char ** output) {
             return strlen(*output);
         }
 
-    } else if (strcmp(rcv_comm, "restart") == 0 || strcmp(rcv_comm, "restart-wazuh") == 0) {
+    } else if (strcmp(rcv_comm, "restart") == 0 || strcmp(rcv_comm, "restart-assetguard") == 0) {
         return wcom_restart(output);
 
     } else if (strcmp(rcv_comm, "reload")  == 0) {
@@ -199,7 +199,7 @@ size_t wcom_restart(char ** output) {
             exec_cmd[0] = "active-response/bin/restart.sh";
             exec_cmd[1] = "agent";
         } else {
-            exec_cmd[0] = "bin/wazuh-control";
+            exec_cmd[0] = "bin/assetguard-control";
             exec_cmd[1] = "restart";
         }
 
@@ -220,9 +220,9 @@ size_t wcom_restart(char ** output) {
         }
 #else
         static char command[OS_FLSIZE];
-        snprintf(command, sizeof(command), "%s/%s", AR_BINDIR, "restart-wazuh.exe");
+        snprintf(command, sizeof(command), "%s/%s", AR_BINDIR, "restart-assetguard.exe");
         char *cmd[2] = { command, NULL };
-        char *cmd_parameters = "{\"version\":1,\"origin\":{\"name\":\"\",\"module\":\"" ARGV0 "\"},\"command\":\"add\",\"parameters\":{\"extra_args\":[],\"alert\":{},\"program\":\"restart-wazuh.exe\"}}";
+        char *cmd_parameters = "{\"version\":1,\"origin\":{\"name\":\"\",\"module\":\"" ARGV0 "\"},\"command\":\"add\",\"parameters\":{\"extra_args\":[],\"alert\":{},\"program\":\"restart-assetguard.exe\"}}";
         wfd_t *wfd = wpopenv(cmd[0], cmd, W_BIND_STDIN);
         if (wfd) {
             /* Send alert to AR script */
@@ -253,7 +253,7 @@ size_t wcom_reload(char ** output) {
             exec_cmd[1] = "agent";
             exec_cmd[2] = "reload";
         } else {
-            exec_cmd[0] = "bin/wazuh-control";
+            exec_cmd[0] = "bin/assetguard-control";
             exec_cmd[1] = "reload";
         }
 
@@ -275,9 +275,9 @@ size_t wcom_reload(char ** output) {
 
 #else
         static char command[OS_FLSIZE];
-        snprintf(command, sizeof(command), "%s/%s", AR_BINDIR, "restart-wazuh.exe");
+        snprintf(command, sizeof(command), "%s/%s", AR_BINDIR, "restart-assetguard.exe");
         char *cmd[2] = { command, NULL };
-        char *cmd_parameters = "{\"version\":1,\"origin\":{\"name\":\"\",\"module\":\"" ARGV0 "\"},\"command\":\"add\",\"parameters\":{\"extra_args\":[],\"alert\":{},\"program\":\"restart-wazuh.exe\"}}";
+        char *cmd_parameters = "{\"version\":1,\"origin\":{\"name\":\"\",\"module\":\"" ARGV0 "\"},\"command\":\"add\",\"parameters\":{\"extra_args\":[],\"alert\":{},\"program\":\"restart-assetguard.exe\"}}";
         wfd_t *wfd = wpopenv(cmd[0], cmd, W_BIND_STDIN);
         if (wfd) {
             // Send alert to AR script
@@ -372,9 +372,9 @@ error:
 }
 
 size_t wcom_check_manager_config(char **output) {
-    static const char *daemons[] = {"bin/wazuh-manager-authd", "bin/wazuh-manager-remoted",
-                                    "bin/wazuh-manager-analysisd",
-                                    "bin/wazuh-manager-modulesd", "bin/wazuh-manager-clusterd",
+    static const char *daemons[] = {"bin/assetguard-manager-authd", "bin/assetguard-manager-remoted",
+                                    "bin/assetguard-manager-analysisd",
+                                    "bin/assetguard-manager-modulesd", "bin/assetguard-manager-clusterd",
                                     NULL
                                     };
 

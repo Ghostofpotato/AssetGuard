@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025, Wazuh Inc.  *
+ * Copyright (C) 2025, AssetGuard Inc.  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
  * License (version 2) as published by the FSF - Free Software
@@ -15,7 +15,7 @@
 #include "syscheck.h"
 #include "../../../syscheckd/src/ebpf/include/ebpf_whodata.h"
 #include "wrappers/linux/ebpf_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "wrappers/assetguard/shared/debug_op_wrappers.h"
 
 /* setup/teardown */
 static int setup_group(void **state) {

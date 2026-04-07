@@ -1,6 +1,6 @@
 /*
- * Shared functions for querying wazuh-agentd
- * Copyright (C) 2015, Wazuh Inc.
+ * Shared functions for querying assetguard-agentd
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public

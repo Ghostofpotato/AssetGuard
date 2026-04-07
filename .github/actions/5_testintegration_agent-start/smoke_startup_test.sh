@@ -41,13 +41,13 @@ install_package(){
     log_info "Installing package: $package_path"
 
     if [ "$package_extension" == "deb" ]; then
-        WAZUH_MANAGER="1.2.3.4" $install "$package_path"
+        ASSETGUARD_MANAGER="1.2.3.4" $install "$package_path"
     else
-        WAZUH_MANAGER="1.2.3.4" $install "$package_path"
+        ASSETGUARD_MANAGER="1.2.3.4" $install "$package_path"
     fi
 
     # Verify installation
-    if $check_package_status "wazuh-agent" >/dev/null 2>&1; then
+    if $check_package_status "assetguard-agent" >/dev/null 2>&1; then
         log_success "Package installed successfully"
     else
         log_error "Package installation verification failed"
@@ -55,7 +55,7 @@ install_package(){
 }
 
 test_daemons(){
-    local daemons="wazuh-modulesd wazuh-logcollector wazuh-syscheckd wazuh-agentd wazuh-execd"
+    local daemons="assetguard-modulesd assetguard-logcollector assetguard-syscheckd assetguard-agentd assetguard-execd"
 
     log_info "Testing daemons with -t flag (configuration test)..."
 
@@ -69,11 +69,11 @@ test_daemons(){
 }
 
 start_agent(){
-    log_info "Starting Wazuh agent..."
-    if ! /var/ossec/bin/wazuh-control start 2>&1; then
-        log_error "Failed to start Wazuh agent"
+    log_info "Starting AssetGuard agent..."
+    if ! /var/ossec/bin/assetguard-control start 2>&1; then
+        log_error "Failed to start AssetGuard agent"
     fi
-    log_success "Wazuh agent started"
+    log_success "AssetGuard agent started"
 
     log_info "Waiting for agent to initialize (10 seconds)..."
     sleep 10
@@ -81,27 +81,27 @@ start_agent(){
 
 verify_agent_running(){
     log_info "Verifying agent is running..."
-    if ! /var/ossec/bin/wazuh-control status 2>&1; then
+    if ! /var/ossec/bin/assetguard-control status 2>&1; then
         log_error "Agent status check failed"
     fi
     log_success "Agent is running"
 }
 
 stop_agent(){
-    log_info "Stopping Wazuh agent..."
-    if ! /var/ossec/bin/wazuh-control stop 2>&1; then
-        log_error "Failed to stop Wazuh agent"
+    log_info "Stopping AssetGuard agent..."
+    if ! /var/ossec/bin/assetguard-control stop 2>&1; then
+        log_error "Failed to stop AssetGuard agent"
     fi
-    log_success "Wazuh agent stopped successfully"
+    log_success "AssetGuard agent stopped successfully"
 }
 
 main() {
-    log_info "=== Wazuh Agent Startup Smoke Test ==="
+    log_info "=== AssetGuard Agent Startup Smoke Test ==="
 
     set_utils
 
     # Find the package recursively (artifacts may be in subdirectories)
-    package_name=$(find /packages -type f -name "wazuh-agent*.$package_extension" ! -name "*dbg*" ! -name "*debug*" ! -name "*debuginfo*" | head -n1)
+    package_name=$(find /packages -type f -name "assetguard-agent*.$package_extension" ! -name "*dbg*" ! -name "*debug*" ! -name "*debuginfo*" | head -n1)
 
     if [ -z "$package_name" ]; then
         log_error "No suitable package found in /packages/"

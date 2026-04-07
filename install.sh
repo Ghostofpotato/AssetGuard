@@ -1,6 +1,6 @@
 #!/bin/sh
-# Copyright (C) 2015, Wazuh Inc.
-# Installation script for Wazuh
+# Copyright (C) 2015, AssetGuard Inc.
+# Installation script for AssetGuard
 # Author: Daniel B. Cid <daniel.cid@gmail.com>
 
 # Resolve script location and always run from its directory.
@@ -124,12 +124,12 @@ Install()
 
     # For updates, stop running services before replacing files.
     if [ "X${update_only}" = "Xyes" ]; then
-        echo "Stopping Wazuh..."
+        echo "Stopping AssetGuard..."
         UpdateStopOSSEC
     fi
 
     # Install selected components.
-    InstallWazuh
+    InstallAssetGuard
 
     cd ../
 
@@ -139,17 +139,17 @@ Install()
 
     # For updates, run upgrade hooks and start services again.
     if [ "X${update_only}" = "Xyes" ]; then
-        WazuhUpgrade $INSTYPE
+        AssetGuardUpgrade $INSTYPE
         # Compatibility migration for very old versions.
         UpdateOldVersions
-        echo "Starting Wazuh..."
+        echo "Starting AssetGuard..."
         UpdateStartOSSEC
     fi
 
     if [ $runinit_value = 1 ]; then
         notmodified="yes"
-    elif [ "X$START_WAZUH" = "Xyes" ]; then
-        echo "Starting Wazuh..."
+    elif [ "X$START_ASSETGUARD" = "Xyes" ]; then
+        echo "Starting AssetGuard..."
         UpdateStartOSSEC
     fi
 
@@ -214,7 +214,7 @@ ConfigureBoot()
     if [ "X$INSTYPE" != "Xagent" ]; then
 
         echo ""
-        $ECHO "  $NB- ${startwazuh} ($yes/$no) [$yes]: "
+        $ECHO "  $NB- ${startassetguard} ($yes/$no) [$yes]: "
 
         if [ "X${USER_AUTO_START}" = "X" ]; then
             read ANSWER
@@ -225,11 +225,11 @@ ConfigureBoot()
         echo ""
         case $ANSWER in
             $nomatch)
-                echo "   - ${nowazuhstart}"
+                echo "   - ${noassetguardstart}"
                 ;;
             *)
-                START_WAZUH="yes"
-                echo "   - ${yeswazuhstart}"
+                START_ASSETGUARD="yes"
+                echo "   - ${yesassetguardstart}"
                 ;;
         esac
     fi
@@ -438,7 +438,7 @@ askForDelete()
 
         case $ANSWER in
             $yesmatch)
-                echo "      Stopping Wazuh..."
+                echo "      Stopping AssetGuard..."
                 UpdateStopOSSEC
                 rm -rf -- "$INSTALLDIR"
                 if [ $? -ne 0 ]; then
@@ -494,13 +494,13 @@ AddWhite()
 AddPFTable()
 {
     # Default PF table/rules snippet.
-    TABLE="wazuh_fwtable"
+    TABLE="assetguard_fwtable"
 
     # Print rules to be added by the user.
     echo ""
     echo "   - ${pfmessage}:"
     echo "     ${moreinfo}"
-    echo "     https://documentation.wazuh.com"
+    echo "     https://documentation.assetguard.com"
 
     echo ""
     echo ""
@@ -656,7 +656,7 @@ detectPreinstalledDirForInstallType()
         return 0
     fi
 
-    if ! isWazuhInstalled "$PREINSTALLEDDIR"; then
+    if ! isAssetGuardInstalled "$PREINSTALLEDDIR"; then
         PREINSTALLEDDIR=""
         return 0
     fi
@@ -746,7 +746,7 @@ validateUpgradeCompatibility()
                 ERROR_MESSAGE="Current version: $USER_OLD_VERSION
 Target version:  5.0.0
 
-Upgrade to Wazuh 5.0.0 is only supported from version 4.14.0 or later."
+Upgrade to AssetGuard 5.0.0 is only supported from version 4.14.0 or later."
             fi
         fi
     else
@@ -756,7 +756,7 @@ Upgrade to Wazuh 5.0.0 is only supported from version 4.14.0 or later."
             ERROR_MESSAGE="Current version: $USER_OLD_VERSION
 Target version:  5.0.0
 
-Upgrade to Wazuh 5.0.0 is not supported from version 4.x.
+Upgrade to AssetGuard 5.0.0 is not supported from version 4.x.
 A clean installation is required for managers."
         fi
     fi
@@ -780,7 +780,7 @@ A clean installation is required for managers."
         fi
         echo ""
         echo "For more information, visit:"
-        echo "  https://documentation.wazuh.com/current/upgrade-guide/"
+        echo "  https://documentation.assetguard.com/current/upgrade-guide/"
         echo "═════════════════════════════════════════════════════════════════"
         echo ""
         exit 1
@@ -840,7 +840,7 @@ main()
 
     . ./src/init/language.sh
     . ./src/init/init.sh
-    . ./src/init/wazuh/wazuh.sh
+    . ./src/init/assetguard/assetguard.sh
     . "${TEMPLATE}/${LANGUAGE}/messages.txt"
     . ./src/init/inst-functions.sh
     . ./src/init/template-select.sh
@@ -855,7 +855,7 @@ main()
     fi
 
     # Installer banner.
-    echo " $NAME $VERSION (Rev. $REVISION) ${installscript} - https://www.wazuh.com"
+    echo " $NAME $VERSION (Rev. $REVISION) ${installscript} - https://www.assetguard.com"
     catMsg "0x101-initial"
     echo ""
     echo "  - $system: $UNAME (${DIST_NAME} ${DIST_VER}.${DIST_SUBVER})"
@@ -897,9 +897,9 @@ main()
     CLEANINSTALL_ANY=$(normalizeYesNo "${USER_CLEANINSTALL}")
     if [ "X${USER_CLEANINSTALL}" = "X" ] || [ "X${CLEANINSTALL_ANY}" = "Xno" ]; then
         if [ "X$INSTYPE" = "Xagent" ]; then
-            pidir_service_name="wazuh-agent"
+            pidir_service_name="assetguard-agent"
         else
-            pidir_service_name="wazuh-manager"
+            pidir_service_name="assetguard-manager"
         fi
 
         detectPreinstalledDirForInstallType
@@ -925,7 +925,7 @@ main()
         if [ "X$INSTYPE" = "Xagent" ]; then
             INSTALLDIR="/var/ossec"
         else
-            INSTALLDIR="/var/wazuh-manager"
+            INSTALLDIR="/var/assetguard-manager"
         fi
     fi
 
@@ -951,9 +951,9 @@ main()
     Install
 
     # Post-install usage hints.
-    control_script="wazuh-control"
+    control_script="assetguard-control"
     if [ "X$INSTYPE" = "Xmanager" ]; then
-        control_script="wazuh-manager-control"
+        control_script="assetguard-manager-control"
     fi
     echo ""
     echo " - ${configurationdone}."
@@ -964,7 +964,7 @@ main()
     echo " - ${tostop}:"
     echo "      $INSTALLDIR/bin/${control_script} stop"
     echo ""
-    echo " - ${configat} $INSTALLDIR/etc/${WAZUH_CONF}"
+    echo " - ${configat} $INSTALLDIR/etc/${ASSETGUARD_CONF}"
     echo ""
 
 
@@ -979,7 +979,7 @@ main()
         echo ""
 
         # Compatibility note for very old versions.
-        if [ "X$USER_OLD_NAME" != "XWazuh" ]; then
+        if [ "X$USER_OLD_NAME" != "XAssetGuard" ]; then
             echo " ====================================================================================="
             echo "  ${update_rev_newconf1}"
             echo "  ${update_rev_newconf2}"
@@ -1003,13 +1003,13 @@ main()
         echo " - ${addserveragent}"
         echo ""
         echo "   ${moreinfo}"
-        echo "   https://documentation.wazuh.com/"
+        echo "   https://documentation.assetguard.com/"
         echo ""
 
     elif [ "X$INSTYPE" = "Xagent" ]; then
         echo ""
         echo " - ${moreinfo}"
-        echo "   https://documentation.wazuh.com/"
+        echo "   https://documentation.assetguard.com/"
         echo ""
     fi
 

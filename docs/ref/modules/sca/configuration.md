@@ -100,7 +100,7 @@ Policy files are YAML documents containing:
 ### Policy Paths
 Policies can be specified using:
 - **Absolute paths**: `/var/ossec/etc/policies/custom.yml`
-- **Relative paths**: `etc/shared/cis_debian10.yml` (relative to Wazuh installation)
+- **Relative paths**: `etc/shared/cis_debian10.yml` (relative to AssetGuard installation)
 - **Shared paths**: Policies in the shared folder distributed by manager
 
 ---

@@ -1,6 +1,6 @@
 # API Reference
 
-The SCA module provides C and C++ APIs for interaction with other Wazuh components and supports database synchronization through the Agent Sync Protocol.
+The SCA module provides C and C++ APIs for interaction with other AssetGuard components and supports database synchronization through the Agent Sync Protocol.
 
 ---
 
@@ -187,8 +187,8 @@ Sends a data clean notification to the manager, informing it that specific SCA i
 ```c
 // Notify data clean for SCA policies
 const char* indices_to_clean[] = {
-    "wazuh-states-sca-policy1",
-    "wazuh-states-sca-policy2"
+    "assetguard-states-sca-policy1",
+    "assetguard-states-sca-policy2"
 };
 
 bool notify_success = sca_notify_data_clean(indices_to_clean, 2,
@@ -240,7 +240,7 @@ typedef struct cJSON* (*yaml_to_cjson_func)(const char* yaml_path);
 
 ### Message Queue Interface
 
-The SCA module communicates through Wazuh's message queue system rather than direct API calls.
+The SCA module communicates through AssetGuard's message queue system rather than direct API calls.
 
 #### Message Queue Functions
 

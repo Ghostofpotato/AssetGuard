@@ -1,5 +1,5 @@
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '1514'
     PROTOCOL: 'UDP'
@@ -8,8 +8,8 @@
     valid_protocol: ['UDP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '514'
     PROTOCOL: 'UDP'
@@ -18,8 +18,8 @@
     valid_protocol: ['UDP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '553'
     PROTOCOL: 'TCP'
@@ -28,8 +28,8 @@
     valid_protocol: ['TCP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '23467'
     PROTOCOL: 'TCP'
@@ -38,8 +38,8 @@
     valid_protocol: ['TCP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '1209'
     PROTOCOL: 'TCP,UDP'
@@ -48,8 +48,8 @@
     valid_protocol: ['TCP','UDP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '2134'
     PROTOCOL: 'TCP,UDP'
@@ -58,8 +58,8 @@
     valid_protocol: ['TCP','UDP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '55632'
     PROTOCOL: 'UDP,TCP'
@@ -68,8 +68,8 @@
     valid_protocol: ['UDP','TCP']
 
 
-- name: Command config wazuh manager for valid connection
-  description: Command config wazuh manager for valid connections
+- name: Command config assetguard manager for valid connection
+  description: Command config assetguard manager for valid connections
   configuration_parameters:
     PORT: '2134'
     PROTOCOL: 'UDP,TCP'

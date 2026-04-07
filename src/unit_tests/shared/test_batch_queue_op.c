@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,7 +17,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "../wrappers/posix/pthread_wrappers.h"  // <- mocks estrictos de Wazuh
+#include "../wrappers/posix/pthread_wrappers.h"  // <- mocks estrictos de AssetGuard
 
 #include "shared.h"
 #include "batch_queue_op.h"

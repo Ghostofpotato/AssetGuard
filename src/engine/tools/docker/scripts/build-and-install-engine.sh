@@ -5,19 +5,19 @@
 # - Engine configuration
 
 
-# Clone the Wazuh repository
+# Clone the AssetGuard repository
 
-git clone "https://github.com/wazuh/wazuh.git" ${WAZUH_ROOT}
+git clone "https://github.com/assetguard/assetguard.git" ${ASSETGUARD_ROOT}
 
-cd ${WAZUH_ROOT}
+cd ${ASSETGUARD_ROOT}
 if [ -n "${ENGINE_COMMIT_ID}" ]; then
     git checkout ${ENGINE_COMMIT_ID}
 fi
 
 git submodule update --init --recursive
 
-if [ ! -d "$RUN_WAZUH_SERVER" ]; then
-    mkdir -p "$RUN_WAZUH_SERVER"
+if [ ! -d "$RUN_ASSETGUARD_SERVER" ]; then
+    mkdir -p "$RUN_ASSETGUARD_SERVER"
 fi
 
 # Install the engine
@@ -39,10 +39,10 @@ pip3 install --upgrade requests
 
 # Launch the engine and save the PID
 echo "Launching the engine"
-WAZUH_CONFIG_SKIP_API=true /usr/share/wazuh-server/bin/wazuh-engine &
+ASSETGUARD_CONFIG_SKIP_API=true /usr/share/assetguard-server/bin/assetguard-engine &
 echo $! > /tmp/engine.pid
 # Check for the socket to be created
-while [ ! -S /run/wazuh-server/engine.socket ]; do
+while [ ! -S /run/assetguard-server/engine.socket ]; do
     sleep 2
 done
 # Add GeoIP databases

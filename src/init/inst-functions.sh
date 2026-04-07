@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Wazuh Installer Functions
-# Copyright (C) 2015, Wazuh Inc.
+# AssetGuard Installer Functions
+# Copyright (C) 2015, AssetGuard Inc.
 # November 18, 2016.
 #
 # This program is free software; you can redistribute it
@@ -72,7 +72,7 @@ WriteSyscheck()
 ##########
 DisableAuthd()
 {
-    echo "  <!-- Configuration for wazuh-manager-authd -->" >> $NEWCONFIG
+    echo "  <!-- Configuration for assetguard-manager-authd -->" >> $NEWCONFIG
     echo "  <auth>" >> $NEWCONFIG
     echo "    <disabled>yes</disabled>" >> $NEWCONFIG
     echo "    <port>1515</port>" >> $NEWCONFIG
@@ -159,7 +159,7 @@ InstallSecurityConfigurationAssessmentFiles()
         CONFIGURATION_ASSESSMENT_FILES=$(cat .$CONFIGURATION_ASSESSMENT_FILES_PATH)
         for FILE in $CONFIGURATION_ASSESSMENT_FILES; do
             if [ -f "../ruleset/sca/$FILE" ]; then
-                ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} ../ruleset/sca/$FILE ${INSTALLDIR}/ruleset/sca
+                ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} ../ruleset/sca/$FILE ${INSTALLDIR}/ruleset/sca
             else
                 echo "ERROR: SCA policy not found: ../ruleset/sca/$FILE"
             fi
@@ -177,12 +177,12 @@ GenerateAuthCert()
         if [ ! -f "${INSTALLDIR}/etc/sslmanager.key" ] && [ ! -f "${INSTALLDIR}/etc/sslmanager.cert" ]; then
             if [ ! "X${USER_GENERATE_AUTHD_CERT}" = "Xn" ]; then
                     if [ "X${INSTYPE}" = "Xagent" ]; then
-                        AUTHD_BIN="wazuh-authd"
+                        AUTHD_BIN="assetguard-authd"
                     else
-                        AUTHD_BIN="wazuh-manager-authd"
+                        AUTHD_BIN="assetguard-manager-authd"
                     fi
                     echo "Generating self-signed certificate for ${AUTHD_BIN}..."
-                    ${INSTALLDIR}/bin/${AUTHD_BIN} -C 365 -B 2048 -K ${INSTALLDIR}/etc/sslmanager.key -X ${INSTALLDIR}/etc/sslmanager.cert -S "/C=US/ST=California/CN=wazuh/"
+                    ${INSTALLDIR}/bin/${AUTHD_BIN} -C 365 -B 2048 -K ${INSTALLDIR}/etc/sslmanager.key -X ${INSTALLDIR}/etc/sslmanager.cert -S "/C=US/ST=California/CN=assetguard/"
                     chmod 640 ${INSTALLDIR}/etc/sslmanager.key
                     chmod 640 ${INSTALLDIR}/etc/sslmanager.cert
             fi
@@ -279,7 +279,7 @@ WriteLogs()
 ##########
 SetHeaders()
 {
-    HEADERS_TMP="/tmp/wazuh-headers.tmp"
+    HEADERS_TMP="/tmp/assetguard-headers.tmp"
     if [ "$DIST_VER" = "0" ]; then
         sed -e "s/TYPE/$1/g; s/DISTRIBUTION/${DIST_NAME}/g; s/VERSION//g" "$HEADER_TEMPLATE" > $HEADERS_TMP
     else
@@ -300,11 +300,11 @@ GenerateService()
 {
     SERVICE_TEMPLATE=./src/init/templates/${1}
     if [ "X${INSTYPE}" = "Xmanager" ]; then
-        sed -e "s|WAZUH_HOME_TMP|${INSTALLDIR}|g" \
-            -e "s|/bin/wazuh-control|/bin/wazuh-manager-control|g" \
+        sed -e "s|ASSETGUARD_HOME_TMP|${INSTALLDIR}|g" \
+            -e "s|/bin/assetguard-control|/bin/assetguard-manager-control|g" \
             ${SERVICE_TEMPLATE}
     else
-        sed "s|WAZUH_HOME_TMP|${INSTALLDIR}|g" ${SERVICE_TEMPLATE}
+        sed "s|ASSETGUARD_HOME_TMP|${INSTALLDIR}|g" ${SERVICE_TEMPLATE}
     fi
 }
 
@@ -433,7 +433,7 @@ WriteManager()
     echo "$HEADERS" > $NEWCONFIG
     echo "" >> $NEWCONFIG
 
-    echo "<wazuh_config>" >> $NEWCONFIG
+    echo "<assetguard_config>" >> $NEWCONFIG
 
     GLOBAL_CONTENT=$(cat ${GLOBAL_TEMPLATE})
 
@@ -507,72 +507,72 @@ WriteManager()
     cat ${CLUSTER_TEMPLATE} >> $NEWCONFIG
     echo "" >> $NEWCONFIG
 
-    echo "</wazuh_config>" >> $NEWCONFIG
+    echo "</assetguard_config>" >> $NEWCONFIG
 
 }
 
 InstallCommon()
 {
-  WAZUH_GROUP='wazuh'
-  WAZUH_USER='wazuh'
+  ASSETGUARD_GROUP='assetguard'
+  ASSETGUARD_USER='assetguard'
   INSTALL="install"
 
   if [ ${INSTYPE} = 'manager' ]; then
-      WAZUH_GROUP='wazuh-manager'
-      WAZUH_USER='wazuh-manager'
-      OSSEC_CONTROL_SRC='./init/wazuh-server.sh'
+      ASSETGUARD_GROUP='assetguard-manager'
+      ASSETGUARD_USER='assetguard-manager'
+      OSSEC_CONTROL_SRC='./init/assetguard-server.sh'
       OSSEC_CONF_SRC='../etc/ossec-server.conf'
   elif [ ${INSTYPE} = 'agent' ]; then
-      OSSEC_CONTROL_SRC='./init/wazuh-client.sh'
+      OSSEC_CONTROL_SRC='./init/assetguard-client.sh'
       OSSEC_CONF_SRC='../etc/ossec-agent.conf'
   fi
 
   if [ ${INSTYPE} = 'manager' ]; then
-      WAZUH_CONF="wazuh-manager.conf"
-      WAZUH_LOGFILE="wazuh-manager.log"
-      WAZUH_LOGJSON="wazuh-manager.json"
+      ASSETGUARD_CONF="assetguard-manager.conf"
+      ASSETGUARD_LOGFILE="assetguard-manager.log"
+      ASSETGUARD_LOGJSON="assetguard-manager.json"
   else
-      WAZUH_CONF="ossec.conf"
-      WAZUH_LOGFILE="ossec.log"
-      WAZUH_LOGJSON="ossec.json"
+      ASSETGUARD_CONF="ossec.conf"
+      ASSETGUARD_LOGFILE="ossec.log"
+      ASSETGUARD_LOGJSON="ossec.json"
   fi
 
-  ./init/adduser.sh ${WAZUH_USER} ${WAZUH_GROUP} ${INSTALLDIR}
+  ./init/adduser.sh ${ASSETGUARD_USER} ${ASSETGUARD_GROUP} ${INSTALLDIR}
 
-  ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/
+  ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/
 
   # Install VERSION.json and append commit id if any
-  ${INSTALL} -m 440 -o root -g ${WAZUH_GROUP} ../VERSION.json ${INSTALLDIR}/VERSION.json
+  ${INSTALL} -m 440 -o root -g ${ASSETGUARD_GROUP} ../VERSION.json ${INSTALLDIR}/VERSION.json
 
-  ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs
-  ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs/wazuh
-  ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} /dev/null ${INSTALLDIR}/logs/${WAZUH_LOGFILE}
-  ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} /dev/null ${INSTALLDIR}/logs/${WAZUH_LOGJSON}
+  ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs
+  ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs/assetguard
+  ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} /dev/null ${INSTALLDIR}/logs/${ASSETGUARD_LOGFILE}
+  ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} /dev/null ${INSTALLDIR}/logs/${ASSETGUARD_LOGJSON}
 
   if [ ${INSTYPE} = 'agent' ]; then
-      ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} /dev/null ${INSTALLDIR}/logs/active-responses.log
+      ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} /dev/null ${INSTALLDIR}/logs/active-responses.log
   fi
 
     if [ ${INSTYPE} = 'agent' ]; then
         ${INSTALL} -d -m 0750 -o root -g 0 ${INSTALLDIR}/bin
     else
-        ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/bin
+        ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/bin
     fi
 
-  ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/lib
+  ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/lib
 
     if [ ${NUNAME} = 'Darwin' ]
     then
-        if [ -f build/lib/libwazuhext.dylib ]
+        if [ -f build/lib/libassetguardext.dylib ]
         then
-            ${INSTALL} -m 0750 -o root -g 0 build/lib/libwazuhext.dylib ${INSTALLDIR}/lib
+            ${INSTALL} -m 0750 -o root -g 0 build/lib/libassetguardext.dylib ${INSTALLDIR}/lib
         fi
-    elif [ -f build/lib/libwazuhext.so ]
+    elif [ -f build/lib/libassetguardext.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libwazuhext.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libassetguardext.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
-            chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libwazuhext.so
+            chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libassetguardext.so
         fi
     fi
 
@@ -595,7 +595,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libdbsync.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libdbsync.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libdbsync.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libdbsync.so
@@ -603,7 +603,7 @@ InstallCommon()
     fi
     if [ -f build/lib/libagent_sync_protocol.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libagent_sync_protocol.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libagent_sync_protocol.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libagent_sync_protocol.so
@@ -611,7 +611,7 @@ InstallCommon()
     fi
     if [ -f build/lib/libagent_metadata.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libagent_metadata.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libagent_metadata.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libagent_metadata.so
@@ -627,7 +627,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libschema_validator.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libschema_validator.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libschema_validator.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libschema_validator.so
@@ -643,7 +643,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libsysinfo.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libsysinfo.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libsysinfo.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libsysinfo.so
@@ -659,7 +659,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libfimdb.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libfimdb.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libfimdb.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libfimdb.so
@@ -670,7 +670,7 @@ InstallCommon()
     then
     	if [ -f build/lib/libfimebpf.so ]
     	then
-       		${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libfimebpf.so ${INSTALLDIR}/lib
+       		${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libfimebpf.so ${INSTALLDIR}/lib
 
        		if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
        		    chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libfimebpf.so
@@ -680,7 +680,7 @@ InstallCommon()
       if [ "X${INSTYPE}" = "Xagent" ]; then
           if [ -f external/libbpf-bootstrap/build/libbpf/libbpf.so ]
               then
-                  ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} external/libbpf-bootstrap/build/libbpf/libbpf.so ${INSTALLDIR}/lib
+                  ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} external/libbpf-bootstrap/build/libbpf/libbpf.so ${INSTALLDIR}/lib
 
                   if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
                       chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libbpf.so
@@ -689,7 +689,7 @@ InstallCommon()
 
           if [ -f external/libbpf-bootstrap/build/modern.bpf.o ]
               then
-                  ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} external/libbpf-bootstrap/build/modern.bpf.o ${INSTALLDIR}/lib
+                  ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} external/libbpf-bootstrap/build/modern.bpf.o ${INSTALLDIR}/lib
 
                   if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
                       chcon -t textrel_shlib_t ${INSTALLDIR}/lib/modern.bpf.o
@@ -710,7 +710,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libsyscollector.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libsyscollector.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libsyscollector.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libsyscollector.so
@@ -719,7 +719,7 @@ InstallCommon()
 
     if [ -f build/lib/libinventory_sync.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libinventory_sync.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libinventory_sync.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libinventory_sync.so
@@ -728,7 +728,7 @@ InstallCommon()
 
     if [ -f build/lib/libvulnerability_scanner.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libvulnerability_scanner.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libvulnerability_scanner.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libvulnerability_scanner.so
@@ -744,7 +744,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libsca.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libsca.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libsca.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libsca.so
@@ -760,7 +760,7 @@ InstallCommon()
         fi
     elif [ -f build/lib/libagent_info.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libagent_info.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libagent_info.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libagent_info.so
@@ -770,7 +770,7 @@ InstallCommon()
 
     if [ -f build/lib/libstdc++.so.6 ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libstdc++.so.6 ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libstdc++.so.6 ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libstdc++.so.6
@@ -779,7 +779,7 @@ InstallCommon()
 
     if [ -f build/lib/libgcc_s.so.1 ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libgcc_s.so.1 ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libgcc_s.so.1 ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libgcc_s.so.1
@@ -787,73 +787,73 @@ InstallCommon()
     fi
 
   if [ "X${INSTYPE}" = "Xagent" ]; then
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-logcollector ${INSTALLDIR}/bin
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-syscheckd ${INSTALLDIR}/bin
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-execd ${INSTALLDIR}/bin
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-modulesd ${INSTALLDIR}/bin/
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-logcollector ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-syscheckd ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-execd ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-modulesd ${INSTALLDIR}/bin/
   else
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-manager-modulesd ${INSTALLDIR}/bin/
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-manager-modulesd ${INSTALLDIR}/bin/
   fi
   if [ "X${INSTYPE}" = "Xmanager" ]; then
-    ${INSTALL} -m 0750 -o root -g 0 ${OSSEC_CONTROL_SRC} ${INSTALLDIR}/bin/wazuh-manager-control
+    ${INSTALL} -m 0750 -o root -g 0 ${OSSEC_CONTROL_SRC} ${INSTALLDIR}/bin/assetguard-manager-control
   else
-    ${INSTALL} -m 0750 -o root -g 0 ${OSSEC_CONTROL_SRC} ${INSTALLDIR}/bin/wazuh-control
+    ${INSTALL} -m 0750 -o root -g 0 ${OSSEC_CONTROL_SRC} ${INSTALLDIR}/bin/assetguard-control
   fi
 
-  ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue
-  ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/alerts
-  ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/sockets
+  ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue
+  ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/alerts
+  ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/sockets
   if [ "X${INSTYPE}" = "Xagent" ]; then
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/diff
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/agent_info
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/agent_info/db
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/fim
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/fim/db
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/syscollector
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/syscollector/db
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/sca
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/sca/db
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/logcollector
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/diff
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/agent_info
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/agent_info/db
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/fim
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/fim/db
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/syscollector
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/syscollector/db
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/sca
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/sca/db
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/logcollector
   fi
 
   if [ "X${INSTYPE}" = "Xagent" ]; then
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/ruleset
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/ruleset/sca
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/wodles
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/ruleset
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/ruleset/sca
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/wodles
   fi
 
-  ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/etc
+  ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/etc
 
     if [ -f /etc/localtime ]
     then
          ${INSTALL} -m 0640 -o root -g 0 /etc/localtime ${INSTALLDIR}/etc
     fi
 
-  ${INSTALL} -d -m 1770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/tmp
+  ${INSTALL} -d -m 1770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/tmp
 
     if [ -f /etc/TIMEZONE ]; then
-         ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} /etc/TIMEZONE ${INSTALLDIR}/etc/
+         ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} /etc/TIMEZONE ${INSTALLDIR}/etc/
     fi
 
-    ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} -b ../etc/internal_options.conf ${INSTALLDIR}/etc/
+    ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} -b ../etc/internal_options.conf ${INSTALLDIR}/etc/
     if [ "X${INSTYPE}" = "Xagent" ]; then
-        ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} wazuh_modules/syscollector/norm_config.json ${INSTALLDIR}/queue/syscollector
+        ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} assetguard_modules/syscollector/norm_config.json ${INSTALLDIR}/queue/syscollector
     fi
 
     if [ ! -f ${INSTALLDIR}/etc/local_internal_options.conf ]; then
-        ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} ../etc/local_internal_options.conf ${INSTALLDIR}/etc/local_internal_options.conf
+        ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} ../etc/local_internal_options.conf ${INSTALLDIR}/etc/local_internal_options.conf
     fi
 
     if [ ! -f ${INSTALLDIR}/etc/client.keys ]; then
         if [ "X${INSTYPE}" = "Xagent" ]; then
-            ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} /dev/null ${INSTALLDIR}/etc/client.keys
+            ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} /dev/null ${INSTALLDIR}/etc/client.keys
         else
-            ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} /dev/null ${INSTALLDIR}/etc/client.keys
+            ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} /dev/null ${INSTALLDIR}/etc/client.keys
         fi
     fi
 
-    if [ ! -f ${INSTALLDIR}/etc/${WAZUH_CONF} ]; then
+    if [ ! -f ${INSTALLDIR}/etc/${ASSETGUARD_CONF} ]; then
         if [ ! -f ../etc/ossec.mc ]; then
             echo "WARNING: missing ../etc/ossec.mc. Regenerating configuration template."
             if ! ./init/gen_ossec.sh conf "${INSTYPE}" "${DIST_NAME}" "${DIST_VER}.${DIST_SUBVER}" "${INSTALLDIR}" > ../etc/ossec.mc; then
@@ -863,49 +863,49 @@ InstallCommon()
         fi
 
         if [ -f ../etc/ossec.mc ]; then
-            ${INSTALL} -m 0660 -o root -g ${WAZUH_GROUP} ../etc/ossec.mc ${INSTALLDIR}/etc/${WAZUH_CONF}
+            ${INSTALL} -m 0660 -o root -g ${ASSETGUARD_GROUP} ../etc/ossec.mc ${INSTALLDIR}/etc/${ASSETGUARD_CONF}
         else
             echo "WARNING: unable to generate ossec.conf file with desired configurations, using default configurations from ${OSSEC_CONF_SRC}"
-            ${INSTALL} -m 0660 -o root -g ${WAZUH_GROUP} ${OSSEC_CONF_SRC} ${INSTALLDIR}/etc/${WAZUH_CONF}
+            ${INSTALL} -m 0660 -o root -g ${ASSETGUARD_GROUP} ${OSSEC_CONF_SRC} ${INSTALLDIR}/etc/${ASSETGUARD_CONF}
         fi
     fi
 
 
-  ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/etc/shared
-  ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/active-response
-  ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/active-response/bin
+  ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/etc/shared
+  ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/active-response
+  ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/active-response/bin
 
-  ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} active-response/src/*.sh ${INSTALLDIR}/active-response/bin/
-  ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} active-response/src/*.py ${INSTALLDIR}/active-response/bin/
+  ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} active-response/src/*.sh ${INSTALLDIR}/active-response/bin/
+  ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} active-response/src/*.py ${INSTALLDIR}/active-response/bin/
   if [ "X${INSTYPE}" = "Xagent" ]; then
     ./init/fw-check.sh execute
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/firewall-drop ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/default-firewall-drop ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/pf ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/npf ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/ipfw ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/firewalld-drop ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/disable-account ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/host-deny ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/ip-customblock ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/restart-wazuh ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/route-null ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/kaspersky ${INSTALLDIR}/active-response/bin/
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/wazuh-slack ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/firewall-drop ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/default-firewall-drop ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/pf ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/npf ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/ipfw ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/firewalld-drop ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/disable-account ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/host-deny ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/ip-customblock ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/restart-assetguard ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/route-null ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/kaspersky ${INSTALLDIR}/active-response/bin/
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/assetguard-slack ${INSTALLDIR}/active-response/bin/
   fi
 
-  ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var
-  ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/run
-  ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/upgrade
-  ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/selinux
+  ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var
+  ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/run
+  ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/upgrade
+  ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/selinux
 
-  if [ -f selinux/wazuh.pp ]
+  if [ -f selinux/assetguard.pp ]
   then
-    ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} selinux/wazuh.pp ${INSTALLDIR}/var/selinux/
+    ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} selinux/assetguard.pp ${INSTALLDIR}/var/selinux/
     InstallSELinuxPolicyPackage
   fi
 
-  ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/backup
+  ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/backup
 
 }
 
@@ -916,7 +916,7 @@ generateSchemaFiles()
     ${INSTALLDIR}/framework/python/bin/python3 engine/tools/engine-schema/engine_schema.py generate \
     --output-dir engine/ruleset/schemas/ \
     --wcs-path external/wcs-flat-files/ \
-    --decoder-template engine/ruleset/schemas/wazuh-decoders.template.json \
+    --decoder-template engine/ruleset/schemas/assetguard-decoders.template.json \
     --exclude-geo engine/ruleset/schemas/exclude-enrichment-geo.json \
     --ioc-enrichment-cfg engine/ruleset/schemas/ioc-enrichment-cfg.json
 
@@ -937,12 +937,12 @@ installEngineStore()
     local SCHEMA_PATH=${STORE_PATH}/schema
     local ENRICHMENT_PATH=${STORE_PATH}/enrichment
     local ENGINE_SCHEMA_PATH=${SCHEMA_PATH}/engine-schema/
-    local ENGINE_LOGPAR_TYPE_PATH=${SCHEMA_PATH}/wazuh-logpar-overrides
+    local ENGINE_LOGPAR_TYPE_PATH=${SCHEMA_PATH}/assetguard-logpar-overrides
     local ENGINE_ALLOWED_FIELDS_PATH=${SCHEMA_PATH}/allowed-fields
     local ENGINE_ENRICHMENT_GEO=${ENRICHMENT_PATH}/geo
     local ENGINE_ENRICHMENT_IOC=${ENRICHMENT_PATH}/ioc
 
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${STORE_PATH}
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${STORE_PATH}
     mkdir -p "${ENGINE_SCHEMA_PATH}"
     mkdir -p "${ENGINE_LOGPAR_TYPE_PATH}"
     mkdir -p "${ENGINE_ALLOWED_FIELDS_PATH}"
@@ -952,7 +952,7 @@ installEngineStore()
     # Copying the store files
     echo "Copying store files..."
     cp "${ENGINE_SRC_PATH}/ruleset/schemas/engine-schema.json" "${ENGINE_SCHEMA_PATH}/0"
-    cp "${ENGINE_SRC_PATH}/ruleset/schemas/wazuh-logpar-overrides.json" "${ENGINE_LOGPAR_TYPE_PATH}/0"
+    cp "${ENGINE_SRC_PATH}/ruleset/schemas/assetguard-logpar-overrides.json" "${ENGINE_LOGPAR_TYPE_PATH}/0"
     cp "${ENGINE_SRC_PATH}/ruleset/schemas/allowed-fields.json" "${ENGINE_ALLOWED_FIELDS_PATH}/0"
     cp "${ENGINE_SRC_PATH}/ruleset/schemas/enrichment-geo.json" "${ENGINE_ENRICHMENT_GEO}/0"
     cp "${ENGINE_SRC_PATH}/ruleset/schemas/enrichment-ioc.json" "${ENGINE_ENRICHMENT_IOC}/0"
@@ -964,20 +964,20 @@ installEngineStore()
         exit 1
     fi
 
-    chown -R ${WAZUH_USER}:${WAZUH_GROUP} ${STORE_PATH}
+    chown -R ${ASSETGUARD_USER}:${ASSETGUARD_GROUP} ${STORE_PATH}
     find ${STORE_PATH} -type d -exec chmod 770 {} \; -o -type f -exec chmod 660 {} \;
 
     echo "Engine store installed successfully."
 
     # Copy default *. output configuration files TODO: Change this path
     local OUTPUTS_PATH=${DEST_FULL_PATH}/outputs
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${OUTPUTS_PATH}
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${OUTPUTS_PATH}
     cp "${ENGINE_SRC_PATH}/ruleset/outputs/"*.yml "${OUTPUTS_PATH}/"
-    chown -R ${WAZUH_USER}:${WAZUH_GROUP} ${OUTPUTS_PATH}
+    chown -R ${ASSETGUARD_USER}:${ASSETGUARD_GROUP} ${OUTPUTS_PATH}
     find ${OUTPUTS_PATH} -type d -exec chmod 770 {} \; -o -type f -exec chmod 660 {} \;
 
-    # Create /var/wazuh-manager/etc/ruleset
-    install -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/etc/ruleset
+    # Create /var/assetguard-manager/etc/ruleset
+    install -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/etc/ruleset
 
     echo "Engine output configuration files installed successfully."
 }
@@ -992,8 +992,8 @@ installGeoIP()
     local MANIFEST_FILE=${GEOIP_SRC_PATH}/manifest.json
 
     # Create directories
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${MMDB_PATH}
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${STORE_GEO_PATH}
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${MMDB_PATH}
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${STORE_GEO_PATH}
 
     # Check if GeoIP files exist
     if [ ! -f "${GEOIP_SRC_PATH}/GeoLite2-ASN.mmdb" ] || [ ! -f "${GEOIP_SRC_PATH}/GeoLite2-City.mmdb" ]; then
@@ -1009,8 +1009,8 @@ installGeoIP()
     echo "Installing GeoIP databases..."
 
     # Copy .mmdb files
-    ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} "${GEOIP_SRC_PATH}/GeoLite2-ASN.mmdb" "${MMDB_PATH}/"
-    ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} "${GEOIP_SRC_PATH}/GeoLite2-City.mmdb" "${MMDB_PATH}/"
+    ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} "${GEOIP_SRC_PATH}/GeoLite2-ASN.mmdb" "${MMDB_PATH}/"
+    ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} "${GEOIP_SRC_PATH}/GeoLite2-City.mmdb" "${MMDB_PATH}/"
 
     # Parse manifest.json without jq or python - using grep and sed
     ASN_MD5=$(grep -A 2 '"asn"' "${MANIFEST_FILE}" | grep '"md5"' | sed 's/.*"md5"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
@@ -1034,7 +1034,7 @@ installGeoIP()
 EOF
 
     # Set proper ownership and permissions
-    chown ${WAZUH_USER}:${WAZUH_GROUP} "${STORE_GEO_PATH}/0"
+    chown ${ASSETGUARD_USER}:${ASSETGUARD_GROUP} "${STORE_GEO_PATH}/0"
     chmod 660 "${STORE_GEO_PATH}/0"
 
     echo "GeoIP databases installed successfully."
@@ -1045,28 +1045,28 @@ InstallLocal()
 
     InstallCommon
 
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/var/multigroups
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/db
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/download
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs/archives
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs/alerts
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs/firewall
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs/api
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/multigroups
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/db
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/download
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs/archives
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs/alerts
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs/firewall
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs/api
 
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-manager-monitord ${INSTALLDIR}/bin
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/bin/verify-agent-conf ${INSTALLDIR}/bin/
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-manager-db ${INSTALLDIR}/bin/
-    ${INSTALL} -m 0750 -o root -g 0 build/engine/wazuh-engine ${INSTALLDIR}/bin/wazuh-manager-analysisd
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-manager-monitord ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/bin/verify-agent-conf ${INSTALLDIR}/bin/
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-manager-db ${INSTALLDIR}/bin/
+    ${INSTALL} -m 0750 -o root -g 0 build/engine/assetguard-engine ${INSTALLDIR}/bin/assetguard-manager-analysisd
 
     ### Install Python
     ${MAKEBIN} wpython INSTALLDIR=${INSTALLDIR} TARGET=${INSTYPE}
 
-    ${MAKEBIN} --quiet -C ../framework install INSTALLDIR=${INSTALLDIR} WAZUH_GROUP=${WAZUH_GROUP}
+    ${MAKEBIN} --quiet -C ../framework install INSTALLDIR=${INSTALLDIR} ASSETGUARD_GROUP=${ASSETGUARD_GROUP}
     # Framework installation may leave this parent directory with default root:root 755.
     # Keep it aligned with the manager baseline used by check_files.
-    if [ -d "${INSTALLDIR}/framework/wazuh/core" ]; then
-        chown root:${WAZUH_GROUP} "${INSTALLDIR}/framework/wazuh/core"
-        chmod 0750 "${INSTALLDIR}/framework/wazuh/core"
+    if [ -d "${INSTALLDIR}/framework/assetguard/core" ]; then
+        chown root:${ASSETGUARD_GROUP} "${INSTALLDIR}/framework/assetguard/core"
+        chmod 0750 "${INSTALLDIR}/framework/assetguard/core"
     fi
 
     generateSchemaFiles
@@ -1075,39 +1075,39 @@ InstallLocal()
 
     installGeoIP
 
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/tzdb
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/tzdb
 
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/db
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/db
 
     if [ "X${OPTIMIZE_CPYTHON}" = "Xy" ]; then
         CPYTHON_FLAGS="OPTIMIZE_CPYTHON=yes"
     fi
 
     # Install Vulnerability Detector files
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/vd
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/indexer
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/vd
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/indexer
 
 
     # Install Task Manager files
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/tasks
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/tasks
 
     ### Backup old API
     if [ "X${update_only}" = "Xyes" ]; then
-      ${MAKEBIN} --quiet -C ../api backup INSTALLDIR=${INSTALLDIR} REVISION=${REVISION} WAZUH_GROUP=${WAZUH_GROUP}
+      ${MAKEBIN} --quiet -C ../api backup INSTALLDIR=${INSTALLDIR} REVISION=${REVISION} ASSETGUARD_GROUP=${ASSETGUARD_GROUP}
     fi
 
     ### Install API
-    ${MAKEBIN} --quiet -C ../api install INSTALLDIR=${INSTALLDIR} WAZUH_GROUP=${WAZUH_GROUP}
+    ${MAKEBIN} --quiet -C ../api install INSTALLDIR=${INSTALLDIR} ASSETGUARD_GROUP=${ASSETGUARD_GROUP}
 
     ### Restore old API
     if [ "X${update_only}" = "Xyes" ]; then
-      ${MAKEBIN} --quiet -C ../api restore INSTALLDIR=${INSTALLDIR} REVISION=${REVISION} WAZUH_GROUP=${WAZUH_GROUP}
+      ${MAKEBIN} --quiet -C ../api restore INSTALLDIR=${INSTALLDIR} REVISION=${REVISION} ASSETGUARD_GROUP=${ASSETGUARD_GROUP}
     fi
 
     ### Install router library
     if [ -f build/lib/librouter.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/librouter.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/librouter.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]); then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/librouter.so
@@ -1129,10 +1129,10 @@ checkDownloadContent()
 
     if [ "X${DOWNLOAD_CONTENT}" = "Xy" ]; then
         echo "Download ${VD_FILENAME} file"
-        wget -O ${VD_FULL_PATH} http://packages.wazuh.com/deps/vulnerability_model_database/${VD_FILENAME}
+        wget -O ${VD_FULL_PATH} http://packages.assetguard.com/deps/vulnerability_model_database/${VD_FILENAME}
 
         chmod 640 ${VD_FULL_PATH}
-        chown ${WAZUH_USER}:${WAZUH_GROUP} ${VD_FULL_PATH}
+        chown ${ASSETGUARD_USER}:${ASSETGUARD_GROUP} ${VD_FULL_PATH}
     fi
 }
 
@@ -1140,17 +1140,17 @@ InstallServer()
 {
 
     InstallLocal
-    if [ -f build/lib/libwazuhshared.so ]
+    if [ -f build/lib/libassetguardshared.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libwazuhshared.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libassetguardshared.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ ${DIST_VER} -le 5 ]; then
-            chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libwazuhshared.so
+            chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libassetguardshared.so
         fi
     fi
     if [ -f external/jemalloc/lib/libjemalloc.so.2 ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} external/jemalloc/lib/libjemalloc.so.2 ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} external/jemalloc/lib/libjemalloc.so.2 ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]); then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libjemalloc.so.2
@@ -1158,7 +1158,7 @@ InstallServer()
     fi
     if [ -f build/lib/libcontent_manager.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libcontent_manager.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libcontent_manager.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]); then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libcontent_manager.so
@@ -1167,7 +1167,7 @@ InstallServer()
 
     if [ -f build/lib/libindexer_connector.so ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} build/lib/libindexer_connector.so ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} build/lib/libindexer_connector.so ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]); then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/libindexer_connector.so
@@ -1175,7 +1175,7 @@ InstallServer()
     fi
     if [ -f external/rocksdb/build/librocksdb.so.8 ]
     then
-        ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} external/rocksdb/build/librocksdb.so.8 ${INSTALLDIR}/lib
+        ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} external/rocksdb/build/librocksdb.so.8 ${INSTALLDIR}/lib
 
         if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]); then
             chcon -t textrel_shlib_t ${INSTALLDIR}/lib/librocksdb.so.8
@@ -1186,40 +1186,40 @@ InstallServer()
     checkDownloadContent
 
     # Install cluster files
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/cluster
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/logs/cluster
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/cluster
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/logs/cluster
 
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/etc/shared/default
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/backup/shared
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/etc/shared/default
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/backup/shared
 
     TransferShared
 
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-manager-remoted ${INSTALLDIR}/bin
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-manager-authd ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-manager-remoted ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-manager-authd ${INSTALLDIR}/bin
 
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/rids
-    ${INSTALL} -d -m 0770 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/router
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/rids
+    ${INSTALL} -d -m 0770 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/router
 
     if [ ! -f ${INSTALLDIR}/queue/agents-timestamp ]; then
-        ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} /dev/null ${INSTALLDIR}/queue/agents-timestamp
+        ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} /dev/null ${INSTALLDIR}/queue/agents-timestamp
     fi
 
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/backup/agents
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/backup/db
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/backup/agents
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/backup/db
 
     if [ ! -f ${INSTALLDIR}/etc/shared/default/agent.conf ]; then
-        ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ../etc/agent.conf ${INSTALLDIR}/etc/shared/default
+        ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ../etc/agent.conf ${INSTALLDIR}/etc/shared/default
     fi
 
     if [ ! -f ${INSTALLDIR}/etc/shared/agent-template.conf ]; then
-        ${INSTALL} -m 0660 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ../etc/agent.conf ${INSTALLDIR}/etc/shared/agent-template.conf
+        ${INSTALL} -m 0660 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ../etc/agent.conf ${INSTALLDIR}/etc/shared/agent-template.conf
     fi
 
     GenerateAuthCert
 
     # Keystore
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/keystore
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-manager-keystore ${INSTALLDIR}/bin/wazuh-manager-keystore
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/keystore
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-manager-keystore ${INSTALLDIR}/bin/assetguard-manager-keystore
 }
 
 InstallAgent()
@@ -1230,73 +1230,73 @@ InstallAgent()
     InstallSecurityConfigurationAssessmentFiles "agent"
 
     ${INSTALL} -m 0750 -o root -g 0 build/bin/manage_agents ${INSTALLDIR}/bin
-    ${INSTALL} -m 0750 -o root -g 0 build/bin/wazuh-agentd ${INSTALLDIR}/bin
+    ${INSTALL} -m 0750 -o root -g 0 build/bin/assetguard-agentd ${INSTALLDIR}/bin
 
-    ${INSTALL} -d -m 0750 -o ${WAZUH_USER} -g ${WAZUH_GROUP} ${INSTALLDIR}/queue/rids
-    ${INSTALL} -d -m 0770 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/var/incoming
-    ${INSTALL} -m 0640 -o root -g ${WAZUH_GROUP} ../etc/wpk_root.pem ${INSTALLDIR}/etc/
+    ${INSTALL} -d -m 0750 -o ${ASSETGUARD_USER} -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/queue/rids
+    ${INSTALL} -d -m 0770 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/var/incoming
+    ${INSTALL} -m 0640 -o root -g ${ASSETGUARD_GROUP} ../etc/wpk_root.pem ${INSTALLDIR}/etc/
 
     # Install the plugins files
     # Don't install the plugins if they are already installed.
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/__init__.py ${INSTALLDIR}/wodles/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/utils.py ${INSTALLDIR}/wodles/utils.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/__init__.py ${INSTALLDIR}/wodles/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/utils.py ${INSTALLDIR}/wodles/utils.py
 
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/aws
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/aws/buckets_s3
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/aws/services
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/aws/subscribers
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/aws_s3.py ${INSTALLDIR}/wodles/aws/aws-s3
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/__init__.py ${INSTALLDIR}/wodles/aws/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/aws_tools.py ${INSTALLDIR}/wodles/aws/aws_tools.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/wazuh_integration.py ${INSTALLDIR}/wodles/aws/wazuh_integration.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/aws_bucket.py ${INSTALLDIR}/wodles/aws/buckets_s3/aws_bucket.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/cloudtrail.py ${INSTALLDIR}/wodles/aws/buckets_s3/cloudtrail.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/config.py ${INSTALLDIR}/wodles/aws/buckets_s3/config.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/guardduty.py ${INSTALLDIR}/wodles/aws/buckets_s3/guardduty.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/__init__.py ${INSTALLDIR}/wodles/aws/buckets_s3/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/load_balancers.py ${INSTALLDIR}/wodles/aws/buckets_s3/load_balancers.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/server_access.py ${INSTALLDIR}/wodles/aws/buckets_s3/server_access.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/umbrella.py ${INSTALLDIR}/wodles/aws/buckets_s3/umbrella.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/vpcflow.py ${INSTALLDIR}/wodles/aws/buckets_s3/vpcflow.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/buckets_s3/waf.py ${INSTALLDIR}/wodles/aws/buckets_s3/waf.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/services/aws_service.py ${INSTALLDIR}/wodles/aws/services/aws_service.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/services/cloudwatchlogs.py ${INSTALLDIR}/wodles/aws/services/cloudwatchlogs.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/services/__init__.py ${INSTALLDIR}/wodles/aws/services/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/services/inspector.py ${INSTALLDIR}/wodles/aws/services/inspector.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/subscribers/__init__.py ${INSTALLDIR}/wodles/aws/subscribers/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/subscribers/sqs_queue.py ${INSTALLDIR}/wodles/aws/subscribers/sqs_queue.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/subscribers/s3_log_handler.py ${INSTALLDIR}/wodles/aws/subscribers/s3_log_handler.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/aws/subscribers/sqs_message_processor.py ${INSTALLDIR}/wodles/aws/subscribers/sqs_message_processor.py
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/aws
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/aws/buckets_s3
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/aws/services
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/aws/subscribers
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/aws_s3.py ${INSTALLDIR}/wodles/aws/aws-s3
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/__init__.py ${INSTALLDIR}/wodles/aws/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/aws_tools.py ${INSTALLDIR}/wodles/aws/aws_tools.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/assetguard_integration.py ${INSTALLDIR}/wodles/aws/assetguard_integration.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/aws_bucket.py ${INSTALLDIR}/wodles/aws/buckets_s3/aws_bucket.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/cloudtrail.py ${INSTALLDIR}/wodles/aws/buckets_s3/cloudtrail.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/config.py ${INSTALLDIR}/wodles/aws/buckets_s3/config.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/guardduty.py ${INSTALLDIR}/wodles/aws/buckets_s3/guardduty.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/__init__.py ${INSTALLDIR}/wodles/aws/buckets_s3/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/load_balancers.py ${INSTALLDIR}/wodles/aws/buckets_s3/load_balancers.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/server_access.py ${INSTALLDIR}/wodles/aws/buckets_s3/server_access.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/umbrella.py ${INSTALLDIR}/wodles/aws/buckets_s3/umbrella.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/vpcflow.py ${INSTALLDIR}/wodles/aws/buckets_s3/vpcflow.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/buckets_s3/waf.py ${INSTALLDIR}/wodles/aws/buckets_s3/waf.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/services/aws_service.py ${INSTALLDIR}/wodles/aws/services/aws_service.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/services/cloudwatchlogs.py ${INSTALLDIR}/wodles/aws/services/cloudwatchlogs.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/services/__init__.py ${INSTALLDIR}/wodles/aws/services/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/services/inspector.py ${INSTALLDIR}/wodles/aws/services/inspector.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/subscribers/__init__.py ${INSTALLDIR}/wodles/aws/subscribers/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/subscribers/sqs_queue.py ${INSTALLDIR}/wodles/aws/subscribers/sqs_queue.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/subscribers/s3_log_handler.py ${INSTALLDIR}/wodles/aws/subscribers/s3_log_handler.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/aws/subscribers/sqs_message_processor.py ${INSTALLDIR}/wodles/aws/subscribers/sqs_message_processor.py
 
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/gcloud
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/gcloud/pubsub
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/gcloud/buckets
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/gcloud.py ${INSTALLDIR}/wodles/gcloud/gcloud
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/integration.py ${INSTALLDIR}/wodles/gcloud/integration.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/tools.py ${INSTALLDIR}/wodles/gcloud/tools.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/exceptions.py ${INSTALLDIR}/wodles/gcloud/exceptions.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/buckets/bucket.py ${INSTALLDIR}/wodles/gcloud/buckets/bucket.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/buckets/access_logs.py ${INSTALLDIR}/wodles/gcloud/buckets/access_logs.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/gcloud/pubsub/subscriber.py ${INSTALLDIR}/wodles/gcloud/pubsub/subscriber.py
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/gcloud
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/gcloud/pubsub
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/gcloud/buckets
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/gcloud.py ${INSTALLDIR}/wodles/gcloud/gcloud
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/integration.py ${INSTALLDIR}/wodles/gcloud/integration.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/tools.py ${INSTALLDIR}/wodles/gcloud/tools.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/exceptions.py ${INSTALLDIR}/wodles/gcloud/exceptions.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/buckets/bucket.py ${INSTALLDIR}/wodles/gcloud/buckets/bucket.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/buckets/access_logs.py ${INSTALLDIR}/wodles/gcloud/buckets/access_logs.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/gcloud/pubsub/subscriber.py ${INSTALLDIR}/wodles/gcloud/pubsub/subscriber.py
 
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/docker
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/docker-listener/DockerListener.py ${INSTALLDIR}/wodles/docker/DockerListener
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/docker
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/docker-listener/DockerListener.py ${INSTALLDIR}/wodles/docker/DockerListener
 
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/azure
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/azure/azure_services
-    ${INSTALL} -d -m 0750 -o root -g ${WAZUH_GROUP} ${INSTALLDIR}/wodles/azure/db
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/azure-logs.py ${INSTALLDIR}/wodles/azure/azure-logs
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/azure_utils.py ${INSTALLDIR}/wodles/azure/azure_utils.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/azure_services/__init__.py ${INSTALLDIR}/wodles/azure/azure_services/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/azure_services/analytics.py ${INSTALLDIR}/wodles/azure/azure_services/analytics.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/azure_services/graph.py ${INSTALLDIR}/wodles/azure/azure_services/graph.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/azure_services/storage.py ${INSTALLDIR}/wodles/azure/azure_services/storage.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/db/__init__.py ${INSTALLDIR}/wodles/azure/db/__init__.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/db/orm.py ${INSTALLDIR}/wodles/azure/db/orm.py
-    ${INSTALL} -m 0750 -o root -g ${WAZUH_GROUP} ../wodles/azure/db/utils.py ${INSTALLDIR}/wodles/azure/db/utils.py
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/azure
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/azure/azure_services
+    ${INSTALL} -d -m 0750 -o root -g ${ASSETGUARD_GROUP} ${INSTALLDIR}/wodles/azure/db
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/azure-logs.py ${INSTALLDIR}/wodles/azure/azure-logs
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/azure_utils.py ${INSTALLDIR}/wodles/azure/azure_utils.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/azure_services/__init__.py ${INSTALLDIR}/wodles/azure/azure_services/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/azure_services/analytics.py ${INSTALLDIR}/wodles/azure/azure_services/analytics.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/azure_services/graph.py ${INSTALLDIR}/wodles/azure/azure_services/graph.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/azure_services/storage.py ${INSTALLDIR}/wodles/azure/azure_services/storage.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/db/__init__.py ${INSTALLDIR}/wodles/azure/db/__init__.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/db/orm.py ${INSTALLDIR}/wodles/azure/db/orm.py
+    ${INSTALL} -m 0750 -o root -g ${ASSETGUARD_GROUP} ../wodles/azure/db/utils.py ${INSTALLDIR}/wodles/azure/db/utils.py
 }
 
-InstallWazuh()
+InstallAssetGuard()
 {
     if [ "X$INSTYPE" = "Xagent" ]; then
         InstallAgent

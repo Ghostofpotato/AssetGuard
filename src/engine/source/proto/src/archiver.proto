@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "engine.proto";
 
-package com.wazuh.api.engine.archiver;
+package com.assetguard.api.engine.archiver;
 
 /*
  * This API is used to manage the archives in the engine

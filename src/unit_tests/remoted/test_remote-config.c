@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,9 +17,9 @@
 #include "remoted.h"
 #include "shared.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
-#include "../wrappers/wazuh/shared/cluster_utils_wrappers.h"
+#include "../wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "../wrappers/assetguard/shared/validate_op_wrappers.h"
+#include "../wrappers/assetguard/shared/cluster_utils_wrappers.h"
 #include "../../external/cJSON/cJSON.h"
 
 int w_remoted_get_net_protocol(const char * content);

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 # All rights reserved.
-# Wazuh.com
+# AssetGuard.com
 
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -11,7 +11,7 @@
 
 # Just for agents
 # Prints the current ossec.conf with <address> of ossec.conf specified as first argument.
-# Example: ./replace_manager_ip.sh /var/wazuh-manager/etc/ossec.conf.rpmorig
+# Example: ./replace_manager_ip.sh /var/assetguard-manager/etc/ossec.conf.rpmorig
 
 # Aux functions
 check_tag_in_file() {  # tag file

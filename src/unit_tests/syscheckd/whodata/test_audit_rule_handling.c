@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -22,10 +22,10 @@
 #include "wrappers/libc/stdio_wrappers.h"
 #include "wrappers/libc/stdlib_wrappers.h"
 #include "wrappers/posix/unistd_wrappers.h"
-#include "wrappers/wazuh/shared/audit_op_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "wrappers/wazuh/shared/file_op_wrappers.h"
-#include "wrappers/wazuh/syscheckd/audit_parse_wrappers.h"
+#include "wrappers/assetguard/shared/audit_op_wrappers.h"
+#include "wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "wrappers/assetguard/shared/file_op_wrappers.h"
+#include "wrappers/assetguard/syscheckd/audit_parse_wrappers.h"
 
 
 #define PERMS (AUDIT_PERM_WRITE | AUDIT_PERM_ATTR)

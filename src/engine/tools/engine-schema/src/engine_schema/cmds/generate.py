@@ -115,7 +115,7 @@ def run(args, resource_handler: rs.ResourceHandler):
         decoder_template, decoder_fields_schema, output_dir, resource_handler)
 
     resource_handler.save_file(
-        output_dir, 'wazuh-logpar-overrides', jlogpar, rs.Format.JSON)
+        output_dir, 'assetguard-logpar-overrides', jlogpar, rs.Format.JSON)
     resource_handler.save_file(
         output_dir, 'engine-schema', jengine, rs.Format.JSON)
     resource_handler.save_file(
@@ -137,13 +137,13 @@ def configure(subparsers):
         'generate', help='Generate the schema and associated configuration')
 
     parser_generate.add_argument('--wcs-path', type=str, required=True,
-                                 help='Path to the Wazuh Common Schema YAML file, directory containing YAML files, or comma-separated list of YAML files. If a directory is provided, all .yml and .yaml files will be merged. If comma-separated paths are provided, all specified files will be merged.')
+                                 help='Path to the AssetGuard Common Schema YAML file, directory containing YAML files, or comma-separated list of YAML files. If a directory is provided, all .yml and .yaml files will be merged. If comma-separated paths are provided, all specified files will be merged.')
 
     parser_generate.add_argument('--output-dir', type=str, default=DEFAULT_OUTPUT_DIR,
                                  help=f'[default="{DEFAULT_OUTPUT_DIR}"] Root directory to store generated files')
 
     parser_generate.add_argument('--decoder-template', type=str, required=True,
-                                 help='Path to wazuh-decoders.json template file for fields injection.')
+                                 help='Path to assetguard-decoders.json template file for fields injection.')
 
     parser_generate.add_argument('--types-output', type=Path, default=DEFAULT_TYPES_PATH,
                                  help='Path to write the list of ECS field types. Provide a destination file when using this option. If omitted, the list is not generated.')
@@ -168,5 +168,5 @@ def _inline_decoder_template(template_path: str, fields_decoder: dict, output_di
     if definitions.get('_fieldsDecoder') != "__FIELDS_DECODER_PLACEHOLDER__":
         raise ValueError('Template placeholder not found in definitions')
     definitions['_fieldsDecoder'] = fields_decoder
-    resource_handler.save_file(output_dir, 'wazuh-decoders', template, rs.Format.JSON)
-    print('Generated wazuh-decoders.json')
+    resource_handler.save_file(output_dir, 'assetguard-decoders', template, rs.Format.JSON)
+    print('Generated assetguard-decoders.json')

@@ -19,7 +19,7 @@ def init_opensearch(low_resources):
     env_vars = {
             'discovery.type': 'single-node',
             'plugins.security.disabled': 'true',
-            'OPENSEARCH_INITIAL_ADMIN_PASSWORD': 'WazuhTest99$'
+            'OPENSEARCH_INITIAL_ADMIN_PASSWORD': 'AssetGuardTest99$'
         }
 
     if low_resources:
@@ -96,7 +96,7 @@ def test_initialize_indexer_connector(opensearch):
     while counter < 10:
         url = 'http://'+GLOBAL_URL+'/_cat/indices'
         response = requests.get(url)
-        if response.status_code == 200 and 'wazuh-states-vulnerabilities-default' in response.text:
+        if response.status_code == 200 and 'assetguard-states-vulnerabilities-default' in response.text:
             LOGGER.debug(f"Index created {response.text}")
             break
         time.sleep(1)
@@ -142,7 +142,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the index is created and template is applied
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -159,7 +159,7 @@ def test_add_bulk_indexer_connector(opensearch):
     process.terminate()
 
     # Delete the document to test the resync.
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_delete_by_query?refresh=true'
+    url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_delete_by_query?refresh=true'
     query = {
         "query": {
             "match_all": {}
@@ -168,7 +168,7 @@ def test_add_bulk_indexer_connector(opensearch):
     response = requests.post(url, json=query)
     assert response.status_code == 200
 
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+    url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
     query = {
         "query": {
             "match_all": {}
@@ -190,7 +190,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the element is resynced
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -223,7 +223,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the element is deleted
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -242,9 +242,9 @@ def test_add_bulk_indexer_connector(opensearch):
     process.terminate()
 
     # Manual insert and check if resync clean the element.
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-cluster/_doc/000_pkghash_CVE-2022-123456?refresh=true'
+    url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-cluster/_doc/000_pkghash_CVE-2022-123456?refresh=true'
     query = """{
-      "wazuh": {
+      "assetguard": {
         "agent": {
           "build": {
           "original": "sample_build_1"
@@ -311,7 +311,7 @@ def test_add_bulk_indexer_connector(opensearch):
     # Query to check if the element is resynced
     counter = 0
     while counter < 10:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -388,7 +388,7 @@ def test_bulk_indexer_413_connector(opensearch):
     # Query to check if the index is created and template is applied
     counter = 0
     while counter < 60:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -406,7 +406,7 @@ def test_bulk_indexer_413_connector(opensearch):
     process.terminate()
 
     # Delete the document to test the resync.
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_delete_by_query?refresh=true'
+    url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_delete_by_query?refresh=true'
     query = {
         "query": {
             "match_all": {}
@@ -415,7 +415,7 @@ def test_bulk_indexer_413_connector(opensearch):
     response = requests.post(url, json=query)
     assert response.status_code == 200
 
-    url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+    url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
     query = {
         "query": {
             "match_all": {}
@@ -439,7 +439,7 @@ def test_bulk_indexer_413_connector(opensearch):
     # Query to check if the element is resynced
     counter = 0
     while counter < 60:
-        url = 'http://'+GLOBAL_URL+'/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://'+GLOBAL_URL+'/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -507,7 +507,7 @@ def test_update_mappings_connector(opensearch):
     process.terminate()
 
     # Check if the index is created.
-    url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/'
+    url = 'http://' + GLOBAL_URL + '/assetguard-states-vulnerabilities-default/'
     response = requests.get(url)
     if response.status_code == 200:
         LOGGER.debug("Index created")
@@ -515,7 +515,7 @@ def test_update_mappings_connector(opensearch):
     # Check if the document was not inserted
     counter = 0
     while counter < 10:
-        url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://' + GLOBAL_URL + '/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -545,7 +545,7 @@ def test_update_mappings_connector(opensearch):
     # Query to check if the element exists
     counter = 0
     while counter < 10:
-        url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://' + GLOBAL_URL + '/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -611,7 +611,7 @@ def test_update_mappings_connector_legacy(opensearch):
     process.terminate()
 
     # Check if the index is created.
-    url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/'
+    url = 'http://' + GLOBAL_URL + '/assetguard-states-vulnerabilities-default/'
     response = requests.get(url)
     if response.status_code == 200:
         LOGGER.debug("Index created")
@@ -619,7 +619,7 @@ def test_update_mappings_connector_legacy(opensearch):
     # Check if the document was not inserted
     counter = 0
     while counter < 10:
-        url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://' + GLOBAL_URL + '/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -649,7 +649,7 @@ def test_update_mappings_connector_legacy(opensearch):
     # Query to check if the element exists
     counter = 0
     while counter < 10:
-        url = 'http://' + GLOBAL_URL + '/wazuh-states-vulnerabilities-default/_search'
+        url = 'http://' + GLOBAL_URL + '/assetguard-states-vulnerabilities-default/_search'
         query = {
             "query": {
                 "match_all": {}
@@ -755,7 +755,7 @@ def test_error_handling_404_index_not_found(opensearch):
         shutil.rmtree("queue/indexer/")
 
     # Ensure test index does NOT exist
-    index_url = f'http://{GLOBAL_URL}/wazuh-nonexistent-index-404'
+    index_url = f'http://{GLOBAL_URL}/assetguard-nonexistent-index-404'
     response = requests.delete(index_url)
     LOGGER.debug(f"Deleted test index (if existed): {response.status_code}")
 
@@ -805,7 +805,7 @@ def test_abuse_control_indexer_connector(opensearch):
     subprocess.run([cmd] + args, check=True)
 
     # verify only 1 document created
-    url = f"http://{GLOBAL_URL}/wazuh-states-vulnerabilities-default/_search"
+    url = f"http://{GLOBAL_URL}/assetguard-states-vulnerabilities-default/_search"
     r = requests.get(url, json={"query": {"match_all": {}}})
     count = r.json()["hits"]["total"]["value"]
     assert count == 1, f"Expected 1 doc, found {count}"
@@ -863,7 +863,7 @@ def test_abuse_control_no_data_loss_on_indexer_failure(opensearch):
 
     # Verify document was created
     time.sleep(2)
-    url = f"http://{GLOBAL_URL}/wazuh-states-vulnerabilities-default/_search"
+    url = f"http://{GLOBAL_URL}/assetguard-states-vulnerabilities-default/_search"
     response = requests.get(url, json={"query": {"match_all": {}}})
     assert response.status_code == 200
     initial_count = response.json()["hits"]["total"]["value"]

@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 from subprocess import Popen, PIPE
@@ -10,8 +10,8 @@ import trustme
 from pathlib import Path
 
 LOGGER = logging.getLogger(__name__)
-KEYSTORE_BINARY = "./wazuh-manager-keystore"
-KEYSTORE_TESTTOOL_BINARY = "./wazuh-keystore-testtool"
+KEYSTORE_BINARY = "./assetguard-manager-keystore"
+KEYSTORE_TESTTOOL_BINARY = "./assetguard-keystore-testtool"
 CERTS_PATH = 'etc/'
 PRIVATE_KEY_FILE = "etc/sslmanager.key"
 CERTIFICATE_FILE ="etc/sslmanager.cert"

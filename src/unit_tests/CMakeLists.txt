@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, AssetGuard Inc.
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License (version 2) as published by the
@@ -48,48 +48,48 @@ include_directories(${SRC_FOLDER}/shared_modules/router/include/)
 include_directories(${SRC_FOLDER}/shared_modules/sync_protocol/include/)
 include_directories(${SRC_FOLDER}/shared_modules/agent_metadata/include/)
 include_directories(${SRC_FOLDER}/shared_modules/dbsync/include/)
-include_directories(${SRC_FOLDER}/wazuh_modules/include/)
-include_directories(${SRC_FOLDER}/wazuh_modules/src/)
-include_directories(${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/)
-include_directories(${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/agent/)
-include_directories(${SRC_FOLDER}/wazuh_modules/src/agent_upgrade/manager/)
-include_directories(${SRC_FOLDER}/wazuh_modules/src/task_manager/)
-include_directories(${SRC_FOLDER}/wazuh_db/include/)
-add_definitions(-DWAZUH_UNIT_TESTING)
+include_directories(${SRC_FOLDER}/assetguard_modules/include/)
+include_directories(${SRC_FOLDER}/assetguard_modules/src/)
+include_directories(${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/)
+include_directories(${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/agent/)
+include_directories(${SRC_FOLDER}/assetguard_modules/src/agent_upgrade/manager/)
+include_directories(${SRC_FOLDER}/assetguard_modules/src/task_manager/)
+include_directories(${SRC_FOLDER}/assetguard_db/include/)
+add_definitions(-DASSETGUARD_UNIT_TESTING)
 
-# Find libwazuh_test (contains test wrappers for unit testing)
+# Find libassetguard_test (contains test wrappers for unit testing)
 find_library(
-  WAZUHLIB_WAZUH
-  NAMES wazuh_test libwazuh_test.a
+  ASSETGUARDLIB_ASSETGUARD
+  NAMES assetguard_test libassetguard_test.a
   HINTS "${SRC_FOLDER}/build/lib")
-if(NOT WAZUHLIB_WAZUH)
+if(NOT ASSETGUARDLIB_ASSETGUARD)
   message(
     FATAL_ERROR
-      "libwazuh_test.a not found in ${SRC_FOLDER}/build/lib. Aborting...")
+      "libassetguard_test.a not found in ${SRC_FOLDER}/build/lib. Aborting...")
 endif()
 
 # Find libconfig
 find_library(
-  WAZUHLIB_CONFIG
+  ASSETGUARDLIB_CONFIG
   NAMES config libconfig.a
   HINTS "${SRC_FOLDER}/build/lib")
-if(NOT WAZUHLIB_CONFIG)
+if(NOT ASSETGUARDLIB_CONFIG)
   message(FATAL_ERROR "libconfig.a not found in ${SRC_FOLDER}. Aborting...")
 endif()
 
-# Find libwazuh_modules
+# Find libassetguard_modules
 find_library(
-  WAZUHLIB_WM
-  NAMES wazuh_modulesd_lib libwazuh_modulesd_lib.a
+  ASSETGUARDLIB_WM
+  NAMES assetguard_modulesd_lib libassetguard_modulesd_lib.a
   HINTS "${SRC_FOLDER}/build/lib")
-if(NOT WAZUHLIB_WM)
+if(NOT ASSETGUARDLIB_WM)
   message(
     FATAL_ERROR
-      "libwazuh_modulesd_lib.a not found in ${SRC_FOLDER}. Aborting...")
+      "libassetguard_modulesd_lib.a not found in ${SRC_FOLDER}. Aborting...")
 endif()
 
-# Store both in WAZUHLIB (list)
-set(WAZUHLIB ${WAZUHLIB_CONFIG} ${WAZUHLIB_WAZUH} ${WAZUHLIB_WM})
+# Store both in ASSETGUARDLIB (list)
+set(ASSETGUARDLIB ${ASSETGUARDLIB_CONFIG} ${ASSETGUARDLIB_ASSETGUARD} ${ASSETGUARDLIB_WM})
 
 # Enable testing
 enable_testing()
@@ -101,26 +101,26 @@ elseif(${TARGET} STREQUAL "manager")
   include("./server.cmake")
   configure_file(
     "config_files/test_global.conf"
-    "wazuh_modules/vulnerability_detection/test_global.conf" COPYONLY)
+    "assetguard_modules/vulnerability_detection/test_global.conf" COPYONLY)
   configure_file(
     "config_files/test_vulnerability_detection_multiple_configuration.conf"
-    "wazuh_modules/vulnerability_detection/test_vulnerability_detection_multiple_configuration.conf"
+    "assetguard_modules/vulnerability_detection/test_vulnerability_detection_multiple_configuration.conf"
     COPYONLY)
   configure_file(
     "config_files/test_vulnerability_detection_duplicate_configuration.conf"
-    "wazuh_modules/vulnerability_detection/test_vulnerability_detection_duplicate_configuration.conf"
+    "assetguard_modules/vulnerability_detection/test_vulnerability_detection_duplicate_configuration.conf"
     COPYONLY)
   configure_file(
     "config_files/test_vulnerability_detection.conf"
-    "wazuh_modules/vulnerability_detection/test_vulnerability_detection.conf"
+    "assetguard_modules/vulnerability_detection/test_vulnerability_detection.conf"
     COPYONLY)
   configure_file(
     "config_files/test_vulnerability_detection_invalid_index_status_setting.conf"
-    "wazuh_modules/vulnerability_detection/test_vulnerability_detection_invalid_index_status_setting.conf"
+    "assetguard_modules/vulnerability_detection/test_vulnerability_detection_invalid_index_status_setting.conf"
     COPYONLY)
   configure_file(
     "config_files/test_global_no_cti_url.conf"
-    "wazuh_modules/vulnerability_detection/test_global_no_cti_url.conf"
+    "assetguard_modules/vulnerability_detection/test_global_no_cti_url.conf"
     COPYONLY)
 elseif(${TARGET} STREQUAL "agent")
   include("./agent.cmake")
@@ -136,8 +136,8 @@ else()
   message(FATAL_ERROR "Invalid TARGET '${TARGET}'. Aborting...")
 endif()
 
-if(NOT WAZUHEXT)
-  message(FATAL_ERROR "libwazuhext not found! Aborting...")
+if(NOT ASSETGUARDEXT)
+  message(FATAL_ERROR "libassetguardext not found! Aborting...")
 endif()
 
 if((CMAKE_SYSTEM_NAME STREQUAL "Linux") OR (CMAKE_SYSTEM_NAME STREQUAL "Windows"
@@ -252,7 +252,7 @@ add_custom_target(
   # Generate HTML report
   COMMAND
     ${GENHTML_PATH} -q --output-directory coverage-report --title
-    "WAZUH unit-tests coverage" --rc lcov_branch_coverage=1 --ignore-errors
+    "ASSETGUARD unit-tests coverage" --rc lcov_branch_coverage=1 --ignore-errors
     mismatch --legend coverage.info.cleaned
   # Clean counters
   COMMAND ${CMAKE_COMMAND} -E remove coverage.base coverage.total

@@ -8,16 +8,16 @@ if(NOT CMAKE_CROSSCOMPILING)
 endif()
 
 # Setup the compiling toolchain
-# Find the wazuh shared library (delay-import .lib file)
-find_library(WAZUHEXT NAMES wazuhext libwazuhext HINTS "${SRC_FOLDER}/build/lib")
+# Find the assetguard shared library (delay-import .lib file)
+find_library(ASSETGUARDEXT NAMES assetguardext libassetguardext HINTS "${SRC_FOLDER}/build/lib")
 set(uname "Win32")
 
-if(NOT WAZUHEXT)
-  message(FATAL_ERROR "WAZUHEXT is set to '${WAZUHEXT}', but did not find any file matching ${SRC_FOLDER}/build/lib/${CMAKE_FIND_LIBRARY_PREFIXES}wazuhext${CMAKE_FIND_LIBRARY_SUFFIXES}")
-  message(FATAL_ERROR "libwazuhext not found in ${SRC_FOLDER}/build/lib Aborting...")
+if(NOT ASSETGUARDEXT)
+  message(FATAL_ERROR "ASSETGUARDEXT is set to '${ASSETGUARDEXT}', but did not find any file matching ${SRC_FOLDER}/build/lib/${CMAKE_FIND_LIBRARY_PREFIXES}assetguardext${CMAKE_FIND_LIBRARY_SUFFIXES}")
+  message(FATAL_ERROR "libassetguardext not found in ${SRC_FOLDER}/build/lib Aborting...")
 endif()
 
-# Find the wazuh sysinfo library
+# Find the assetguard sysinfo library
 find_library(SYSINFO NAMES sysinfo HINTS "${SRC_FOLDER}/build/bin")
 set(uname "Win32")
 
@@ -48,7 +48,7 @@ endif()
 
 # Add compiling flags
 add_compile_options(-ggdb -O0 -g -coverage)
-add_definitions(-DTEST_WINAGENT -DDEBUG -DENABLE_AUDIT -D_WIN32_WINNT=0x600 -DWAZUH_UNIT_TESTING)
+add_definitions(-DTEST_WINAGENT -DDEBUG -DENABLE_AUDIT -D_WIN32_WINNT=0x600 -DASSETGUARD_UNIT_TESTING)
 
 # Add logcollector objects
 file(GLOB logcollector_lib ${SRC_FOLDER}/build/logcollector/CMakeFiles/logcollector_lib.dir/src/*.obj)
@@ -83,7 +83,7 @@ set_target_properties(
   LINKER_LANGUAGE C
 )
 
-target_link_libraries(DEPENDENCIES_O ${WAZUHLIB} ${WAZUHEXT} ${PTHREAD} ${SYSINFO} ${AGENT_METADATA} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 wintrust)
+target_link_libraries(DEPENDENCIES_O ${ASSETGUARDLIB} ${ASSETGUARDEXT} ${PTHREAD} ${SYSINFO} ${AGENT_METADATA} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 wintrust)
 
 # Find CMake-built libraries (DLL import libraries)
 set(FIMDB_LIB ${SRC_FOLDER}/build/lib/libfimdb.dll.a)
@@ -93,11 +93,11 @@ set(SCHEMA_VALIDATOR_LIB ${SRC_FOLDER}/build/lib/libschema_validator.dll.a)
 
 # Set tests dependencies
 # Use --start-group and --end-group to handle circular dependencies
-set(TEST_DEPS -Wl,--start-group ${WAZUHLIB} ${WAZUHEXT} ${SYSINFO} ${AGENT_METADATA} DEPENDENCIES_O ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${FIMDB_LIB} -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
-set(TEST_EVENT_DEPS -Wl,--start-group ${WAZUHLIB} ${WAZUHEXT} ${SYSINFO} ${AGENT_METADATA} DEPENDENCIES_O ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${FIMDB_LIB} -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
+set(TEST_DEPS -Wl,--start-group ${ASSETGUARDLIB} ${ASSETGUARDEXT} ${SYSINFO} ${AGENT_METADATA} DEPENDENCIES_O ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${FIMDB_LIB} -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
+set(TEST_EVENT_DEPS -Wl,--start-group ${ASSETGUARDLIB} ${ASSETGUARDEXT} ${SYSINFO} ${AGENT_METADATA} DEPENDENCIES_O ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${FIMDB_LIB} -Wl,--end-group ${PTHREAD} ${STATIC_CMOCKA} wsock32 wevtapi shlwapi comctl32 advapi32 kernel32 psapi gdi32 iphlpapi ws2_32 crypt32 -fprofile-arcs -ftest-coverage)
 
 add_subdirectory(client-agent)
-add_subdirectory(wazuh_modules)
+add_subdirectory(assetguard_modules)
 add_subdirectory(os_execd)
 add_subdirectory(win32)
 add_subdirectory(logcollector)

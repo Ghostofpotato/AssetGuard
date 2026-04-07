@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-manager-analysisd' daemon receives the log messages and compares them to the rules.
+brief: The 'assetguard-manager-analysisd' daemon receives the log messages and compares them to the rules.
        It then creates an alert when a log message matches an applicable rule.
-       Specifically, these tests will check if the 'wazuh-manager-analysisd' daemon correctly handles
+       Specifically, these tests will check if the 'assetguard-manager-analysisd' daemon correctly handles
        incoming events related to file integrity.
 
 components:
@@ -21,8 +21,8 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-analysisd
-    - wazuh-manager-db
+    - assetguard-manager-analysisd
+    - assetguard-manager-db
 
 os_platform:
     - linux
@@ -39,7 +39,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-manager-analysisd.html
+    - https://documentation.assetguard.com/current/user-manual/reference/daemons/assetguard-manager-analysisd.html
 
 tags:
     - events
@@ -49,13 +49,13 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing import session_parameters
-from wazuh_testing.constants.daemons import WAZUH_DB_DAEMON, ANALYSISD_DAEMON
-from wazuh_testing.constants.paths.sockets import WAZUH_DB_SOCKET_PATH, ANALYSISD_QUEUE_SOCKET_PATH
-from wazuh_testing.modules.analysisd import patterns, configuration as analysisd_config
-from wazuh_testing.modules.monitord import configuration as monitord_config
-from wazuh_testing.tools import mitm
-from wazuh_testing.utils import configuration, callbacks
+from assetguard_testing import session_parameters
+from assetguard_testing.constants.daemons import ASSETGUARD_DB_DAEMON, ANALYSISD_DAEMON
+from assetguard_testing.constants.paths.sockets import ASSETGUARD_DB_SOCKET_PATH, ANALYSISD_QUEUE_SOCKET_PATH
+from assetguard_testing.modules.analysisd import patterns, configuration as analysisd_config
+from assetguard_testing.modules.monitord import configuration as monitord_config
+from assetguard_testing.tools import mitm
+from assetguard_testing.utils import configuration, callbacks
 
 from . import TEST_CASES_PATH
 
@@ -73,9 +73,9 @@ local_internal_options = {analysisd_config.ANALYSISD_DEBUG: '2', monitord_config
 # Test variables.
 receiver_sockets_params = [(ANALYSISD_QUEUE_SOCKET_PATH, 'AF_UNIX', 'UDP')]
 
-mitm_wdb = mitm.ManInTheMiddle(address=WAZUH_DB_SOCKET_PATH, family='AF_UNIX', connection_protocol='TCP')
+mitm_wdb = mitm.ManInTheMiddle(address=ASSETGUARD_DB_SOCKET_PATH, family='AF_UNIX', connection_protocol='TCP')
 mitm_analysisd = mitm.ManInTheMiddle(address=ANALYSISD_QUEUE_SOCKET_PATH, family='AF_UNIX', connection_protocol='UDP')
-monitored_sockets_params = [(WAZUH_DB_DAEMON, mitm_wdb, True), (ANALYSISD_DAEMON, mitm_analysisd, True)]
+monitored_sockets_params = [(ASSETGUARD_DB_DAEMON, mitm_wdb, True), (ANALYSISD_DAEMON, mitm_analysisd, True)]
 
 receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 
@@ -85,13 +85,13 @@ receiver_sockets, monitored_sockets = None, None  # Set in the fixtures
 def test_integrity_messages(test_metadata, configure_local_internal_options, configure_sockets_environment_module,
                        connect_to_sockets_module, wait_for_analysisd_startup):
     '''
-    description: Check if when the 'wazuh-manager-analysisd' daemon socket receives a message with
+    description: Check if when the 'assetguard-manager-analysisd' daemon socket receives a message with
                  a file integrity-related event, it generates the corresponding alert that
-                 sends to the 'wazuh-manager-db' daemon socket.
+                 sends to the 'assetguard-manager-db' daemon socket.
                  The 'validate_analysis_integrity_state' function checks if an 'analysisd'
                  integrity message is properly formatted.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     tier: 0
 
@@ -101,7 +101,7 @@ def test_integrity_messages(test_metadata, configure_local_internal_options, con
             brief: Test case metadata.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the AssetGuard local internal options.
         - configure_sockets_environment_module:
             type: fixture
             brief: Configure environment for sockets and MITM.
@@ -110,7 +110,7 @@ def test_integrity_messages(test_metadata, configure_local_internal_options, con
             brief: Connect to a given list of sockets.
         - wait_for_analysisd_startup:
             type: fixture
-            brief: Wait until the 'wazuh-manager-analysisd' has begun and the 'alerts.json' file is created.
+            brief: Wait until the 'assetguard-manager-analysisd' has begun and the 'alerts.json' file is created.
 
     assertions:
         - Verify that the integrity messages generated are consistent with the events received.

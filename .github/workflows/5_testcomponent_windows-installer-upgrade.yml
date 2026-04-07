@@ -21,8 +21,8 @@ jobs:
         run: make -C src TARGET=winagent -j2
       - name: Avoid signing files and pause
         run: |
-          sed -i 's+signtool+::signtool+g' src/win32/wazuh-installer-build-msi.bat
-          sed -i 's+pause+::pause+g' src/win32/wazuh-installer-build-msi.bat
+          sed -i 's+signtool+::signtool+g' src/win32/assetguard-installer-build-msi.bat
+          sed -i 's+pause+::pause+g' src/win32/assetguard-installer-build-msi.bat
       - name: Removing not required files
         run: rm -rf src/external/* .git/
       - name: Compress folder
@@ -36,7 +36,7 @@ jobs:
   check_upgrade_result:
     strategy:
           matrix:
-              wazuh_version: [4.14.0-1]
+              assetguard_version: [4.14.0-1]
     runs-on: windows-2025
     needs: build
     steps:
@@ -56,7 +56,7 @@ jobs:
       - name: Download released .msi
         run: |
           mkdir C:\win-agent-released
-          python -m wget https://packages.wazuh.com/4.x/windows/wazuh-agent-${{ matrix.wazuh_version }}.msi -o C:\win-agent-released
+          python -m wget https://packages.assetguard.com/4.x/windows/assetguard-agent-${{ matrix.assetguard_version }}.msi -o C:\win-agent-released
       - name: Download base folder
         uses: actions/download-artifact@v4
         with:
@@ -75,7 +75,7 @@ jobs:
               Write-Host "Error: VERSION.json not found."
               exit 1
           }
-          .\wazuh-installer-build-msi.bat $VERSION 0
+          .\assetguard-installer-build-msi.bat $VERSION 0
           cp *.msi C:\win-agent-base\
       - name: Run tests
         run: |

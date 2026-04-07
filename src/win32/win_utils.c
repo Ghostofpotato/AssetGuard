@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -20,7 +20,7 @@
 #include "dll_load_notify.h"
 #include "startup_gate_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
 #include "unit_tests/wrappers/windows/libc/kernel32_wrappers.h"
 #endif
 
@@ -47,7 +47,7 @@ DWORD WINAPI skthread(__attribute__((unused)) LPVOID arg)
 void *skthread()
 #endif
 {
-    startup_gate_wait_for_ready("wazuh-syscheckd");
+    startup_gate_wait_for_ready("assetguard-syscheckd");
     Start_win32_Syscheck();
 #ifdef WIN32
     return 0;
@@ -63,7 +63,7 @@ DWORD WINAPI logcollector_thread(__attribute__((unused)) LPVOID arg)
 void *logcollector_thread()
 #endif
 {
-    startup_gate_wait_for_ready("wazuh-logcollector");
+    startup_gate_wait_for_ready("assetguard-logcollector");
     LogCollectorStart();
 #ifdef WIN32
     return 0;
@@ -89,7 +89,7 @@ void *win_module_thread(void *arg)
 #endif
     }
 
-    startup_gate_wait_for_ready(ctx->name[0] ? ctx->name : "wazuh-modulesd");
+    startup_gate_wait_for_ready(ctx->name[0] ? ctx->name : "assetguard-modulesd");
 
 #ifdef WIN32
     DWORD result = ctx->routine(ctx->data);
@@ -302,7 +302,7 @@ int local_start()
             start_ctx->routine = cur_module->context->start;
             start_ctx->data = cur_module->data;
             module_name = (cur_module->context && cur_module->context->name) ? cur_module->context->name : "module";
-            snprintf(start_ctx->name, sizeof(start_ctx->name), "wazuh-modulesd/%s", module_name);
+            snprintf(start_ctx->name, sizeof(start_ctx->name), "assetguard-modulesd/%s", module_name);
 
             w_create_thread(NULL,
                             0,

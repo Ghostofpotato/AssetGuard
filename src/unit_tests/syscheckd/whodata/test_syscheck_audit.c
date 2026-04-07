@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -21,13 +21,13 @@
 #include "wrappers/libc/stdio_wrappers.h"
 #include "wrappers/libc/stdlib_wrappers.h"
 #include "wrappers/posix/unistd_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "wrappers/wazuh/shared/file_op_wrappers.h"
-#include "wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "wrappers/wazuh/os_crypto/sha1_op_wrappers.h"
-#include "wrappers/wazuh/syscheckd/audit_parse_wrappers.h"
-#include "wrappers/wazuh/syscheckd/audit_rule_handling_wrappers.h"
+#include "wrappers/assetguard/shared/debug_op_wrappers.h"
+#include "wrappers/assetguard/shared/file_op_wrappers.h"
+#include "wrappers/assetguard/shared/mq_op_wrappers.h"
+#include "wrappers/assetguard/os_net/os_net_wrappers.h"
+#include "wrappers/assetguard/os_crypto/sha1_op_wrappers.h"
+#include "wrappers/assetguard/syscheckd/audit_parse_wrappers.h"
+#include "wrappers/assetguard/syscheckd/audit_rule_handling_wrappers.h"
 
 #include "../../../external/procps/readproc.h"
 
@@ -37,8 +37,8 @@ extern atomic_int_t audit_thread_active;
 extern atomic_int_t audit_parse_thread_active;
 extern w_queue_t * audit_queue;
 
-#define AUDIT_RULES_FILE            "etc/audit_rules_wazuh.rules"
-#define AUDIT_RULES_LINK            "/etc/audit/rules.d/audit_rules_wazuh.rules"
+#define AUDIT_RULES_FILE            "etc/audit_rules_assetguard.rules"
+#define AUDIT_RULES_LINK            "/etc/audit/rules.d/audit_rules_assetguard.rules"
 
 int hc_success = 0;
 
@@ -350,7 +350,7 @@ void test_set_auditd_config_audit3_plugin_created(void **state) {
     expect_abspath(AUDIT_SOCKET, 0);
 
     // Plugin already created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_any(__wrap_OS_SHA1_Str, str);
     expect_any(__wrap_OS_SHA1_Str, length);
@@ -399,7 +399,7 @@ void test_set_auditd_config_audit2_plugin_created(void **state) {
     expect_abspath(AUDIT_SOCKET, 0);
 
     // Plugin already created
-    const char *audit2_socket = "/etc/audisp/plugins.d/af_wazuh.conf";
+    const char *audit2_socket = "/etc/audisp/plugins.d/af_assetguard.conf";
 
     expect_any(__wrap_OS_SHA1_Str, str);
     expect_any(__wrap_OS_SHA1_Str, length);
@@ -437,7 +437,7 @@ void test_set_auditd_config_audit_socket_not_created(void **state) {
     expect_abspath(AUDIT_SOCKET, 0);
 
     // Plugin already created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_any(__wrap_OS_SHA1_Str, str);
     expect_any(__wrap_OS_SHA1_Str, length);
@@ -479,7 +479,7 @@ void test_set_auditd_config_audit_socket_not_created_restart(void **state) {
     expect_abspath(AUDIT_SOCKET, 0);
 
     // Plugin already created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_any(__wrap_OS_SHA1_Str, str);
     expect_any(__wrap_OS_SHA1_Str, length);
@@ -515,10 +515,10 @@ void test_set_auditd_config_audit_plugin_tampered_configuration(void **state) {
     expect_popen("auditctl -v 2>/dev/null", "r", fp);
     expect_string(__wrap__mdebug2, formatted_msg, "Audit version detected: 3.1.2");
 
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -538,7 +538,7 @@ void test_set_auditd_config_audit_plugin_tampered_configuration(void **state) {
     expect_abspath(AUDIT_SOCKET, 1);
     expect_abspath(AUDIT_CONF_FILE, 1);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -548,11 +548,11 @@ void test_set_auditd_config_audit_plugin_tampered_configuration(void **state) {
     will_return(__wrap_fclose, 0);
 
     // Move plugin
-    expect_string(__wrap_OS_MoveFile, src, "tmp/af_wazuh.conf");
+    expect_string(__wrap_OS_MoveFile, src, "tmp/af_assetguard.conf");
     expect_string(__wrap_OS_MoveFile, dst, audit3_socket);
     will_return(__wrap_OS_MoveFile, 0);
 
-    expect_string(__wrap__minfo, formatted_msg, "(6025): Audit plugin configuration (/etc/audit/plugins.d/af_wazuh.conf) was modified. Restarting Auditd service.");
+    expect_string(__wrap__minfo, formatted_msg, "(6025): Audit plugin configuration (/etc/audit/plugins.d/af_assetguard.conf) was modified. Restarting Auditd service.");
 
     // Restart
     syscheck.restart_audit = 1;
@@ -573,7 +573,7 @@ void test_set_auditd_config_audit_plugin_not_created(void **state) {
 
     // get_audit_version_code
     const char *payload = "auditctl version 3.1.5\n";
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
     FILE * fp = tmpfile_with_content(payload);
 
     expect_popen("auditctl -v 2>/dev/null", "r", fp);
@@ -588,7 +588,7 @@ void test_set_auditd_config_audit_plugin_not_created(void **state) {
     will_return(__wrap_OS_SHA1_File, "6e3a100fc85241f04ed9686d37738e7d08086fb4");
     will_return(__wrap_OS_SHA1_File, -1);
 
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
     expect_string(__wrap_unlink, file, audit3_socket);
@@ -600,7 +600,7 @@ void test_set_auditd_config_audit_plugin_not_created(void **state) {
     expect_abspath(AUDIT_SOCKET, 1);
     expect_abspath(AUDIT_CONF_FILE, 1);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -610,11 +610,11 @@ void test_set_auditd_config_audit_plugin_not_created(void **state) {
     will_return(__wrap_fclose, 0);
 
     // Create plugin
-    expect_string(__wrap_OS_MoveFile, src, "tmp/af_wazuh.conf");
+    expect_string(__wrap_OS_MoveFile, src, "tmp/af_assetguard.conf");
     expect_string(__wrap_OS_MoveFile, dst, audit3_socket);
     will_return(__wrap_OS_MoveFile, 0);
 
-    expect_string(__wrap__minfo, formatted_msg, "(6025): Audit plugin configuration (/etc/audit/plugins.d/af_wazuh.conf) was modified. Restarting Auditd service.");
+    expect_string(__wrap__minfo, formatted_msg, "(6025): Audit plugin configuration (/etc/audit/plugins.d/af_assetguard.conf) was modified. Restarting Auditd service.");
 
     // Restart
     syscheck.restart_audit = 1;
@@ -638,10 +638,10 @@ void test_set_auditd_config_audit_plugin_not_created_fopen_error(void **state) {
     expect_popen("auditctl -v 2>/dev/null", "r", fp);
     expect_string(__wrap__mdebug2, formatted_msg, "Audit version detected: 4.0.0");
 
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -661,11 +661,11 @@ void test_set_auditd_config_audit_plugin_not_created_fopen_error(void **state) {
     will_return(__wrap_OS_SHA1_File, "0123456789abcdef0123456789abcdef01234567");
     will_return(__wrap_OS_SHA1_File, 0);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 0);
 
-    expect_string(__wrap__merror, formatted_msg, "(1103): Could not open file 'tmp/af_wazuh.conf' due to [(0)-(Success)].");
+    expect_string(__wrap__merror, formatted_msg, "(1103): Could not open file 'tmp/af_assetguard.conf' due to [(0)-(Success)].");
 
     errno = 0;
 
@@ -677,10 +677,10 @@ void test_set_auditd_config_audit_plugin_not_created_fopen_error(void **state) {
 
 
 void test_set_auditd_config_audit_plugin_not_created_fclose_error(void **state) {
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -710,7 +710,7 @@ void test_set_auditd_config_audit_plugin_not_created_fclose_error(void **state) 
     will_return(__wrap_OS_SHA1_File, "0123456789abcdef0123456789abcdef01234567");
     will_return(__wrap_OS_SHA1_File, 0);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -719,7 +719,7 @@ void test_set_auditd_config_audit_plugin_not_created_fclose_error(void **state) 
     expect_value(__wrap_fclose, _File, 1);
     will_return(__wrap_fclose, -1);
 
-    expect_string(__wrap__merror, formatted_msg, "(1140): Could not close file 'tmp/af_wazuh.conf' due to [(0)-(Success)].");
+    expect_string(__wrap__merror, formatted_msg, "(1140): Could not close file 'tmp/af_assetguard.conf' due to [(0)-(Success)].");
 
     errno = 0;
 
@@ -731,10 +731,10 @@ void test_set_auditd_config_audit_plugin_not_created_fclose_error(void **state) 
 
 
 void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink(void **state) {
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -764,7 +764,7 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink(void **st
     will_return(__wrap_OS_SHA1_File, "0123456789abcdef0123456789abcdef01234567");
     will_return(__wrap_OS_SHA1_File, 0);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -774,7 +774,7 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink(void **st
     will_return(__wrap_fclose, 0);
 
     // Move plugin
-    expect_string(__wrap_OS_MoveFile, src, "tmp/af_wazuh.conf");
+    expect_string(__wrap_OS_MoveFile, src, "tmp/af_assetguard.conf");
     expect_string(__wrap_OS_MoveFile, dst, audit3_socket);
     will_return(__wrap_OS_MoveFile, 0);
 
@@ -801,10 +801,10 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_restart(v
     expect_popen("auditctl -v 2>/dev/null", "r", fp);
     expect_string(__wrap__mdebug2, formatted_msg, "Audit version detected: 4.0.3");
 
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -824,7 +824,7 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_restart(v
     will_return(__wrap_OS_SHA1_File, "0123456789abcdef0123456789abcdef01234567");
     will_return(__wrap_OS_SHA1_File, 0);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -834,11 +834,11 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_restart(v
     will_return(__wrap_fclose, 0);
 
     // Move plugin
-    expect_string(__wrap_OS_MoveFile, src, "tmp/af_wazuh.conf");
+    expect_string(__wrap_OS_MoveFile, src, "tmp/af_assetguard.conf");
     expect_string(__wrap_OS_MoveFile, dst, audit3_socket);
     will_return(__wrap_OS_MoveFile, 0);
 
-    expect_string(__wrap__minfo, formatted_msg, "(6025): Audit plugin configuration (/etc/audit/plugins.d/af_wazuh.conf) was modified. Restarting Auditd service.");
+    expect_string(__wrap__minfo, formatted_msg, "(6025): Audit plugin configuration (/etc/audit/plugins.d/af_assetguard.conf) was modified. Restarting Auditd service.");
 
     // Restart
     syscheck.restart_audit = 1;
@@ -862,10 +862,10 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_error(voi
     expect_popen("auditctl -v 2>/dev/null", "r", fp);
     expect_string(__wrap__mdebug2, formatted_msg, "Audit version detected: 4.0.4");
 
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -885,7 +885,7 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_error(voi
     will_return(__wrap_OS_SHA1_File, "0123456789abcdef0123456789abcdef01234567");
     will_return(__wrap_OS_SHA1_File, 0);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -895,11 +895,11 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_error(voi
     will_return(__wrap_fclose, 0);
 
     // Move plugin (fails)
-    expect_string(__wrap_OS_MoveFile, src, "tmp/af_wazuh.conf");
+    expect_string(__wrap_OS_MoveFile, src, "tmp/af_assetguard.conf");
     expect_string(__wrap_OS_MoveFile, dst, audit3_socket);
     will_return(__wrap_OS_MoveFile, -1);
 
-    expect_string(__wrap__merror, formatted_msg, "Failed to move 'tmp/af_wazuh.conf' to '/etc/audit/plugins.d/af_wazuh.conf'");
+    expect_string(__wrap__merror, formatted_msg, "Failed to move 'tmp/af_assetguard.conf' to '/etc/audit/plugins.d/af_assetguard.conf'");
 
     int ret;
     ret = set_auditd_config();
@@ -919,10 +919,10 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_unlink_er
     expect_popen("auditctl -v 2>/dev/null", "r", fp);
     expect_string(__wrap__mdebug2, formatted_msg, "Audit version detected: 4.0.5");
 
-    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_wazuh.conf'");
+    expect_string(__wrap__minfo, formatted_msg, "(6024): Generating Auditd socket configuration file: 'tmp/af_assetguard.conf'");
 
     // Plugin not created
-    const char *audit3_socket = "/etc/audit/plugins.d/af_wazuh.conf";
+    const char *audit3_socket = "/etc/audit/plugins.d/af_assetguard.conf";
 
     expect_string(__wrap_unlink, file, audit3_socket);
     will_return(__wrap_unlink, 0);
@@ -942,7 +942,7 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_unlink_er
     will_return(__wrap_OS_SHA1_File, "0123456789abcdef0123456789abcdef01234567");
     will_return(__wrap_OS_SHA1_File, 0);
 
-    expect_string(__wrap_wfopen, path, "tmp/af_wazuh.conf");
+    expect_string(__wrap_wfopen, path, "tmp/af_assetguard.conf");
     expect_string(__wrap_wfopen, mode, "w");
     will_return(__wrap_wfopen, 1);
 
@@ -952,11 +952,11 @@ void test_set_auditd_config_audit_plugin_not_created_recreate_hardlink_unlink_er
     will_return(__wrap_fclose, 0);
 
     // Move plugin (fails)
-    expect_string(__wrap_OS_MoveFile, src, "tmp/af_wazuh.conf");
+    expect_string(__wrap_OS_MoveFile, src, "tmp/af_assetguard.conf");
     expect_string(__wrap_OS_MoveFile, dst, audit3_socket);
     will_return(__wrap_OS_MoveFile, -1);
 
-    expect_string(__wrap__merror, formatted_msg, "Failed to move 'tmp/af_wazuh.conf' to '/etc/audit/plugins.d/af_wazuh.conf'");
+    expect_string(__wrap__merror, formatted_msg, "Failed to move 'tmp/af_assetguard.conf' to '/etc/audit/plugins.d/af_assetguard.conf'");
 
     int ret;
     ret = set_auditd_config();
@@ -1040,7 +1040,7 @@ void test_audit_read_events_select_case_0(void **state) {
     int *audit_sock = *state;
     errno = EEXIST;
     char * buffer = " \
-        type=SYSCALL msg=audit(1571914029.306:3004254): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=55c5f8170490 a2=0 a3=7ff365c5eca0 items=2 ppid=3211 pid=44082 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts3 ses=5 comm=\"test\" exe=\"74657374C3B1\" key=\"wazuh_fim\"\n\
+        type=SYSCALL msg=audit(1571914029.306:3004254): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=55c5f8170490 a2=0 a3=7ff365c5eca0 items=2 ppid=3211 pid=44082 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts3 ses=5 comm=\"test\" exe=\"74657374C3B1\" key=\"assetguard_fim\"\n\
         type=CWD msg=audit(1571914029.306:3004254): cwd=\"/root/test\"\n\
         type=PATH msg=audit(1571914029.306:3004254): item=0 name=\"/root/test\" inode=110 dev=08:02 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0\n\
         type=PATH msg=audit(1571914029.306:3004254): item=1 name=\"test\" inode=19 dev=08:02 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0\n\
@@ -1173,13 +1173,13 @@ void test_audit_read_events_select_success_recv_success(void **state) {
     audit_thread_active.data = 1;
     errno = EEXIST;
     char * buffer = " \
-        type=SYSCALL msg=audit(1571914029.306:3004254): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=55c5f8170490 a2=0 a3=7ff365c5eca0 items=2 ppid=3211 pid=44082 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts3 ses=5 comm=\"test\" exe=\"74657374C3B1\" key=\"wazuh_fim\"\n\
+        type=SYSCALL msg=audit(1571914029.306:3004254): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=55c5f8170490 a2=0 a3=7ff365c5eca0 items=2 ppid=3211 pid=44082 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts3 ses=5 comm=\"test\" exe=\"74657374C3B1\" key=\"assetguard_fim\"\n\
         type=CWD msg=audit(1571914029.306:3004254): cwd=\"/root/test\"\n\
         type=PATH msg=audit(1571914029.306:3004254): item=0 name=\"/root/test\" inode=110 dev=08:02 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0\n\
         type=PATH msg=audit(1571914029.306:3004254): item=1 name=\"test\" inode=19 dev=08:02 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0\n\
         type=PROCTITLE msg=audit(1571914029.306:3004254): proctitle=726D0074657374\n\
         type=EOE msg=audit(1571914029.306:3004254):\n\
-        type=SYSCALL msg=audit(1571914029.306:3004255): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=55c5f8170490 a2=0 a3=7ff365c5eca0 items=2 ppid=3211 pid=44082 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts3 ses=5 comm=\"test\" exe=\"74657374C3B1\" key=\"wazuh_fim\"\n\
+        type=SYSCALL msg=audit(1571914029.306:3004255): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=55c5f8170490 a2=0 a3=7ff365c5eca0 items=2 ppid=3211 pid=44082 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts3 ses=5 comm=\"test\" exe=\"74657374C3B1\" key=\"assetguard_fim\"\n\
         type=CWD msg=audit(1571914029.306:3004255): cwd=\"/root/test\"\n\
         type=PATH msg=audit(1571914029.306:3004255): item=0 name=\"/root/test\" inode=110 dev=08:02 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0\n\
         type=PATH msg=audit(1571914029.306:3004255): item=1 name=\"test\" inode=19 dev=08:02 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0\n\
@@ -1456,13 +1456,13 @@ void test_audit_create_rules_file(void **state) {
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test0' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test1' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_any(__wrap_fclose, _File);
@@ -1509,13 +1509,13 @@ void test_audit_create_rules_file_fclose_fail(void **state) {
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test0' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test1' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_any(__wrap_fclose, _File);
@@ -1542,13 +1542,13 @@ void test_audit_create_rules_file_symlink_exist(void **state) {
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test0' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test1' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_any(__wrap_fclose, _File);
@@ -1591,13 +1591,13 @@ void test_audit_create_rules_file_unlink_fail(void **state) {
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test0' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test1' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_any(__wrap_fclose, _File);
@@ -1637,13 +1637,13 @@ void test_audit_create_rules_file_symlink_fail(void **state) {
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test0' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test0 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_string(__wrap__mdebug2, formatted_msg, "(6365): Added directory '/test1' to audit rules file.");
 
     expect_any(__wrap_fprintf, __stream);
-    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k wazuh_fim\n");
+    expect_string(__wrap_fprintf, formatted_msg, "-w /test1 -p wa -k assetguard_fim\n");
     will_return(__wrap_fprintf, 0);
 
     expect_any(__wrap_fclose, _File);

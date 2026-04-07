@@ -1,14 +1,14 @@
 # Data Provider Testing Tool
 ## Index
 1. [Purpose](#purpose)
-2. [Compile Wazuh](#compile-wazuh)
+2. [Compile AssetGuard](#compile-assetguard)
 3. [How to use the tool](#how-to-use-the-tool)
 
 ## Purpose
 The Data Provider Testing Tool was created to test and validate the data obtained by the module's execution. This tool works as a black box where an user will be able execute it and analyze the output data as desired.
 
-## Compile Wazuh
-In order compile the solution on a specific wazuh target, the project needs to be built either in os_kernel_release or debug mode.
+## Compile AssetGuard
+In order compile the solution on a specific assetguard target, the project needs to be built either in os_kernel_release or debug mode.
 ```
 make TARGET=server|agent <DEBUG=1>
 ```
@@ -22,7 +22,7 @@ The information output will vary based on the Operating System the tool is being
 A brief example could be similar to the following one:
 
 ```
-{"users":[{"host_ip":null,"login_status":null,"login_tty":null,"login_type":null,"process_pid":null,"user_auth_failed_count":null,"user_auth_failed_timestamp":null,"user_created":null,"user_full_name":"","user_group_id":999,"user_group_id_signed":999,"user_groups":null,"user_home":"/var/ossec","user_id":998,"user_is_hidden":null,"user_is_remote":1,"user_last_login":null,"user_name":"wazuh","user_password_expiration_date":-1,"user_password_hash_algorithm":null,"user_password_inactive_days":-1,"user_password_last_change":1745971200.0,"user_password_max_days_between_changes":-1,"user_password_min_days_between_changes":-1,"user_password_status":"locked","user_password_warning_days_before_expiration":-1,"user_roles_sudo":0,"user_shell":"/sbin/nologin","user_type":null,"user_uid_signed":998,"user_uuid":null}]}
+{"users":[{"host_ip":null,"login_status":null,"login_tty":null,"login_type":null,"process_pid":null,"user_auth_failed_count":null,"user_auth_failed_timestamp":null,"user_created":null,"user_full_name":"","user_group_id":999,"user_group_id_signed":999,"user_groups":null,"user_home":"/var/ossec","user_id":998,"user_is_hidden":null,"user_is_remote":1,"user_last_login":null,"user_name":"assetguard","user_password_expiration_date":-1,"user_password_hash_algorithm":null,"user_password_inactive_days":-1,"user_password_last_change":1745971200.0,"user_password_max_days_between_changes":-1,"user_password_min_days_between_changes":-1,"user_password_status":"locked","user_password_warning_days_before_expiration":-1,"user_roles_sudo":0,"user_shell":"/sbin/nologin","user_type":null,"user_uid_signed":998,"user_uuid":null}]}
 [{"hotfix_name":"KB12345678"},{"hotfix_name":"KB87654321"}]
 {"serial_number":" ","cpu_cores":6,"cpu_speed":801.0,"cpu_name":"Intel(R) Core(TM) i5-9400 CPU @ 2.90GHz","memory_free":4659652,"memory_total":32746472,"memory_used":86}
 [{"architecture":"amd64","description":"query and manipulate user account information\n The AccountService project provides a set of D-Bus\n interfaces for querying and manipulating user account\n information and an implementation of these interfaces,\n based on the useradd, usermod and userdel commands.","type":"deb","category":"admin","multiarch":" ","name":"accountsservice","priority":"optional","size":"452","source":" ","vendor":"Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>","version_":"0.6.55-0ubuntu12~20.04.4"}],

@@ -1,5 +1,5 @@
-name: "Legacy unit tests build for Wazuh"
-description: "This action builds legacy Unit Tests for Wazuh on Ubuntu Linux/Windows"
+name: "Legacy unit tests build for AssetGuard"
+description: "This action builds legacy Unit Tests for AssetGuard on Ubuntu Linux/Windows"
 inputs:
    target:
      required: true
@@ -11,8 +11,8 @@ runs:
       shell: bash
       run: |
         chmod +x .github/actions/legacy_unit_tests.sh
-    - name: Build Wazuh Unit Tests
+    - name: Build AssetGuard Unit Tests
       shell: bash
       run: |
         source .github/actions/legacy_unit_tests.sh
-        build_wazuh_unit_tests ${{ inputs.target }}
+        build_assetguard_unit_tests ${{ inputs.target }}

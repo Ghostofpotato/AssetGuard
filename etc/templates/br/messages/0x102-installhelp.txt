@@ -16,4 +16,4 @@
     e quiser encaminhar os logs ao servidor para análise.
     (ideal para webservers, servidores de banco de dados, etc)
 
-  - Maiores informações: https://documentation.wazuh.com
+  - Maiores informações: https://documentation.assetguard.com

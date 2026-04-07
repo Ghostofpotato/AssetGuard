@@ -16,17 +16,17 @@ outputs:
   - first_of:
     - check: A
       then:
-        - wazuh-indexer:
+        - assetguard-indexer:
             index: "A"
 
     - check: B
       then:
-        - wazuh-indexer:
+        - assetguard-indexer:
             index: "B"
 
     - check: true
       then:
-        - wazuh-indexer:
+        - assetguard-indexer:
             file: "C"
 ```
 
@@ -40,36 +40,36 @@ Accepts any array of `check` `then` blocks in each item the order is mandatory a
 name: output/indexer/0
 
 metadata:
-  module: wazuh
+  module: assetguard
   title: Indexer data stream outputs
-  description: Output integrations events to wazuh-indexer
+  description: Output integrations events to assetguard-indexer
 
 outputs:
   - first_of:
     - check: >-
-        $wazuh.integration.category != "cloud-services" OR
-        (NOT starts_with($wazuh.integration.name, "aws")
-        AND NOT starts_with($wazuh.integration.name, "azure")
-        AND NOT starts_with($wazuh.integration.name, "gcp"))
+        $assetguard.integration.category != "cloud-services" OR
+        (NOT starts_with($assetguard.integration.name, "aws")
+        AND NOT starts_with($assetguard.integration.name, "azure")
+        AND NOT starts_with($assetguard.integration.name, "gcp"))
 
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}"
 
-    - check: starts_with($wazuh.integration.name, "gcp")
+    - check: starts_with($assetguard.integration.name, "gcp")
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}-gcp"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}-gcp"
 
-    - check: starts_with($wazuh.integration.name, "azure")
+    - check: starts_with($assetguard.integration.name, "azure")
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}-azure"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}-azure"
 
-    - check: starts_with($wazuh.integration.name, "aws")
+    - check: starts_with($assetguard.integration.name, "aws")
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}-aws"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}-aws"
 
 ```
 
@@ -94,15 +94,15 @@ Only support "alerts" as a parameter, this writes alerts to `alerts.json` file.
 name: output/file-output-integrations/0
 
 metadata:
-  module: wazuh
+  module: assetguard
   title: file output event
   description: Output integrations events to a file
   compatibility: >
-    This decoder has been tested on Wazuh version 5.x
+    This decoder has been tested on AssetGuard version 5.x
   versions:
     - 5.x
   author:
-    name: Wazuh, Inc.
+    name: AssetGuard, Inc.
     date: 2022/11/08
   references:
     - ""
@@ -113,12 +113,12 @@ outputs:
 
 ## Indexer
 
-The `indexer` output sends alerts to `wazuh-indexer` for indexing.
+The `indexer` output sends alerts to `assetguard-indexer` for indexing.
 
 ### Signature
 
 ```yaml
-wazuh-indexer:
+assetguard-indexer:
     index: ${INDEX}
 ```
 
@@ -126,7 +126,7 @@ wazuh-indexer:
 
 | Name | type | required | Description |
 |------|------|----------|-------------|
-| index | string | yes | Data Stream name where the alerts will be indexed. Should be a valid wazuh-indexer data stream name and start with `wazuh-events-v5-`. |
+| index | string | yes | Data Stream name where the alerts will be indexed. Should be a valid assetguard-indexer data stream name and start with `assetguard-events-v5-`. |
 
 Index name can be expanded with placeholders like `index-name-${PH1}-${PH2}`. If PHX results in an existing string reference to the event it will be replaced in runtime if not will be fail and the alert will not be sent to the indexer.
 The replacement text is not sanitized, so referenced field values must already contain only valid index characters.
@@ -137,22 +137,22 @@ The replacement text is not sanitized, so referenced field values must already c
 name: output/indexer/0
 
 metadata:
-  module: wazuh
+  module: assetguard
   title: Indexer output event
-  description: Output integrations events to wazuh-indexer
+  description: Output integrations events to assetguard-indexer
   compatibility: >
-    This decoder has been tested on Wazuh version 5.0
+    This decoder has been tested on AssetGuard version 5.0
   versions:
     - ""
   author:
-    name: Wazuh, Inc.
+    name: AssetGuard, Inc.
     date: 2025/12/01
   references:
     - ""
 
 outputs:
-  - wazuh-indexer:
-      index: "wazuh-events-v5-${wazuh.integration.category}"
+  - assetguard-indexer:
+      index: "assetguard-events-v5-${assetguard.integration.category}"
 ```
 
 > [!TIP]

@@ -5,7 +5,7 @@ project(dbsync)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SHARED_MODULES ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../../ ABSOLUTE)
 else()
@@ -59,7 +59,7 @@ elseif(UNIX AND NOT APPLE)
   string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,-rpath=$ORIGIN")
 endif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
-target_link_libraries(dbsync PUBLIC wazuhext)
+target_link_libraries(dbsync PUBLIC assetguardext)
 
 if(UNIT_TEST)
   enable_testing()

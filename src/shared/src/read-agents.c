@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -11,8 +11,8 @@
 #include "shared.h"
 #include "read-agents.h"
 #include "os_net.h"
-#include "wazuhdb_op.h"
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_op.h"
+#include "assetguarddb_queries_op.h"
 
 /* Delete diff folders */
 void delete_diff(const char *name)

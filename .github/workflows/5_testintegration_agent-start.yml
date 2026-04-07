@@ -40,7 +40,7 @@ jobs:
         uses: actions/download-artifact@v4
         if: inputs.base_branch == ''
         with:
-          pattern: 'wazuh-agent*amd64*.deb'
+          pattern: 'assetguard-agent*amd64*.deb'
           path: /tmp/packages
           merge-multiple: true
 
@@ -51,7 +51,7 @@ jobs:
           workflow: 5_builderpackage_agent-linux.yml
           workflow_conclusion: success
           name_is_regexp: true
-          name: 'wazuh-agent.*amd64.*\.deb'
+          name: 'assetguard-agent.*amd64.*\.deb'
           path: /tmp/packages
           if_no_artifact_found: fail
           check_artifacts: true
@@ -61,7 +61,7 @@ jobs:
       - name: Get package name and version
         id: package
         run: |
-          PACKAGE_NAME=$(find /tmp/packages -type f -name "wazuh-agent*amd64*.deb" ! -name "*dbg*" -exec basename {} \; | head -n1)
+          PACKAGE_NAME=$(find /tmp/packages -type f -name "assetguard-agent*amd64*.deb" ! -name "*dbg*" -exec basename {} \; | head -n1)
           if [ -z "$PACKAGE_NAME" ]; then
             echo "ERROR: No package found"
             exit 1
@@ -75,7 +75,7 @@ jobs:
 
       - name: Download docker image
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Run smoke test in Docker
         run: |
@@ -110,7 +110,7 @@ jobs:
           workflow: 5_builderpackage_agent-linux.yml
           workflow_conclusion: success
           name_is_regexp: true
-          name: 'wazuh-agent.*x86_64.*\.rpm'
+          name: 'assetguard-agent.*x86_64.*\.rpm'
           path: /tmp/packages
           if_no_artifact_found: fail
           check_artifacts: true
@@ -120,7 +120,7 @@ jobs:
       - name: Get package name and version
         id: package
         run: |
-          PACKAGE_NAME=$(find /tmp/packages -type f -name "wazuh-agent*x86_64*.rpm" ! -name "*dbg*" ! -name "*debug*" ! -name "*debuginfo*" -exec basename {} \; | head -n1)
+          PACKAGE_NAME=$(find /tmp/packages -type f -name "assetguard-agent*x86_64*.rpm" ! -name "*dbg*" ! -name "*debug*" ! -name "*debuginfo*" -exec basename {} \; | head -n1)
           if [ -z "$PACKAGE_NAME" ]; then
             echo "ERROR: No package found"
             exit 1
@@ -134,7 +134,7 @@ jobs:
 
       - name: Download docker image
         run: |
-          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_WAZUH_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
+          bash .github/actions/ghcr-pull-and-push/pull_image_from_ghcr.sh ${{ secrets.CI_ASSETGUARD_AGENT_PACKAGES_CLASSIC }} ${{ github.actor}} ${{ env.CONTAINER_NAME }} ${{ env.TAG }}
 
       - name: Run smoke test in Docker
         run: |
@@ -158,7 +158,7 @@ jobs:
         uses: actions/download-artifact@v4
         if: inputs.base_branch == ''
         with:
-          pattern: 'wazuh-agent*windows*.msi'
+          pattern: 'assetguard-agent*windows*.msi'
           path: C:\packages
           merge-multiple: true
 
@@ -169,7 +169,7 @@ jobs:
           workflow: 5_builderpackage_agent-windows.yml
           workflow_conclusion: success
           name_is_regexp: true
-          name: 'wazuh-agent.*windows.*\.msi'
+          name: 'assetguard-agent.*windows.*\.msi'
           path: C:\packages
           if_no_artifact_found: fail
           check_artifacts: true
@@ -180,7 +180,7 @@ jobs:
         id: package
         shell: pwsh
         run: |
-          $PACKAGE = Get-ChildItem -Path "C:\packages" -Filter "wazuh-agent*windows*.msi" -File -Recurse | Where-Object { $_.Name -notmatch 'debug' } | Select-Object -First 1 -ExpandProperty FullName
+          $PACKAGE = Get-ChildItem -Path "C:\packages" -Filter "assetguard-agent*windows*.msi" -File -Recurse | Where-Object { $_.Name -notmatch 'debug' } | Select-Object -First 1 -ExpandProperty FullName
           if (-not $PACKAGE) {
             Write-Host "ERROR: No MSI package found"
             Get-ChildItem -Path "C:\packages" -Recurse | Format-Table Name, FullName
@@ -189,7 +189,7 @@ jobs:
           echo "package-path=$PACKAGE" >> $env:GITHUB_OUTPUT
           Write-Host "Found package: $PACKAGE"
 
-      - name: Install Wazuh agent
+      - name: Install AssetGuard agent
         shell: pwsh
         run: |
           $msiPath = "${{ steps.package.outputs.package-path }}"
@@ -197,23 +197,23 @@ jobs:
             "/i"
             "`"$msiPath`""
             "/q"
-            "WAZUH_MANAGER=`"1.2.3.4`""
+            "ASSETGUARD_MANAGER=`"1.2.3.4`""
             "/l installer.log"
           )
 
           Start-Process msiexec.exe -ArgumentList $arguments -Wait -NoNewWindow
           $installerfile = Get-Content installer.log
-          if ($installerfile -match "Wazuh Agent -- Installation completed successfully") {
+          if ($installerfile -match "AssetGuard Agent -- Installation completed successfully") {
             Write-Output "Installation successfully."
           } else {
             Write-Output "The installation could not be completed."
             exit 1
           }
 
-      - name: Start Wazuh agent service
+      - name: Start AssetGuard agent service
         shell: pwsh
         run: |
-          Start-Service wazuhsvc
+          Start-Service assetguardsvc
 
       - name: Wait for agent to initialize
         shell: pwsh
@@ -222,18 +222,18 @@ jobs:
       - name: Verify agent is running
         shell: pwsh
         run: |
-          $service = Get-Service wazuhsvc
+          $service = Get-Service assetguardsvc
           if ($service.Status -ne 'Running') {
             Write-Host "ERROR: Service is not running. Status: $($service.Status)"
             exit 1
           }
           Write-Host "Agent service is running"
 
-      - name: Stop Wazuh agent service
+      - name: Stop AssetGuard agent service
         shell: pwsh
         run: |
-          Stop-Service -Name wazuhsvc
-          $service = Get-Service -Name wazuhsvc
+          Stop-Service -Name assetguardsvc
+          $service = Get-Service -Name assetguardsvc
           if ($service.Status -ne 'Stopped') {
             Write-Host "WARNING: Service did not stop cleanly. Status: $($service.Status)"
             exit 1
@@ -254,7 +254,7 @@ jobs:
         uses: actions/download-artifact@v4
         if: inputs.base_branch == ''
         with:
-          pattern: 'wazuh-agent*arm64*.pkg'
+          pattern: 'assetguard-agent*arm64*.pkg'
           path: /tmp/packages
           merge-multiple: true
 
@@ -265,7 +265,7 @@ jobs:
           workflow: 5_builderpackage_agent-macos.yml
           workflow_conclusion: success
           name_is_regexp: true
-          name: 'wazuh-agent.*arm64.*\.pkg'
+          name: 'assetguard-agent.*arm64.*\.pkg'
           path: /tmp/packages
           if_no_artifact_found: fail
           check_artifacts: true
@@ -275,17 +275,17 @@ jobs:
       - name: Get package name
         id: package
         run: |
-          PACKAGE=$(find /tmp/packages -type f -name "wazuh-agent*.pkg" ! -name "*debug*" | head -n1)
+          PACKAGE=$(find /tmp/packages -type f -name "assetguard-agent*.pkg" ! -name "*debug*" | head -n1)
           if [ -z "$PACKAGE" ]; then
-            echo "ERROR: No PKG package found in /tmp/packages matching pattern 'wazuh-agent*.pkg' (excluding '*debug*')."
+            echo "ERROR: No PKG package found in /tmp/packages matching pattern 'assetguard-agent*.pkg' (excluding '*debug*')."
             exit 1
           fi
           echo "package-path=$PACKAGE" >> $GITHUB_OUTPUT
           echo "Found package: $PACKAGE"
 
-      - name: Install Wazuh agent
+      - name: Install AssetGuard agent
         run: |
-          echo "WAZUH_MANAGER='1.2.3.4'" > /tmp/wazuh_envs
+          echo "ASSETGUARD_MANAGER='1.2.3.4'" > /tmp/assetguard_envs
           sudo installer -pkg "${{ steps.package.outputs.package-path }}" -target / | sudo tee installer.log
           if grep -q "The install was successful" "installer.log"; then
             echo "Installation successfully."
@@ -296,7 +296,7 @@ jobs:
 
       - name: Test daemons with -t flag
         run: |
-          DAEMONS="wazuh-modulesd wazuh-logcollector wazuh-syscheckd wazuh-agentd wazuh-execd"
+          DAEMONS="assetguard-modulesd assetguard-logcollector assetguard-syscheckd assetguard-agentd assetguard-execd"
           echo "Testing daemons with -t flag..."
           for daemon in $DAEMONS; do
             echo "Testing ${daemon}..."
@@ -307,22 +307,22 @@ jobs:
             echo "${daemon} -t passed"
           done
 
-      - name: Start Wazuh agent
+      - name: Start AssetGuard agent
         run: |
-          sudo /Library/Ossec/bin/wazuh-control start
+          sudo /Library/Ossec/bin/assetguard-control start
 
       - name: Wait for agent to initialize
         run: sleep 10
 
       - name: Verify agent is running
         run: |
-          if ! sudo /Library/Ossec/bin/wazuh-control status; then
+          if ! sudo /Library/Ossec/bin/assetguard-control status; then
             echo "ERROR: Agent status check failed"
             exit 1
           fi
           echo "Agent is running"
 
-      - name: Stop Wazuh agent
+      - name: Stop AssetGuard agent
         run: |
-          sudo /Library/Ossec/bin/wazuh-control stop
+          sudo /Library/Ossec/bin/assetguard-control stop
           echo "Agent stopped successfully"

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.12.4)
 
-project(wazuh-rootcheck C)
+project(assetguard-rootcheck C)
 
-if(NOT DEFINED WAZUH_MAIN_PROJECT)
+if(NOT DEFINED ASSETGUARD_MAIN_PROJECT)
   get_filename_component(SRC_FOLDER ${CMAKE_SOURCE_DIR}/../ ABSOLUTE)
 endif()
 
@@ -29,8 +29,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_definitions(-DARGV0="wazuh-rootcheck")
-add_definitions(-DGROUPGLOBAL=wazuh)
+add_definitions(-DARGV0="assetguard-rootcheck")
+add_definitions(-DGROUPGLOBAL=assetguard)
 add_definitions(-DOSSECHIDS)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -45,4 +45,4 @@ file(GLOB ROOTCHECK_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 add_library(rootcheck STATIC ${ROOTCHECK_SRC})
 set_target_properties(rootcheck PROPERTIES LINKER_LANGUAGE C)
-target_link_libraries(rootcheck PUBLIC wazuhext pthread config wazuh)
+target_link_libraries(rootcheck PUBLIC assetguardext pthread config assetguard)

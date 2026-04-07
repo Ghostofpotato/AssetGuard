@@ -1,15 +1,15 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, AssetGuard Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by AssetGuard, Inc. <info@assetguard.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The 'wazuh-manager-analysisd' daemon receives the log messages and compares them to the rules.
+brief: The 'assetguard-manager-analysisd' daemon receives the log messages and compares them to the rules.
        It then creates an alert when a log message matches an applicable rule.
-       Specifically, these tests will check if the 'wazuh-manager-analysisd' daemon generates alerts
+       Specifically, these tests will check if the 'assetguard-manager-analysisd' daemon generates alerts
        using custom rules that contains the 'mitre' field to enrich those alerts with
        MITREs IDs, techniques and tactics.
 
@@ -22,8 +22,8 @@ targets:
     - manager
 
 daemons:
-    - wazuh-manager-analysisd
-    - wazuh-manager-db
+    - assetguard-manager-analysisd
+    - assetguard-manager-db
 
 os_platform:
     - linux
@@ -40,7 +40,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.wazuh.com/current/user-manual/reference/daemons/wazuh-manager-analysisd.html
+    - https://documentation.assetguard.com/current/user-manual/reference/daemons/assetguard-manager-analysisd.html
     - https://attack.mitre.org/
 
 tags:
@@ -52,10 +52,10 @@ import json
 import jsonschema
 import pytest
 
-from wazuh_testing.constants.paths.logs import ALERTS_JSON_PATH
-from wazuh_testing.modules.analysisd import patterns, utils
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import callbacks
+from assetguard_testing.constants.paths.logs import ALERTS_JSON_PATH
+from assetguard_testing.modules.analysisd import patterns, utils
+from assetguard_testing.tools.monitors import file_monitor
+from assetguard_testing.utils import callbacks
 
 from . import RULES_SAMPLE_PATH
 
@@ -84,7 +84,7 @@ def test_mitre_check_alert(test_configuration, truncate_monitored_files, configu
                  so that the alerts generated include this information which
                  will be finally validated.
 
-    wazuh_min_version: 4.2.0
+    assetguard_min_version: 4.2.0
 
     tier: 0
 
@@ -100,7 +100,7 @@ def test_mitre_check_alert(test_configuration, truncate_monitored_files, configu
             brief: Configure a custom rule in 'local_rules.xml' for testing.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of AssetGuard daemons.
 
     assertions:
         - Verify that the MITRE alerts are generated and are correct.
@@ -117,13 +117,13 @@ def test_mitre_check_alert(test_configuration, truncate_monitored_files, configu
         - man_in_the_middle
         - wdb_socket
     '''
-    wazuh_alert_monitor = file_monitor.FileMonitor(ALERTS_JSON_PATH)
+    assetguard_alert_monitor = file_monitor.FileMonitor(ALERTS_JSON_PATH)
 
     # Wait until Mitre's event is detected
     if test_configuration not in invalid_configurations:
-        wazuh_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
-        utils.validate_mitre_event(json.loads(wazuh_alert_monitor.callback_result))
+        assetguard_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
+        utils.validate_mitre_event(json.loads(assetguard_alert_monitor.callback_result))
     else:
         with pytest.raises(jsonschema.exceptions.ValidationError):
-            wazuh_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
-            utils.validate_mitre_event(json.loads(wazuh_alert_monitor.callback_result))
+            assetguard_alert_monitor.start(timeout=30, callback=callbacks.generate_callback(patterns.ANALYSISD_ALERT_STARTED))
+            utils.validate_mitre_event(json.loads(assetguard_alert_monitor.callback_result))

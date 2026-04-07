@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "engine-it"
 version = "0.0.1"
-authors = [{ name = "Wazuh, Inc." }]
-description = "Integration tests for Wazuh Engine"
+authors = [{ name = "AssetGuard, Inc." }]
+description = "Integration tests for AssetGuard Engine"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = ["Programming Language :: Python :: 3"]

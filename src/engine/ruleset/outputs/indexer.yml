@@ -2,33 +2,33 @@ name: output/indexer/0
 enabled: true
 
 metadata:
-  module: wazuh
+  module: assetguard
   title: Indexer data stream outputs
-  description: Output integrations events to wazuh-indexer
+  description: Output integrations events to assetguard-indexer
 
 outputs:
   - first_of:
     - check: >-
-        $wazuh.integration.category != "cloud-services" OR
-        (NOT starts_with($wazuh.integration.name, "aws")
-        AND NOT starts_with($wazuh.integration.name, "azure")
-        AND NOT starts_with($wazuh.integration.name, "gcp"))
+        $assetguard.integration.category != "cloud-services" OR
+        (NOT starts_with($assetguard.integration.name, "aws")
+        AND NOT starts_with($assetguard.integration.name, "azure")
+        AND NOT starts_with($assetguard.integration.name, "gcp"))
 
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}"
 
-    - check: starts_with($wazuh.integration.name, "gcp")
+    - check: starts_with($assetguard.integration.name, "gcp")
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}-gcp"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}-gcp"
 
-    - check: starts_with($wazuh.integration.name, "azure")
+    - check: starts_with($assetguard.integration.name, "azure")
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}-azure"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}-azure"
 
-    - check: starts_with($wazuh.integration.name, "aws")
+    - check: starts_with($assetguard.integration.name, "aws")
       then:
-        - wazuh-indexer:
-            index: "wazuh-events-v5-${wazuh.integration.category}-aws"
+        - assetguard-indexer:
+            index: "assetguard-events-v5-${assetguard.integration.category}-aws"

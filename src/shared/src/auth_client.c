@@ -1,6 +1,6 @@
 /*
  * Local Authd client
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, AssetGuard Inc.
  * May 30, 2017.
  *
  * This program is free software; you can redistribute it
@@ -14,7 +14,7 @@
 #include "shared.h"
 #include "os_net.h"
 #include <cJSON.h>
-#include "wazuhdb_op.h"
+#include "assetguarddb_op.h"
 
 // Remove agent. Returns 0 on success or -1 on error.
 int auth_remove_agent(int sock, const char *id, int json_format) {

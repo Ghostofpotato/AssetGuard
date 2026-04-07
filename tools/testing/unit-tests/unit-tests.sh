@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(realpath "$SCRIPT_DIR/../../..")"
 UNIT_TESTS_DIR="$SCRIPT_DIR"
-IMAGE="ghcr.io/wazuh/unit-tests:latest"
+IMAGE="ghcr.io/assetguard/unit-tests:latest"
 JOBS="${THREADS:-1}"
 
 # Usage
@@ -168,7 +168,7 @@ generate-results() {
         [data_provider]=data_provider \
         [dbsync]=shared_modules/dbsync \
         [rsync]=shared_modules/rsync \
-        [syscollector]=wazuh_modules/syscollector \
+        [syscollector]=assetguard_modules/syscollector \
         [fim]=syscheckd \
     )
 
@@ -250,7 +250,7 @@ if $DO_BUILD; then
         [data_provider]=data_provider \
         [dbsync]=shared_modules/dbsync \
         [rsync]=shared_modules/rsync \
-        [syscollector]=wazuh_modules/syscollector\
+        [syscollector]=assetguard_modules/syscollector\
         [fim]=syscheckd\
     )
 

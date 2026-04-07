@@ -47,9 +47,9 @@ set_target_properties(
   )
 
 if(${TARGET} STREQUAL "winagent")
-  target_link_libraries(SYSCHECK_O ${FIMDB_LIB} ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${ROOTCHECK_LIB} ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+  target_link_libraries(SYSCHECK_O ${FIMDB_LIB} ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${ROOTCHECK_LIB} ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 else()
-  target_link_libraries(SYSCHECK_O ${FIMDB_LIB} ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${ROOTCHECK_LIB} ${WAZUHLIB} ${WAZUHEXT} -lpthread -ldl)
+  target_link_libraries(SYSCHECK_O ${FIMDB_LIB} ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${ROOTCHECK_LIB} ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread -ldl)
 endif()
 
 if(${TARGET} STREQUAL "winagent")
@@ -75,13 +75,13 @@ set_target_properties(fim_shared PROPERTIES LINKER_LANGUAGE C )
 
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/assetguard/shared/shared.cmake)
 
 # Generate syscheckd-event library
 if(${TARGET} STREQUAL "winagent")
-  file(GLOB syscheck_event_files ${SRC_FOLDER}/build/syscheckd/CMakeFiles/wazuh-syscheckd-event.dir/src/*.obj
-                                 ${SRC_FOLDER}/build/syscheckd/CMakeFiles/wazuh-syscheckd-event.dir/src/*/*.obj)
-  list(REMOVE_ITEM syscheck_event_files ${SRC_FOLDER}/build/syscheckd/CMakeFiles/wazuh-syscheckd-event.dir/src/main.c.obj)
+  file(GLOB syscheck_event_files ${SRC_FOLDER}/build/syscheckd/CMakeFiles/assetguard-syscheckd-event.dir/src/*.obj
+                                 ${SRC_FOLDER}/build/syscheckd/CMakeFiles/assetguard-syscheckd-event.dir/src/*/*.obj)
+  list(REMOVE_ITEM syscheck_event_files ${SRC_FOLDER}/build/syscheckd/CMakeFiles/assetguard-syscheckd-event.dir/src/main.c.obj)
   add_library(SYSCHECK_EVENT_O STATIC ${syscheck_event_files})
 
   set_source_files_properties(
@@ -97,7 +97,7 @@ if(${TARGET} STREQUAL "winagent")
     LINKER_LANGUAGE C
     )
 
-  target_link_libraries(SYSCHECK_EVENT_O ${FIMDB_LIB} ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${ROOTCHECK_LIB} ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+  target_link_libraries(SYSCHECK_EVENT_O ${FIMDB_LIB} ${AGENT_SYNC_PROTOCOL_LIB} ${DBSYNC_LIB} ${SCHEMA_VALIDATOR_LIB} ${ROOTCHECK_LIB} ${ASSETGUARDLIB} ${ASSETGUARDEXT} -lpthread)
 
   add_subdirectory(registry)
 endif()

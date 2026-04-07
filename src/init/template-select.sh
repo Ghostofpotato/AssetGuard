@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Wazuh Template Selector
-# Copyright (C) 2015, Wazuh Inc.
+# AssetGuard Template Selector
+# Copyright (C) 2015, AssetGuard Inc.
 # November 18, 2016.
 #
 # This program is free software; you can redistribute it

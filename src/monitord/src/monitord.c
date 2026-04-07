@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -16,7 +16,7 @@
 #include "monitord.h"
 #include "config.h"
 #include "string_op.h"
-#include "wazuhdb_queries_op.h"
+#include "assetguarddb_queries_op.h"
 #include "time.h"
 
 /* Global variables */
@@ -35,9 +35,9 @@ void Monitord()
 
     /* Set internal log path to rotate them */
 
-    /* /var/wazuh-manager/logs/wazuh-manager.log */
+    /* /var/assetguard-manager/logs/assetguard-manager.log */
     snprintf(path, PATH_MAX, "%s", LOGFILE);
-    /* /var/wazuh-manager/logs/wazuh-manager.json */
+    /* /var/assetguard-manager/logs/assetguard-manager.json */
     snprintf(path_json, PATH_MAX, "%s", LOGJSONFILE);
 
     /* Log monitord startup message to ossec.log */

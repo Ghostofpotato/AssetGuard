@@ -80,7 +80,7 @@ func handler(socketPath string) http.HandlerFunc {
 func main() {
     var portServer, apiSocketPath string
     flag.StringVar(&portServer, "p", ":80", "Port to listen on")
-    flag.StringVar(&apiSocketPath, "a", "/run/wazuh-server/engine.socket", "Path to API engine socket")
+    flag.StringVar(&apiSocketPath, "a", "/run/assetguard-server/engine.socket", "Path to API engine socket")
 
     flag.Parse()
 

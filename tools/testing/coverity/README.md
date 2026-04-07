@@ -1,11 +1,11 @@
 # Coverity scan tool
 
-This directory contains a helper script and a Dockerfile for running [Coverity static analysis](https://scan.coverity.com/) on the Wazuh codebase. It allows executing the analysis both locally and in CI environments using the same containerized setup.
+This directory contains a helper script and a Dockerfile for running [Coverity static analysis](https://scan.coverity.com/) on the AssetGuard codebase. It allows executing the analysis both locally and in CI environments using the same containerized setup.
 
 ## Files
 
 - `coverity.sh`: main helper script for downloading the image, running the analysis, and uploading results.
-- `Dockerfile`: defines the image used to compile Wazuh with Coverity analysis enabled.
+- `Dockerfile`: defines the image used to compile AssetGuard with Coverity analysis enabled.
 
 ## Usage
 
@@ -23,13 +23,13 @@ If run without arguments, the script will **compile** the project with Coverity 
   **Requires** `TOKEN` to be set.
 
 * `--build`
-  Compile the project using the Coverity Docker image and generate the output in `wazuh.tgz`.
+  Compile the project using the Coverity Docker image and generate the output in `assetguard.tgz`.
 * `--upload`
-  Upload `wazuh.tgz` to Coverity Scan.
+  Upload `assetguard.tgz` to Coverity Scan.
   **Requires** `TOKEN` to be set.
   Fails if the tarball does not exist.
 * `--clean`
-  Remove generated files (`cov-int/` directory and `wazuh.tgz` tarball).
+  Remove generated files (`cov-int/` directory and `assetguard.tgz` tarball).
 * `--jobs N`
   Set the number of parallel jobs used during compilation (default: system `nproc`).
 * `--help`
@@ -38,20 +38,20 @@ If run without arguments, the script will **compile** the project with Coverity 
 ### Environment variables
 
 * `PROJECT`
-  Coverity project name. Must be either `wazuh` or `ossec-wazuh`.
-  Default: `wazuh`.
-  Allowed: `wazuh` and `ossec-wazuh`.
+  Coverity project name. Must be either `assetguard` or `ossec-assetguard`.
+  Default: `assetguard`.
+  Allowed: `assetguard` and `ossec-assetguard`.
 * `TOKEN`
   Coverity project token.
   Required for `--build-image` and `--upload`.
 * `EMAIL`
   Email address associated with the Coverity account.
-  Default: `devel@wazuh.com`.
+  Default: `devel@assetguard.com`.
 
 ### Build output
 
 * The analysis results are generated in the `cov-int` directory under the project root.
-* A compressed tarball `wazuh.tgz` is created in the project root and uploaded to Coverity.
+* A compressed tarball `assetguard.tgz` is created in the project root and uploaded to Coverity.
 
 ### Version and description
 
@@ -69,8 +69,8 @@ COVERITY_TOKEN=your_token ./coverity.sh --build-image
 # Run analysis and upload result
 COVERITY_TOKEN=your_token ./coverity.sh
 
-# Just upload the build to the ossec-wazuh project
-COVERITY_TOKEN=your_token PROJECT=ossec-wazuh ./coverity.sh --upload
+# Just upload the build to the ossec-assetguard project
+COVERITY_TOKEN=your_token PROJECT=ossec-assetguard ./coverity.sh --upload
 
 # Clean generated files after analysis
 ./coverity.sh --clean
@@ -78,4 +78,4 @@ COVERITY_TOKEN=your_token PROJECT=ossec-wazuh ./coverity.sh --upload
 
 ## Notes
 
-You can run this same scan from GitHub Actions, in the [4_codeanalysis_coverity](https://github.com/wazuh/wazuh/actions/workflows/4_codeanalysis_coverity.yml) workflow.
+You can run this same scan from GitHub Actions, in the [4_codeanalysis_coverity](https://github.com/assetguard/assetguard/actions/workflows/4_codeanalysis_coverity.yml) workflow.

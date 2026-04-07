@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -15,11 +15,11 @@
 #include "../os_crypto/md5/md5_op.h"
 #include <ctype.h>
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef ASSETGUARD_UNIT_TESTING
     // Remove static qualifier when unit testing
     #define STATIC
     #ifdef WIN32
-            #include "../../unit_tests/wrappers/wazuh/client-agent/start_agent.h"
+            #include "../../unit_tests/wrappers/assetguard/client-agent/start_agent.h"
             #define recv wrap_recv
     #endif
 
@@ -741,7 +741,7 @@ STATIC void send_msg_on_startup(void) {
     snprintf(msg, OS_MAXSTR, OS_AG_STARTED,
             atoi(keys.keyentries[0]->id),
             keys.keyentries[0]->name);
-    os_snprintf(fmsg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "wazuh-agent", msg);
+    os_snprintf(fmsg, OS_MAXSTR, "%c:%s:%s", LOCALFILE_MQ, "assetguard-agent", msg);
 
     send_msg(fmsg, -1);
 }

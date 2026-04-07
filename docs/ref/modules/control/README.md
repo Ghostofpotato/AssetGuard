@@ -1,10 +1,10 @@
 # Control Module (wm_control)
 
-The **Control Module** (`wm_control`) provides manager control operations for the Wazuh server, handling restart and reload requests through a Unix domain socket interface. This module runs within `wazuh-modulesd` and replaces the control functionality previously handled by `wazuh-execd`.
+The **Control Module** (`wm_control`) provides manager control operations for the AssetGuard server, handling restart and reload requests through a Unix domain socket interface. This module runs within `assetguard-modulesd` and replaces the control functionality previously handled by `assetguard-execd`.
 
 ## Key Features
 
-- **Manager Restart**: Graceful manager restart via systemctl or wazuh-control
+- **Manager Restart**: Graceful manager restart via systemctl or assetguard-control
 - **Manager Reload**: Configuration reload without full restart
 - **Primary IP Detection**: Retrieves the manager's primary network interface IP
 - **Systemd Integration**: Automatic detection and use of systemd when available
@@ -16,7 +16,7 @@ The control module serves as the manager's control plane for operational command
 
 1. **Listens on control socket** (`/var/ossec/queue/sockets/control`)
 2. **Receives control commands** from API, framework, or other components
-3. **Executes system operations** (restart/reload) via systemctl or wazuh-control
+3. **Executes system operations** (restart/reload) via systemctl or assetguard-control
 4. **Returns operation status** to the caller
 
 ## Socket Interface
@@ -29,7 +29,7 @@ The control module serves as the manager's control plane for operational command
 
 | Command | Description | Response |
 |---------|-------------|----------|
-| `restart` | Restart the Wazuh manager | `ok ` (immediate) |
+| `restart` | Restart the AssetGuard manager | `ok ` (immediate) |
 | `reload` | Reload manager configuration | `ok ` (immediate) |
 | `getip` | Get primary network interface IP | IP address string |
 | *(other)* | Any unrecognized command | IP address (backward compatibility) |
@@ -41,8 +41,8 @@ The control module serves as the manager's control plane for operational command
 1. **Request Received**: Client sends command to control socket
 2. **Systemd Detection**: Module checks if systemd is available
 3. **Command Selection**:
-   - **With systemd**: `systemctl restart/reload wazuh-manager`
-   - **Without systemd**: `/var/ossec/bin/wazuh-control restart/reload`
+   - **With systemd**: `systemctl restart/reload assetguard-manager`
+   - **Without systemd**: `/var/ossec/bin/assetguard-control restart/reload`
 4. **Fork and Execute**: Spawns child process to execute command
 5. **Immediate Response**: Returns success immediately (non-blocking)
 
@@ -63,11 +63,11 @@ For reload operations with systemd, the module:
 
 ### API Usage
 
-The Wazuh RESTful API uses the control socket for:
+The AssetGuard RESTful API uses the control socket for:
 - `PUT /manager/restart` - Manager restart endpoint
 - Cluster restart coordination
 
-**Framework Code**: `framework/wazuh/core/cluster/utils.py::manager_restart()`
+**Framework Code**: `framework/assetguard/core/cluster/utils.py::manager_restart()`
 
 ### Socket Communication Example
 
@@ -88,14 +88,14 @@ result = send_control_command('restart')  # Returns: "ok "
 
 ## Related Modules
 
-- **wazuh-modulesd**: Host daemon for control module
-- **wazuh-apid**: Calls control socket for manager restart API
+- **assetguard-modulesd**: Host daemon for control module
+- **assetguard-apid**: Calls control socket for manager restart API
 - **Framework**: Python framework uses control socket for restart operations
 
 ## Architecture Changes
 
 **Previous Architecture (v4.x)**:
-- Control functionality in `wazuh-execd` daemon
+- Control functionality in `assetguard-execd` daemon
 - Socket: `/var/ossec/queue/sockets/com`
 - Multiple commands: restart, reload, getconfig, unmerge, uncompress, etc.
 
@@ -108,7 +108,7 @@ result = send_control_command('restart')  # Returns: "ok "
 ## Security Considerations
 
 - **Socket Permissions**: The control socket is created with `0660` permissions
-- **Group Access**: Socket owned by wazuh group for API/framework access
+- **Group Access**: Socket owned by assetguard group for API/framework access
 - **No Authentication**: Local Unix socket provides implicit authentication via filesystem permissions
 - **Immediate Response**: Operations return immediately before completion to prevent timeout issues
 

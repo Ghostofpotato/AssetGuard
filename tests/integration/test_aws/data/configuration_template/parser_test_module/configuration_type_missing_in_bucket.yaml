@@ -8,4 +8,4 @@
         - bucket:
             elements:
               - name:
-                  value: wazuh-cloudtrail-integration-tests
+                  value: assetguard-cloudtrail-integration-tests

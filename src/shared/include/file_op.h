@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, AssetGuard Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -371,10 +371,10 @@ int cldir_ex(const char *name);
  * Example:
  * @code
  * const char *preserve[] = {"keep.txt", "subfolder/important.conf", NULL};
- * cldir_ex_ignore("/var/wazuh-manager/etc/shared", preserve);
- * // Preserves: /var/wazuh-manager/etc/shared/keep.txt
- * //            /var/wazuh-manager/etc/shared/subfolder/important.conf
- * //            /var/wazuh-manager/etc/shared/subfolder/ (directory kept because it has preserved file)
+ * cldir_ex_ignore("/var/assetguard-manager/etc/shared", preserve);
+ * // Preserves: /var/assetguard-manager/etc/shared/keep.txt
+ * //            /var/assetguard-manager/etc/shared/subfolder/important.conf
+ * //            /var/assetguard-manager/etc/shared/subfolder/ (directory kept because it has preserved file)
  * // Deletes:   Everything else
  * @endcode
  */
@@ -640,7 +640,7 @@ char **expand_win32_wildcards(const char *path);
  * @return true if the path points to a network location, false otherwise.
  *
  * @note This function addresses CVE-2025-30201 and GHSA-5g2v-99vr-3hgw.
- * @see https://github.com/wazuh/wazuh/pull/30060
+ * @see https://github.com/assetguard/assetguard/pull/30060
  */
 bool is_network_path(const char *path);
 
@@ -744,12 +744,12 @@ int w_uncompress_bz2_gz_file(const char * path, const char * dest);
 #endif /* CLIENT */
 
 /**
- * @brief Get the Wazuh installation directory
+ * @brief Get the AssetGuard installation directory
  *
- * It is obtained from the /proc directory, argv[0], or the env variable WAZUH_HOME
+ * It is obtained from the /proc directory, argv[0], or the env variable ASSETGUARD_HOME
  *
  * @param arg ARGV0 - Program name
- * @return Pointer to the Wazuh installation path on success
+ * @return Pointer to the AssetGuard installation path on success
  */
 char *w_homedir(char *arg);
 #endif /* FILE_OP_H */

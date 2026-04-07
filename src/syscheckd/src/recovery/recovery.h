@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscheck
- * Copyright (C) 2015, Wazuh Inc.
+ * AssetGuard Syscheck
+ * Copyright (C) 2015, AssetGuard Inc.
  * October 22 2025.
  *
  * This program is free software; you can redistribute it

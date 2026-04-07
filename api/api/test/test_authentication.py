@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, AssetGuard Inc.
+# Created by AssetGuard, Inc. <info@assetguard.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import hashlib
@@ -11,31 +11,31 @@ from unittest.mock import patch, MagicMock, ANY, call
 
 from connexion.exceptions import Unauthorized
 
-with patch('wazuh.core.common.wazuh_uid'):
-    with patch('wazuh.core.common.wazuh_gid'):
-        from wazuh.core.results import WazuhResult
+with patch('assetguard.core.common.assetguard_uid'):
+    with patch('assetguard.core.common.assetguard_gid'):
+        from assetguard.core.results import AssetGuardResult
 
 import pytest
 
-with patch('wazuh.core.common.wazuh_uid'):
-    with patch('wazuh.core.common.wazuh_gid'):
-        sys.modules['wazuh.rbac.orm'] = MagicMock()
+with patch('assetguard.core.common.assetguard_uid'):
+    with patch('assetguard.core.common.assetguard_gid'):
+        sys.modules['assetguard.rbac.orm'] = MagicMock()
         from api.authentication import (generate_keypair, check_user_master, check_user, change_keypair,
-                                        _private_key_path, _public_key_path, wazuh_uid, wazuh_gid, get_security_conf,
+                                        _private_key_path, _public_key_path, assetguard_uid, assetguard_gid, get_security_conf,
                                         generate_token, check_token, decode_token)
-        del sys.modules['wazuh.rbac.orm']
+        del sys.modules['assetguard.rbac.orm']
 
 
 test_path = os.path.dirname(os.path.realpath(__file__))
 test_data_path = os.path.join(test_path, 'data')
 
-security_conf = WazuhResult({
+security_conf = AssetGuardResult({
     'auth_token_exp_timeout': 900,
     'rbac_mode': 'black'
 })
 decoded_payload = {
-    "iss": 'wazuh',
-    "aud": 'Wazuh API REST',
+    "iss": 'assetguard',
+    "aud": 'AssetGuard API REST',
     "nbf": 0,
     "exp": security_conf['auth_token_exp_timeout'],
     "sub": '001',
@@ -45,8 +45,8 @@ decoded_payload = {
 }
 
 original_payload = {
-    "iss": "wazuh",
-    "aud": "Wazuh API REST",
+    "iss": "assetguard",
+    "aud": "AssetGuard API REST",
     "nbf": 0,
     "exp": security_conf['auth_token_exp_timeout'],
     "sub": "001",
@@ -65,8 +65,8 @@ def test_check_user_master():
 
 
 @pytest.mark.asyncio
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None)
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.distribute_function', side_effect=None)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.distribute_function', side_effect=None)
 @patch('api.authentication.raise_if_exc', side_effect=None)
 async def test_check_user(mock_raise_if_exc, mock_distribute_function, mock_dapi):
     """Verify if result is as expected"""
@@ -90,8 +90,8 @@ def test_generate_keypair(mock_open, mock_chown, mock_chmod, mock_change_keypair
     assert result == ('-----BEGIN PRIVATE KEY-----',
                       '-----BEGIN PUBLIC KEY-----')
 
-    calls = [call(_private_key_path, wazuh_uid(), wazuh_gid()),
-             call(_public_key_path, wazuh_uid(), wazuh_gid())]
+    calls = [call(_private_key_path, assetguard_uid(), assetguard_gid()),
+             call(_public_key_path, assetguard_uid(), assetguard_gid())]
     mock_chown.assert_has_calls(calls)
     calls = [call(_private_key_path, 0o640),
              call(_public_key_path, 0o640)]
@@ -171,8 +171,8 @@ def test_get_security_conf():
 @patch('api.authentication.jwt.encode', return_value='test_token')
 @patch('api.authentication.generate_keypair', return_value=('-----BEGIN PRIVATE KEY-----',
                                                             '-----BEGIN PUBLIC KEY-----'))
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None)
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.distribute_function', side_effect=None)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.distribute_function', side_effect=None)
 @patch('api.authentication.raise_if_exc', side_effect=None)
 async def test_generate_token(mock_raise_if_exc, mock_distribute_function, mock_dapi, mock_generate_keypair,
                         mock_encode, auth_context):
@@ -201,7 +201,7 @@ async def test_generate_token(mock_raise_if_exc, mock_distribute_function, mock_
 
 @patch('api.authentication.TokenManager')
 def test_check_token(mock_tokenmanager):
-    result = check_token(username='wazuh_user', roles=tuple([1]), token_nbf_time=3600, run_as=False,
+    result = check_token(username='assetguard_user', roles=tuple([1]), token_nbf_time=3600, run_as=False,
                                         origin_node_type='master')
     assert result == {'valid': ANY, 'policies': ANY}
 
@@ -210,15 +210,15 @@ def test_check_token(mock_tokenmanager):
 @patch('api.authentication.jwt.decode')
 @patch('api.authentication.generate_keypair', return_value=('-----BEGIN PRIVATE KEY-----',
                                                             '-----BEGIN PUBLIC KEY-----'))
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None)
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.distribute_function', return_value=True)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.distribute_function', return_value=True)
 @patch('api.authentication.raise_if_exc', side_effect=None)
 async def test_decode_token(mock_raise_if_exc, mock_distribute_function, mock_dapi, mock_generate_keypair,
                       mock_decode):
     
     mock_decode.return_value = deepcopy(original_payload)
-    mock_raise_if_exc.side_effect = [WazuhResult({'valid': True, 'policies': {'value': 'test'}}),
-                                     WazuhResult(security_conf)]
+    mock_raise_if_exc.side_effect = [AssetGuardResult({'valid': True, 'policies': {'value': 'test'}}),
+                                     AssetGuardResult(security_conf)]
 
     result = decode_token('test_token')
     assert result == decoded_payload
@@ -233,13 +233,13 @@ async def test_decode_token(mock_raise_if_exc, mock_distribute_function, mock_da
     mock_generate_keypair.assert_called_once()
     mock_decode.assert_called_once_with('test_token', '-----BEGIN PUBLIC KEY-----',
                                         algorithms=['ES512'],
-                                        audience='Wazuh API REST')
+                                        audience='AssetGuard API REST')
     assert mock_distribute_function.call_count == 2
     assert mock_raise_if_exc.call_count == 2
 
 
 @pytest.mark.asyncio
-@patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.distribute_function', side_effect=None)
+@patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.distribute_function', side_effect=None)
 @patch('api.authentication.raise_if_exc', side_effect=None)
 @patch('api.authentication.generate_keypair', return_value=('-----BEGIN PRIVATE KEY-----',
                                                             '-----BEGIN PUBLIC KEY-----'))
@@ -252,18 +252,18 @@ async def test_decode_token_ko(mock_generate_keypair, mock_raise_if_exc, mock_di
         with patch('api.authentication.generate_keypair',
                    return_value=('-----BEGIN PRIVATE KEY-----',
                                  '-----BEGIN PUBLIC KEY-----')):
-            with patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None):
-                with patch('wazuh.core.cluster.dapi.dapi.DistributedAPI.distribute_function'):
+            with patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.__init__', return_value=None):
+                with patch('assetguard.core.cluster.dapi.dapi.DistributedAPI.distribute_function'):
                     with patch('api.authentication.raise_if_exc') as mock_raise_if_exc:
                         mock_decode.return_value = deepcopy(original_payload)
 
                         with pytest.raises(Unauthorized):
-                            mock_raise_if_exc.side_effect = [WazuhResult({'valid': False})]
+                            mock_raise_if_exc.side_effect = [AssetGuardResult({'valid': False})]
                             decode_token(token='test_token')
 
                         with pytest.raises(Unauthorized):
                             mock_raise_if_exc.side_effect = [
-                                WazuhResult({'valid': True, 'policies': {'value': 'test'}}),
-                                WazuhResult({'auth_token_exp_timeout': 900,
+                                AssetGuardResult({'valid': True, 'policies': {'value': 'test'}}),
+                                AssetGuardResult({'auth_token_exp_timeout': 900,
                                              'rbac_mode': 'white'})]
                             decode_token(token='test_token')

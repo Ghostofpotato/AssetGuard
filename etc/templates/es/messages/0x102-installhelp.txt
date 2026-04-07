@@ -20,4 +20,4 @@
       análisis. (Ideal para servidore WEB, base de datos, etc)
 
   - Para más información dirijase a:
-    https://documentation.wazuh.com
+    https://documentation.assetguard.com

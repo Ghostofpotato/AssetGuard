@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-Wazuh 5.0+ automatically enriches all events with agent metadata (OS, version, groups, etc.) before sending to analysisd. No configuration required.
+AssetGuard 5.0+ automatically enriches all events with agent metadata (OS, version, groups, etc.) before sending to analysisd. No configuration required.
 
 ## Key Concepts
 
@@ -31,7 +31,7 @@ Wazuh 5.0+ automatically enriches all events with agent metadata (OS, version, g
 ### Check Metadata Collection
 
 ```bash
-tail -f `/var/wazuh-manager/logs/wazuh-manager.log` | grep -i "keepalive\|metadata"
+tail -f `/var/assetguard-manager/logs/assetguard-manager.log` | grep -i "keepalive\|metadata"
 ```
 
 ## Configuration Quick Start
@@ -43,7 +43,7 @@ No changes needed. Defaults work well.
 ### High Throughput (>50K events/sec)
 
 ```conf
-# /var/wazuh-manager/etc/internal_options.conf
+# /var/assetguard-manager/etc/internal_options.conf
 remoted.control_msg_queue_size=32768
 remoted.batch_events_capacity=262144
 remoted.worker_pool=8
@@ -53,7 +53,7 @@ remoted.sender_pool=16
 ### Large Agent Count (>10K agents)
 
 ```conf
-# /var/wazuh-manager/etc/internal_options.conf
+# /var/assetguard-manager/etc/internal_options.conf
 remoted.control_msg_queue_size=32768
 ```
 
@@ -73,7 +73,7 @@ OSHash_setSize(agent_meta_map, 4096);
 ## Protocol Example
 
 ```
-H	{"wazuh":{"agent":{"id":"001","name":"web-01","groups":["web"]}}}
+H	{"assetguard":{"agent":{"id":"001","name":"web-01","groups":["web"]}}}
 E	{"log":"Connection from 192.168.1.100"}
 E	{"log":"Authentication successful"}
 ```
@@ -83,7 +83,7 @@ E	{"log":"Authentication successful"}
 ### Statistics File
 
 ```bash
-cat /var/wazuh-manager/var/run/wazuh-manager-remoted.state
+cat /var/assetguard-manager/var/run/assetguard-manager-remoted.state
 ```
 
 ### Key Metrics

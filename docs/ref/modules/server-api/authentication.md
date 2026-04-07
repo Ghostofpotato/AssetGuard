@@ -1,6 +1,6 @@
 # Authentication & Security
 
-All access to the Wazuh Server API is protected by JWT authentication and RBAC authorization. Additional protections include rate limiting, brute-force prevention, and security headers.
+All access to the AssetGuard Server API is protected by JWT authentication and RBAC authorization. Additional protections include rate limiting, brute-force prevention, and security headers.
 
 ---
 
@@ -78,7 +78,7 @@ The API sets the following security headers on all responses:
 |--------|-------|---------|
 | `Content-Security-Policy` | `none` | Restricts resource loading |
 | `X-Frame-Options` | `DENY` | Prevents clickjacking |
-| `Server` | `Wazuh` | Masks underlying server technology |
+| `Server` | `AssetGuard` | Masks underlying server technology |
 
 These are applied via the `secure` Python library in `middlewares.py`.
 
