@@ -450,9 +450,13 @@ STATIC int wm_agent_upgrade_send_write(int agent_id, int wpk_message_format, con
             } else {
                 snprintf(command, OS_MAXSTR, "%.3d com write %ld %s ", agent_id, bytes, wpk_file);
                 command_size = strlen(command);
-                for (size_t byte = 0; byte < bytes; ++byte) {
-                    sprintf(&command[command_size++], "%c", buffer[byte]);
+                if (command_size + bytes >= OS_MAXSTR) {
+                    bytes = OS_MAXSTR - command_size - 1;
                 }
+                for (size_t byte = 0; byte < bytes; ++byte) {
+                    command[command_size++] = buffer[byte];
+                }
+                command[command_size] = '\0';
             }
 
             os_free(response);
