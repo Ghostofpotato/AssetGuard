@@ -40,7 +40,7 @@ link_directories(${SRC_FOLDER}/build/lib)
 link_directories(${SRC_FOLDER}/external/rocksdb/build)
 link_directories(${SRC_FOLDER}/external/simdjson/build)
 link_directories(${SHARED_MODULES}/http-request/build)
-link_directories(${SHARED_MODULES}/keystore/build)
+link_directories(${SHARED_MODULES}/keystore/build/lib)
 
 set(INDEXER_CONNECTOR_SRC src/indexerConnectorAsync.cpp
                           src/indexerConnectorSync.cpp)
