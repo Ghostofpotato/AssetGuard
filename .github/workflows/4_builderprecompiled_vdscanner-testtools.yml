@@ -82,10 +82,11 @@ jobs:
           EXTERNAL_DIR=${{github.workspace}}/src/external/
           VDSCANNER_DIR=${{github.workspace}}/src/assetguard_modules/vulnerability_scanner/
 
-          # Copy flatbuffer schemas
+          # Copy flatbuffer schemas. Note: syscollector_deltas.fbs and
+          # rsync.fbs are no longer present in shared_modules/utils/
+          # flatbuffers/schemas/ in the current tree, so only the VD
+          # scanner's own schemas directory is copied.
           cp -r ${VDSCANNER_DIR}schemas ${{env.TOOLS_DIR}}
-          cp ${SHARED_MODULES_DIR}utils/flatbuffers/schemas/syscollector_deltas.fbs ${{env.TOOLS_DIR}}/schemas
-          cp ${SHARED_MODULES_DIR}utils/flatbuffers/schemas/rsync.fbs ${{env.TOOLS_DIR}}/schemas
 
           # Copy required libraries
           cp ${SRC_DIR}libassetguardext.so ${{env.TOOLS_DIR}}
