@@ -467,7 +467,7 @@ SHARED_TAR := $(SHARED_RES:%=shared_modules/%.tar.gz)
 
 # Indexer plugin templates
 INDEXER_PLUGINS_DIR := external/indexer-plugins
-INDEXER_PLUGINS_BASE_URL := https://raw.githubusercontent.com/assetguard/assetguard-indexer-plugins
+INDEXER_PLUGINS_BASE_URL := https://raw.githubusercontent.com/wazuh/wazuh-indexer-plugins
 INDEXER_PLUGINS_STATES_PATH := plugins/setup/src/main/resources/templates/states
 INDEXER_PLUGINS_STREAMS_PATH := plugins/setup/src/main/resources/templates/streams
 

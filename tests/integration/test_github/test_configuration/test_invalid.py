@@ -43,7 +43,7 @@ os_version:
     - Windows Server 2016
 
 references:
-    - https://github.com/assetguard/assetguard-documentation/blob/develop/source/github/monitoring-github-activity.rst
+    - https://github.com/wazuh/wazuh-documentation/blob/develop/source/github/monitoring-github-activity.rst
 
 tags:
     - github_configuration
