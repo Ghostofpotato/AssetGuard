@@ -56,6 +56,12 @@ jobs:
           path: src/shared_modules/router
           test: "false"
 
+      - name: Keystore
+        uses: ./.github/actions/compile_and_test
+        with:
+          path: src/shared_modules/keystore
+          test: "false"
+
       - name: Indexer connector
         uses: ./.github/actions/compile_and_test
         with:
