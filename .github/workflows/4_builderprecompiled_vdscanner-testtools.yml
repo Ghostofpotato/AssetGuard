@@ -2,18 +2,13 @@ name: 4.X - VD Scanner tools Delivery
 
 # Controls when the action will run.
 on:
-  # Trigger when a pull request is merged into main
-  push:
-    branches:
-      - main
-    paths:
-      - "src/assetguard_modules/vulnerability_scanner/testtool/**"
-      - "src/assetguard_modules/vulnerability_scanner/src/**"
-      - "src/assetguard_modules/vulnerability_scanner/include/**"
-      - ".github/workflows/4_builderprecompiled_vdscanner-testtools.yml"
-      - "src/assetguard_modules/vulnerability_scanner/schemas/**"
-
-  # Allows manual trigger.
+  # Manual-trigger only as of 2026-04-17. The auto-on-push trigger was
+  # disabled because the workflow depends on an environment (GCC 12+
+  # prebuilt externals, specific libstdc++) that doesn't match the
+  # current ubuntu-22.04 runner's GCC 11.4 toolchain, producing
+  # undefined-reference link errors that are out of scope of a simple
+  # patch. Re-enable auto-trigger when the VD scanner build env is
+  # stabilized.
   workflow_dispatch:
 
 # Ensures only one instance of this workflow is running per PR
