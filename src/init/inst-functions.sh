@@ -1129,7 +1129,7 @@ checkDownloadContent()
 
     if [ "X${DOWNLOAD_CONTENT}" = "Xy" ]; then
         echo "Download ${VD_FILENAME} file"
-        wget -O ${VD_FULL_PATH} http://packages.assetguard.com/deps/vulnerability_model_database/${VD_FILENAME}
+        wget -O ${VD_FULL_PATH} http://packages.wazuh.com/deps/vulnerability_model_database/${VD_FILENAME}
 
         chmod 640 ${VD_FULL_PATH}
         chown ${ASSETGUARD_USER}:${ASSETGUARD_GROUP} ${VD_FULL_PATH}

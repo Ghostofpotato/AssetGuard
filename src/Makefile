@@ -389,7 +389,7 @@ GUNZIP := gunzip
 GZIP := gzip
 CURL := curl -so
 DEPS_VERSION = 99-29585
-RESOURCES_URL_BASE := https://packages.assetguard.com/deps/
+RESOURCES_URL_BASE := https://packages.wazuh.com/deps/
 RESOURCES_URL := $(RESOURCES_URL_BASE)$(DEPS_VERSION)
 CPYTHON := cpython
 PYTHON_SOURCE := no
@@ -573,7 +573,7 @@ external-precompiled/%.tar.gz:
 endif
 
 # Shared tools
-HTTP_REQUEST_URL := https://github.com/assetguard/assetguard-http-request/tarball/$(HTTP_REQUEST_BRANCH)
+HTTP_REQUEST_URL := https://github.com/wazuh/wazuh-http-request/tarball/$(HTTP_REQUEST_BRANCH)
 
 # Certificate bundle path for HTTPS connections (only if exists)
 CA_BUNDLE := /etc/ssl/certs/ca-certificates.crt

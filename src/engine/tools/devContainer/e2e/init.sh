@@ -30,7 +30,7 @@ function upsert_certs() {
     fi
 
     local assetguard_install_script="assetguard-install.sh"
-    local assetguard_install_url="https://packages.assetguard.com/4.14/assetguard-install.sh"
+    local assetguard_install_url="https://packages.wazuh.com/4.14/assetguard-install.sh"
     local config_file="config.yml"
 
     # Download assetguard-install.sh
