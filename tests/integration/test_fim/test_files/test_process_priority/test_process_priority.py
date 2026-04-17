@@ -46,7 +46,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#process-priority
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#process-priority
 
 pytest_args:
     - fim_mode:
@@ -108,7 +108,7 @@ def test_process_priority(test_configuration, test_metadata, configure_local_int
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
@@ -120,7 +120,7 @@ def test_process_priority(test_configuration, test_metadata, configure_local_int
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - folder_to_monitor:
             type: str
             brief: Folder created for monitoring.
@@ -132,7 +132,7 @@ def test_process_priority(test_configuration, test_metadata, configure_local_int
         - Verify that the 'assetguard-syscheckd' daemon is running.
         - Verify that the process priority of the 'assetguard-syscheckd' daemon matches the 'process_priority' tag.
 
-    input_description: A test case (ossec_conf) is contained in external YAML file (cases_process_priority.yaml)
+    input_description: A test case (assetguard_conf) is contained in external YAML file (cases_process_priority.yaml)
                        which includes configuration settings for the 'assetguard-syscheckd' daemon and,
                        these are combined with the testing directory to be monitored defined in the module.
 

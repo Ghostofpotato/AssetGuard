@@ -88,7 +88,7 @@ def test_accepted_values(test_configuration, test_metadata, load_assetguard_basi
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
@@ -112,7 +112,7 @@ def test_accepted_values(test_configuration, test_metadata, load_assetguard_basi
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate assetguard logs.
@@ -152,7 +152,7 @@ def test_invalid_values(test_configuration, test_metadata, load_assetguard_basic
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Truncate assetguard logs.
         - test:
             - Restart assetguard-manager service to apply configuration changes.
@@ -176,7 +176,7 @@ def test_invalid_values(test_configuration, test_metadata, load_assetguard_basic
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate assetguard logs.
@@ -212,10 +212,10 @@ def test_missing_configuration(test_configuration, test_metadata, load_assetguar
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Truncate assetguard logs.
         - test:
-            - Remove the specified tag in ossec.conf
+            - Remove the specified tag in assetguard.conf
             - Restart assetguard-manager service to apply configuration changes.
             - Check whether the EPS limitation is activated, deactivated or generates a configuration error due to a
               missing label.
@@ -238,13 +238,13 @@ def test_missing_configuration(test_configuration, test_metadata, load_assetguar
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate assetguard logs.
         - configure_remove_tags:
             type: fixture
-            brief: Remove section from ossec.conf.
+            brief: Remove section from assetguard.conf.
         - daemons_handler:
             type: fixture
             brief: Handler of AssetGuard daemons.

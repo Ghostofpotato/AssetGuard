@@ -41,7 +41,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#synchronization
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#synchronization
 
 pytest_args:
     - fim_mode:
@@ -105,13 +105,13 @@ def test_moving_file_to_whodata(test_configuration, test_metadata, set_assetguar
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.

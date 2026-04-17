@@ -241,7 +241,7 @@ async def test_get_configuration_node(mock_exc, mock_dapi, mock_remove, mock_dfu
                         'field': None,
                         'raw': False
                         }
-            mock_dapi.assert_called_once_with(f=manager.read_ossec_conf,
+            mock_dapi.assert_called_once_with(f=manager.read_assetguard_conf,
                                               f_kwargs=mock_remove.return_value,
                                               request_type='distributed_master',
                                               is_async=False,
@@ -461,7 +461,7 @@ async def test_get_log_node(mock_exc, mock_dapi, mock_remove, mock_dfunc, mock_r
                     'select': None,
                     'distinct': False
                     }
-        mock_dapi.assert_called_once_with(f=manager.ossec_log,
+        mock_dapi.assert_called_once_with(f=manager.assetguard_log,
                                           f_kwargs=mock_remove.return_value,
                                           request_type='distributed_master',
                                           is_async=False,
@@ -488,7 +488,7 @@ async def test_get_log_summary_node(mock_exc, mock_dapi, mock_remove, mock_dfunc
     with patch('api.controllers.cluster_controller.get_system_nodes', return_value=AsyncMock()) as mock_snodes:
         result = await get_log_summary_node(node_id='001')
         f_kwargs = {'node_id': '001'}
-        mock_dapi.assert_called_once_with(f=manager.ossec_log_summary,
+        mock_dapi.assert_called_once_with(f=manager.assetguard_log_summary,
                                           f_kwargs=mock_remove.return_value,
                                           request_type='distributed_master',
                                           is_async=False,
@@ -639,7 +639,7 @@ async def test_update_configuration(mock_exc, mock_dapi, mock_remove, mock_dfunc
                 f_kwargs = {'node_id': '001',
                             'new_conf': mock_dbody.return_value
                             }
-                mock_dapi.assert_called_once_with(f=manager.update_ossec_conf,
+                mock_dapi.assert_called_once_with(f=manager.update_assetguard_conf,
                                                   f_kwargs=mock_remove.return_value,
                                                   request_type='distributed_master',
                                                   is_async=False,

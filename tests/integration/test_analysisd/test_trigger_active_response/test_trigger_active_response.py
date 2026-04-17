@@ -114,7 +114,7 @@ def test_rules_triggers_ar(test_configuration, test_metadata, truncate_monitored
             brief: Truncate assetguard logs.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - prepare_ar_files:
             type: fixture
             brief: Prepare and clean the files required for this scenario.

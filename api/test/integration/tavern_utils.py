@@ -409,7 +409,7 @@ def check_agentd_started(response, agents_list, restarted=True):
         while tries < 80:
             try:
                 # Save agentd logs in a list
-                command = f"docker exec env-assetguard-agent{int(agent_id)}-1 grep agentd /var/ossec/logs/ossec.log"
+                command = f"docker exec env-assetguard-agent{int(agent_id)}-1 grep agentd /var/assetguard/logs/assetguard.log"
                 output = subprocess.check_output(command.split()).decode().strip().split('\n')
             except subprocess.SubprocessError as exc:
                 raise subprocess.SubprocessError(f"Error while trying to get logs from agent {agent_id}") from exc

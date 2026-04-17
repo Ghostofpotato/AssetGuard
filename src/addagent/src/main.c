@@ -179,7 +179,7 @@ int main(int argc, char **argv)
 
         /* Get ACTION from the environment. If ACTION is specified,
          * we must set leave_s = 1 to ensure that the loop will end */
-        user_msg = getenv("OSSEC_ACTION");
+        user_msg = getenv("ASSETGUARD_ACTION");
         if (user_msg == NULL) {
             user_msg = read_from_user();
         } else {

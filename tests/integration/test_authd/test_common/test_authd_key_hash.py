@@ -72,7 +72,7 @@ daemons_handler_configuration = {'all_daemons': True}
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_ossec_auth_messages_with_key_hash(test_configuration, test_metadata, set_assetguard_configuration,
+def test_assetguard_auth_messages_with_key_hash(test_configuration, test_metadata, set_assetguard_configuration,
                                            configure_sockets_environment_module, truncate_monitored_files,
                                            insert_pre_existent_agents, daemons_handler, wait_for_authd_startup,
                                            set_up_groups, connect_to_sockets_module):

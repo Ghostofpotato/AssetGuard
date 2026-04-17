@@ -219,7 +219,7 @@ async def get_indexer_client() -> AsyncIterator[Indexer]:
     Context manager to create, yield, and automatically close
     an indexer client.
 
-    This utility fetches configuration from the AssetGuard OSSEC config and
+    This utility fetches configuration from the AssetGuard AssetGuard config and
     keystore before initializing the client.
 
     Yields

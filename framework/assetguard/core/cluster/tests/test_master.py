@@ -1781,7 +1781,7 @@ def test_master_get_node(get_running_loop_mock):
 
 @pytest.mark.asyncio
 @patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
-async def test_disconnected_agent_group_sync_task_initialization(get_ossec_conf_mock):
+async def test_disconnected_agent_group_sync_task_initialization(get_assetguard_conf_mock):
     """Test DisconnectedAgentSyncTasks initialization."""
     
     cluster_items_with_sync = cluster_items.copy()
@@ -1804,7 +1804,7 @@ async def test_disconnected_agent_group_sync_task_initialization(get_ossec_conf_
 
 @pytest.mark.asyncio
 @patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
-async def test_disconnected_agent_group_sync_task_batch_agents(get_ossec_conf_mock):
+async def test_disconnected_agent_group_sync_task_batch_agents(get_assetguard_conf_mock):
     """Test DisconnectedAgentSyncTasks batch_agents method."""
     
     cluster_items_with_sync = cluster_items.copy()
@@ -1841,7 +1841,7 @@ async def test_disconnected_agent_group_sync_task_batch_agents(get_ossec_conf_mo
 async def test_disconnected_agent_group_sync_task_get_disconnected_agents_filter_by_time(
     mock_assetguard_db_query, 
     mock_async_conn,
-    mock_get_ossec_conf
+    mock_get_assetguard_conf
 ):
     """Test DisconnectedAgentSyncTasks _get_disconnected_agents_filter_by_time method."""
 
@@ -1885,7 +1885,7 @@ async def test_disconnected_agent_group_sync_task_get_disconnected_agents_filter
 @patch('assetguard.core.indexer.disconnected_agents.get_assetguard_conf', return_value={})
 @patch('assetguard.core.cluster.master.DisconnectedAgentSyncTasks._get_disconnected_agents_filter_by_time')
 @patch('assetguard.core.cluster.master.AsyncAssetGuardDBConnection')
-async def test_disconnected_agent_group_sync_task_run_with_disabled_task(mock_wdb_conn, mock_get_disconnected, get_ossec_conf_mock):
+async def test_disconnected_agent_group_sync_task_run_with_disabled_task(mock_wdb_conn, mock_get_disconnected, get_assetguard_conf_mock):
     """Test DisconnectedAgentSyncTasks run method when disabled."""
 
     cluster_items_with_sync = cluster_items.copy()

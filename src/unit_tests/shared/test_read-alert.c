@@ -38,7 +38,7 @@ static void test_GetAlertData_buffer_underflow_fix_empty_filename(void **state) 
     (void) state;
 
     const char input[] =
-        "** Alert 1676620577.100: - ossec,syscheck,\n"
+        "** Alert 1676620577.100: - assetguard,syscheck,\n"
         "2023 Feb 17 08:00:00 (agent) 192.168.0.1->syscheck\n"
         "Rule: 550 (level 7) -> 'Integrity checksum changed.'\n"
         "Integrity checksum changed for: ''\n"
@@ -57,7 +57,7 @@ static void test_GetAlertData_valid_filename(void **state) {
     (void) state;
 
     const char input[] =
-        "** Alert 1676620577.100: - ossec,syscheck,\n"
+        "** Alert 1676620577.100: - assetguard,syscheck,\n"
         "2023 Feb 17 08:00:00 (agent) 192.168.0.1->syscheck\n"
         "Rule: 550 (level 7) -> 'Integrity checksum changed.'\n"
         "Integrity checksum changed for: '/etc/passwd'\n"
@@ -76,7 +76,7 @@ static void test_GetAlertData_filename_with_spaces(void **state) {
     (void) state;
 
     const char input[] =
-        "** Alert 1676620577.100: - ossec,syscheck,\n"
+        "** Alert 1676620577.100: - assetguard,syscheck,\n"
         "2023 Feb 17 08:00:00 (agent) 192.168.0.1->syscheck\n"
         "Rule: 550 (level 7) -> 'Integrity checksum changed.'\n"
         "Integrity checksum changed for: '/path/with spaces/file.txt'\n"
@@ -95,7 +95,7 @@ static void test_GetAlertData_filename_windows_crlf(void **state) {
     (void) state;
 
     const char input[] =
-        "** Alert 1676620577.100: - ossec,syscheck,\n"
+        "** Alert 1676620577.100: - assetguard,syscheck,\n"
         "2023 Feb 17 08:00:00 (agent) 192.168.0.1->syscheck\n"
         "Rule: 550 (level 7) -> 'Integrity checksum changed.'\n"
         "Integrity checksum changed for: '/var/log/auth.log'\r\n"

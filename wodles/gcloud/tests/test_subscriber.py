@@ -29,7 +29,7 @@ MAX_MESSAGES = 100
 def get_wodle_config(credentials_file: str = "credentials.json", project: str = "test_project",
                      subscription_id: str = "test_subscription", logger: Logger = None) -> dict:
     """Return a dict containing every parameter supported by AssetGuardGCloudSubscriber. Used to simulate different
-    ossec.conf configurations.
+    assetguard.conf configurations.
 
     Parameters
     ----------

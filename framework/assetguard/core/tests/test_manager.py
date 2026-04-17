@@ -17,8 +17,8 @@ with patch('assetguard.core.common.assetguard_uid'):
         from assetguard.core.exception import AssetGuardException
 
 test_data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'manager')
-ossec_log_path = '{0}/ossec_log.log'.format(test_data_path)
-ossec_log_json_path = '{0}/ossec_log.log'.format(test_data_path)
+assetguard_log_path = '{0}/assetguard_log.log'.format(test_data_path)
+assetguard_log_json_path = '{0}/assetguard_log.log'.format(test_data_path)
 
 
 class InitManager:
@@ -47,7 +47,7 @@ def installation_uid():
 
 
 def get_logs(json_log: bool = False):
-    with open(ossec_log_json_path if json_log else ossec_log_path) as f:
+    with open(assetguard_log_json_path if json_log else assetguard_log_path) as f:
         return f.read()
 
 
@@ -96,9 +96,9 @@ def test_get_status(manager_glob, manager_exists, test_manager, process_status):
         manager_exists.assert_any_call("/proc/0234")
 
 
-def test_get_ossec_log_fields():
-    """Test get_ossec_log_fields() method returns a tuple"""
-    result = get_ossec_log_fields('2020/07/14 06:10:40 rootcheck: INFO: Ending rootcheck scan.')
+def test_get_assetguard_log_fields():
+    """Test get_assetguard_log_fields() method returns a tuple"""
+    result = get_assetguard_log_fields('2020/07/14 06:10:40 rootcheck: INFO: Ending rootcheck scan.')
     assert isinstance(result, tuple), 'The result is not a tuple'
     assert result[0] == datetime(2020, 7, 14, 6, 10, 40, tzinfo=timezone.utc)
     assert result[1] == 'assetguard-rootcheck'
@@ -106,16 +106,16 @@ def test_get_ossec_log_fields():
     assert result[3] == ' Ending rootcheck scan.'
 
 
-def test_get_ossec_log_fields_ko():
-    """Test get_ossec_log_fields() method returns None when nothing matches """
-    result = get_ossec_log_fields('DEBUG')
+def test_get_assetguard_log_fields_ko():
+    """Test get_assetguard_log_fields() method returns None when nothing matches """
+    result = get_assetguard_log_fields('DEBUG')
     assert not result
 
 
 @pytest.mark.parametrize("log_format", [
     LoggingFormat.plain, LoggingFormat.json
 ])
-def test_get_ossec_logs(log_format):
+def test_get_assetguard_logs(log_format):
     """Test get_assetguard_logs() method returns result with expected information"""
     logs = get_logs(json_log=log_format == LoggingFormat.json).splitlines()
 
@@ -144,7 +144,7 @@ def test_get_logs_summary(mock_exists, mock_active_logging_format):
 
 @patch('assetguard.core.manager.exists', return_value=True)
 @patch('assetguard.core.manager.load_assetguard_xml')
-def test_validate_ossec_conf(mock_load_xml, mock_exists):
+def test_validate_assetguard_conf(mock_load_xml, mock_exists):
     """Test that validate_assetguard_conf validates XML configuration successfully."""
     # Mock successful XML load
     mock_load_xml.return_value = None

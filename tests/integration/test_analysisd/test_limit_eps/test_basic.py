@@ -82,11 +82,11 @@ def test_enabled(test_configuration, test_metadata, load_assetguard_basic_config
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared indicating that EPS limiting has been enabled.
+            - Check in the assetguard.log that a line has appeared indicating that EPS limiting has been enabled.
             - Check that assetguard-manager-analysisd is running (it has not been crashed).
         - teardown:
             - Truncate assetguard logs.
@@ -106,7 +106,7 @@ def test_enabled(test_configuration, test_metadata, load_assetguard_basic_config
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate assetguard logs.
@@ -141,11 +141,11 @@ def test_disabled(test_configuration, test_metadata, load_assetguard_basic_confi
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Look in the ossec.log to see if the EPS limitation activation does not appear.
+            - Look in the assetguard.log to see if the EPS limitation activation does not appear.
             - Check that assetguard-manager-analysisd is running (it has not been crashed).
         - teardown:
             - Truncate assetguard logs.
@@ -165,7 +165,7 @@ def test_disabled(test_configuration, test_metadata, load_assetguard_basic_confi
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate assetguard logs.
@@ -174,7 +174,7 @@ def test_disabled(test_configuration, test_metadata, load_assetguard_basic_confi
             brief: Handler of AssetGuard daemons.
 
     assertions:
-        - Check in the ossec.log to see if the EPS limitation activation does not appear.
+        - Check in the assetguard.log to see if the EPS limitation activation does not appear.
 
     input_description:
         - The `configuration_disabled` file provides the module configuration for this test.

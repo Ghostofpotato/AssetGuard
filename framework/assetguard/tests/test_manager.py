@@ -78,7 +78,7 @@ def test_get_status(mock_status):
 ])
 @patch("assetguard.core.manager.get_assetguard_active_logging_format", return_value=LoggingFormat.plain)
 @patch("assetguard.core.manager.exists", return_value=True)
-def test_ossec_log(mock_exists, mock_active_logging_format, tag, level, total_items, sort_by, sort_ascending):
+def test_assetguard_log(mock_exists, mock_active_logging_format, tag, level, total_items, sort_by, sort_ascending):
     """Test reading assetguard-manager.log file contents.
 
     Parameters
@@ -88,18 +88,18 @@ def test_ossec_log(mock_exists, mock_active_logging_format, tag, level, total_it
     tag : str
         Filters by log category (i.e. assetguard-manager-remoted).
     total_items : int
-        Expected items to be returned after calling ossec_log.
+        Expected items to be returned after calling assetguard_log.
     sort_by : list
         Fields to sort the items by.
     sort_ascending : boolean
         Sort in ascending (true) or descending (false) order.
     """
     with patch('assetguard.core.manager.tail') as tail_patch:
-        # Return ossec_log_file when calling tail() method
-        ossec_log_file = get_logs()
-        tail_patch.return_value = ossec_log_file.splitlines()
+        # Return assetguard_log_file when calling tail() method
+        assetguard_log_file = get_logs()
+        tail_patch.return_value = assetguard_log_file.splitlines()
 
-        result = ossec_log(level=level, tag=tag, sort_by=sort_by, sort_ascending=sort_ascending)
+        result = assetguard_log(level=level, tag=tag, sort_by=sort_by, sort_ascending=sort_ascending)
 
         # Assert type, number of items and presence of trailing characters
         assert isinstance(result, AffectedItemsAssetGuardResult), 'No expected result type'
@@ -108,7 +108,7 @@ def test_ossec_log(mock_exists, mock_active_logging_format, tag, level, total_it
         if tag is not None:
             assert all('\n' not in log['description'] for log in result.render()['data']['affected_items'])
         if sort_by:
-            reversed_result = ossec_log(level=level, tag=tag, sort_by=sort_by, sort_ascending=not sort_ascending)
+            reversed_result = assetguard_log(level=level, tag=tag, sort_by=sort_by, sort_ascending=not sort_ascending)
             for i in range(total_items):
                 assert result.render()['data']['affected_items'][i][sort_by[0]] == \
                        reversed_result.render()['data']['affected_items'][total_items - 1 - i][sort_by[0]]
@@ -121,7 +121,7 @@ def test_ossec_log(mock_exists, mock_active_logging_format, tag, level, total_it
 ])
 @patch("assetguard.core.manager.get_assetguard_active_logging_format", return_value=LoggingFormat.plain)
 @patch("assetguard.core.manager.exists", return_value=True)
-def test_ossec_log_q(mock_exists, mock_active_logging_format, q, field, operation, values):
+def test_assetguard_log_q(mock_exists, mock_active_logging_format, q, field, operation, values):
     """Check that the 'q' parameter is working correctly.
 
     Parameters
@@ -136,10 +136,10 @@ def test_ossec_log_q(mock_exists, mock_active_logging_format, q, field, operatio
         Values used for the comparison.
     """
     with patch('assetguard.core.manager.tail') as tail_patch:
-        ossec_log_file = get_logs()
-        tail_patch.return_value = ossec_log_file.splitlines()
+        assetguard_log_file = get_logs()
+        tail_patch.return_value = assetguard_log_file.splitlines()
 
-        result = ossec_log(q=q)
+        result = assetguard_log(q=q)
 
         if operation != 'OR':
             operators = {'=': operator.eq, '!=': operator.ne, '<': operator.lt, '>': operator.gt}
@@ -150,8 +150,8 @@ def test_ossec_log_q(mock_exists, mock_active_logging_format, q, field, operatio
 
 @patch("assetguard.core.manager.get_assetguard_active_logging_format", return_value=LoggingFormat.plain)
 @patch("assetguard.core.manager.exists", return_value=True)
-def test_ossec_log_summary(mock_exists, mock_active_logging_format):
-    """Tests ossec_log_summary function works and returned data match with expected"""
+def test_assetguard_log_summary(mock_exists, mock_active_logging_format):
+    """Tests assetguard_log_summary function works and returned data match with expected"""
     expected_result = {
         'assetguard-manager-modulesd:aws-s3': {'all': 5, 'info': 2, 'error': 1, 'critical': 0, 'warning': 2, 'debug': 0},
         'assetguard-manager-modulesd:database': {'all': 2, 'info': 0, 'error': 0, 'critical': 0, 'warning': 0, 'debug': 2}
@@ -159,7 +159,7 @@ def test_ossec_log_summary(mock_exists, mock_active_logging_format):
 
     logs = get_logs().splitlines()
     with patch('assetguard.core.manager.tail', return_value=logs):
-        result = ossec_log_summary()
+        result = assetguard_log_summary()
 
         # Assert data match what was expected and type of the result.
         assert isinstance(result, AffectedItemsAssetGuardResult), 'No expected result type'
@@ -220,7 +220,7 @@ def test_restart_ko_socket(mock_exists, mock_fcntl, mock_open):
         "'/var/assetguard-manage/etc/assetguard-manager.conf'.")
 ])
 @patch('assetguard.manager.validate_assetguard_conf')
-def test_validation(mock_validate_ossec_conf, error_flag, error_msg):
+def test_validation(mock_validate_assetguard_conf, error_flag, error_msg):
     """Test validation() method works as expected
 
     Tests configuration validation function with multiple scenarios:
@@ -237,10 +237,10 @@ def test_validation(mock_validate_ossec_conf, error_flag, error_msg):
     """
     if error_flag == 0:
         # Success case - validation passes
-        mock_validate_ossec_conf.return_value = {'status': 'OK'}
+        mock_validate_assetguard_conf.return_value = {'status': 'OK'}
     else:
         # Error case - validation fails
-        mock_validate_ossec_conf.side_effect = AssetGuardError(1908, extra_message=error_msg)
+        mock_validate_assetguard_conf.side_effect = AssetGuardError(1908, extra_message=error_msg)
 
     result = validation()
 
@@ -285,9 +285,9 @@ def test_get_config_ko():
 
 
 @pytest.mark.parametrize('raw', [True, False])
-def test_read_ossec_conf(raw):
-    """Tests read_ossec_conf() function works as expected"""
-    result = read_ossec_conf(raw=raw)
+def test_read_assetguard_conf(raw):
+    """Tests read_assetguard_conf() function works as expected"""
+    result = read_assetguard_conf(raw=raw)
 
     if raw:
         assert isinstance(result, str), 'No expected result type'
@@ -296,9 +296,9 @@ def test_read_ossec_conf(raw):
         assert result.render()['data']['total_failed_items'] == 0
 
 
-def test_read_ossec_con_ko():
-    """Tests read_ossec_conf() function returns an error"""
-    result = read_ossec_conf(section='test')
+def test_read_assetguard_con_ko():
+    """Tests read_assetguard_conf() function returns an error"""
+    result = read_assetguard_conf(section='test')
 
     assert isinstance(result, AffectedItemsAssetGuardResult), 'No expected result type'
     assert result.render()['data']['failed_items'][0]['error']['code'] == 1102
@@ -324,10 +324,10 @@ def test_get_basic_info(mock_uid, mock_gid, mock_open_file, mock_exists, mock_ch
 @patch('assetguard.manager.validate_assetguard_xml')
 @patch('assetguard.manager.write_assetguard_conf')
 @patch('assetguard.manager.validate_assetguard_conf', return_value={'status': 'OK'})
-def test_update_ossec_conf(validate_conf_mock, write_mock, validate_xml_mock, full_copy_mock, exists_mock,
+def test_update_assetguard_conf(validate_conf_mock, write_mock, validate_xml_mock, full_copy_mock, exists_mock,
                            remove_mock, move_mock):
-    """Test update_ossec_conf works as expected."""
-    result = update_ossec_conf(new_conf="placeholder config")
+    """Test update_assetguard_conf works as expected."""
+    result = update_assetguard_conf(new_conf="placeholder config")
     write_mock.assert_called_once()
     validate_conf_mock.assert_called_once()
     assert isinstance(result, AffectedItemsAssetGuardResult), 'No expected result type'
@@ -346,15 +346,15 @@ def test_update_ossec_conf(validate_conf_mock, write_mock, validate_xml_mock, fu
 @patch('assetguard.manager.validate_assetguard_xml')
 @patch('assetguard.manager.write_assetguard_conf')
 @patch('assetguard.manager.validate_assetguard_conf')
-def test_update_ossec_conf_ko(validate_conf_mock, write_mock, validate_xml_mock, full_copy_mock, exists_mock,
+def test_update_assetguard_conf_ko(validate_conf_mock, write_mock, validate_xml_mock, full_copy_mock, exists_mock,
                               remove_mock, move_mock, new_conf):
-    """Test update_ossec_conf() function return an error and restore the configuration if the provided configuration
+    """Test update_assetguard_conf() function return an error and restore the configuration if the provided configuration
     is not valid."""
     # For invalid configuration case, make validate_assetguard_conf return invalid status
     if new_conf == "invalid configuration":
         validate_conf_mock.return_value = {'status': 'ERROR'}
 
-    result = update_ossec_conf(new_conf=new_conf)
+    result = update_assetguard_conf(new_conf=new_conf)
     assert isinstance(result, AffectedItemsAssetGuardResult), 'No expected result type'
     assert result.render()['data']['failed_items'][0]['error']['code'] == 1125
     move_mock.assert_called_once()

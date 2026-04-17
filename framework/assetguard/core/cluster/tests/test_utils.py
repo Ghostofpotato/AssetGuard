@@ -181,7 +181,7 @@ def test_get_manager_status():
     for value in status.values():
         assert value == 'stopped'
 
-    with patch('assetguard.core.cluster.utils.glob', return_value=['ossec-0.pid']):
+    with patch('assetguard.core.cluster.utils.glob', return_value=['assetguard-0.pid']):
         with patch('re.match', return_value='None'):
             status = utils.get_manager_status()
             for value in status.values():

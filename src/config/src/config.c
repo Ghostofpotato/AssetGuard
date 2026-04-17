@@ -261,7 +261,7 @@ int ReadConfig(int modules, const char *cfgfile, void *d1, void *d2)
 
     /** XML definitions **/
     /* Global */
-    const char *xml_start_ossec = ASSETGUARDCONFIG;
+    const char *xml_start_assetguard = ASSETGUARDCONFIG;
     const char *xml_start_agent = "agent_config";
 
     /* Attributes of the <agent_config> tag */
@@ -299,7 +299,7 @@ int ReadConfig(int modules, const char *cfgfile, void *d1, void *d2)
             OS_ClearXML(&xml);
             return (OS_INVALID);
         } else if (!(modules & CAGENT_CONFIG) &&
-                   (strcmp(node[i]->element, xml_start_ossec) == 0)) {
+                   (strcmp(node[i]->element, xml_start_assetguard) == 0)) {
             XML_NODE chld_node = NULL;
             chld_node = OS_GetElementsbyNode(&xml, node[i]);
 

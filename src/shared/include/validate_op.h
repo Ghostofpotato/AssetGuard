@@ -95,20 +95,20 @@ char *OS_IsValidUniqueTime(const char *time_str) __attribute__((nonnull));
  * @brief Validate if a time is in on a specied time interval.
  *        Must be a valid string, called after OS_IsValidTime().
  * @param time_str Time to be validated.
- * @param ossec_time Time interval.
+ * @param assetguard_time Time interval.
  * @return Returns 1 on success or 0 on failure.
  */
-int OS_IsonTime(const char *time_str, const char *ossec_time) __attribute__((nonnull));
+int OS_IsonTime(const char *time_str, const char *assetguard_time) __attribute__((nonnull));
 
 
 /**
  * @brief Checks if time is the same or has passed a specified one.
  *        Must be a valid string, called after OS_IsValidTime().
  * @param time_str Time to be validated.
- * @param ossec_time Time interval.
+ * @param assetguard_time Time interval.
  * @return Returns 1 on success or 0 on failure.
  */
-int OS_IsAfterTime(const char *time_str, const char *ossec_time) __attribute__((nonnull));
+int OS_IsAfterTime(const char *time_str, const char *assetguard_time) __attribute__((nonnull));
 
 
 /**
@@ -127,10 +127,10 @@ char *OS_IsValidDay(const char *day_str);
  * @brief Check if the specified week day is in the range.
  *
  * @param week_day Day of the week.
- * @param ossec_day Interval.
+ * @param assetguard_day Interval.
  * @return Returns 1 on success or 0 on failure.
  */
-int OS_IsonDay(int week_day, const char *ossec_day) __attribute__((nonnull));
+int OS_IsonDay(int week_day, const char *assetguard_day) __attribute__((nonnull));
 
 
 /**

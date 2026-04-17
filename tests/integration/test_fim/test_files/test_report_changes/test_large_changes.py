@@ -50,7 +50,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#diff
 
 pytest_args:
     - fim_mode:
@@ -134,7 +134,7 @@ def test_large_changes(test_configuration, test_metadata, configure_local_intern
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.

@@ -48,7 +48,7 @@ def test_invalid_connection_protocol(test_configuration, test_metadata, configur
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.

@@ -75,7 +75,7 @@ extern assetguard_config config_inst;
 extern HWND hStatus;
 
 /* Ossec icon */
-#define IDI_OSSECICON  201
+#define IDI_ASSETGUARDICON  201
 #define UI_MANIFEST_ID 202
 
 /* User input */
@@ -123,13 +123,13 @@ void init_config();
 /* Run command using cmd.exe */
 int run_cmd(char *cmd, HWND hwnd);
 
-/* Set OSSEC Server IP */
+/* Set AssetGuard Server IP */
 int set_assetguard_server(char *ip, HWND hwnd);
 
-/* Set OSSEC Auth Key */
+/* Set AssetGuard Auth Key */
 int set_assetguard_key(char *key, HWND hwnd);
 
-/* Get OSSEC Server IP */
+/* Get AssetGuard Server IP */
 int get_assetguard_server();
 
 

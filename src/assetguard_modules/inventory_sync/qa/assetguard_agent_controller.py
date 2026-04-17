@@ -158,9 +158,9 @@ class AssetGuardAgent:
             ssl_socket.connect((self.registration_address, 1515))
 
             if self.authd_password is None:
-                event = f"OSSEC A:'{self.name}'\n".encode()
+                event = f"ASSETGUARD A:'{self.name}'\n".encode()
             else:
-                event = f"OSSEC PASS: {self.authd_password} OSSEC A:'{self.name}'\n".encode()
+                event = f"ASSETGUARD PASS: {self.authd_password} ASSETGUARD A:'{self.name}'\n".encode()
 
             ssl_socket.send(event)
             recv = ssl_socket.recv(4096)

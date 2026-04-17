@@ -37,7 +37,7 @@ os_version:
     - Ubuntu Bionic
 
 references:
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/auth.html#remote-enrollment
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/auth.html#remote-enrollment
 
 tags:
     - enrollment
@@ -84,7 +84,7 @@ daemons_handler_configuration = {'all_daemons': True}
 
 AGENT_ID = 0
 AGENT_NAME = 'test_agent'
-INPUT_MESSAGE = "OSSEC A:'{}_{}'\n"
+INPUT_MESSAGE = "ASSETGUARD A:'{}_{}'\n"
 
 
 def wait_for_tcp_port(port, host='localhost', timeout=10):
@@ -153,7 +153,7 @@ def test_remote_enrollment(test_configuration, test_metadata, set_assetguard_con
 
     expected_output:
         - r'Accepting connections on port 1515. No password required.' (When the 'assetguard-manager-authd' daemon)
-        - r'OSSEC K:' (When the agent has enrolled in the manager)
+        - r'ASSETGUARD K:' (When the agent has enrolled in the manager)
         - r'.*Port 1515 was set as disabled.*' (When remote enrollment is disabled)
         - r'ERROR: Cannot communicate with the master'
 
@@ -162,7 +162,7 @@ def test_remote_enrollment(test_configuration, test_metadata, set_assetguard_con
         - ssl
     '''
     expectation = does_not_raise()
-    expected_answer = 'OSSEC K:'
+    expected_answer = 'ASSETGUARD K:'
 
     remote_enrollment_enabled = test_metadata['remote_enrollment'] == 'yes'
 

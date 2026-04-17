@@ -48,7 +48,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#disk-quota
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#disk-quota
 
 pytest_args:
     - fim_mode:
@@ -121,7 +121,7 @@ def test_disk_quota_default(test_configuration, test_metadata, configure_local_i
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.

@@ -43,16 +43,16 @@ def test_remove_from_bucket(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
             - Check that the uploaded log was removed by the module after the execution.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -78,7 +78,7 @@ def test_remove_from_bucket(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - clean_s3_cloudtrail_db:
             type: fixture
             brief: Delete the DB file before and after the test execution.
@@ -169,16 +169,16 @@ def test_remove_log_stream(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
             - Check that the created log stream was removed by the module after the execution.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -204,7 +204,7 @@ def test_remove_log_stream(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - clean_aws_services_db:
             type: fixture
             brief: Delete the DB file before and after the test execution.

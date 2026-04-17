@@ -1864,7 +1864,7 @@ constexpr auto FIM_SQL_DB_DUMP
 	INSERT INTO entry_path VALUES('/etc/makedumpfile.conf.sample',1856,0,1596489275,0,0,131583,'01660db51348f896606500721d62bf83fc0c1772');
 	INSERT INTO entry_path VALUES('/etc/udisks2/udisks2.conf',1857,0,1596489275,0,0,131583,'91cafbe2799bff4d15fc5ec2ad5ff76199179c51');
 	INSERT INTO entry_path VALUES('/etc/plymouth/plymouthd.conf',1858,0,1596489275,0,0,131583,'9de627c4ff4f6f19e41eb53cb5b9ce12a13d0ced');
-	INSERT INTO entry_path VALUES('/etc/ossec-init.conf',1859,0,1596489275,0,0,131583,'d7e9a9d3db687dc20541d8c416e00a115b89480d');
+	INSERT INTO entry_path VALUES('/etc/assetguard-init.conf',1859,0,1596489275,0,0,131583,'d7e9a9d3db687dc20541d8c416e00a115b89480d');
 	INSERT INTO entry_path VALUES('/etc/logrotate.conf',1860,0,1596489275,0,0,131583,'c76c8ff6d7e52b4764b99420ad8a0edea6a976b8');
 	INSERT INTO entry_path VALUES('/etc/.updated',1861,0,1596489275,0,0,131583,'4f707f4d0579e26b9b1eda0fcfcd84c7244be7ad');
 	INSERT INTO entry_path VALUES('/etc/rsyslog.conf',1862,0,1596489275,0,0,131583,'b6e7682f5d43537921399847a8dd348ef8150a18');

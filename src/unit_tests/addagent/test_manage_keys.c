@@ -64,7 +64,7 @@ void test_k_import_successful(void **state) {
 
     expect_rename_ex(CLIENT_KEYS_FILENAME, KEYS_FILE, 0);
 
-    putenv("OSSEC_ACTION_CONFIRMED=y");
+    putenv("ASSETGUARD_ACTION_CONFIRMED=y");
 
     int retval = k_import(KEY_ENCODED);
     assert_int_equal(retval, 1);

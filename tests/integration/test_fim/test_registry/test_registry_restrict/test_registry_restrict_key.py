@@ -38,7 +38,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#windows-registry
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#windows-registry
 
 pytest_args:
     - fim_mode:
@@ -108,7 +108,7 @@ def test_restrict_key(test_configuration, test_metadata,configure_local_internal
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
@@ -120,7 +120,7 @@ def test_restrict_key(test_configuration, test_metadata,configure_local_internal
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - daemons_handler:
             type: fixture
             brief: Handler of AssetGuard daemons.

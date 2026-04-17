@@ -653,7 +653,7 @@ TEST_F(AgentInfoMetadataTest, ReadAgentGroups_SingleGroupFormat_Default)
         // Single group format: first line is #groupname
         callback("#default");
         callback("!77 ar.conf");
-        callback("restart-ossec0 - restart-ossec.sh - 0");
+        callback("restart-assetguard0 - restart-assetguard.sh - 0");
         callback("!76 agent.conf");
         callback("<agent_config>");
         callback("</agent_config>");
@@ -695,7 +695,7 @@ TEST_F(AgentInfoMetadataTest, ReadAgentGroups_SingleGroupFormat_CustomGroup)
         // Single group format: first line is #groupname
         callback("#web-servers");
         callback("!77 ar.conf");
-        callback("restart-ossec0 - restart-ossec.sh - 0");
+        callback("restart-assetguard0 - restart-assetguard.sh - 0");
         callback("!76 agent.conf");
         callback("<agent_config>");
         callback("</agent_config>");

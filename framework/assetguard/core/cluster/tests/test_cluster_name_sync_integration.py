@@ -99,12 +99,12 @@ class TestLargeScaleClusterNameSync:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_sync_100_disconnected_agents(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test synchronization of 100 disconnected agents."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "main-cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "main-cluster"}}
 
         # Create 100 agents
         agents = [build_agent(f"{i:03d}") for i in range(100)]
@@ -134,13 +134,13 @@ class TestLargeScaleClusterNameSync:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_sync_agents_with_mixed_cluster_names(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test agents with varying current cluster names."""
         task, indexer = sync_task
 
         target_cluster = "unified-cluster"
-        mock_get_ossec_conf.return_value = {"cluster": {"name": target_cluster}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": target_cluster}}
 
         agents = [build_agent(f"{i:03d}") for i in range(20)]
         task._get_disconnected_agents = AsyncMock(return_value=agents)
@@ -189,12 +189,12 @@ class TestErrorHandlingScenarios:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_recover_from_intermittent_db_errors(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test recovery from intermittent database errors."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         # Simulate DB error on first call, success on retry logic
         call_count = {"count": 0}
@@ -221,12 +221,12 @@ class TestErrorHandlingScenarios:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_handle_partial_max_version_failure(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test when some agents have no max version in indexer."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         agents = [build_agent("001"), build_agent("002"), build_agent("003")]
         task._get_disconnected_agents = AsyncMock(return_value=agents)
@@ -272,13 +272,13 @@ class TestEdgeCasesClusterNameSync:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_agents_with_same_cluster_name(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test when multiple agents have identical cluster names."""
         task, indexer = sync_task
 
         target_cluster = "cluster"
-        mock_get_ossec_conf.return_value = {"cluster": {"name": target_cluster}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": target_cluster}}
 
         agents = [build_agent(f"{i:03d}") for i in range(5)]
         task._get_disconnected_agents = AsyncMock(return_value=agents)
@@ -304,12 +304,12 @@ class TestEdgeCasesClusterNameSync:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_empty_cluster_name_string(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test with empty cluster name."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": ""}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": ""}}
 
         agents = [build_agent("001")]
         task._get_disconnected_agents = AsyncMock(return_value=agents)
@@ -324,13 +324,13 @@ class TestEdgeCasesClusterNameSync:
         "assetguard.core.indexer.disconnected_agents.asyncio.sleep", new_callable=AsyncMock
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
-    async def test_long_cluster_name(self, mock_get_ossec_conf, mock_sleep, sync_task):
+    async def test_long_cluster_name(self, mock_get_assetguard_conf, mock_sleep, sync_task):
         """Test with very long cluster name."""
         task, indexer = sync_task
 
         long_cluster_name = "a" * 500  # Very long name
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": long_cluster_name}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": long_cluster_name}}
 
         agents = [build_agent("001")]
         task._get_disconnected_agents = AsyncMock(return_value=agents)
@@ -357,12 +357,12 @@ class TestEdgeCasesClusterNameSync:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_agent_id_with_special_characters(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test with agent IDs containing special characters."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         # Create agents with edge-case IDs
         agent_ids = ["000", "001", "999", "100"]
@@ -389,12 +389,12 @@ class TestEdgeCasesClusterNameSync:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_version_consistency_across_updates(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test that each agent is updated with correct version."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         agents = [build_agent(f"{i:03d}") for i in range(5)]
         task._get_disconnected_agents = AsyncMock(return_value=agents)
@@ -434,14 +434,14 @@ class TestConcurrencyAndTiming:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_initial_delay_respected(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test that initial delay is respected."""
         task, indexer = sync_task
 
         initial_delay = task.initial_delay
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         task._get_disconnected_agents = AsyncMock(return_value=[])
 
@@ -456,12 +456,12 @@ class TestConcurrencyAndTiming:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_run_only_once_per_lifecycle(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test that sync runs only once per process lifecycle."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         task._get_disconnected_agents = AsyncMock(return_value=[])
 
@@ -492,12 +492,12 @@ class TestInputSanitation:
     )
     @patch("assetguard.core.indexer.disconnected_agents.get_assetguard_conf")
     async def test_handles_agents_with_missing_id(
-        self, mock_get_ossec_conf, mock_sleep, sync_task
+        self, mock_get_assetguard_conf, mock_sleep, sync_task
     ):
         """Test handling of agents without ID field."""
         task, indexer = sync_task
 
-        mock_get_ossec_conf.return_value = {"cluster": {"name": "cluster"}}
+        mock_get_assetguard_conf.return_value = {"cluster": {"name": "cluster"}}
 
         # One agent missing ID
         agents = [

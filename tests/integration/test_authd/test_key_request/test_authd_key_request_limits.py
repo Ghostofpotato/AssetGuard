@@ -43,7 +43,7 @@ os_version:
     - Red Hat 6
 
 references:
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/auth.html
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/auth.html
     - https://documentation.assetguard.com/current/user-manual/registering/key-request.html
 
 tags:

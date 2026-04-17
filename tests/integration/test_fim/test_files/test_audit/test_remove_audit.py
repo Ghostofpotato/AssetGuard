@@ -45,7 +45,7 @@ references:
     - https://man7.org/linux/man-pages/man8/auditd.8.html
     - https://documentation.assetguard.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -103,7 +103,7 @@ def test_remove_audit(test_configuration, test_metadata, set_assetguard_configur
 
     test_phases:
         - setup:
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Remove auditd
             - Truncate assetguard logs.
@@ -112,7 +112,7 @@ def test_remove_audit(test_configuration, test_metadata, set_assetguard_configur
             - Check that whodata cannot start and monitoring of configured folder is changed to realtime mode.
         - teardown:
             - Install auditd
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.2.0
 
@@ -121,13 +121,13 @@ def test_remove_audit(test_configuration, test_metadata, set_assetguard_configur
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Set local_internal_options.conf file.

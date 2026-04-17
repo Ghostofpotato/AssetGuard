@@ -82,7 +82,7 @@ def test_dropping_events(test_configuration, test_metadata, load_assetguard_basi
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -97,7 +97,7 @@ def test_dropping_events(test_configuration, test_metadata, load_assetguard_basi
             - Check that "Queues back to normal and EPS credits, no dropping events" log appears in DEBUG mode.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.4.0
 
@@ -113,7 +113,7 @@ def test_dropping_events(test_configuration, test_metadata, load_assetguard_basi
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the AssetGuard local internal options.

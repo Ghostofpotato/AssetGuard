@@ -50,7 +50,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#diff
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#diff
 
 pytest_args:
     - fim_mode:
@@ -127,7 +127,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
@@ -139,7 +139,7 @@ def test_reports_file_and_nodiff(test_configuration, test_metadata, configure_lo
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - create_paths_files:
             type: list
             brief: Create the required directory or file to edit.

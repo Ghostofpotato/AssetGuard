@@ -190,7 +190,7 @@ int OS_WriteTimestamps(keystore * keys);
 /* Decrypt and decompress a remote message */
 int ReadSecMSG(keystore *keys, char *buffer, char *cleartext, int id, unsigned int buffer_size, size_t *final_size, const char *ip, char **output) __attribute((nonnull));
 
-/* Create an OSSEC message (encrypt and compress) */
+/* Create an AssetGuard message (encrypt and compress) */
 size_t CreateSecMSG(const keystore *keys, const char *msg, size_t msg_length, char *msg_encrypted, unsigned int id) __attribute((nonnull));
 
 // Add socket number into keystore

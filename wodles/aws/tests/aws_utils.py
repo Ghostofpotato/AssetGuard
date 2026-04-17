@@ -72,7 +72,7 @@ LIST_OBJECT_V2_TRUNCATED.update({'IsTruncated': True, 'NextContinuationToken': '
 
 ASSETGUARD_VERSION = "4.5.0"
 
-TEST_ASSETGUARD_PATH = "/var/ossec"
+TEST_ASSETGUARD_PATH = "/var/assetguard"
 TEST_DATABASE = "test"
 TEST_MESSAGE = "test_message"
 QUEUE_PATH = 'queue/sockets/queue'
@@ -109,7 +109,7 @@ def get_assetguard_integration_parameters(service_name: str = TEST_SERVICE_NAME,
                                      discard_regex: str = None, sts_endpoint: str = None, service_endpoint: str = None,
                                      iam_role_duration: str = None, external_id: str = None,
                                      skip_on_error: bool = False):
-    """Return a dict containing every parameter supported by AssetGuardIntegration. Used to simulate different ossec.conf
+    """Return a dict containing every parameter supported by AssetGuardIntegration. Used to simulate different assetguard.conf
     configurations.
 
     Parameters
@@ -208,7 +208,7 @@ def get_aws_bucket_parameters(db_table_name: str = TEST_TABLE_NAME, bucket: str 
                               aws_organization_id: str = None, region: str = None, discard_field: str = None,
                               discard_regex: str = None, sts_endpoint: str = None, service_endpoint: str = None,
                               iam_role_duration: str = None):
-    """Return a dict containing every parameter supported by AWSBucket. Used to simulate different ossec.conf
+    """Return a dict containing every parameter supported by AWSBucket. Used to simulate different assetguard.conf
     configurations.
 
     Parameters
@@ -274,7 +274,7 @@ def get_aws_service_parameters(db_table_name: str = TEST_TABLE_NAME, service_nam
                                remove_log_streams: bool = None, discard_field: str = None,
                                discard_regex: str = None, sts_endpoint: str = None, service_endpoint: str = None,
                                iam_role_duration: str = None):
-    """Return a dict containing every parameter supported by AWSService. Used to simulate different ossec.conf
+    """Return a dict containing every parameter supported by AWSService. Used to simulate different assetguard.conf
     configurations.
 
     Parameters
@@ -330,7 +330,7 @@ def get_aws_service_parameters(db_table_name: str = TEST_TABLE_NAME, service_nam
 def get_aws_sqs_queue_parameters(name: str = TEST_SQS_NAME, external_id: str = TEST_EXTERNAL_ID,
                                  iam_role_arn: str = TEST_IAM_ROLE_ARN, iam_role_duration: str = None,
                                  sts_endpoint: str = None, service_endpoint: str = None):
-    """Return a dict containing every parameter supported by AWSSQSQueue. Used to simulate different ossec.conf
+    """Return a dict containing every parameter supported by AWSSQSQueue. Used to simulate different assetguard.conf
     configurations.
 
     Parameters
@@ -360,7 +360,7 @@ def get_aws_sqs_queue_parameters(name: str = TEST_SQS_NAME, external_id: str = T
 def get_aws_s3_log_handler_parameters(iam_role_arn: str = None, iam_role_duration: str = None,
                                       service_endpoint: str = None, sts_endpoint: str = None):
     """Return a dict containing every parameter supported by AWSSLSubscriberBucket.
-    Used to simulate different ossec.conf configurations.
+    Used to simulate different assetguard.conf configurations.
 
     Parameters
     ----------

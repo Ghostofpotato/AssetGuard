@@ -23,7 +23,7 @@
             #define recv wrap_recv
     #endif
 
-    // Redefine ossec_version
+    // Redefine assetguard_version
     #undef __assetguard_version
     #define __assetguard_version "v4.5.0"
 #else

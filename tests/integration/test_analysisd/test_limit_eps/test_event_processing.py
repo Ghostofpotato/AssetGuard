@@ -121,7 +121,7 @@ def test_limitation(test_configuration, test_metadata, load_assetguard_basic_con
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -133,7 +133,7 @@ def test_limitation(test_configuration, test_metadata, load_assetguard_basic_con
               processed, in this case the queued ones.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.4.0
 
@@ -149,7 +149,7 @@ def test_limitation(test_configuration, test_metadata, load_assetguard_basic_con
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the AssetGuard local internal options.
@@ -233,7 +233,7 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -245,7 +245,7 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
               the first sample.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.4.0
 
@@ -261,7 +261,7 @@ def test_queueing_events_after_limitation(test_configuration, test_metadata, loa
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the AssetGuard local internal options.
@@ -333,7 +333,7 @@ def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, l
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -343,7 +343,7 @@ def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, l
               use of the event queue to check that it is 100%, and that the received events are being dropped.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.4.0
 
@@ -359,7 +359,7 @@ def test_dropping_events_when_queue_is_full(test_configuration, test_metadata, l
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the AssetGuard local internal options.
@@ -436,7 +436,7 @@ def test_event_processing_in_order_single_thread(test_configuration, test_metada
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard event logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -447,7 +447,7 @@ def test_event_processing_in_order_single_thread(test_configuration, test_metada
             - Read the event log (archives.log) and check that the events have been processed in the expected order.
         - teardown:
             - Truncate assetguard event logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.4.0
 
@@ -463,7 +463,7 @@ def test_event_processing_in_order_single_thread(test_configuration, test_metada
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the AssetGuard local internal options.
@@ -544,7 +544,7 @@ def test_event_processing_in_order_multi_thread(test_configuration, test_metadat
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard event logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -555,7 +555,7 @@ def test_event_processing_in_order_multi_thread(test_configuration, test_metadat
             - Read the event log (archives.log) and check that the events have been processed in the expected order.
         - teardown:
             - Truncate assetguard event logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.4.0
 
@@ -571,7 +571,7 @@ def test_event_processing_in_order_multi_thread(test_configuration, test_metadat
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the AssetGuard local internal options.

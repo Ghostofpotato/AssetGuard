@@ -65,13 +65,13 @@ def test_local_ip_valid(test_configuration, test_metadata, configure_local_inter
                             set_assetguard_configuration, restart_assetguard_expect_error, get_real_configuration):
     '''
     description: Check if 'assetguard-manager-remoted' can set 'local_ip' using different IPs without errors.
-                 For this purpose, it uses the configuration from test cases and check if the cfg in ossec.conf matches
+                 For this purpose, it uses the configuration from test cases and check if the cfg in assetguard.conf matches
                  with the API response.
 
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.

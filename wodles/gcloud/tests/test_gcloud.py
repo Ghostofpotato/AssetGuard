@@ -21,7 +21,7 @@ def get_wodle_config(integration_type: str, credentials_file: str = None, log_le
                      n_threads: int = 100, bucket_name: str = "test_bucket", prefix: str = "",
                      delete_file: bool = False, only_logs_after: str = None, reparse: bool = False) -> dict:
     """Return a dict containing every parameter for the different supported integration types. Used to simulate
-    different ossec.conf configurations.
+    different assetguard.conf configurations.
 
     Parameters
     ----------

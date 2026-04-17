@@ -50,7 +50,7 @@ using HandlerT = Params<::router::IRouterAPI, MockRouterAPI>;
 
 // Valid NDJson payloads:
 //  - First line: H {json}\n
-//  - Each event starts with: E <ossec_event>
+//  - Each event starts with: E <assetguard_event>
 static const std::string HDR1 = R"({"agent":{"name":"worker","id":"000"}})";
 static const std::string EV1 = "1:/etc/passwd:File modified md5=abc";
 static const std::string EV2 = "2:/var/log/auth.log:sshd[12345]: Failed password for root from 1.2.3.4 port 22";

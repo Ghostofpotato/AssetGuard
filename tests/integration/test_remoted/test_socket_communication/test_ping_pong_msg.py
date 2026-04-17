@@ -43,7 +43,7 @@ def test_ping_pong_message(test_configuration, test_metadata, configure_local_in
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.
@@ -61,7 +61,7 @@ def test_ping_pong_message(test_configuration, test_metadata, configure_local_in
             brief: convert valid_protocol list to comma separated uppercase string
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
     '''
 
     log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)

@@ -657,7 +657,7 @@ void test_w_enrollment_send_message_fix_invalid_hostname(void **state) {
     expect_string(__wrap__minfo, formatted_msg, "Using agent name as: InvalidHostname");
     expect_value(__wrap_SSL_write, ssl, cfg->ssl);
     char buff[128];
-    snprintf(buff,128,"OSSEC A:'InvalidHostname' V:'v4.5.0'\n");
+    snprintf(buff,128,"ASSETGUARD A:'InvalidHostname' V:'v4.5.0'\n");
 
     expect_string(__wrap_SSL_write, buf, buff);
     will_return(__wrap_SSL_write, -1);
@@ -700,7 +700,7 @@ void test_w_enrollment_send_message_ssl_error(void **state) {
     expect_value(__wrap_SSL_write, ssl, cfg->ssl);
 
     char buff[128];
-    snprintf(buff,128,"OSSEC A:'host.name' V:'v4.5.0'\n");
+    snprintf(buff,128,"ASSETGUARD A:'host.name' V:'v4.5.0'\n");
 
     expect_string(__wrap_SSL_write, buf, buff);
     will_return(__wrap_SSL_write, -1);
@@ -726,7 +726,7 @@ void test_w_enrollment_send_message_success(void **state) {
     expect_value(__wrap_SSL_write, ssl, cfg->ssl);
 
     char buff[256];
-    snprintf(buff,256,"OSSEC PASS: test_password OSSEC A:'test_agent' V:'v4.5.0' G:'test_group' IP:'192.168.1.1' K:'0965e68d9935a35530910bf32d35052995efe7bd'\n");
+    snprintf(buff,256,"ASSETGUARD PASS: test_password ASSETGUARD A:'test_agent' V:'v4.5.0' G:'test_group' IP:'192.168.1.1' K:'0965e68d9935a35530910bf32d35052995efe7bd'\n");
 
     expect_string(__wrap_SSL_write, buf, buff);
     will_return(__wrap_SSL_write, 0);
@@ -764,7 +764,7 @@ void test_w_enrollment_send_message_success_different_hostname(void **state) {
     expect_value(__wrap_SSL_write, ssl, cfg->ssl);
 
     char buff[128];
-    snprintf(buff,128,"OSSEC A:'host.name' V:'v4.5.0' K:'0965e68d9935a35530910bf32d35052995efe7bd'\n");
+    snprintf(buff,128,"ASSETGUARD A:'host.name' V:'v4.5.0' K:'0965e68d9935a35530910bf32d35052995efe7bd'\n");
 
     expect_string(__wrap_SSL_write, buf, buff);
     will_return(__wrap_SSL_write, 0);
@@ -883,13 +883,13 @@ void test_w_enrollment_process_agent_key_short_buff(void **state) {
 }
 
 void test_w_enrollment_process_agent_key_invalid_format(void **state) {
-    char key[] = "OSSEC KEY WRONG FORMAT";
+    char key[] = "ASSETGUARD KEY WRONG FORMAT";
     expect_string(__wrap__merror, formatted_msg, "Invalid keys format received.");
     w_enrollment_process_agent_key(key);
 }
 
 void test_w_enrollment_process_agent_key_invalid_key(void **state) {
-    char key[] = "OSSEC K:'006 ubuntu1610 NOT_AN_IP 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
+    char key[] = "ASSETGUARD K:'006 ubuntu1610 NOT_AN_IP 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
     expect_string(__wrap_OS_IsValidIP, ip_address, "NOT_AN_IP");
     expect_value(__wrap_OS_IsValidIP, final_ip, NULL);
     will_return(__wrap_OS_IsValidIP, 0);
@@ -899,7 +899,7 @@ void test_w_enrollment_process_agent_key_invalid_key(void **state) {
 }
 
 void test_w_enrollment_process_agent_key_valid_key(void **state) {
-    char key[] = "OSSEC K:'006 ubuntu1610 192.168.1.1 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
+    char key[] = "ASSETGUARD K:'006 ubuntu1610 192.168.1.1 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
     expect_string(__wrap_OS_IsValidIP, ip_address, "192.168.1.1");
     expect_value(__wrap_OS_IsValidIP, final_ip, NULL);
     will_return(__wrap_OS_IsValidIP, 1);
@@ -1024,7 +1024,7 @@ void test_w_enrollment_process_response_message_error_limit(void **state) {
 }
 
 void test_w_enrollment_process_response_success(void **state) {
-    const char *string = "OSSEC K:'006 ubuntu1610 192.168.1.1 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
+    const char *string = "ASSETGUARD K:'006 ubuntu1610 192.168.1.1 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
     SSL *ssl = *state;
     expect_string(__wrap__minfo, formatted_msg, "Waiting for server reply");
     expect_value(__wrap_SSL_read, ssl, ssl);
@@ -1141,14 +1141,14 @@ void test_w_enrollment_request_key(void **state) {
         will_return(__wrap_OS_IsValidIP, 1);
         expect_value(__wrap_SSL_write, ssl, cfg->ssl);
 
-        snprintf(buff,128,"OSSEC PASS: test_password OSSEC A:'test_agent' V:'v4.5.0' G:'test_group' IP:'192.168.1.1'\n");
+        snprintf(buff,128,"ASSETGUARD PASS: test_password ASSETGUARD A:'test_agent' V:'v4.5.0' G:'test_group' IP:'192.168.1.1'\n");
         expect_string(__wrap_SSL_write, buf, buff);
         will_return(__wrap_SSL_write, 0);
         expect_string(__wrap__mdebug1, formatted_msg,"Request sent to manager");
     }
     // w_enrollment_process_response
     {
-        const char *string = "OSSEC K:'006 ubuntu1610 192.168.1.1 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
+        const char *string = "ASSETGUARD K:'006 ubuntu1610 192.168.1.1 95fefb8f0fe86bb8121f3f5621f2916c15a998728b3d50479aa64e6430b5a9f'";
         expect_string(__wrap__minfo, formatted_msg, "Waiting for server reply");
         expect_value(__wrap_SSL_read, ssl, cfg->ssl);
         expect_any(__wrap_SSL_read, buf);

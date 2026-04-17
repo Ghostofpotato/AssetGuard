@@ -142,7 +142,7 @@ static int read_sys_file(const char *file_name, int do_read)
 
         if (statbuf.st_uid == 0) {
             char op_msg[OS_SIZE_1024 + 1];
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
             const char op_msg_fmt[] = "File '%*s' is owned by root and has written permissions to anyone.";
 
             const int size = snprintf(NULL, 0, op_msg_fmt, (int)strlen(file_name), file_name);

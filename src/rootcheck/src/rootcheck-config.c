@@ -8,7 +8,7 @@
  * Foundation
  */
 
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,7 +50,7 @@ int Read_Rootcheck_Config(const char *cfgfile)
     const char *(xml_workdir[]) = {xml_rootcheck, "work_directory", NULL};
     const char *(xml_scanall[]) = {xml_rootcheck, "scanall", NULL};
     const char *(xml_readall[]) = {xml_rootcheck, "readall", NULL};
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
     const char *(xml_time[]) = {xml_rootcheck, "frequency", NULL};
     char *str = NULL;
 #endif
@@ -60,7 +60,7 @@ int Read_Rootcheck_Config(const char *cfgfile)
     const char *(xml_check_ports[]) = {xml_rootcheck, "check_ports", NULL};
     const char *(xml_check_sys[]) = {xml_rootcheck, "check_sys", NULL};
 
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
     /* :) */
     xml_time[2] = NULL;
 #endif
@@ -77,7 +77,7 @@ int Read_Rootcheck_Config(const char *cfgfile)
     }
 
 
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
     /* time  */
     str = OS_GetOneContentforElement(&xml, xml_time);
     if (str) {
@@ -90,7 +90,7 @@ int Read_Rootcheck_Config(const char *cfgfile)
         free(str);
         str = NULL;
     }
-#endif /* OSSECHIDS */
+#endif /* ASSETGUARDHIDS */
 
     /* Scan all flags */
     if (!rootcheck.scanall) {

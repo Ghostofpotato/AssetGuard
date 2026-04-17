@@ -74,8 +74,8 @@ SSL_AGENT_PRIVATE_KEY = '/tmp/test_sslagent.key'
 AGENT_ID = 0
 AGENT_NAME = 'test_agent'
 AGENT_IP = '127.0.0.1'
-INPUT_MESSAGE = "OSSEC A:'{}_{}'\n"
-OUPUT_MESSAGE = "OSSEC K:'"
+INPUT_MESSAGE = "ASSETGUARD A:'{}_{}'\n"
+OUPUT_MESSAGE = "ASSETGUARD K:'"
 
 # Simulation options
 # a. Unverified Host:
@@ -148,7 +148,7 @@ def test_authd_ssl_certs(test_configuration, test_metadata, set_assetguard_confi
         to be made, and the expected result.
 
     expected_output:
-        - r'OSSEC K:' (When the agent has enrolled in the manager)
+        - r'ASSETGUARD K:' (When the agent has enrolled in the manager)
 
     tags:
         - keys

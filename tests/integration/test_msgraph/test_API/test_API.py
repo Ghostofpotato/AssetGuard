@@ -136,7 +136,7 @@ def test_future_events_yes(test_configuration, test_metadata, set_assetguard_con
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -199,7 +199,7 @@ def test_future_events_no(test_configuration, test_metadata, set_assetguard_conf
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -265,7 +265,7 @@ def test_curl_max_size(test_configuration, test_metadata, set_assetguard_configu
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -317,7 +317,7 @@ def test_valid_resource(test_configuration, test_metadata, set_assetguard_config
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -374,7 +374,7 @@ def test_invalid_resource(test_configuration, test_metadata, set_assetguard_conf
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -430,7 +430,7 @@ def test_valid_auth(test_configuration, test_metadata, set_assetguard_configurat
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -482,7 +482,7 @@ def test_invalid_auth(test_configuration, test_metadata, set_assetguard_configur
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.

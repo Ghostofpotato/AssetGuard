@@ -101,7 +101,7 @@ def test_enabled(test_configuration, test_metadata, set_assetguard_configuration
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.
@@ -156,7 +156,7 @@ def test_disabled(test_configuration, test_metadata, set_assetguard_configuratio
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
             brief: Manages daemons to reset AssetGuard.

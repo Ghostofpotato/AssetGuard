@@ -83,7 +83,7 @@ def test_limit_eps(test_configuration, test_metadata, set_assetguard_configurati
 
     test_phases:
         - setup:
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Append configuration to the target configuration files (defined by configuration_type)
             - Truncate the log files
             - Restart daemons defined in `daemons_handler_configuration` in this module
@@ -107,7 +107,7 @@ def test_limit_eps(test_configuration, test_metadata, set_assetguard_configurati
             brief: Metadata from the test case.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - add_configuration:
             type: fixture
             brief: Add configuration to the AssetGuard API configuration files.
@@ -124,7 +124,7 @@ def test_limit_eps(test_configuration, test_metadata, set_assetguard_configurati
     input_description: The test gets the configuration from the YAML file, which contains the API configuration.
 
     assertions:
-        - Verify that the API requests are made correctly and the ossec.conf file is updated as expected.
+        - Verify that the API requests are made correctly and the assetguard.conf file is updated as expected.
 
     expected_output:
         - r'200' ('OK' HTTP status code)

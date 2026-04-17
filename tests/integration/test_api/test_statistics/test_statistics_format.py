@@ -98,7 +98,7 @@ def test_cluster_statistics_format(test_configuration, test_metadata, load_asset
     test_phases:
         - setup:
             - Load AssetGuard light configuration
-            - Apply ossec.conf configuration changes according to the configuration template and use case
+            - Apply assetguard.conf configuration changes according to the configuration template and use case
             - Restart assetguard-manager service to apply configuration changes
         - test:
             - Request the statistics of a particular daemon from the API
@@ -121,7 +121,7 @@ def test_cluster_statistics_format(test_configuration, test_metadata, load_asset
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - daemons_handler:
             type: fixture
             brief: Wrapper of a helper function to handle AssetGuard daemons.

@@ -168,8 +168,8 @@ static void loop_all_pids(const char *ps, pid_t max_pid, int *_errors, int *_tot
             }
         }
 
-        /* If we are run in the context of OSSEC-HIDS, sleep here (no rush) */
-#ifdef OSSECHIDS
+        /* If we are run in the context of AssetGuard-HIDS, sleep here (no rush) */
+#ifdef ASSETGUARDHIDS
 #ifdef WIN32
         Sleep(rootcheck.tsleep);
 #else

@@ -18,7 +18,7 @@
     /* Remove static qualifier when unit testing */
     #define static
 
-    // Redefine ossec_version
+    // Redefine assetguard_version
     #undef __assetguard_version
     #define __assetguard_version "v4.5.0"
 
@@ -280,9 +280,9 @@ static int w_enrollment_send_message(w_enrollment_ctx *cfg) {
     buf[OS_SIZE_65536 + OS_SIZE_4096] = '\0';
 
     if (cfg->cert_cfg->authpass) {
-        snprintf(buf, 2048, "OSSEC PASS: %s OSSEC A:'%s'", cfg->cert_cfg->authpass, lhostname);
+        snprintf(buf, 2048, "ASSETGUARD PASS: %s ASSETGUARD A:'%s'", cfg->cert_cfg->authpass, lhostname);
     } else {
-        snprintf(buf, 2048, "OSSEC A:'%s'", lhostname);
+        snprintf(buf, 2048, "ASSETGUARD A:'%s'", lhostname);
     }
 
     if (cfg->agent_version) {
@@ -355,7 +355,7 @@ static int w_enrollment_process_response(SSL *ssl) {
                     manager_error = 1;
                 }
             }
-        } else if (strncmp(buf, "OSSEC K:'", 9) == 0) {
+        } else if (strncmp(buf, "ASSETGUARD K:'", 9) == 0) {
             status = w_enrollment_process_agent_key(buf);
             break;
         }
@@ -436,7 +436,7 @@ static int w_enrollment_store_key_entry(const char* keys) {
  * Process string that contains agent information.
  * If the information is correct stores the key in the agent keys file
  * @param buffer format:
- * [In] OSSEC K:'ID AGENT_NAME IP KEY'\n\n
+ * [In] ASSETGUARD K:'ID AGENT_NAME IP KEY'\n\n
  * [Out] ID AGENT_NAME IP KEY\n
  * @return return code
  * @retval 0 on success

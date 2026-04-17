@@ -742,7 +742,7 @@ static void process_message(struct client *client) {
 
     if (client->enrollment_ok)
     {
-        snprintf(client->write_buffer, MAX_SSL_MSG_SIZE, "OSSEC K:'%s %s %s %s'", client->new_id, client->agentname, client->ip, new_key);
+        snprintf(client->write_buffer, MAX_SSL_MSG_SIZE, "ASSETGUARD K:'%s %s %s %s'", client->new_id, client->agentname, client->ip, new_key);
         client->write_len = strlen(client->write_buffer);
 
         minfo("Agent key generated for '%s' (requested by %s)", client->agentname, client->ip);

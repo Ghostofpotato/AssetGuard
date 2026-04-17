@@ -43,7 +43,7 @@ def get_status() -> AffectedItemsAssetGuardResult:
 
 
 @expose_resources(actions=['cluster:read'], resources=[f'node:id:{node_id}'])
-def ossec_log(level: str = None, tag: str = None, offset: int = 0, limit: int = common.DATABASE_LIMIT,
+def assetguard_log(level: str = None, tag: str = None, offset: int = 0, limit: int = common.DATABASE_LIMIT,
               sort_by: dict = None, sort_ascending: bool = True, search_text: str = None,
               complementary_search: bool = False, search_in_fields: list = None,
               q: str = '', select: str = None, distinct: bool = False) -> AffectedItemsAssetGuardResult:
@@ -106,7 +106,7 @@ def ossec_log(level: str = None, tag: str = None, offset: int = 0, limit: int = 
 
 
 @expose_resources(actions=['cluster:read'], resources=[f'node:id:{node_id}'])
-def ossec_log_summary() -> AffectedItemsAssetGuardResult:
+def assetguard_log_summary() -> AffectedItemsAssetGuardResult:
     """Summary of assetguard-manager.log.
 
     Returns

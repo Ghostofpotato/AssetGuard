@@ -104,7 +104,7 @@ def test_windows_system_monitoring(test_configuration, test_metadata, configure_
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
@@ -116,7 +116,7 @@ def test_windows_system_monitoring(test_configuration, test_metadata, configure_
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - folder_to_monitor:
             type: str
             brief: Folder created for monitoring.

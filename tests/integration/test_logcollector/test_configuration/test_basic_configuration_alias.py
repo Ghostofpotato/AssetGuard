@@ -51,7 +51,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/log-data-collection/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/localfile.html#alias
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/localfile.html#alias
 
 tags:
     - logcollector_configuration
@@ -130,7 +130,7 @@ def test_configuration_alias(test_configuration, test_metadata, configure_local_
             brief: Configure the AssetGuard local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.

@@ -62,7 +62,7 @@ def get_response(request_method, url, headers):
 def get_agent_health_base():
     # Get agent health. The agent will be healthy if it has been connected to the manager after been
     # restarted due to shared configuration changes.
-    # Using agentd when using grep as the module name can vary between ossec-agentd and assetguard-agentd,
+    # Using agentd when using grep as the module name can vary between assetguard-agentd and assetguard-agentd,
     # depending on the agent version.
 
     shared_conf_restart = os.system(
@@ -98,7 +98,7 @@ def check(result):
 
 
 def get_master_health():
-    os.system("/var/ossec/bin/assetguard-control status > /tmp_volume/daemons.txt")
+    os.system("/var/assetguard/bin/assetguard-control status > /tmp_volume/daemons.txt")
 
     check1 = check(os.system("diff -q /tmp_volume/daemons.txt /tmp_volume/healthcheck/daemons_check.txt"))
 
@@ -108,7 +108,7 @@ def get_master_health():
 
 
 def get_worker_health():
-    os.system("/var/ossec/bin/assetguard-control status > /tmp_volume/daemons.txt")
+    os.system("/var/assetguard/bin/assetguard-control status > /tmp_volume/daemons.txt")
     return check(os.system("diff -q /tmp_volume/daemons.txt /tmp_volume/healthcheck/daemons_check.txt"))
 
 

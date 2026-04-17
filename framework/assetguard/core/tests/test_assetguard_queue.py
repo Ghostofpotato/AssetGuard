@@ -123,10 +123,10 @@ def test_BaseQueue_close(mock_close, mock_conn):
 @pytest.mark.parametrize('msg, agent_id, msg_type', [
     ('test_msg', '001', 'ar-message'),
     ('test_msg', None, 'ar-message'),
-    ('restart-ossec0', '001', None),
+    ('restart-assetguard0', '001', None),
     ('syscheck restart', None, None),
     ('force_reconnect', None, None),
-    ('restart-ossec0', None, None)
+    ('restart-assetguard0', None, None)
 ])
 @patch('assetguard.core.assetguard_queue.socket.socket.connect')
 @patch('assetguard.core.assetguard_queue.AssetGuardQueue._send')

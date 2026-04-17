@@ -169,7 +169,7 @@ if(${TARGET} STREQUAL "winagent")
                  "syscheckd/test_syscheck3.conf" NEWLINE_STYLE WIN32)
   configure_file("config_files/test_syscheck_win4.conf"
                  "syscheckd/test_syscheck4.conf" NEWLINE_STYLE WIN32)
-  configure_file("config_files/test_syscheck_win.conf" "syscheckd/ossec.conf"
+  configure_file("config_files/test_syscheck_win.conf" "syscheckd/assetguard.conf"
                  NEWLINE_STYLE WIN32)
   configure_file("config_files/test_syscheck_win_max_dir.conf"
                  "syscheckd/test_syscheck_max_dir.conf" COPYONLY)

@@ -60,11 +60,11 @@ test_configuration = load_configuration_template(test_configuration_path, test_c
 
 # Variables
 DEFAULT_TEST_PASSWORD = 'TopSecret'
-AGENT_INPUT = "OSSEC A:'{}'"
-AGENT_INPUT_WITH_PASS = "OSSEC PASS: {} OSSEC A:'{}'"
+AGENT_INPUT = "ASSETGUARD A:'{}'"
+AGENT_INPUT_WITH_PASS = "ASSETGUARD PASS: {} ASSETGUARD A:'{}'"
 INVALID_REQUEST_MESSAGE = 'ERROR: Invalid request for new agent'
 INVALID_PASSWORD_MESSAGE = 'ERROR: Invalid password'
-SUCCESS_MESSAGE = "OSSEC K:'001 {} any "
+SUCCESS_MESSAGE = "ASSETGUARD K:'001 {} any "
 
 receiver_sockets_params = [(("localhost", DEFAULT_SSL_REMOTE_ENROLLMENT_PORT), 'AF_INET', 'SSL_TLSv1_2')]
 monitored_sockets_params = [(MODULES_DAEMON, None, True), (ASSETGUARD_DB_DAEMON, None, True), (AUTHD_DAEMON, None, True)]

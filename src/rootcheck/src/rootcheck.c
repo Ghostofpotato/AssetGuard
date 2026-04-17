@@ -28,7 +28,7 @@ char total_ports_tcp[65535 + 1];
 #define ARGV0 "rootcheck"
 #endif
 
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
 
 /* Print help statement */
 void help_rootcheck(char * home_path)
@@ -62,15 +62,15 @@ int rootcheck_init(int test_config)
 {
     const char *cfg = ASSETGUARDCONF;
 
-#endif /* OSSECHIDS */
+#endif /* ASSETGUARDHIDS */
 
     int c;
 
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
     if (chdir(home_path) == -1) {
         merror_exit(CHDIR_ERROR, home_path, errno, strerror(errno));
     }
-#endif /* OSSECHIDS */
+#endif /* ASSETGUARDHIDS */
 
     /* Zero the structure, initialize default values */
     rootcheck.workdir = NULL;
@@ -100,7 +100,7 @@ int rootcheck_init(int test_config)
         c++;
     }
 
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
     rootcheck.notify = SYSLOG_RK;
     rootcheck.daemon = 0;
     while ((c = getopt(argc, argv, "VstrdhD:c:")) != -1) {
@@ -150,7 +150,7 @@ int rootcheck_init(int test_config)
     }
 #endif /* WIN32 */
 
-#endif /* OSSECHIDS */
+#endif /* ASSETGUARDHIDS */
 
     /* Check if the configuration is present */
     if (File_DateofChange(cfg) < 0) {
@@ -178,20 +178,20 @@ int rootcheck_init(int test_config)
     }
 
     /* Set default values */
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
     mdebug1(ASSETGUARD_HOMEDIR, home_path);
     if (rootcheck.workdir == NULL) {
         rootcheck.workdir = home_path;
     }
 #endif
 
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
     /* Start up message */
 #ifdef WIN32
     mtinfo(ARGV0, STARTUP_MSG, getpid());
 #endif /* WIN32 */
 
-#endif /* OSSECHIDS */
+#endif /* ASSETGUARDHIDS */
 
     /* Initialize rk list */
     rk_sys_name = (char **) calloc(MAX_RK_SYS + 2, sizeof(char *));
@@ -202,7 +202,7 @@ int rootcheck_init(int test_config)
     rk_sys_name[0] = NULL;
     rk_sys_file[0] = NULL;
 
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
 #ifndef WIN32
     /* Start signal handling */
     StartSIG(ARGV0);
@@ -213,7 +213,7 @@ int rootcheck_init(int test_config)
 
     mtdebug1(ARGV0, "Leaving...");
     os_free(home_path);
-#endif /* OSSECHIDS */
+#endif /* ASSETGUARDHIDS */
     return (0);
 }
 

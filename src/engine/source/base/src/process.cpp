@@ -174,7 +174,7 @@ void privSepSetGroup(gid_t gid)
 
 std::filesystem::path getAssetGuardHome()
 {
-    return std::filesystem::path("/var/ossec");
+    return std::filesystem::path("/var/assetguard");
 }
 
 void setThreadName(const std::string& name)

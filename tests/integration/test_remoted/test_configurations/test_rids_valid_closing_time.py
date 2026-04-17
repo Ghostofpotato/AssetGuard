@@ -47,7 +47,7 @@ def test_rids_closing_time_valid(test_configuration, test_metadata, configure_lo
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.

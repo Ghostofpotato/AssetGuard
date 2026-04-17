@@ -38,7 +38,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/log-data-collection/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/localfile.html#reconnect-time
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/localfile.html#reconnect-time
 
 tags:
     - logcollector_configuration
@@ -99,7 +99,7 @@ def test_configuration_reconnect_time(test_configuration, test_metadata, truncat
             brief: Configuration cases.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.

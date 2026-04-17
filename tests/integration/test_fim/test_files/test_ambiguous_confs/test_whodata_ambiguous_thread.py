@@ -45,7 +45,7 @@ os_version:
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/auditing-whodata/who-linux.html
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html
 
 pytest_args:
     - fim_mode:
@@ -100,7 +100,7 @@ def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_assetgu
     description: Check if the 'assetguard-syscheckd' daemon starts the 'whodata' thread when the configuration
                  is ambiguous. For example, when using 'whodata' on the same directory using conflicting
                  values ('yes' and 'no'). For this purpose, the configuration is applied and it checks
-                 that the last value detected for 'whodata' in the 'ossec.conf' file is the one used.
+                 that the last value detected for 'whodata' in the 'assetguard.conf' file is the one used.
 
     test_phases:
         - setup:
@@ -120,13 +120,13 @@ def test_whodata_ambiguous_thread(test_configuration, test_metadata, set_assetgu
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Set local_internal_options.conf file.

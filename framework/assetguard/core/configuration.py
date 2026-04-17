@@ -99,7 +99,7 @@ CONF_SECTIONS = MappingProxyType({
 })
 
 GETCONFIG_COMMAND = "getconfig"
-UPDATE_CHECK_OSSEC_FIELD = 'update_check'
+UPDATE_CHECK_ASSETGUARD_FIELD = 'update_check'
 GLOBAL_KEY = 'global'
 YES_VALUE = 'yes'
 CTI_URL_FIELD = 'cti-url'
@@ -290,7 +290,7 @@ def _conf2json(src_xml: str, dst_json: dict):
         _insert_section(dst_json, section_name, section_json)
 
 
-def _ossecconf2json(xml_conf: str) -> dict:
+def _assetguardconf2json(xml_conf: str) -> dict:
     """Return assetguard-manager.conf in JSON from XML.
 
     Parameters
@@ -556,7 +556,7 @@ def get_assetguard_conf(section: str = None, field: str = None, conf_file: str =
         xml_data = load_assetguard_xml(conf_file)
 
         # Parse XML to JSON
-        data = _ossecconf2json(xml_data)
+        data = _assetguardconf2json(xml_data)
     except Exception as e:
         if not from_import:
             raise AssetGuardError(1101, extra_message=str(e))
@@ -1180,7 +1180,7 @@ def write_assetguard_conf(new_conf: str):
     Raises
     ------
     AssetGuardError(1126)
-        Error updating ossec configuration.
+        Error updating assetguard configuration.
     """
     try:
         with open(common.ASSETGUARD_CONF, 'w') as f:
@@ -1190,16 +1190,16 @@ def write_assetguard_conf(new_conf: str):
 
 
 def update_check_is_enabled() -> bool:
-    """Read the assetguard-manager.conf and check UPDATE_CHECK_OSSEC_FIELD value.
+    """Read the assetguard-manager.conf and check UPDATE_CHECK_ASSETGUARD_FIELD value.
 
     Returns
     -------
     bool
-        True if UPDATE_CHECK_OSSEC_FIELD is 'yes' or isn't present, else False.
+        True if UPDATE_CHECK_ASSETGUARD_FIELD is 'yes' or isn't present, else False.
     """
     try:
         global_configurations = get_assetguard_conf(section=GLOBAL_KEY).get(GLOBAL_KEY, {})
-        return global_configurations.get(UPDATE_CHECK_OSSEC_FIELD, YES_VALUE) == YES_VALUE
+        return global_configurations.get(UPDATE_CHECK_ASSETGUARD_FIELD, YES_VALUE) == YES_VALUE
     except AssetGuardError as e:
         if e.code != 1106:
             raise e

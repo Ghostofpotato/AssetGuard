@@ -52,7 +52,7 @@ os_version:
     - Windows Server 2012
 
 references:
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/client.html#address
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/client.html#address
 
 tags:
     - agentd
@@ -129,7 +129,7 @@ def test_agentd_server_address_configuration(test_configuration, test_metadata, 
             brief: Restart the agentd daemon for restarting the agent.
 
     assertions:
-        - Verify that the messages have been produced in ossec.log
+        - Verify that the messages have been produced in assetguard.log
 
     input_description: The `server_address_configuration.yaml` file includes configuration settings for the agent.
                        Eight test cases are found in the test module and include parameters

@@ -79,7 +79,7 @@ void* read_ucs2_be(logreader* lf, int* rc, int drop_it);
 void* read_snortfull(logreader* lf, int* rc, int drop_it);
 
 /* Read assetguard alert file */
-void* read_ossecalert(logreader* lf, int* rc, int drop_it);
+void* read_assetguardalert(logreader* lf, int* rc, int drop_it);
 
 /* Read nmap grepable format */
 void* read_nmapg(logreader* lf, int* rc, int drop_it);

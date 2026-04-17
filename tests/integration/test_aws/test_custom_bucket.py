@@ -42,16 +42,16 @@ def test_custom_bucket_defaults(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
-            - Check in the ossec.log that no errors occurs.
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
+            - Check in the assetguard.log that no errors occurs.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
 
     assetguard_min_version: 4.7.0
     parameters:
@@ -72,7 +72,7 @@ def test_custom_bucket_defaults(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -149,7 +149,7 @@ def test_custom_bucket_logs(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
@@ -160,7 +160,7 @@ def test_custom_bucket_logs(
             - Check that the module processed a message from the SQS Queue.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
             - Deletes the file created in the S3 Bucket.
 
     assetguard_min_version: 4.7.0
@@ -185,7 +185,7 @@ def test_custom_bucket_logs(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.

@@ -19,7 +19,7 @@
 int main(int argc, char **argv)
 {
     char *status;
-    const char *(xml_syscheck_status[]) = {"ossec_config", "syscheck", "disabled", NULL};
+    const char *(xml_syscheck_status[]) = {"assetguard_config", "syscheck", "disabled", NULL};
 
     if (argc < 3) {
         printf("%s: Invalid syntax.\n", argv[0]);
@@ -33,9 +33,9 @@ int main(int argc, char **argv)
         return (0);
     }
 
-    /* Check if OSSEC-HIDS was installed already */
+    /* Check if AssetGuard was installed already */
     if (!fileexist(ASSETGUARDCONF)) {
-        printf("%s: OSSEC not installed yet. Exiting.\n", argv[0]);
+        printf("%s: AssetGuard not installed yet. Exiting.\n", argv[0]);
         return (0);
     }
 

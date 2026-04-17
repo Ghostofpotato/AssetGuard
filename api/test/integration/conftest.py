@@ -282,7 +282,7 @@ def save_logs(test_name: str):
 
     Examples:
     "test_{test_name}-{node/agent}-{log}" -> "test_cluster-worker1-api.log"
-    "test_{test_name}-{node/agent}-{log}" -> "test_cluster-agent4-ossec.log"
+    "test_{test_name}-{node/agent}-{log}" -> "test_cluster-agent4-assetguard.log"
 
     Parameters
     ----------
@@ -290,7 +290,7 @@ def save_logs(test_name: str):
         Name of the test.
     """
     manager_logs_path = '/var/assetguard-manager/logs'
-    agent_logs_path = '/var/ossec/logs'
+    agent_logs_path = '/var/assetguard/logs'
 
     # Save cluster nodes' logs
     logs = ['api.log', 'cluster.log', 'assetguard-manager.log']
@@ -308,8 +308,8 @@ def save_logs(test_name: str):
     for agent in agent_names:
         try:
             subprocess.check_output(
-                f"docker cp env-assetguard-{agent}-1:{os.path.join(agent_logs_path, 'ossec.log')} "
-                f"{os.path.join(test_logs_path, f'test_{test_name}-{agent}-ossec.log')}",
+                f"docker cp env-assetguard-{agent}-1:{os.path.join(agent_logs_path, 'assetguard.log')} "
+                f"{os.path.join(test_logs_path, f'test_{test_name}-{agent}-assetguard.log')}",
                 shell=True)
         except subprocess.CalledProcessError:
             continue

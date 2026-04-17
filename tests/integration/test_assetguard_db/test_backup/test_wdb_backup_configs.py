@@ -90,7 +90,7 @@ def test_wdb_backup_configs(test_configuration, test_metadata, set_assetguard_co
     '''
     description: Check that given different wdb backup configuration parameters, the expected behavior is achieved.
                  For this, the test gets a series of parameters for the assetguard_db_backups_conf.yaml file and applies
-                 them to the manager's ossec.conf. It checks in case of erroneous configurations that the manager was
+                 them to the manager's assetguard.conf. It checks in case of erroneous configurations that the manager was
                  unable to start; otherwise it will check that after creating "max_files+1", there are a total of
                  "max_files" backup files in the backup folder.
 
@@ -105,7 +105,7 @@ def test_wdb_backup_configs(test_configuration, test_metadata, set_assetguard_co
             brief: Test case metadata.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.

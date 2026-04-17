@@ -40,16 +40,16 @@ def test_bucket_defaults(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
-            - Check in the ossec.log that no errors occurs.
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
+            - Check in the assetguard.log that no errors occurs.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -66,7 +66,7 @@ def test_bucket_defaults(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - clean_s3_cloudtrail_db:
             type: fixture
             brief: Delete the DB file before and after the test execution.
@@ -141,16 +141,16 @@ def test_service_defaults(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
-            - Check in the ossec.log that no errors occurs.
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
+            - Check in the assetguard.log that no errors occurs.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -167,7 +167,7 @@ def test_service_defaults(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - clean_aws_services_db:
             type: fixture
             brief: Delete the DB file before and after the test execution.
@@ -245,16 +245,16 @@ def test_inspector_defaults(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
-            - Check in the ossec.log that no errors occurs.
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
+            - Check in the assetguard.log that no errors occurs.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -271,7 +271,7 @@ def test_inspector_defaults(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - clean_aws_services_db:
             type: fixture
             brief: Delete the DB file before and after the test execution.

@@ -20,7 +20,7 @@
 #ifdef ASSETGUARD_UNIT_TESTING
 #define static
 
-// Redefine ossec_version
+// Redefine assetguard_version
 #undef __assetguard_version
 #define __assetguard_version "v4.5.0"
 #endif
@@ -74,9 +74,9 @@ w_err_t w_auth_parse_data(const char* buf,
     bool parseok = FALSE;
     /* Checking for shared password authentication. */
     if (authpass) {
-        /* Format is pretty simple: OSSEC PASS: PASS WHATEVERACTION */
+        /* Format is pretty simple: ASSETGUARD PASS: PASS WHATEVERACTION */
         parseok = FALSE;
-        if (strncmp(buf, "OSSEC PASS: ", 12) == 0) {
+        if (strncmp(buf, "ASSETGUARD PASS: ", 12) == 0) {
             buf += 12;
             if (strlen(buf) > strlen(authpass) && strncmp(buf, authpass, strlen(authpass)) == 0) {
                 buf += strlen(authpass);
@@ -96,7 +96,7 @@ w_err_t w_auth_parse_data(const char* buf,
 
     /* Checking for action A (add agent) */
     parseok = FALSE;
-    if (strncmp(buf, "OSSEC A:'", 9) == 0) {
+    if (strncmp(buf, "ASSETGUARD A:'", 9) == 0) {
         buf += 9;
 
         unsigned len = 0;

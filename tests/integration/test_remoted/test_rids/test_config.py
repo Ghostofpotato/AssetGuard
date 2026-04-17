@@ -46,7 +46,7 @@ def test_rids_conf(test_configuration, test_metadata, configure_local_internal_o
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.
@@ -62,7 +62,7 @@ def test_rids_conf(test_configuration, test_metadata, configure_local_internal_o
                    once the test finishes, stops the daemons.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
     '''
 
     log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)

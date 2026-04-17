@@ -7,7 +7,7 @@
  * License (version 2) as published by the FSF - Free Software
  * Foundation.
  *
- * License details at the LICENSE file included with OSSEC or
+ * License details at the LICENSE file included with AssetGuard or
  * online at: https://www.gnu.org/licenses/gpl.html
  */
 

@@ -450,7 +450,7 @@ TEST(CrudService_Component, UpsertIntegration_InvalidCategory_Throws_NoValidator
     id: "5c1df6b6-1458-4b2e-9001-96f67a8b12c8"
     title: "windows"
     enabled: true
-    category: "ossec"  # <-- invalid
+    category: "assetguard"  # <-- invalid
     decoders: []
     kvdbs: []
     )";

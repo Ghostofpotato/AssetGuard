@@ -61,7 +61,7 @@ def test_protocols_communication(test_configuration, test_metadata, configure_lo
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.
@@ -79,7 +79,7 @@ def test_protocols_communication(test_configuration, test_metadata, configure_lo
             brief: create agents
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_sockets_environment_module:
             type: fixture
             brief: Configure environment for sockets and MITM.

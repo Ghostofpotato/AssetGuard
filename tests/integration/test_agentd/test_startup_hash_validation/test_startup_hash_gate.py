@@ -222,7 +222,7 @@ def test_startup_hash_gate_scenarios(test_configuration, test_metadata, set_asse
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the ossec.log file and start a new monitor.
+            brief: Reset the assetguard.log file and start a new monitor.
         - clean_keys:
             type: fixture
             brief: Cleans keys file content.

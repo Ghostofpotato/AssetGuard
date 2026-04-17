@@ -14,7 +14,7 @@ from assetguard.core.common import get_installation_uid
 """
 AssetGuard HIDS Python package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-AssetGuard is a python package to manage OSSEC.
+AssetGuard is a python package to manage AssetGuard.
 
 """
 
@@ -36,7 +36,7 @@ except Exception:
 
 class AssetGuard:
     """
-    Basic class to set up OSSEC directories
+    Basic class to set up AssetGuard directories
     """
 
     def __init__(self):

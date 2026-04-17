@@ -81,7 +81,7 @@ sleep = 5
 # Functions
 def register_agent_main_server(receiver_sockets, Name, Group=None, IP=None):
     """Register an agent on server mode."""
-    message = "OSSEC A:'{}'".format(Name)
+    message = "ASSETGUARD A:'{}'".format(Name)
     if Group:
         message += " G:'{}'".format(Group)
     if IP:
@@ -122,7 +122,7 @@ def register_agent_local_server(receiver_sockets, Name, Group=None, IP=None):
 
 # Tests
 @pytest.mark.parametrize('test_configuration,test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_ossec_authd_agents_ctx(test_configuration, test_metadata, set_assetguard_configuration, truncate_monitored_files,
+def test_assetguard_authd_agents_ctx(test_configuration, test_metadata, set_assetguard_configuration, truncate_monitored_files,
                                 clean_agents_ctx, daemons_handler, wait_for_authd_startup, connect_to_sockets, set_up_groups):
     '''
     description:
@@ -175,7 +175,7 @@ def test_ossec_authd_agents_ctx(test_configuration, test_metadata, set_assetguar
 
     expected_output:
         - r'Accepting connections on port 1515' (When the 'assetguard-manager-authd' daemon is ready to accept enrollments)
-        - r'OSSEC K:' (When the agent has enrolled in the manager)
+        - r'ASSETGUARD K:' (When the agent has enrolled in the manager)
     tags:
         - keys
         - ssl
@@ -183,7 +183,7 @@ def test_ossec_authd_agents_ctx(test_configuration, test_metadata, set_assetguar
     server = test_metadata["server_type"]
 
     if server == "main":
-        SUCCESS_RESPONSE = "OSSEC K:'"
+        SUCCESS_RESPONSE = "ASSETGUARD K:'"
         register_agent = register_agent_main_server
     elif server == "local":
         SUCCESS_RESPONSE = '{"error":0,'

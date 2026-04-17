@@ -51,8 +51,8 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/log-data-collection/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/localfile.html#log-format
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/localfile.html#location
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/localfile.html#log-format
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/localfile.html#location
 
 tags:
     - logcollector_configuration
@@ -212,7 +212,7 @@ def check_log_format_invalid(test_metadata):
     log_callback = callbacks.generate_callback(patterns.LOGCOLLECTOR_CONFIGURATION_ERROR,
                                                 {'prefix' : PREFIX,
                                                  'severity' : 'ERROR',
-                                                'conf_path' : "etc/ossec.conf"})
+                                                'conf_path' : "etc/assetguard.conf"})
     assetguard_log_monitor.start(timeout=15, callback=log_callback)
     assert (assetguard_log_monitor.callback_result != None), patterns.ERROR_GENERIC_MESSAGE
 
@@ -221,7 +221,7 @@ def check_log_format_invalid(test_metadata):
         log_callback = callbacks.generate_callback(patterns.LOGCOLLECTOR_CONFIGURATION_ERROR,
                                                 {'prefix' : PREFIX,
                                                  'severity' : 'ERROR',
-                                                'conf_path' : "etc/ossec.conf"})
+                                                'conf_path' : "etc/assetguard.conf"})
         assetguard_log_monitor.start(timeout=15, callback=log_callback)
         assert (assetguard_log_monitor.callback_result != None), patterns.ERROR_GENERIC_MESSAGE
 
@@ -267,7 +267,7 @@ def test_log_format(test_configuration, test_metadata, configure_local_internal_
             brief: Configure the AssetGuard local internal options.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - set_assetguard_configuration:
             type: fixture
             brief: Configure a custom environment for testing.

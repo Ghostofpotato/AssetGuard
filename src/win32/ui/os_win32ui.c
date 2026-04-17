@@ -111,10 +111,10 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam,
             /* Setting the icons */
             SendMessage(hwnd, WM_SETICON, ICON_SMALL,
                         (LPARAM)LoadIcon(GetModuleHandle(NULL),
-                                         MAKEINTRESOURCE(IDI_OSSECICON)));
+                                         MAKEINTRESOURCE(IDI_ASSETGUARDICON)));
             SendMessage(hwnd, WM_SETICON, ICON_BIG,
                         (LPARAM)LoadIcon(GetModuleHandle(NULL),
-                                         MAKEINTRESOURCE(IDI_OSSECICON)));
+                                         MAKEINTRESOURCE(IDI_ASSETGUARDICON)));
 
             if (config_inst.admin_access == 0) {
                 MessageBox(hwnd, "Admin access required. Some features may not work properly. \n\n"

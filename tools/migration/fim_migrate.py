@@ -30,7 +30,7 @@ else:
     logging.addLevelName(logging.INFO, '[INFO]')
     logging.addLevelName(logging.DEBUG, '[DEBUG]')
 
-_ossec_path = os.environ['INSTALLDIR']
+_assetguard_path = os.environ['INSTALLDIR']
 _verbose = True
 _force = False
 
@@ -200,7 +200,7 @@ if __name__ == '__main__':
             elif opt[0] == '-d':
                 logging.getLogger().setLevel(logging.DEBUG)
             elif opt[0] == '-p':
-                _ossec_path = opt[1]
+                _assetguard_path = opt[1]
             elif opt[0] == '-h':
                 _print_help()
                 sys.exit(0)
@@ -212,9 +212,9 @@ if __name__ == '__main__':
         _print_help()
         sys.exit(1)
 
-    _wdb_socket = _ossec_path + '/queue/db/wdb'
-    _syscheck_dir = _ossec_path + '/queue/syscheck'
-    _keys_path = _ossec_path + '/etc/client.keys'
+    _wdb_socket = _assetguard_path + '/queue/db/wdb'
+    _syscheck_dir = _assetguard_path + '/queue/syscheck'
+    _keys_path = _assetguard_path + '/etc/client.keys'
 
     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     try:

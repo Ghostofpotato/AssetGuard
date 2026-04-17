@@ -13,7 +13,7 @@
 #include "defs.h"
 #include "rootcheck.h"
 
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
 
 /* Prototypes */
 static int  connect_to_port(int proto, int port);
@@ -101,7 +101,7 @@ static void try_to_access_ports()
 
 void check_open_ports()
 {
-#ifndef OSSECHIDS
+#ifndef ASSETGUARDHIDS
     memset(open_ports_str, '\0', OS_SIZE_1024 + 1);
     open_ports_size = OS_SIZE_1024 - 1;
     _ports_open = 0;

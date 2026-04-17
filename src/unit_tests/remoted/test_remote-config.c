@@ -338,11 +338,11 @@ static void test_remoted_internal_options_config(void **state) {
 
     // Mock ReadConfig calls
     expect_value(__wrap_ReadConfig, modules, CREMOTE);
-    expect_string(__wrap_ReadConfig, cfgfile, "test_ossec.conf");
+    expect_string(__wrap_ReadConfig, cfgfile, "test_assetguard.conf");
     will_return(__wrap_ReadConfig, 0);
 
     expect_value(__wrap_ReadConfig, modules, CGLOBAL);
-    expect_string(__wrap_ReadConfig, cfgfile, "test_ossec.conf");
+    expect_string(__wrap_ReadConfig, cfgfile, "test_assetguard.conf");
     will_return(__wrap_ReadConfig, 0);
 
     // Mock get_node_name and get_cluster_name calls
@@ -350,7 +350,7 @@ static void test_remoted_internal_options_config(void **state) {
     will_return(__wrap_get_cluster_name, NULL);
 
     // Call RemotedConfig to load all internal options
-    int ret = RemotedConfig("test_ossec.conf", &logr);
+    int ret = RemotedConfig("test_assetguard.conf", &logr);
     assert_int_equal(ret, 1);
 
     // Now validate getRemoteInternalConfig returns the correct values

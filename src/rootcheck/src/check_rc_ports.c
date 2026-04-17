@@ -100,8 +100,8 @@ static void test_ports(int proto, int *_errors, int *_total)
                 continue;
             }
 
-#ifdef OSSECHIDS
-            /* If we are in the context of OSSEC-HIDS, sleep here (no rush) */
+#ifdef ASSETGUARDHIDS
+            /* If we are in the context of AssetGuard-HIDS, sleep here (no rush) */
 #ifdef WIN32
         Sleep(rootcheck.tsleep);
 #else

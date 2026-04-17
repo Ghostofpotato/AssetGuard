@@ -114,7 +114,7 @@ def test_agentd_state_config(test_configuration, test_metadata, remove_state_fil
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
 
     assertions:
         - Verify that the 'assetguard-agentd.state' statistics file has been created.

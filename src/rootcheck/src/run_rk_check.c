@@ -39,8 +39,8 @@ int notify_rk(int rk_type, const char *msg)
         return (0);
     }
 
-#ifdef OSSECHIDS
-    /* When running in context of OSSEC-HIDS, send problem to the rootcheck queue */
+#ifdef ASSETGUARDHIDS
+    /* When running in context of AssetGuard-HIDS, send problem to the rootcheck queue */
     if (SendMSG(rootcheck.queue, msg, ROOTCHECK, ROOTCHECK_MQ) < 0) {
         mtdebug1(ARGV0, QUEUE_SEND);
 

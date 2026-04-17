@@ -5,7 +5,7 @@ import pytest
 
 RELEASED_PATH = 'C:\\win-agent-released\\'
 BASE_PATH = 'C:\\win-agent-base\\'
-INSTALL_PATH = 'C:\\Program Files (x86)\\ossec-agent\\'
+INSTALL_PATH = 'C:\\Program Files (x86)\\assetguard-agent\\'
 
 
 def populate_dict(dict, files_list):

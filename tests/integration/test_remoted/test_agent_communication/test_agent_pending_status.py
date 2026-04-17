@@ -54,7 +54,7 @@ def test_agent_pending_status(test_configuration, test_metadata, configure_local
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.
@@ -72,7 +72,7 @@ def test_agent_pending_status(test_configuration, test_metadata, configure_local
             brief: create agents
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
 
     '''
 

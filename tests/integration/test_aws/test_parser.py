@@ -41,15 +41,15 @@ def test_bucket_and_service_missing(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -63,7 +63,7 @@ def test_bucket_and_service_missing(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -106,19 +106,19 @@ def test_type_missing_in_bucket(
         file_monitoring
 ):
     """
-    description: A warning occurs and was displayed in `ossec.log`.
+    description: A warning occurs and was displayed in `assetguard.log`.
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -132,7 +132,7 @@ def test_type_missing_in_bucket(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -174,19 +174,19 @@ def test_type_missing_in_service(
         file_monitoring
 ):
     """
-    description: An error occurs and was displayed in `ossec.log`.
+    description: An error occurs and was displayed in `assetguard.log`.
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -200,7 +200,7 @@ def test_type_missing_in_service(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -243,19 +243,19 @@ def test_empty_values_in_bucket(
         file_monitoring
 ):
     """
-    description: An error occurs and was displayed in `ossec.log`.
+    description: An error occurs and was displayed in `assetguard.log`.
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -269,7 +269,7 @@ def test_empty_values_in_bucket(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -311,19 +311,19 @@ def test_empty_values_in_service(
         file_monitoring
 ):
     """
-    description: An error occurs and was displayed in `ossec.log`.
+    description: An error occurs and was displayed in `assetguard.log`.
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -337,7 +337,7 @@ def test_empty_values_in_service(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -380,19 +380,19 @@ def test_invalid_values_in_bucket(
         file_monitoring
 ):
     """
-    description: An error occurs and was displayed in `ossec.log`.
+    description: An error occurs and was displayed in `assetguard.log`.
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -406,7 +406,7 @@ def test_invalid_values_in_bucket(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -448,19 +448,19 @@ def test_invalid_values_in_service(
         file_monitoring
 ):
     """
-    description: An error occurs and was displayed in `ossec.log`.
+    description: An error occurs and was displayed in `assetguard.log`.
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -474,7 +474,7 @@ def test_invalid_values_in_service(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.
@@ -520,15 +520,15 @@ def test_multiple_bucket_and_service_tags(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has not appeared calling the module with correct parameters.
+            - Check in the assetguard.log that a line has not appeared calling the module with correct parameters.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
     assetguard_min_version: 4.6.0
     parameters:
         - test_configuration:
@@ -542,7 +542,7 @@ def test_multiple_bucket_and_service_tags(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - configure_local_internal_options_function:
             type: fixture
             brief: Apply changes to the local_internal_options.conf configuration.

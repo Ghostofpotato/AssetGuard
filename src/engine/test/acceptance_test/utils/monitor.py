@@ -25,7 +25,7 @@ def enable_disk_monitoring_win():
 if platform == "darwin":
     agentd_state_file = "/Library/Ossec/var/run/assetguard-agentd.state"
 elif platform == "win32":
-    agentd_state_file = "C:\\Program Files (x86)\\ossec-agent\\assetguard-agent.state"
+    agentd_state_file = "C:\\Program Files (x86)\\assetguard-agent\\assetguard-agent.state"
     enable_disk_monitoring_win()
 else:
     agentd_state_file = "/var/assetguard-manager/var/run/assetguard-agentd.state"

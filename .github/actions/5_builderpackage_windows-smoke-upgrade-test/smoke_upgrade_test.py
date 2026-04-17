@@ -114,7 +114,7 @@ def verify_installation(expected_version):
             print("The upgrade could not be completed (expected 2 success messages).")
             return False
 
-        agent_exe = r"C:\Program Files (x86)\ossec-agent\assetguard-agent.exe"
+        agent_exe = r"C:\Program Files (x86)\assetguard-agent\assetguard-agent.exe"
         if not os.path.exists(agent_exe):
             print(f"Error: AssetGuard agent not found at {agent_exe}")
             return False
@@ -131,7 +131,7 @@ def verify_installation(expected_version):
             print("AssetGuard agent service is not running.")
             return False
 
-        version_file_path = r"C:\Program Files (x86)\ossec-agent\version.json"
+        version_file_path = r"C:\Program Files (x86)\assetguard-agent\version.json"
         if not os.path.exists(version_file_path):
             print(f"Error: Version file not found at {version_file_path}")
             return False

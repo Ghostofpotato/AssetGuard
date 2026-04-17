@@ -46,7 +46,7 @@ def test_invalid_connection(test_configuration, test_metadata, configure_local_i
     parameters:
         - test_configuration
             type: dict
-            brief: Configuration applied to ossec.conf.
+            brief: Configuration applied to assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case metadata.
@@ -71,8 +71,8 @@ def test_invalid_connection(test_configuration, test_metadata, configure_local_i
     assert test_metadata['element_type'] in log_monitor.callback_result
     assert test_metadata['element_name'] in log_monitor.callback_result
 
-    log_monitor.start(callback=generate_callback(regex=CONFIGURATION_ERROR, replacement={"severity": 'ERROR', "path": "etc/ossec.conf"}))
+    log_monitor.start(callback=generate_callback(regex=CONFIGURATION_ERROR, replacement={"severity": 'ERROR', "path": "etc/assetguard.conf"}))
     assert log_monitor.callback_result
 
-    log_monitor.start(callback=generate_callback(CONFIGURATION_ERROR.replace('{severity}', 'CRITICAL').replace('{path}', "etc/ossec.conf")))
+    log_monitor.start(callback=generate_callback(CONFIGURATION_ERROR.replace('{severity}', 'CRITICAL').replace('{path}', "etc/assetguard.conf")))
     assert log_monitor.callback_result

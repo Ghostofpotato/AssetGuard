@@ -211,7 +211,7 @@ int config_read(__attribute__((unused)) HWND hwnd)
     /* Clear config */
     config_clear();
 
-    /* Get OSSEC status */
+    /* Get AssetGuard status */
     if (CheckServiceRunning()) {
         config_inst.status = ST_RUNNING;
     } else {
@@ -324,7 +324,7 @@ int config_read(__attribute__((unused)) HWND hwnd)
     return (0);
 }
 
-/* Get OSSEC Server IP */
+/* Get AssetGuard Server IP */
 int get_assetguard_server()
 {
     OS_XML xml;
@@ -332,10 +332,10 @@ int get_assetguard_server()
     int success = 0;
 
     /* Definitions */
-    const char *(xml_manageraddr[]) = {"ossec_config", "client", "manager", "address", NULL};
-    const char *(xml_serverip[]) = {"ossec_config", "client", "server-ip", NULL};
-    const char *(xml_serverhost[]) = {"ossec_config", "client", "server-hostname", NULL};
-    const char *(xml_serveraddr[]) = {"ossec_config", "client", "server", "address", NULL};
+    const char *(xml_manageraddr[]) = {"assetguard_config", "client", "manager", "address", NULL};
+    const char *(xml_serverip[]) = {"assetguard_config", "client", "server-ip", NULL};
+    const char *(xml_serverhost[]) = {"assetguard_config", "client", "server-hostname", NULL};
+    const char *(xml_serveraddr[]) = {"assetguard_config", "client", "server", "address", NULL};
 
     /* Read XML */
     if (OS_ReadXML(CONFIG, &xml) < 0) {
@@ -448,15 +448,15 @@ int run_cmd(char *cmd, HWND hwnd)
     return (exit_code);
 }
 
-/* Set OSSEC Server IP */
+/* Set AssetGuard Server IP */
 int set_assetguard_server(char *ip, HWND hwnd)
 {
     const char **xml_pt = NULL;
     const char **xml_alt_pt = NULL;
     OS_XML xml;
     char *str = NULL;
-    const char *(xml_manageraddr[]) = {"ossec_config", "client", "manager", "address", NULL};
-    const char *(xml_serveraddr[]) = {"ossec_config", "client", "server", "address", NULL};
+    const char *(xml_manageraddr[]) = {"assetguard_config", "client", "manager", "address", NULL};
+    const char *(xml_serveraddr[]) = {"assetguard_config", "client", "server", "address", NULL};
     char config_tmp[] = CONFIG;
     char *conf_file = basename_ex(config_tmp);
 
@@ -506,7 +506,7 @@ int set_assetguard_server(char *ip, HWND hwnd)
     /* Read the XML. Print error and line number. */
     if (OS_WriteXML(CONFIG, tmp_path, xml_pt, NULL, ip) != 0 &&
         OS_WriteXML(CONFIG, tmp_path, xml_alt_pt, NULL, ip) != 0) {
-        MessageBox(hwnd, "Unable to set OSSEC Server IP Address.\r\n"
+        MessageBox(hwnd, "Unable to set AssetGuard Server IP Address.\r\n"
                    "(Internal error on the XML Write).",
                    "Error -- Failure Setting IP", MB_OK);
 
@@ -546,7 +546,7 @@ int set_assetguard_server(char *ip, HWND hwnd)
     return (1);
 }
 
-/* Set OSSEC Authentication Key */
+/* Set AssetGuard Authentication Key */
 int set_assetguard_key(char *key, HWND hwnd)
 {
     FILE *fp;

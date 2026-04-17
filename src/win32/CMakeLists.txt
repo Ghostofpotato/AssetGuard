@@ -75,14 +75,14 @@ set(WIN_SYSTEM_LIBS
 # Object libraries – shared code compiled with different flags
 # ──────────────────────────────────────────────────────────────────────────────
 
-# win32_common: core Windows sources compiled with OSSECHIDS +
+# win32_common: core Windows sources compiled with ASSETGUARDHIDS +
 # ARGV0="assetguard-agent"
 add_library(
   win32_common OBJECT
   ${CMAKE_CURRENT_SOURCE_DIR}/win_agent.c
   ${CMAKE_CURRENT_SOURCE_DIR}/win_service.c
   ${CMAKE_CURRENT_SOURCE_DIR}/win_utils.c)
-target_compile_definitions(win32_common PRIVATE OSSECHIDS ARGV0="assetguard-agent"
+target_compile_definitions(win32_common PRIVATE ASSETGUARDHIDS ARGV0="assetguard-agent"
                                                 _WIN32_WINNT=0x600)
 
 # Enable ASSETGUARD_UNIT_TESTING to activate wrapper macros for unit tests
@@ -90,7 +90,7 @@ if(UNIT_TEST)
   target_compile_definitions(win32_common PRIVATE ASSETGUARD_UNIT_TESTING)
 endif()
 
-# win32_service_rk: win_service.c compiled WITHOUT OSSECHIDS (for setup/UI
+# win32_service_rk: win_service.c compiled WITHOUT ASSETGUARDHIDS (for setup/UI
 # tools) Equivalent to the Makefile's "win32/%_rk.o: win32/%.c" pattern rule
 add_library(win32_service_rk OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/win_service.c)
 target_compile_definitions(win32_service_rk PRIVATE ARGV0="assetguard-agent"
@@ -107,7 +107,7 @@ add_library(win32_stubs OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/win_stubs.c)
 target_compile_definitions(win32_stubs PRIVATE ARGV0="assetguard-agent"
                                                _WIN32_WINNT=0x600)
 
-# win32_ui: UI source files compiled with ARGV0="assetguard-win32ui" and no OSSECHIDS
+# win32_ui: UI source files compiled with ARGV0="assetguard-win32ui" and no ASSETGUARDHIDS
 add_library(win32_ui OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/ui/os_win32ui.c
                             ${CMAKE_CURRENT_SOURCE_DIR}/ui/common.c)
 target_compile_definitions(win32_ui PRIVATE ARGV0="assetguard-win32ui"
@@ -127,7 +127,7 @@ add_executable(
   assetguard-agent
   $<TARGET_OBJECTS:win32_common> ${CMAKE_CURRENT_SOURCE_DIR}/assetguard-agent.rc
   ${CMAKE_CURRENT_SOURCE_DIR}/icofile.rc ${RESOURCE_OBJ_APP})
-target_compile_definitions(assetguard-agent PRIVATE OSSECHIDS ARGV0="assetguard-agent"
+target_compile_definitions(assetguard-agent PRIVATE ASSETGUARDHIDS ARGV0="assetguard-agent"
                                                _WIN32_WINNT=0x600)
 set_target_properties(
   assetguard-agent PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${SRC_FOLDER}/build/bin
@@ -156,7 +156,7 @@ add_executable(
   ${CMAKE_CURRENT_SOURCE_DIR}/assetguard-agent-eventchannel.rc
   ${CMAKE_CURRENT_SOURCE_DIR}/icofile.rc ${RESOURCE_OBJ_APP})
 target_compile_definitions(
-  assetguard-agent-eventchannel PRIVATE OSSECHIDS ARGV0="assetguard-agent"
+  assetguard-agent-eventchannel PRIVATE ASSETGUARDHIDS ARGV0="assetguard-agent"
                                    EVENTCHANNEL_SUPPORT _WIN32_WINNT=0x600)
 set_target_properties(
   assetguard-agent-eventchannel

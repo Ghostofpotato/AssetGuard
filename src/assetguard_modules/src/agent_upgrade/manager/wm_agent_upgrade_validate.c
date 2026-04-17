@@ -14,7 +14,7 @@
 #include "wm_agent_upgrade_validate.h"
 
 #ifdef ASSETGUARD_UNIT_TESTING
-// Redefine ossec_version
+// Redefine assetguard_version
 #undef __assetguard_version
 #define __assetguard_version "v5.0.0"
 #endif

@@ -482,7 +482,7 @@ async def test_run_cluster_name_sync_no_agents(mock_get, task):
 )
 async def test_run_cluster_name_sync_no_cluster_name(mock_conf, mock_get, task):
     """
-    Verify sync behavior when no cluster name is configured in ossec.conf.
+    Verify sync behavior when no cluster name is configured in assetguard.conf.
     """
     task.initial_delay = 0
     await task.run_cluster_name_sync()
@@ -670,9 +670,9 @@ async def test_get_cluster_name_from_indexer_exception(manager, logger):
     "assetguard.core.indexer.disconnected_agents.get_assetguard_conf",
     side_effect=Exception("Config error"),
 )
-async def test_init_ossec_conf_error(mock_conf, manager, logger):
+async def test_init_assetguard_conf_error(mock_conf, manager, logger):
     """
-    Verify task initialization when ossec.conf is missing or unreadable.
+    Verify task initialization when assetguard.conf is missing or unreadable.
     """
     task = DisconnectedAgentSyncTasks(
         server=manager, logger=logger, cluster_items=copy.deepcopy(CLUSTER_ITEMS)

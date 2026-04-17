@@ -167,7 +167,7 @@ def get_logs_summary(limit: int = 2000) -> dict:
 def validate_assetguard_conf() -> dict:
     """Check if AssetGuard configuration is OK.
 
-    Validates the ossec.conf file by reading and parsing the XML structure.
+    Validates the assetguard.conf file by reading and parsing the XML structure.
     This replaces the previous socket-based validation after execd removal.
 
     Raises

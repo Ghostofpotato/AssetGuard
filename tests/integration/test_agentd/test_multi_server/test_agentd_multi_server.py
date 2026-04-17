@@ -120,7 +120,7 @@ def test_agentd_multi_server(test_configuration, test_metadata, set_assetguard_c
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - remove_keys_file:
             type: fixture
             brief: Deletes keys file if test configuration request it

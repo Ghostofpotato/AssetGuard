@@ -43,19 +43,19 @@ def test_path(
     test_phases:
         - setup:
             - Load AssetGuard light configuration.
-            - Apply ossec.conf configuration changes according to the configuration template and use case.
+            - Apply assetguard.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Truncate assetguard logs.
             - Restart assetguard-manager service to apply configuration changes.
         - test:
-            - Check in the ossec.log that a line has appeared calling the module with correct parameters.
-            - If a path that does not exist was specified, make sure that a message is displayed in the ossec.log
+            - Check in the assetguard.log that a line has appeared calling the module with correct parameters.
+            - If a path that does not exist was specified, make sure that a message is displayed in the assetguard.log
               warning the user.
             - Check the command was called with the correct parameters.
             - Check the database was created and updated accordingly.
         - teardown:
             - Truncate assetguard logs.
-            - Restore initial configuration, both ossec.conf and local_internal_options.conf.
+            - Restore initial configuration, both assetguard.conf and local_internal_options.conf.
             - Delete the uploaded file.
     assetguard_min_version: 4.6.0
     parameters:
@@ -76,7 +76,7 @@ def test_path(
             brief: Load basic assetguard configuration.
         - set_assetguard_configuration:
             type: fixture
-            brief: Apply changes to the ossec.conf configuration.
+            brief: Apply changes to the assetguard.conf configuration.
         - clean_s3_cloudtrail_db:
             type: fixture
             brief: Delete the DB file before and after the test execution.

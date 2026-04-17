@@ -103,7 +103,7 @@ def test_authd_use_password_invalid(test_configuration, test_metadata, set_asset
             brief: Truncate all the log files and json alerts files before and after the test execution.
 
     assertions:
-        - Error log 'Empty password provided.' is raised in ossec.log.
+        - Error log 'Empty password provided.' is raised in assetguard.log.
         - assetguard-manager.service must not be able to restart.
 
     input_description:

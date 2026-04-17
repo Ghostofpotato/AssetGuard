@@ -41,7 +41,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/file-integrity/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/syscheck.html#directories
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/syscheck.html#directories
 
 pytest_args:
     - fim_mode:
@@ -104,13 +104,13 @@ def test_restrict(test_configuration, test_metadata, set_assetguard_configuratio
     parameters:
         - test_configuration:
             type: dict
-            brief: Configuration values for ossec.conf.
+            brief: Configuration values for assetguard.conf.
         - test_metadata:
             type: dict
             brief: Test case data.
         - set_assetguard_configuration:
             type: fixture
-            brief: Set ossec.conf configuration.
+            brief: Set assetguard.conf configuration.
         - configure_local_internal_options:
             type: fixture
             brief: Set local_internal_options.conf file.

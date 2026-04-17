@@ -495,16 +495,16 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             continue;
         }
 
-        XML_NODE ossec_children = OS_GetElementsbyNode(&xml, current_root);
-        if (!ossec_children)
+        XML_NODE assetguard_children = OS_GetElementsbyNode(&xml, current_root);
+        if (!assetguard_children)
         {
             continue;
         }
 
         // Search for indexer element within assetguard_config
-        for (int j = 0; ossec_children[j] != NULL; j++)
+        for (int j = 0; assetguard_children[j] != NULL; j++)
         {
-            xml_node* current_child = ossec_children[j];
+            xml_node* current_child = assetguard_children[j];
 
             if (!current_child->element || strcmp(current_child->element, XML_TAG_INDEXER) != 0)
             {
@@ -516,7 +516,7 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             if (!config_json)
             {
                 snprintf(err_buf, err_buf_size, "Failed to create JSON object for indexer configuration");
-                XML_NODE nodes_to_clear[] = {root_nodes, ossec_children};
+                XML_NODE nodes_to_clear[] = {root_nodes, assetguard_children};
                 cleanup_xml_resources(&xml, nodes_to_clear, 2);
                 return NULL;
             }
@@ -528,7 +528,7 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             {
                 snprintf(err_buf, err_buf_size, "Empty configuration for module 'indexer'");
                 cJSON_Delete(config_json);
-                XML_NODE nodes_to_clear[] = {root_nodes, ossec_children, indexer_children};
+                XML_NODE nodes_to_clear[] = {root_nodes, assetguard_children, indexer_children};
                 cleanup_xml_resources(&xml, nodes_to_clear, 3);
                 return NULL;
             }
@@ -538,7 +538,7 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             if (parse_result != OS_SUCCESS)
             {
                 cJSON_Delete(config_json);
-                XML_NODE nodes_to_clear[] = {root_nodes, ossec_children, indexer_children};
+                XML_NODE nodes_to_clear[] = {root_nodes, assetguard_children, indexer_children};
                 cleanup_xml_resources(&xml, nodes_to_clear, 3);
                 return NULL;
             }
@@ -548,7 +548,7 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
             {
                 snprintf(err_buf, err_buf_size, "Missing required configuration in module 'indexer'. Check configuration");
                 cJSON_Delete(config_json);
-                XML_NODE nodes_to_clear[] = {root_nodes, ossec_children, indexer_children};
+                XML_NODE nodes_to_clear[] = {root_nodes, assetguard_children, indexer_children};
                 cleanup_xml_resources(&xml, nodes_to_clear, 3);
                 return NULL;
             }
@@ -568,12 +568,12 @@ char* get_indexer_cnf(const char* cnf_file, char* err_buf, size_t err_buf_size)
         if (indexer_config_json)
         {
             // indexer_children already freed
-            XML_NODE nodes_to_clear[] = {root_nodes, ossec_children};
+            XML_NODE nodes_to_clear[] = {root_nodes, assetguard_children};
             cleanup_xml_resources(&xml, nodes_to_clear, 2);
             return indexer_config_json;
         }
 
-        OS_ClearNode(ossec_children);
+        OS_ClearNode(assetguard_children);
         snprintf(err_buf, err_buf_size, "Could not find <indexer> element in configuration file %s", cnf_file);
         XML_NODE nodes_to_clear[] = {root_nodes};
         cleanup_xml_resources(&xml, nodes_to_clear, 1);

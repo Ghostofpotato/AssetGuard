@@ -45,7 +45,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/log-data-collection/index.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/localfile.html#out-format
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/localfile.html#out-format
 
 tags:
     - logcollector_configuration

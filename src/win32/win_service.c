@@ -28,14 +28,14 @@ static LPTSTR g_lpszServiceName        = "AssetGuardSvc";
 static LPTSTR g_lpszServiceDisplayName = "AssetGuard";
 static LPTSTR g_lpszServiceDescription = "AssetGuard Windows Agent";
 
-static SERVICE_STATUS          ossecServiceStatus;
-static SERVICE_STATUS_HANDLE   ossecServiceStatusHandle;
+static SERVICE_STATUS          assetguardServiceStatus;
+static SERVICE_STATUS_HANDLE   assetguardServiceStatusHandle;
 
 void WINAPI OssecServiceStart (DWORD argc, LPTSTR *argv);
 void wm_kill_children();
 extern void stop_wmodules();
 
-/* Start OSSEC-HIDS service */
+/* Start AssetGuard-HIDS service */
 int os_start_service()
 {
     int rc = 0;
@@ -64,7 +64,7 @@ int os_start_service()
     return (rc);
 }
 
-/* Stop OSSEC-HIDS service */
+/* Stop AssetGuard-HIDS service */
 int os_stop_service()
 {
     int rc = 0;
@@ -97,7 +97,7 @@ int os_stop_service()
     return (rc);
 }
 
-/* Check if the OSSEC-HIDS agent service is running
+/* Check if the AssetGuard-HIDS agent service is running
  * Returns 1 on success (running) or 0 if not running
  */
 int CheckServiceRunning()
@@ -128,7 +128,7 @@ int CheckServiceRunning()
     return (rc);
 }
 
-/* Install the OSSEC-HIDS agent service */
+/* Install the AssetGuard-HIDS agent service */
 int InstallService(char *path)
 {
     int ret;
@@ -204,7 +204,7 @@ install_error: {
     }
 }
 
-/* Uninstall the OSSEC-HIDS agent service */
+/* Uninstall the AssetGuard-HIDS agent service */
 int UninstallService()
 {
     int ret;
@@ -252,19 +252,19 @@ int UninstallService()
 /* "Signal" handler */
 VOID WINAPI OssecServiceCtrlHandler(DWORD dwOpcode)
 {
-    if (ossecServiceStatusHandle) {
+    if (assetguardServiceStatusHandle) {
         switch (dwOpcode) {
             case SERVICE_CONTROL_STOP:
-                ossecServiceStatus.dwWin32ExitCode          = 0;
-                ossecServiceStatus.dwCheckPoint             = 0;
-                ossecServiceStatus.dwWaitHint               = 0;
+                assetguardServiceStatus.dwWin32ExitCode          = 0;
+                assetguardServiceStatus.dwCheckPoint             = 0;
+                assetguardServiceStatus.dwWaitHint               = 0;
 
                 plain_minfo("Received exit signal. Starting exit process.");
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
                 extern bool is_fim_shutdown;
 
-                ossecServiceStatus.dwCurrentState           = SERVICE_STOP_PENDING;
-                SetServiceStatus (ossecServiceStatusHandle, &ossecServiceStatus);
+                assetguardServiceStatus.dwCurrentState           = SERVICE_STOP_PENDING;
+                SetServiceStatus (assetguardServiceStatusHandle, &assetguardServiceStatus);
                 plain_minfo("Set pending exit signal.");
 
                 // Kill children processes spawned by modules, only in assetguard-agent
@@ -273,8 +273,8 @@ VOID WINAPI OssecServiceCtrlHandler(DWORD dwOpcode)
                 is_fim_shutdown = true;
                 fim_db_teardown();
 #endif
-                ossecServiceStatus.dwCurrentState           = SERVICE_STOPPED;
-                SetServiceStatus (ossecServiceStatusHandle, &ossecServiceStatus);
+                assetguardServiceStatus.dwCurrentState           = SERVICE_STOPPED;
+                SetServiceStatus (assetguardServiceStatusHandle, &assetguardServiceStatus);
                 plain_minfo("Exit completed successfully.");
                 break;
         }
@@ -287,7 +287,7 @@ void WinSetError()
     OssecServiceCtrlHandler(SERVICE_CONTROL_STOP);
 }
 
-/* Initialize OSSEC-HIDS dispatcher */
+/* Initialize AssetGuard-HIDS dispatcher */
 int os_WinMain(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
     SERVICE_TABLE_ENTRY   steDispatchTable[] = {
@@ -303,36 +303,36 @@ int os_WinMain(__attribute__((unused)) int argc, __attribute__((unused)) char **
     return (1);
 }
 
-/* Start OSSEC service */
+/* Start AssetGuard service */
 void WINAPI OssecServiceStart (__attribute__((unused)) DWORD argc, __attribute__((unused)) LPTSTR *argv)
 {
-    ossecServiceStatus.dwServiceType            = SERVICE_WIN32;
-    ossecServiceStatus.dwCurrentState           = SERVICE_START_PENDING;
-    ossecServiceStatus.dwControlsAccepted       = SERVICE_ACCEPT_STOP;
-    ossecServiceStatus.dwWin32ExitCode          = 0;
-    ossecServiceStatus.dwServiceSpecificExitCode = 0;
-    ossecServiceStatus.dwCheckPoint             = 0;
-    ossecServiceStatus.dwWaitHint               = 0;
+    assetguardServiceStatus.dwServiceType            = SERVICE_WIN32;
+    assetguardServiceStatus.dwCurrentState           = SERVICE_START_PENDING;
+    assetguardServiceStatus.dwControlsAccepted       = SERVICE_ACCEPT_STOP;
+    assetguardServiceStatus.dwWin32ExitCode          = 0;
+    assetguardServiceStatus.dwServiceSpecificExitCode = 0;
+    assetguardServiceStatus.dwCheckPoint             = 0;
+    assetguardServiceStatus.dwWaitHint               = 0;
 
-    ossecServiceStatusHandle =
+    assetguardServiceStatusHandle =
         RegisterServiceCtrlHandler(g_lpszServiceName,
                                    OssecServiceCtrlHandler);
 
-    if (ossecServiceStatusHandle == (SERVICE_STATUS_HANDLE)0) {
+    if (assetguardServiceStatusHandle == (SERVICE_STATUS_HANDLE)0) {
         plain_minfo("RegisterServiceCtrlHandler failed.");
         return;
     }
 
-    ossecServiceStatus.dwCurrentState = SERVICE_RUNNING;
-    ossecServiceStatus.dwCheckPoint = 0;
-    ossecServiceStatus.dwWaitHint = 0;
+    assetguardServiceStatus.dwCurrentState = SERVICE_RUNNING;
+    assetguardServiceStatus.dwCheckPoint = 0;
+    assetguardServiceStatus.dwWaitHint = 0;
 
-    if (!SetServiceStatus(ossecServiceStatusHandle, &ossecServiceStatus)) {
+    if (!SetServiceStatus(assetguardServiceStatusHandle, &assetguardServiceStatus)) {
         plain_minfo("SetServiceStatus error.");
         return;
     }
 
-#ifdef OSSECHIDS
+#ifdef ASSETGUARDHIDS
     /* Start process */
     local_start();
 #endif

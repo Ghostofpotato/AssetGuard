@@ -10,7 +10,7 @@ from assetguard_testing.utils import callbacks
 
 def wait_keepalive():
     """
-        Watch ossec.log until "Sending keep alive" message is found
+        Watch assetguard.log until "Sending keep alive" message is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_SENDING_KEEP_ALIVE), timeout = 100)
@@ -19,7 +19,7 @@ def wait_keepalive():
 
 def wait_connect():
     """
-        Watch ossec.log until received "Connected to the server" message is found
+        Watch assetguard.log until received "Connected to the server" message is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_CONNECTED_TO_SERVER), timeout = 150)
@@ -28,7 +28,7 @@ def wait_connect():
 
 def wait_ack():
     """
-        Watch ossec.log until "Received ack message" is found
+        Watch assetguard.log until "Received ack message" is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_RECEIVED_ACK))
@@ -37,7 +37,7 @@ def wait_ack():
 
 def wait_state_update():
     """
-        Watch ossec.log until "Updating state file" message is found
+        Watch assetguard.log until "Updating state file" message is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_UPDATING_STATE_FILE))
@@ -46,7 +46,7 @@ def wait_state_update():
 
 def wait_enrollment():
     """
-        Watch ossec.log until "Valid key received" message is found
+        Watch assetguard.log until "Valid key received" message is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_RECEIVED_VALID_KEY), timeout = 150)
@@ -55,7 +55,7 @@ def wait_enrollment():
 
 def wait_enrollment_try():
     """
-        Watch ossec.log until "Requesting a key" message is found
+        Watch assetguard.log until "Requesting a key" message is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_REQUESTING_KEY,{'IP':''}), timeout = 150)
@@ -64,7 +64,7 @@ def wait_enrollment_try():
 
 def wait_agent_notification(current_value):
     """
-        Watch ossec.log until "Sending agent notification" message is found current_value times
+        Watch assetguard.log until "Sending agent notification" message is found current_value times
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_SENDING_AGENT_NOTIFICATION), accumulations = int(current_value))
@@ -73,7 +73,7 @@ def wait_agent_notification(current_value):
 
 def wait_server_rollback():
     """
-        Watch ossec.log until "Unable to connect to any server" message is found'
+        Watch assetguard.log until "Unable to connect to any server" message is found'
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(callback=callbacks.generate_callback(AGENTD_UNABLE_TO_CONNECT_TO_ANY), timeout = 120)
@@ -82,7 +82,7 @@ def wait_server_rollback():
 
 def check_module_stop():
     """
-        Watch ossec.log until "Unable to access queue" message is not found
+        Watch assetguard.log until "Unable to access queue" message is not found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     assetguard_log_monitor.start(callback=callbacks.generate_callback(AGENTD_MODULE_STOPPED))
@@ -91,7 +91,7 @@ def check_module_stop():
 
 def check_connection_try():
     """
-        Watch ossec.log until "Trying to connect to server" message is found
+        Watch assetguard.log until "Trying to connect to server" message is found
     """
     assetguard_log_monitor = FileMonitor(ASSETGUARD_LOG_PATH)
     matched_line = assetguard_log_monitor.start(only_new_events = True, callback=callbacks.generate_callback(AGENTD_TRYING_CONNECT,{'IP':'','PORT':''}), return_matched_line = True)

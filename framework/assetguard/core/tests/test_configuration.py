@@ -179,10 +179,10 @@ def test_merged_mg2json():
 
     assert item['file_name'] == 'ar.conf'
     assert item['file_size'] == 77
-    assert item['file_content'] == 'restart-ossec0 - restart-ossec.sh - 0\nrestart-ossec0 - restart-ossec.cmd - 0\n'
+    assert item['file_content'] == 'restart-assetguard0 - restart-assetguard.sh - 0\nrestart-assetguard0 - restart-assetguard.cmd - 0\n'
 
 
-def test_get_ossec_conf():
+def test_get_assetguard_conf():
     with patch('assetguard.core.configuration.load_assetguard_xml', return_value=Exception):
         with pytest.raises(AssetGuardError, match=".* 1101 .*"):
             configuration.get_assetguard_conf()
@@ -268,8 +268,8 @@ def test_get_file_conf():
                           dict)
         assert isinstance(configuration.get_file_conf(filename='agent.conf', group_id='default',
                                                       raw=True), str)
-        ar_list = ['restart-ossec0 - restart-ossec.sh - 0', 'restart-ossec0 - restart-ossec.cmd - 0',
-                   'restart-assetguard0 - restart-ossec.sh - 0', 'restart-assetguard0 - restart-ossec.cmd - 0',
+        ar_list = ['restart-assetguard0 - restart-assetguard.sh - 0', 'restart-assetguard0 - restart-assetguard.cmd - 0',
+                   'restart-assetguard0 - restart-assetguard.sh - 0', 'restart-assetguard0 - restart-assetguard.cmd - 0',
                    'restart-assetguard0 - restart-assetguard - 0', 'restart-assetguard0 - restart-assetguard.exe - 0']
         assert configuration.get_file_conf(filename='ar.conf', group_id='default') == ar_list
         rcl = {'vars': {}, 'controls': [{}, {'name': 'NEW_ELEMENT', 'cis': [], 'pci': [], 'condition': 'FOR',
@@ -283,27 +283,27 @@ def test_parse_internal_options():
     with patch('assetguard.core.common.INTERNAL_OPTIONS_CONF',
                new=os.path.join(parent_directory, tmp_path, 'configuration/noexists.conf')):
         with pytest.raises(AssetGuardInternalError, match=".* 1107 .*"):
-            configuration.parse_internal_options('ossec', 'python')
+            configuration.parse_internal_options('assetguard', 'python')
 
     with patch('assetguard.core.common.INTERNAL_OPTIONS_CONF',
                new=os.path.join(parent_directory, tmp_path, 'configuration/local_internal_options.conf')):
         with patch('assetguard.core.common.LOCAL_INTERNAL_OPTIONS_CONF',
                    new=os.path.join(parent_directory, tmp_path, 'configuration/local_internal_options.conf')):
             with pytest.raises(AssetGuardInternalError, match=".* 1108 .*"):
-                configuration.parse_internal_options('ossec', 'python')
+                configuration.parse_internal_options('assetguard', 'python')
 
 
 def test_get_internal_options_value():
     with patch('assetguard.core.configuration.parse_internal_options', return_value='str'):
         with pytest.raises(AssetGuardError, match=".* 1109 .*"):
-            configuration.get_internal_options_value('ossec', 'python', 5, 1)
+            configuration.get_internal_options_value('assetguard', 'python', 5, 1)
 
     with patch('assetguard.core.configuration.parse_internal_options', return_value='0'):
         with pytest.raises(AssetGuardError, match=".* 1110 .*"):
-            configuration.get_internal_options_value('ossec', 'python', 5, 1)
+            configuration.get_internal_options_value('assetguard', 'python', 5, 1)
 
     with patch('assetguard.core.configuration.parse_internal_options', return_value='1'):
-        assert configuration.get_internal_options_value('ossec', 'python', 5, 1) == 1
+        assert configuration.get_internal_options_value('assetguard', 'python', 5, 1) == 1
 
 
 @patch('assetguard.core.configuration.common.assetguard_gid')
@@ -488,7 +488,7 @@ def test_get_active_configuration_ko(mock_exists, agent_id, component, config, s
                         )
 
 
-def test_write_ossec_conf():
+def test_write_assetguard_conf():
     content = "New config"
     with patch('assetguard.core.configuration.open', mock_open()) as mocked_file:
         configuration.write_assetguard_conf(new_conf=content)
@@ -496,7 +496,7 @@ def test_write_ossec_conf():
         mocked_file().writelines.assert_called_once_with(content)
 
 
-def test_write_ossec_conf_exceptions():
+def test_write_assetguard_conf_exceptions():
     with patch('assetguard.core.configuration.open', return_value=Exception):
         with pytest.raises(AssetGuardError, match=".* 1126 .*"):
             configuration.write_assetguard_conf(new_conf="placeholder")
@@ -505,20 +505,20 @@ def test_write_ossec_conf_exceptions():
 @pytest.mark.parametrize(
     'update_check_config,expected',
     (
-        [{configuration.GLOBAL_KEY: {configuration.UPDATE_CHECK_OSSEC_FIELD: 'yes'}}, True],
-        [{configuration.GLOBAL_KEY: {configuration.UPDATE_CHECK_OSSEC_FIELD: 'no'}}, False],
+        [{configuration.GLOBAL_KEY: {configuration.UPDATE_CHECK_ASSETGUARD_FIELD: 'yes'}}, True],
+        [{configuration.GLOBAL_KEY: {configuration.UPDATE_CHECK_ASSETGUARD_FIELD: 'no'}}, False],
         [{configuration.GLOBAL_KEY: {}}, True],
         [{}, True],
         [{'assetguard_config': {}}, True]
     )
 )
 @patch('assetguard.core.configuration.get_assetguard_conf')
-def test_update_check_is_enabled(get_ossec_conf_mock, update_check_config, expected):
+def test_update_check_is_enabled(get_assetguard_conf_mock, update_check_config, expected):
     """
     Test that update_check_is_enabled function returns the expected value,
-    based on the value of UPDATE_CHECK_OSSEC_FIELD.
+    based on the value of UPDATE_CHECK_ASSETGUARD_FIELD.
     """
-    get_ossec_conf_mock.return_value = update_check_config
+    get_assetguard_conf_mock.return_value = update_check_config
 
     assert configuration.update_check_is_enabled() == expected
 
@@ -551,9 +551,9 @@ def test_update_check_is_enabled_exceptions(error_id, value):
     )
 )
 @patch('assetguard.core.configuration.get_assetguard_conf')
-def test_get_cti_url(get_ossec_conf_mock, config, expected):
+def test_get_cti_url(get_assetguard_conf_mock, config, expected):
     """Check that get_cti_url function returns the expected value, based on the CTI_URL_FIELD."""
-    get_ossec_conf_mock.return_value = config
+    get_assetguard_conf_mock.return_value = config
 
     assert configuration.get_cti_url() == expected
 

@@ -409,7 +409,7 @@ TEST_F(IndexerOutputOperationTest, validate_security_category)
     auto definition = json::Json(R"({"index": "assetguard-events-v5-${assetguard.integration.category}"})");
     auto expression = builder(definition, this->mocks->ctx);
 
-    const std::string messageStr {R"({"assetguard":{"integration":{"category":"security","name":"ossec"}}})"};
+    const std::string messageStr {R"({"assetguard":{"integration":{"category":"security","name":"assetguard"}}})"};
     auto event = std::make_shared<json::Json>(messageStr.c_str());
 
     // Check the expression

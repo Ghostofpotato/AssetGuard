@@ -29,7 +29,7 @@
 
 static char *_read_file(const char *high_name, const char *low_name, const char *defines_file) __attribute__((nonnull(3)));
 static void _init_masks(void);
-static const char *__gethour(const char *str, char *ossec_hour, const size_t ossec_hour_len) __attribute__((nonnull));
+static const char *__gethour(const char *str, char *assetguard_hour, const size_t assetguard_hour_len) __attribute__((nonnull));
 static int parse_define_int_value(const char *high_name, const char *low_name, const char *value, int min, int max) __attribute__((nonnull));
 
 /**
@@ -646,26 +646,26 @@ int OS_ExpandIPv6(char *ip_address, size_t size)
 /* Must be a valid string, called after OS_IsValidTime
  * Returns 1 on success or 0 on failure
  */
-int OS_IsonTime(const char *time_str, const char *ossec_time)
+int OS_IsonTime(const char *time_str, const char *assetguard_time)
 {
     int _true = 1;
 
-    if (*ossec_time == '!') {
+    if (*assetguard_time == '!') {
         _true = 0;
     }
-    ossec_time++;
+    assetguard_time++;
 
     /* Comparing against min/max value */
-    if ((strncmp(time_str, ossec_time, 5) >= 0) &&
-            (strncmp(time_str, ossec_time + 5, 5) <= 0)) {
+    if ((strncmp(time_str, assetguard_time, 5) >= 0) &&
+            (strncmp(time_str, assetguard_time + 5, 5) <= 0)) {
         return (_true);
     }
 
     return (!_true);
 }
 
-/* Validate if a time is in an acceptable format for OSSEC.
- * Returns 0 if doesn't match or a valid string for OSSEC usage in success.
+/* Validate if a time is in an acceptable format for AssetGuard.
+ * Returns 0 if doesn't match or a valid string for AssetGuard usage in success.
  * ** On success this function may modify the value of date
  * Acceptable formats:
  *      hh:mm - hh:mm (24 hour format)
@@ -676,7 +676,7 @@ int OS_IsonTime(const char *time_str, const char *ossec_time)
  */
 #define RM_WHITE(x)while(*x == ' ')x++;
 
-static const char *__gethour(const char *str, char *ossec_hour, const size_t ossec_hour_len)
+static const char *__gethour(const char *str, char *assetguard_hour, const size_t assetguard_hour_len)
 {
     int _size = 0;
     int chour = 0;
@@ -728,9 +728,9 @@ static const char *__gethour(const char *str, char *ossec_hour, const size_t oss
         str++;
         if ((*str == 'm') || (*str == 'M')) {
             if (chour == 12) chour = 0;
-            const int bytes_written = snprintf(ossec_hour, ossec_hour_len, "%02d:%02d", chour, cmin);
+            const int bytes_written = snprintf(assetguard_hour, assetguard_hour_len, "%02d:%02d", chour, cmin);
 
-            if (bytes_written < 0 || (size_t)bytes_written >= ossec_hour_len) {
+            if (bytes_written < 0 || (size_t)bytes_written >= assetguard_hour_len) {
                 return (NULL);
             }
 
@@ -749,9 +749,9 @@ static const char *__gethour(const char *str, char *ossec_hour, const size_t oss
                 return (NULL);
             }
 
-            const int bytes_written = snprintf(ossec_hour, ossec_hour_len, "%02d:%02d", chour, cmin);
+            const int bytes_written = snprintf(assetguard_hour, assetguard_hour_len, "%02d:%02d", chour, cmin);
 
-            if (bytes_written < 0 || (size_t)bytes_written >= ossec_hour_len) {
+            if (bytes_written < 0 || (size_t)bytes_written >= assetguard_hour_len) {
                 return (NULL);
             }
 
@@ -760,9 +760,9 @@ static const char *__gethour(const char *str, char *ossec_hour, const size_t oss
         }
 
     } else {
-        const int bytes_written = snprintf(ossec_hour, ossec_hour_len, "%02d:%02d", chour, cmin);
+        const int bytes_written = snprintf(assetguard_hour, assetguard_hour_len, "%02d:%02d", chour, cmin);
 
-        if (bytes_written < 0 || (size_t)bytes_written >= ossec_hour_len) {
+        if (bytes_written < 0 || (size_t)bytes_written >= assetguard_hour_len) {
             return (NULL);
         }
 
@@ -847,17 +847,17 @@ char *OS_IsValidTime(const char *time_str)
 }
 
 /* Check if the current time is the same or has passed the specified one */
-int OS_IsAfterTime(const char *time_str, const char *ossec_time)
+int OS_IsAfterTime(const char *time_str, const char *assetguard_time)
 {
     /* Unique times can't have a ! */
-    if (*ossec_time == '!') {
+    if (*assetguard_time == '!') {
         return (0);
     }
 
-    ossec_time++;
+    assetguard_time++;
 
     /* Compare against min/max value */
-    if (strncmp(time_str, ossec_time, 5) >= 0) {
+    if (strncmp(time_str, assetguard_time, 5) >= 0) {
         return (1);
     }
 
@@ -880,12 +880,12 @@ char *OS_IsValidUniqueTime(const char *time_str)
 }
 
 /* Check if the specified week day is in the range */
-int OS_IsonDay(int week_day, const char *ossec_day)
+int OS_IsonDay(int week_day, const char *assetguard_day)
 {
     int _true = 1;
 
     /* Negative */
-    if (ossec_day[7] == '!') {
+    if (assetguard_day[7] == '!') {
         _true = 0;
     }
 
@@ -894,15 +894,15 @@ int OS_IsonDay(int week_day, const char *ossec_day)
     }
 
     /* It is on the right day */
-    if (ossec_day[week_day] == 1) {
+    if (assetguard_day[week_day] == 1) {
         return (_true);
     }
 
     return (!_true);
 }
 
-/* Validate if a day is in an acceptable format for OSSEC
- * Returns 0 if doesn't match or a valid string for OSSEC usage in success.
+/* Validate if a day is in an acceptable format for AssetGuard
+ * Returns 0 if doesn't match or a valid string for AssetGuard usage in success.
  * WARNING: On success this function may modify the value of date
  * Acceptable formats:
  *  weekdays, weekends, monday, tuesday, thursday,..

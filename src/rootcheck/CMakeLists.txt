@@ -31,7 +31,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_definitions(-DARGV0="assetguard-rootcheck")
 add_definitions(-DGROUPGLOBAL=assetguard)
-add_definitions(-DOSSECHIDS)
+add_definitions(-DASSETGUARDHIDS)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   add_definitions(-DWIN32=1 -DWIN_EXPORT)

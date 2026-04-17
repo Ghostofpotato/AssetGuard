@@ -60,7 +60,7 @@ def _drop_all_tables():
 def get_wodle_config(credentials_file: str = "credentials.json", logger: Logger = None,
                      bucket_name: str = "test_bucket", prefix: str = "", delete_file: bool = False,
                      only_logs_after: str = None, reparse: bool = False) -> dict:
-    """Return a dict containing every parameter supported by AssetGuardGCloudBucket. Used to simulate different ossec.conf
+    """Return a dict containing every parameter supported by AssetGuardGCloudBucket. Used to simulate different assetguard.conf
     configurations.
 
     Parameters

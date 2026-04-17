@@ -109,7 +109,7 @@ def test_agentd_connection_retries_pre_enrollment(test_metadata, set_assetguard_
             brief: Set internal configuration for testing.
         - truncate_monitored_files:
             type: fixture
-            brief: Reset the 'ossec.log' file and start a new monitor.
+            brief: Reset the 'assetguard.log' file and start a new monitor.
         - clean_keys:
             type: fixture
             brief: Cleans keys file content

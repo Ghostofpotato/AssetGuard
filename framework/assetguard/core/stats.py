@@ -95,7 +95,7 @@ def totals_(date: datetime.datetime = utils.get_utc_now()) -> list:
     try:
         stat_filename = os.path.join(
             common.STATS_PATH, "totals", str(date.year), MONTHS[date.month - 1],
-            f"ossec-totals-{date.strftime('%d')}.log")
+            f"assetguard-totals-{date.strftime('%d')}.log")
         with open(stat_filename, mode='r') as statsf:
             stats = statsf.readlines()
     except IOError:

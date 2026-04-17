@@ -34,7 +34,7 @@ os_version:
 
 references:
     - https://documentation.assetguard.com/current/user-manual/capabilities/syscollector.html
-    - https://documentation.assetguard.com/current/user-manual/reference/ossec-conf/wodle-syscollector.html
+    - https://documentation.assetguard.com/current/user-manual/reference/assetguard-conf/wodle-syscollector.html
 '''
 import sys
 from pathlib import Path

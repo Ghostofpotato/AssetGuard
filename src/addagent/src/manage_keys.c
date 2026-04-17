@@ -77,7 +77,7 @@ int k_import(const char *cmdimport)
     } else {
         printf(IMPORT_KEY);
 
-        user_input = getenv("OSSEC_AGENT_KEY");
+        user_input = getenv("ASSETGUARD_AGENT_KEY");
         if (user_input == NULL) {
             user_input = read_from_user();
         }
@@ -123,7 +123,7 @@ int k_import(const char *cmdimport)
                 printf(ADD_CONFIRM);
                 fflush(stdout);
 
-                user_input = getenv("OSSEC_ACTION_CONFIRMED");
+                user_input = getenv("ASSETGUARD_ACTION_CONFIRMED");
                 if (user_input == NULL) {
                     user_input = read_from_user();
                 }

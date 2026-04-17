@@ -145,7 +145,7 @@ def load_assetguard_basic_configuration():
     minimal_configuration = configuration.get_minimal_configuration()
 
     # Make a backup from current configuration
-    backup_ossec_configuration = configuration.get_assetguard_conf()
+    backup_assetguard_configuration = configuration.get_assetguard_conf()
 
     # Write new configuration
     configuration.write_assetguard_conf(minimal_configuration)
@@ -153,7 +153,7 @@ def load_assetguard_basic_configuration():
     yield
 
     # Restore the assetguard configuration file backup
-    configuration.write_assetguard_conf(backup_ossec_configuration)
+    configuration.write_assetguard_conf(backup_assetguard_configuration)
 
 
 @pytest.fixture()
@@ -173,7 +173,7 @@ def set_assetguard_configuration(test_configuration: dict) -> None:
     """Set assetguard configuration
 
     Args:
-        test_configuration (dict): Configuration template data to write in the ossec.conf
+        test_configuration (dict): Configuration template data to write in the assetguard.conf
     """
     # Save current configuration
     backup_config = configuration.get_assetguard_conf()

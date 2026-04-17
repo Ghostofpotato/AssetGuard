@@ -12,12 +12,12 @@ from typing import Any, List, Set
 from time import sleep
 import json
 
-ASSETGUARD_PATH = os.path.join('/','Library', 'Ossec') if platform.system() == "Darwin" else os.path.join('/', 'var', 'ossec')
+ASSETGUARD_PATH = os.path.join('/','Library', 'AssetGuard') if platform.system() == "Darwin" else os.path.join('/', 'var', 'assetguard')
 
 ASSETGUARD_BIN = os.path.join(ASSETGUARD_PATH, 'bin')
-ASSETGUARD_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'ossec.conf')
-WIN_ASSETGUARD_PATH = os.path.join('C:','Program Files (x86)','ossec-agent')
-WIN_ASSETGUARD_CONF = os.path.join(WIN_ASSETGUARD_PATH, 'ossec.conf')
+ASSETGUARD_CONF = os.path.join(ASSETGUARD_PATH, 'etc', 'assetguard.conf')
+WIN_ASSETGUARD_PATH = os.path.join('C:','Program Files (x86)','assetguard-agent')
+WIN_ASSETGUARD_CONF = os.path.join(WIN_ASSETGUARD_PATH, 'assetguard.conf')
 ASSETGUARD_SOURCES = os.path.join('/', 'assetguard')
 ASSETGUARD_SOURCE_REPOSITORY = 'https://github.com/assetguard/assetguard.git'
 DEVNULL = open(os.devnull, 'w')
@@ -185,7 +185,7 @@ def stop_assetguard():
 
 def write_assetguard_conf(assetguard_conf: ET.ElementTree):
     """
-    Write a new configuration in 'ossec.conf' file.
+    Write a new configuration in 'assetguard.conf' file.
     """
     dest_file = WIN_ASSETGUARD_CONF if sys.platform == 'Win32' else ASSETGUARD_CONF
     return assetguard_conf.write(dest_file, encoding='utf-8')
@@ -194,7 +194,7 @@ def write_assetguard_conf(assetguard_conf: ET.ElementTree):
 
 def get_assetguard_conf() -> ET.ElementTree:
     """
-    Get current 'ossec.conf' file.
+    Get current 'assetguard.conf' file.
     :return: ElemenTree with current AssetGuard configuration
     """
     conf_file = WIN_ASSETGUARD_CONF if sys.platform == 'Win32' else ASSETGUARD_CONF
